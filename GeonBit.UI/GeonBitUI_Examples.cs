@@ -83,8 +83,6 @@ namespace GeonBit.UI.Example
             // make the window fullscreen (but still with border and top control bar)
             int _ScreenWidth = graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Width;
             int _ScreenHeight = graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Height;
-            Window.Position = new Point(0, 0);
-            Window.IsBorderless = false;
             graphics.PreferredBackBufferWidth = (int)_ScreenWidth;
             graphics.PreferredBackBufferHeight = (int)_ScreenHeight;
             graphics.IsFullScreen = true;
