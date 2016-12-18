@@ -166,7 +166,10 @@ namespace GeonBit.UI.Entities
         /// </summary>
         public uint StepsCount
         {
+            // get current steps count
             get { return _stepsCount; }
+
+            // set steps count and call Value = Value to normalize current value to new steps count.
             set { _stepsCount = value; Value = Value; }
         }
 
