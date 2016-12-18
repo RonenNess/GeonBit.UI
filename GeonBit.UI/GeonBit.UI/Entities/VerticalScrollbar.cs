@@ -37,11 +37,6 @@ namespace GeonBit.UI.Entities
         public VerticalScrollbar(uint min, uint max, Anchor anchor = Anchor.Auto, Vector2? offset = null) :
             base(0, 0, DEFAULT_SIZE, SliderSkin.Default, anchor, offset)
         {
-            // store min and max and set default value
-            Min = min;
-            Max = max;
-            _value = (int)(Min + Max / 2);
-
             // set this scrollbar to respond even when direct parent is locked
             DoEventsIfDirectParentIsLocked = true;
 
@@ -83,7 +78,7 @@ namespace GeonBit.UI.Entities
                (input.MousePosition.Y <= _destRect.Bottom - _frameActualHeight * 0.5))
             {
                 float val = ((input.MousePosition.Y - _destRect.Y - _frameActualHeight + _markHeight / 2) / (_destRect.Height - _frameActualHeight * 2));
-                Value = (int)(Min + val * Max);
+                Value = (int)(Min + val * (Max - Min));
             }
 
             // call event handler

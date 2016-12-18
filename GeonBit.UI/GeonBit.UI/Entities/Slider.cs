@@ -75,7 +75,15 @@ namespace GeonBit.UI.Entities
             // store min and max and set default value
             Min = min;
             Max = max;
-            _value = (int)(Min + Max / 2);
+
+            // make sure steps count is valid
+            if (_stepsCount > Max - Min)
+            {
+                _stepsCount = Max - Min;
+            }
+
+            // set starting value to center
+            _value = (int)(Min + (Max - Min) / 2);
 
             // update default style
             UpdateStyle(DefaultStyle);
@@ -192,7 +200,7 @@ namespace GeonBit.UI.Entities
             else
             {
                 float val = ((input.MousePosition.X - _destRect.X - _frameActualWidth + _markWidth / 2) / (_destRect.Width - _frameActualWidth * 2));
-                Value = (int)(Min + val * Max);
+                Value = (int)(Min + val * (Max - Min));
             }
 
             // call base handler
@@ -205,7 +213,7 @@ namespace GeonBit.UI.Entities
         /// <returns>Current value as percent between min and max (0f-1f).</returns>
         public float GetValueAsPercent()
         {
-            return (float)(_value - Min) / (float)Max;
+            return (float)(_value - Min) / (float)(Max - Min);
         }
 
         /// <summary>
