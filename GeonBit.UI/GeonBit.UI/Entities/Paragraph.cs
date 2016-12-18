@@ -353,12 +353,6 @@ namespace GeonBit.UI.Entities
         /// <param name="spriteBatch">Sprite batch to draw on.</param>
         override protected void DrawEntity(SpriteBatch spriteBatch)
         {
-            // if have no text, skip
-            if (Text == null || Text.Length == 0)
-            {
-                return;
-            }
-
             // calculate internal stuff
             PrepareForDraw();
 
