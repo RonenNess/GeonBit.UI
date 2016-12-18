@@ -843,7 +843,7 @@ namespace GeonBit.UI.Entities
             if (_draggable && !_needToSetDragOffset)
             {
                 anchor = Anchor.TopLeft;
-                offset = _dragOffset * UserInterface.SCALE;
+                offset = _dragOffset;
             }
 
             // calculate position based on anchor, parent and offset
@@ -1384,7 +1384,7 @@ namespace GeonBit.UI.Entities
                 if (_isBeingDragged)
                 {
                     // update drag offset and call the dragging event
-                    _dragOffset += input.MousePositionDiff / UserInterface.SCALE;
+                    _dragOffset += input.MousePositionDiff;
                     DoWhileDragging(input);
                 }
             }
