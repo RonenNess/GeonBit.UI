@@ -454,7 +454,7 @@ namespace GeonBit.UI.Entities
                     // add background to selected paragraph
                     Paragraph paragraph = _paragraphs[i];
                     Rectangle destRect = paragraph.GetActualDestRect();
-                    Vector2 size = new Vector2(0, destRect.Height * 1.35f);
+                    Vector2 size = new Vector2(0, destRect.Height * 1.35f / UserInterface.SCALE);
                     paragraph.State = EntityState.MouseDown;
                     paragraph.Padding = new Vector2(-Padding.X, 0);
                     paragraph.CalcDestRect();
