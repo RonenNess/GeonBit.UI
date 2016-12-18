@@ -136,7 +136,8 @@ namespace GeonBit.UI.Entities
             Vector2 frameSize = new Vector2(data.FrameWidth, data.FrameHeight);
 
             // draw the button background
-            DrawUtils.DrawSurface(spriteBatch, texture, _destRect, frameSize, 1, FillColor);
+            float scale = frameSize.Y > 0 ? Scale : 1f;
+            DrawUtils.DrawSurface(spriteBatch, texture, _destRect, frameSize, 1, FillColor, scale);
 
             // call base draw function
             base.DrawEntity(spriteBatch);

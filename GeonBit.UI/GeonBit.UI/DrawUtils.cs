@@ -81,7 +81,8 @@ namespace GeonBit.UI
         /// <param name="textureFrameWidth">Frame width in percents relative to texture file size. For example, 0.1, 0.1 means the frame takes 10% of the texture file.</param>
         /// <param name="scale">Optional scale factor.</param>
         /// <param name="color">Optional color tint.</param>
-        public static void DrawSurface(SpriteBatch spriteBatch, Texture2D texture, Rectangle destination, Vector2 textureFrameWidth, float scale = 1f, Color? color = null)
+        /// <param name="frameScale">Optional scale factor for the frame parts.</param>
+        public static void DrawSurface(SpriteBatch spriteBatch, Texture2D texture, Rectangle destination, Vector2 textureFrameWidth, float scale = 1f, Color? color = null, float frameScale = 1f)
         {
             // default color
             color = color ?? Color.White;
@@ -89,14 +90,14 @@ namespace GeonBit.UI
             // if frame width Y is 0, use DrawSurfaceHorizontal()
             if (textureFrameWidth.Y == 0)
             {
-                DrawSurfaceHorizontal(spriteBatch, texture, destination, textureFrameWidth.X, color);
+                DrawSurfaceHorizontal(spriteBatch, texture, destination, textureFrameWidth.X, color, frameScale);
                 return;
             }
 
             // if frame width X is 0, use DrawSurfaceVertical()
             if (textureFrameWidth.X == 0)
             {
-                DrawSurfaceVertical(spriteBatch, texture, destination, textureFrameWidth.Y, color);
+                DrawSurfaceVertical(spriteBatch, texture, destination, textureFrameWidth.Y, color, frameScale);
                 return;
             }
 
@@ -104,7 +105,7 @@ namespace GeonBit.UI
             destination = ScaleRect(destination, scale);
 
             // calc some helpers
-            float SizeFactor = UserInterface.SCALE * 3.0f;
+            float SizeFactor = UserInterface.SCALE * frameScale;
             Vector2 frameSizeTexture = new Vector2(texture.Width, texture.Height) * textureFrameWidth;
             Vector2 frameSizeRender = frameSizeTexture * SizeFactor;
             frameSizeRender.X = (int)System.Math.Ceiling((double)frameSizeRender.X);
@@ -265,7 +266,8 @@ namespace GeonBit.UI
         /// <param name="destination">Destination rectangle.</param>
         /// <param name="frameWidth">Frame width in percents relative to texture file size. For example, 0.1 means the frame takes 10% of the texture file.</param>
         /// <param name="color">Optional tint color to draw texture with.</param>
-        public static void DrawSurfaceHorizontal(SpriteBatch spriteBatch, Texture2D texture, Rectangle destination, float frameWidth, Color? color = null)
+        /// <param name="frameScale">Optional scale for the frame part.</param>
+        public static void DrawSurfaceHorizontal(SpriteBatch spriteBatch, Texture2D texture, Rectangle destination, float frameWidth, Color? color = null, float frameScale = 1f)
         {
             // default color
             color = color ?? Color.White;
@@ -274,7 +276,7 @@ namespace GeonBit.UI
             Vector2 frameSizeTexture = new Vector2(texture.Width * frameWidth, texture.Height);
             Vector2 frameSizeRender = frameSizeTexture;
             float ScaleXfac = destination.Height / frameSizeRender.Y;
-            frameSizeRender.X = (int)System.Math.Ceiling((double)frameSizeRender.X * ScaleXfac);
+            frameSizeRender.X = (int)System.Math.Ceiling((double)frameSizeRender.X * ScaleXfac) * frameScale;
             frameSizeRender.Y = destination.Height;
 
             // start by rendering sides
@@ -337,7 +339,8 @@ namespace GeonBit.UI
         /// <param name="destination">Destination rectangle.</param>
         /// <param name="frameWidth">Frame width in percents relative to texture file size. For example, 0.1 means the frame takes 10% of the texture file.</param>
         /// <param name="color">Optional tint color to draw texture with.</param>
-        public static void DrawSurfaceVertical(SpriteBatch spriteBatch, Texture2D texture, Rectangle destination, float frameWidth, Color? color = null)
+        /// <param name="frameScale">Optional scale for the frame part.</param>
+        public static void DrawSurfaceVertical(SpriteBatch spriteBatch, Texture2D texture, Rectangle destination, float frameWidth, Color? color = null, float frameScale = 1f)
         {
             // default color
             color = color ?? Color.White;
@@ -346,7 +349,7 @@ namespace GeonBit.UI
             Vector2 frameSizeTexture = new Vector2(texture.Width, texture.Height * frameWidth);
             Vector2 frameSizeRender = frameSizeTexture;
             float ScaleYfac = destination.Width / frameSizeRender.X;
-            frameSizeRender.Y = (int)System.Math.Ceiling((double)frameSizeRender.Y * ScaleYfac);
+            frameSizeRender.Y = (int)System.Math.Ceiling((double)frameSizeRender.Y * ScaleYfac) * frameScale;
             frameSizeRender.X = destination.Width;
 
             // start by rendering sides
