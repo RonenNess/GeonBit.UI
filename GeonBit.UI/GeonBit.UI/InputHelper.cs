@@ -498,6 +498,16 @@ namespace GeonBit.UI
         }
 
         /// <summary>
+        /// Check if a given mouse button was pressed in current frame.
+        /// </summary>
+        /// <param name="button">Mouse button to check.</param>
+        /// <return>True if given mouse button was pressed in this frame.</return>
+        public bool MouseButtonPressed(MouseButton button = MouseButton.Left)
+        {
+            return GetMouseButtonState(button) == ButtonState.Pressed && GetMousePreviousButtonState(button) == ButtonState.Released;
+        }
+
+        /// <summary>
         /// Return if any of mouse buttons is down.
         /// </summary>
         /// <returns>True if any mouse button is currently down.</returns>

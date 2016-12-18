@@ -1277,7 +1277,7 @@ namespace GeonBit.UI.Entities
                 }
 
                 // set if focused
-                if (input.MouseButtonClick())
+                if (input.MouseButtonPressed())
                 {
                     IsFocused = _isMouseOver;
                 }
@@ -1365,9 +1365,9 @@ namespace GeonBit.UI.Entities
             // STEP 4: HANDLE DRAGGING FOR DRAGABLES
 
             // if draggable, and after calling all the children target is still self, it means we are being dragged!
-            if (_draggable && (dragTargetEntity == this) && input.MouseButtonDown(MouseButton.Left))
+            if (_draggable && (dragTargetEntity == this) && input.MouseButtonDown(MouseButton.Left) && IsFocused)
             {
-                // if was not dragged in last frame, call the start dragging event
+                // check if we need to start dragging the entity that was not dragged before
                 if (!_isBeingDragged && input.MousePositionDiff.Length() != 0)
                 {
                     // remove self from parent and add again. this trick is to keep the dragged entity always on-top
@@ -1380,12 +1380,11 @@ namespace GeonBit.UI.Entities
                     DoOnStartDrag(input);
                 }
 
-                // update drag offset
-                _dragOffset += input.MousePositionDiff / UserInterface.SCALE;
-
-                // call the while-dragging event
+                // if being dragged..
                 if (_isBeingDragged)
                 {
+                    // update drag offset and call the dragging event
+                    _dragOffset += input.MousePositionDiff / UserInterface.SCALE;
                     DoWhileDragging(input);
                 }
             }
