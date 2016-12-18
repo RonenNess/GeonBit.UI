@@ -109,13 +109,12 @@ namespace GeonBit.UI.Entities
             _markHeight = (int)(((float)markTexture.Height / (float)markTexture.Width) * (float)markWidth);
 
             // calc frame width in pixels
-            _frameActualHeight = FrameHeight * texture.Height * ScaleYfac * UserInterface.SCALE;
+            _frameActualHeight = FrameHeight * texture.Height * ScaleYfac;
 
             // now draw mark
             float markY = _destRect.Y + _frameActualHeight + _markHeight * 0.5f + (_destRect.Height - _frameActualHeight * 2 - _markHeight) * (GetValueAsPercent());
             Rectangle markDest = new Rectangle(_destRect.X, (int)System.Math.Round(markY) - _markHeight / 2, markWidth, _markHeight);
             DrawUtils.DrawImage(spriteBatch, markTexture, markDest, FillColor);
-
         }
 
         /// <summary>

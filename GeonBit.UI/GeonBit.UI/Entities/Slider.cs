@@ -246,7 +246,7 @@ namespace GeonBit.UI.Entities
             _markWidth = (int)(((float)markTexture.Width / (float)markTexture.Height) * (float)markHeight);
 
             // calc frame width in pixels
-            _frameActualWidth = frameWidth * texture.Width * ScaleXfac * UserInterface.SCALE;
+            _frameActualWidth = frameWidth * texture.Width * ScaleXfac;
 
             // now draw mark
             float markX = _destRect.X + _frameActualWidth + _markWidth * 0.5f + (_destRect.Width - _frameActualWidth * 2 - _markWidth) * GetValueAsPercent();
