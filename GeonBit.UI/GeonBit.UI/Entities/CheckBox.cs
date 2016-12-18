@@ -115,6 +115,7 @@ namespace GeonBit.UI.Entities
                                 (int)(_destRect.Y + _destRect.Height / 2 - actualSize.Y / 2),
                                 (int)(actualSize.X),
                                 (int)(actualSize.Y));
+            dest = DrawUtils.ScaleRect(dest, Scale);
 
             // source rect
             Rectangle src = new Rectangle(0, 0, texture.Width, texture.Height);

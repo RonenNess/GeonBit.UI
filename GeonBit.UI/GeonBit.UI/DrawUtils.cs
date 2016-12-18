@@ -24,16 +24,26 @@ namespace GeonBit.UI
         /// <returns>Scaled rectangle.</returns>
         public static Rectangle ScaleRect(Rectangle rect, float scale)
         {
-            Rectangle ret = rect;
-            if (scale != 1f)
+            // if scale is 1 just return rect as-is
+            if (scale == 1f)
             {
-                Point prevSize = ret.Size;
-                ret.Width = (int)(ret.Width * scale);
-                ret.Height = (int)(ret.Height * scale);
-                Point move = (ret.Size - prevSize);
-                move.X /= 2; move.Y /= 2;
-                ret.Location -= move;
+                return rect;
             }
+
+            // clone the rectangle to scale it
+            Rectangle ret = rect;
+
+            // update width
+            Point prevSize = ret.Size;
+            ret.Width = (int)(ret.Width * scale);
+            ret.Height = (int)(ret.Height * scale);
+
+            // update position
+            Point move = (ret.Size - prevSize);
+            move.X /= 2; move.Y /= 2;
+            ret.Location -= move;
+
+            // return the scaled rect
             return ret;
         }
 
