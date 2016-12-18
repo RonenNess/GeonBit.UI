@@ -1370,6 +1370,12 @@ namespace GeonBit.UI.Entities
                 // if was not dragged in last frame, call the start dragging event
                 if (!_isBeingDragged && input.MousePositionDiff.Length() != 0)
                 {
+                    // remove self from parent and add again. this trick is to keep the dragged entity always on-top
+                    Entity parent = _parent;
+                    RemoveFromParent();
+                    parent.AddChild(this);
+
+                    // set dragging mode = true, and call the do-start-dragging event
                     _isBeingDragged = true;
                     DoOnStartDrag(input);
                 }
