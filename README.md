@@ -4,6 +4,8 @@
 
 UI extension for MonoGame-based projects by Ronen Ness.
 
+Get it from: [GeonBit.UI git](https://github.com/RonenNess/GeonBit.UI).
+
 Full API documentation available here: [Online docs](https://ronenness.github.io/GeonBit.UI-docs/).
 
 ## What's GeonBit
