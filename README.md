@@ -1,4 +1,4 @@
-![GeonBit.UI](img/GeonBitUI-sm.png "GeonBit.UI")
+![GeonBit.UI](assets/img/GeonBitUI-sm.png "GeonBit.UI")
 
 # GeonBit.UI
 
@@ -64,7 +64,7 @@ panel.AddChild(new Button("Click Me!", ButtonSkin.Default, Anchor.BottomCenter))
 
 Will create the following UI panel at the center of the screen:
 
-![UI example1](img/example1.png "example1")
+![UI example1](assets/img/example1.png "example1")
 
 ## Caveats
 
@@ -86,7 +86,7 @@ GeonBit.UI is built to work with mouse / touch screens. It is currently not desi
 
 ## Git structure
 
-![repo folders](img/geonbit_folders.png "repo folders")
+![repo folders](assets/img/geonbit_folders.png "repo folders")
 
 In the repository root you will find the following files and folders: 
 
@@ -230,7 +230,7 @@ namespace GeonBit.UI.Example
 Executing the code above will result in an empty window with blueish background and the GeonBit.UI cursor rendered on it. 
 It should look something like this:
 
-![UI example2](img/example2.jpg "example2")
+![UI example2](assets/img/example2.jpg "example2")
 
 If that worked, you are now ready to start creating your UI by adding entities to the manager.
 
@@ -244,7 +244,7 @@ For example, you can position an entity with offset of 0, 20 pixels from its par
 
 The following picture demonstrate all the anchors GeonBit.UI support:
 
-![anchors](img/anchors.jpg "anchors")
+![anchors](assets/img/anchors.jpg "anchors")
 
 In addition there are few special anchors that are used to place entities automatically one after another.
 
@@ -277,7 +277,7 @@ For that reason, whenever you mix Auto Anchors with static Anchors always place 
 
 # Entities
 
-![Preview](img/preview.png "Preview")
+![Preview](assets/img/preview.png "Preview")
 
 Now we can finally start talking about the different UI entities GeonBit.UI provides, and how to use them, starting from the base UI Entity.
 
@@ -524,7 +524,7 @@ The following are all the entities available in GeonBit.UI.
 
 ## Panel
 
-![Panels](img/entity_panel.png "Panels")
+![Panels](assets/img/entity_panel.png "Panels")
 
 Docs: [Panel Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_Panel.htm ).
 
@@ -561,7 +561,7 @@ Note that ```UIManager.AddEntity()``` accept any type of entity, but from now on
 
 ## Paragraph
 
-![Paragraph](img/entity_paragraph.png "Paragraph")
+![Paragraph](assets/img/entity_paragraph.png "Paragraph")
 
 Docs: [Paragraph Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_Paragraph.htm ).
 
@@ -604,7 +604,7 @@ Default align-to-canter style property (when true will align text to center).
 
 ## Header
 
-![Header](img/entity_header.png "Header")
+![Header](assets/img/entity_header.png "Header")
 
 Docs: [Header Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_Header.htm ).
 
@@ -621,7 +621,7 @@ panel.AddChild(header);
 
 ## Label
 
-![Label](img/entity_label.png "Label")
+![Label](assets/img/entity_label.png "Label")
 
 Docs: [Label Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_Label.htm ).
 
@@ -638,7 +638,7 @@ panel.AddChild(label);
 
 ## Button
 
-![Buttons](img/entity_buttons.png "Buttons")
+![Buttons](assets/img/entity_buttons.png "Buttons")
 
 Docs: [Button Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_Button.htm ).
 
@@ -690,7 +690,7 @@ When button is in ```toggle mode```, set / get the button pressed mode.
 
 ## Checkbox
 
-![Checkbox](img/entity_checkbox.png "Checkbox")
+![Checkbox](assets/img/entity_checkbox.png "Checkbox")
 
 Docs: [CheckBox Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_CheckBox.htm ).
 
@@ -735,7 +735,7 @@ Set / get the value of the CheckBox, eg weather or not its currently marked as c
 
 ## RadioButton
 
-![RadioButton](img/entity_radiobutton.png "RadioButton")
+![RadioButton](assets/img/entity_radiobutton.png "RadioButton")
 
 Docs: [RadioButton Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_RadioButton.htm ).
 
@@ -779,7 +779,7 @@ Note that when you check a radio button and it uncheck a sibling, the ```OnValue
 
 ## SelectList
 
-![SelectList](img/entity_selectlist.png "SelectList")
+![SelectList](assets/img/entity_selectlist.png "SelectList")
 
 Docs: [SelectList Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_SelectList.htm ).
 
@@ -874,7 +874,7 @@ If there's a scrollbar on list, will scroll to the bottom of the list.
 
 ## DropDown
 
-![DropDown](img/entity_dropdown.png "DropDown")
+![DropDown](assets/img/entity_dropdown.png "DropDown")
 
 Docs: [DropDown Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_DropDown.htm ).
 
@@ -925,7 +925,7 @@ Text to show when no value is selected.
 
 ## Slider
 
-![Slider](img/entity_slider.png "Slider")
+![Slider](assets/img/entity_slider.png "Slider")
 
 Docs: [Slider Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_Slider.htm ).
 
@@ -987,7 +987,7 @@ Get current value as a float ranging from 0.0f to 1.0f, which represent the valu
 
 ## ProgressBar
 
-![ProgressBar](img/entity_progressbar.png "ProgressBar")
+![ProgressBar](assets/img/entity_progressbar.png "ProgressBar")
 
 Docs: [ProgressBar Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_ProgressBar.htm ).
 
@@ -1024,7 +1024,7 @@ The image that draws the ProgressBar filled part. If you want to change color an
 
 ## VerticalScrollbar
 
-![VerticalScrollbar](img/entity_scrollbar.png "VerticalScrollbar")
+![VerticalScrollbar](assets/img/entity_scrollbar.png "VerticalScrollbar")
 
 Docs: [VerticalScrollbar Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_VerticalScrollbar.htm ).
 
@@ -1056,7 +1056,7 @@ scrollbar.OnValueChange = (Entity entity) => {
 
 ## Image
 
-![Image](img/entity_image.png "Image")
+![Image](assets/img/entity_image.png "Image")
 
 Docs: [Image Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_Image.htm ).
 
@@ -1104,7 +1104,7 @@ Image texture to draw.
 
 ## Icon
 
-![Icon](img/entity_icon.png "Icon")
+![Icon](assets/img/entity_icon.png "Icon")
 
 Docs: [Icon Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_Icon.htm ).
 
@@ -1137,7 +1137,7 @@ Show / hide the built-in inventory-like background.
 
 ## ColoredRectangle
 
-![Icon](img/entity_coloredrect.png "Icon")
+![Icon](assets/img/entity_coloredrect.png "Icon")
 
 Docs: [ColoredRectangle Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_ColoredRectangle.htm ).
 
@@ -1154,7 +1154,7 @@ panel.AddChild(rect);
 
 ## TextInput
 
-![TextInput](img/entity_textinput.png "TextInput")
+![TextInput](assets/img/entity_textinput.png "TextInput")
 
 Docs: [TextInput Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_TextInput.htm ).
 
@@ -1250,7 +1250,7 @@ Reset caret position to the end of the TextInput.
 
 ## HorizontalLine
 
-![HorizontalLine](img/entity_horizontalline.png "HorizontalLine")
+![HorizontalLine](assets/img/entity_horizontalline.png "HorizontalLine")
 
 Docs: [HorizontalLine Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_HorizontalLine.htm ).
 
@@ -1294,7 +1294,7 @@ Will create a UI with a theme called "lowres".
 A Theme in GeonBit.UI is the set of Textures, Effects, Fonts and StyleSheets, that define the entire look and feel of the UI system.
 GeonBit.UI comes with two built-in themes, which are essentially the same style but in low-res and high-res variations (called "lowres" and "hd" respectively, "hd" being the default theme used).
 
-![Themes](img/themes.png "Themes")
+![Themes](assets/img/themes.png "Themes")
 
 To see the available Themes you can use or to create your own theme, check out the ```Content/GeonBit.UI/themes/``` folder. The best way to create a new theme is to copy one of the built-ins and change its files:
 
