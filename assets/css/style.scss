@@ -1,32 +1,27 @@
----
----
-
-@import "";
-
 /* hide head and title (we don't need it since we have the large logo image) */
 .page-header 
 {
-    position: absolute;
-    height: 0px;
-    background: rgba(255, 255, 255, 0);
-    height: 0px;
-    overflow: hidden;
+    position: absolute !important;
+    height: 0px !important;
+    background: rgba(255, 255, 255, 0) !important;
+    height: 0px !important;
+    overflow: hidden !important;
 }
 .project-name
 {
-    display: none;
+    display: none !important;
 }
 .project-tagline
 {
-    display: none;
+    display: none !important;
 }
 
 /* show just the "see on github" button, as a top bar that sticks to the top. */
 .page-header .btn
 {
-    position: fixed;
-    background: rebeccapurple;
-    left: 0px;
-    width: 100%;
-    top: 0px;
+    position: fixed !important;
+    background: #df2f34 !important;
+    left: 0px !important;
+    width: 100% !important;
+    top: 0px !important;
 }
