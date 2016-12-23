@@ -43,6 +43,9 @@ namespace GeonBit.UI.Entities
         /// <summary>Default styling for images. Note: loaded from UI theme xml file.</summary>
         new public static StyleSheet DefaultStyle = new StyleSheet();
 
+        /// <summary>If provided, will be used as a source rectangle when drawing images in Stretch mode.</summary>
+        public Rectangle? SourceRectangle = null;
+
         /// <summary>
         /// Create the new image entity.
         /// </summary>
@@ -78,7 +81,7 @@ namespace GeonBit.UI.Entities
 
                 // stretch mode
                 case ImageDrawMode.Stretch:
-                    DrawUtils.DrawImage(spriteBatch, Texture, _destRect, FillColor, Scale);
+                    DrawUtils.DrawImage(spriteBatch, Texture, _destRect, FillColor, Scale, SourceRectangle);
                     break;
             }
 

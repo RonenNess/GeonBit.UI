@@ -56,13 +56,14 @@ namespace GeonBit.UI
         /// <param name="destination">Destination rectangle.</param>
         /// <param name="color">Optional color tint.</param>
         /// <param name="scale">Optional scale factor.</param>
-        public static void DrawImage(SpriteBatch spriteBatch, Texture2D texture, Rectangle destination, Color? color = null, float scale = 1f)
+        /// <param name="sourceRect">Optional source rectangle to use.</param>
+        public static void DrawImage(SpriteBatch spriteBatch, Texture2D texture, Rectangle destination, Color? color = null, float scale = 1f, Rectangle? sourceRect = null)
         {
             // default color
             color = color ?? Color.White;
 
             // get source rectangle
-            Rectangle src = new Rectangle(0, 0, texture.Width, texture.Height);
+            Rectangle src = sourceRect ?? new Rectangle(0, 0, texture.Width, texture.Height);
 
             // scale
             destination = ScaleRect(destination, scale);
