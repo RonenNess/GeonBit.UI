@@ -170,6 +170,17 @@ namespace GeonBit.UI
         }
 
         /// <summary>
+        /// Move the cursor to be at the center of the screen.
+        /// </summary>
+        /// <param name="pos">New mouse position.</param>
+        public void UpdateCursorPosition(Vector2 pos)
+        {
+            // move mouse position back to center
+            Mouse.SetPosition((int)pos.X, (int)pos.Y);
+            _newMousePos = _oldMousePos = pos;
+        }
+
+        /// <summary>
         /// Called every time a keyboard key is pressed (called once on the frame key was pressed).
         /// </summary>
         /// <param name="key">Key code that is being pressed on this frame.</param>
