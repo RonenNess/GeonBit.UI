@@ -235,7 +235,7 @@ namespace GeonBit.UI.Example
 This UI is part of the GeonBit project.
 It provide a simple yet extensive UI for MonoGame based projects.
 
-To start demo, please click the 'Next' button on the top navbar."));
+To start the demo, please click the 'Next' button on the top navbar."));
             }
 
             // example: featues list

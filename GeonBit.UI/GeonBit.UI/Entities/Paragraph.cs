@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using GeonBit.UI.DataTypes;
+using System.Text;
 
 namespace GeonBit.UI.Entities
 {
@@ -135,7 +136,7 @@ namespace GeonBit.UI.Entities
             if (maxLineWidth <= 0) { return text; }
 
             // create string to return as result
-            string ret = "";
+            StringBuilder ret = new StringBuilder("");
 
             // if text got line breaks, break into lines and process them seperately
             if (text.Contains("\n"))
@@ -146,12 +147,12 @@ namespace GeonBit.UI.Entities
                 // iterate lines and wrap them
                 foreach (string line in lines)
                 {
-                    ret += WrapText(font, line, maxLineWidth, fontSize) + '\n';
+                    ret.AppendLine(WrapText(font, line, maxLineWidth, fontSize));
                 }
 
                 // remove the last extra linebreak that was added in this process and return.
-                ret = ret.Remove(ret.Length - 1);
-                return ret;
+                ret = ret.Remove(ret.Length - 1, 1);
+                return ret.ToString();
             }
 
             // if got here it means we are processing a single line. break it into words.
@@ -189,7 +190,8 @@ namespace GeonBit.UI.Entities
                     // we will process them in next loop iterations.
                     string firstHalf = word.Substring(0, breakPos);
                     string secondHalf = word.Substring(breakPos, word.Length - breakPos);
-                    words.Insert(i + 1, firstHalf + (AddHyphenWhenBreakWord ? "-" : ""));
+                    if (AddHyphenWhenBreakWord) { firstHalf += '-'; }
+                    words.Insert(i + 1, firstHalf);
                     words.Insert(i + 2, secondHalf);
 
                     // continue to skip current word (it will be added later, with its broken parts)
@@ -202,28 +204,31 @@ namespace GeonBit.UI.Entities
                 // did overflow max width? add line break and reset current width.
                 if (currWidth >= maxLineWidth)
                 {
-                    ret += '\n' + word + ' ';
+                    ret.Append('\n');
+                    ret.Append(word);
+                    ret.Append(' ');
                     currWidth = wordWidth;
                 }
                 // if didn't overflow just add the word as-is
                 else
                 {
-                    ret += word + ' ';
+                    ret.Append(word);
+                    ret.Append(' ');
                 }
             }
 
             // remove the extra space that was appended to the end during the process and return wrapped text.
-            ret = ret.Remove(ret.Length - 1);
+            ret = ret.Remove(ret.Length - 1, 1);
 
             // special case - if last word was just the size of the line, it will add a useless trailing \n and create double line breaks.
-            // remove that
-            if (ret.EndsWith("\n"))
+            // remove that extra line break.
+            if (ret.Length > 0 && ret[ret.Length-1] == '\n')
             {
-                ret = ret.Remove(ret.Length - 1);
+                ret = ret.Remove(ret.Length - 1, 1);
             }
 
             // return the final wrapped text
-            return ret;
+            return ret.ToString();
         }
 
         /// <summary>
