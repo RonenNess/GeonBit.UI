@@ -201,32 +201,34 @@ namespace GeonBit.UI
             _keyboardInputCooldown = KeysTypeCooldown;
             _newKeyIsPressed = true;
 
-            // handle special keys
+            // get if shift is currently down
+            bool isShiftDown = _newKeyboardState.IsKeyDown(Keys.LeftShift) || _newKeyboardState.IsKeyDown(Keys.RightShift);
+
+            // set curr input key, but also keep the previous key in case we need to revert
+            Keys prevKey = _currCharacterInputKey;
+            _currCharacterInputKey = key;
+
+            // handle special keys and characters
             switch (key)
             {
                 case Keys.Space:
                     _currCharacterInput = (char)SpecialChars.Space;
-                    _currCharacterInputKey = key;
                     return;
 
                 case Keys.Left:
                     _currCharacterInput = (char)SpecialChars.ArrowLeft;
-                    _currCharacterInputKey = key;
                     return;
 
                 case Keys.Right:
                     _currCharacterInput = (char)SpecialChars.ArrowRight;
-                    _currCharacterInputKey = key;
                     return;
 
                 case Keys.Delete:
                     _currCharacterInput = (char)SpecialChars.Delete;
-                    _currCharacterInputKey = key;
                     return;
 
                 case Keys.Back:
                     _currCharacterInput = (char)SpecialChars.Backspace;
-                    _currCharacterInputKey = key;
                     return;
 
                 case Keys.CapsLock:
@@ -234,190 +236,174 @@ namespace GeonBit.UI
                 case Keys.LeftShift:
                     _newKeyIsPressed = false;
                     return;
-            }
 
-            // get current key thats getting pressed as string
-            string lastCharPressedStr = key.ToString();
-
-            // get if shift is currently down
-            bool isShiftDown = _newKeyboardState.IsKeyDown(Keys.LeftShift) || _newKeyboardState.IsKeyDown(Keys.RightShift);
-
-            // replace some special chars
-            bool isSpecialChar = true;
-            switch (key)
-            {
                 // line break
                 case Keys.Enter:
-                    lastCharPressedStr = "\n";
-                    break;
+                    _currCharacterInput = '\n';
+                    return;
 
                 // number 0
                 case Keys.D0:
                 case Keys.NumPad0:
-                    lastCharPressedStr = (isShiftDown && key == Keys.D0) ? ")" : "0";
-                    break;
+                    _currCharacterInput = (isShiftDown && key == Keys.D0) ? ')' : '0';
+                    return;
 
                 // number 9
                 case Keys.D9:
                 case Keys.NumPad9:
-                    lastCharPressedStr = (isShiftDown && key == Keys.D9) ? "(" : "9";
-                    break;
+                    _currCharacterInput = (isShiftDown && key == Keys.D9) ? '(' : '9';
+                    return;
 
                 // number 8
                 case Keys.D8:
                 case Keys.NumPad8:
-                    lastCharPressedStr = (isShiftDown && key == Keys.D8) ? "*" : "8";
-                    break;
+                    _currCharacterInput = (isShiftDown && key == Keys.D8) ? '*' : '8';
+                    return;
 
                 // number 7
                 case Keys.D7:
                 case Keys.NumPad7:
-                    lastCharPressedStr = (isShiftDown && key == Keys.D7) ? "&" : "7";
-                    break;
+                    _currCharacterInput = (isShiftDown && key == Keys.D7) ? '&' : '7';
+                    return;
 
                 // number 6
                 case Keys.D6:
                 case Keys.NumPad6:
-                    lastCharPressedStr = (isShiftDown && key == Keys.D6) ? "^" : "6";
-                    break;
+                    _currCharacterInput = (isShiftDown && key == Keys.D6) ? '^' : '6';
+                    return;
 
                 // number 5
                 case Keys.D5:
                 case Keys.NumPad5:
-                    lastCharPressedStr = (isShiftDown && key == Keys.D5) ? "%" : "5";
-                    break;
+                    _currCharacterInput = (isShiftDown && key == Keys.D5) ? '%' : '5';
+                    return;
 
                 // number 4
                 case Keys.D4:
                 case Keys.NumPad4:
-                    lastCharPressedStr = (isShiftDown && key == Keys.D4) ? "$" : "4";
-                    break;
+                    _currCharacterInput = (isShiftDown && key == Keys.D4) ? '$' : '4';
+                    return;
 
                 // number 3
                 case Keys.D3:
                 case Keys.NumPad3:
-                    lastCharPressedStr = (isShiftDown && key == Keys.D3) ? "#" : "3";
-                    break;
+                    _currCharacterInput = (isShiftDown && key == Keys.D3) ? '#' : '3';
+                    return;
 
                 // number 2
                 case Keys.D2:
                 case Keys.NumPad2:
-                    lastCharPressedStr = (isShiftDown && key == Keys.D2) ? "@" : "2";
-                    break;
+                    _currCharacterInput = (isShiftDown && key == Keys.D2) ? '@' : '2';
+                    return;
 
                 // number 1
                 case Keys.D1:
                 case Keys.NumPad1:
-                    lastCharPressedStr = (isShiftDown && key == Keys.D1) ? "!" : "1";
-                    break;
+                    _currCharacterInput = (isShiftDown && key == Keys.D1) ? '!' : '1';
+                    return;
 
                 // question mark
                 case Keys.OemQuestion:
-                    lastCharPressedStr = isShiftDown ? "?" : "/";
-                    break;
+                    _currCharacterInput = isShiftDown ? '?' : '/';
+                    return;
 
                 // quotes
                 case Keys.OemQuotes:
-                    lastCharPressedStr = isShiftDown ? "\"" : "'";
-                    break;
+                    _currCharacterInput = isShiftDown ? '\"' : '\'';
+                    return;
                 
                 // semicolon
                 case Keys.OemSemicolon:
-                    lastCharPressedStr = isShiftDown ? ":" : ";";
-                    break;
+                    _currCharacterInput = isShiftDown ? ':' : ';';
+                    return;
 
                 // tilde
                 case Keys.OemTilde:
-                    lastCharPressedStr = isShiftDown ? "~" : "`";
-                    break;
+                    _currCharacterInput = isShiftDown ? '~' : '`';
+                    return;
 
                 // open brackets
                 case Keys.OemOpenBrackets:
-                    lastCharPressedStr = isShiftDown ? "{" : "[";
-                    break;
+                    _currCharacterInput = isShiftDown ? '{' : '[';
+                    return;
                 
                     // close brackets
                 case Keys.OemCloseBrackets:
-                    lastCharPressedStr = isShiftDown ? "}" : "]";
-                    break;
+                    _currCharacterInput = isShiftDown ? '}' : ']';
+                    return;
 
                 // add
                 case Keys.OemPlus:
                 case Keys.Add:
-                    lastCharPressedStr = (isShiftDown || key == Keys.Add) ? "+" : "=";
-                    break;
+                    _currCharacterInput = (isShiftDown || key == Keys.Add) ? '+' : '=';
+                    return;
 
                 // substract
                 case Keys.OemMinus:
                 case Keys.Subtract:
-                    lastCharPressedStr = isShiftDown ? "_" : "-";
-                    break;
+                    _currCharacterInput = isShiftDown ? '_' : '-';
+                    return;
 
                 // decimal dot
                 case Keys.OemPeriod:
                 case Keys.Decimal:
-                    lastCharPressedStr = isShiftDown ? ">" : ".";
-                    break;
+                    _currCharacterInput = isShiftDown ? '>' : '.';
+                    return;
 
                 // divide
                 case Keys.Divide:
-                    lastCharPressedStr = isShiftDown ? "?" : "/";
-                    break;
+                    _currCharacterInput = isShiftDown ? '?' : '/';
+                    return;
 
                 // multiply
                 case Keys.Multiply:
-                    lastCharPressedStr = "*";
-                    break;
+                    _currCharacterInput = '*';
+                    return;
 
                 // backslash
                 case Keys.OemBackslash:
-                    lastCharPressedStr = isShiftDown ? "|" : "\\";
-                    break;
+                    _currCharacterInput = isShiftDown ? '|' : '\\';
+                    return;
 
                 // comma
                 case Keys.OemComma:
-                    lastCharPressedStr = isShiftDown ? "<" : ",";
-                    break;
+                    _currCharacterInput = isShiftDown ? '<' : ',';
+                    return;
                 
                 // tab
                 case Keys.Tab:
-                    lastCharPressedStr = " ";
-                    break;
-
-                // not a special char - need to handle case etc.
-                default:
-                    isSpecialChar = false;
-                    break;
-            }
-
-            // if its a special character, just take it as-is
-            if (isSpecialChar)
-            {
-                _currCharacterInput = lastCharPressedStr[0];
-                _currCharacterInputKey = key;
-            }
-            // if its not a special character, take first char and calculate case (upper / lower)
-            else
-            {
-                // if character is not a valid char but a special key we don't want to handle, skip
-                if (lastCharPressedStr.Length > 1)
-                {
+                    _currCharacterInput = ' ';
                     return;
-                }
 
-                // set current key as the current text input key
-                _currCharacterInputKey = key;
+                // not a special char - revert last character input key and continue processing.
+                default:
+                    _currCharacterInputKey = prevKey;
+                    break;
+            };
 
-                // get current capslock state and invert if shift is down
-                bool capsLock = _capslock;
-                if (isShiftDown)
-                {
-                    capsLock = !capsLock;
-                }
+            // get current key thats getting pressed as a string
+            string lastCharPressedStr = key.ToString();
 
-                // fix case and set as current char pressed
-                _currCharacterInput = (capsLock ? lastCharPressedStr.ToUpper() : lastCharPressedStr.ToLower())[0];
+            // if character is not a valid char but a special key we don't want to handle, skip
+            // (note: keys that are characters should have length of 1)
+            if (lastCharPressedStr.Length > 1)
+            {
+                return;
             }
+
+            // set current key as the current text input key
+            _currCharacterInputKey = key;
+
+            // get current capslock state and invert if shift is down
+            bool capsLock = _capslock;
+            if (isShiftDown)
+            {
+                capsLock = !capsLock;
+            }
+
+            // fix case and set as current char pressed
+            _currCharacterInput = (capsLock ? lastCharPressedStr.ToUpper() : lastCharPressedStr.ToLower())[0];
+            
         }
 
         /// <summary>
