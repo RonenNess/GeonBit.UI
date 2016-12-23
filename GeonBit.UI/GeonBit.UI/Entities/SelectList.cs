@@ -97,7 +97,7 @@ namespace GeonBit.UI.Entities
         /// <param name="anchor">Position anchor.</param>
         /// <param name="offset">Offset from anchor position.</param>
         public SelectList(Anchor anchor = Anchor.Auto, Vector2? offset = null) :
-           this(DEFAULT_SIZE, anchor, offset)
+           this(USE_DEFAULT_SIZE, anchor, offset)
         {
         }
 

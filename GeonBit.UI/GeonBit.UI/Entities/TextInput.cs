@@ -128,7 +128,7 @@ namespace GeonBit.UI.Entities
         /// <param name="anchor">Position anchor.</param>
         /// <param name="offset">Offset from anchor position.</param>
         public TextInput(bool multiline, Anchor anchor = Anchor.Auto, Vector2? offset = null) :
-           this(multiline, DEFAULT_SIZE, anchor, offset)
+           this(multiline, USE_DEFAULT_SIZE, anchor, offset)
         {
         }
 

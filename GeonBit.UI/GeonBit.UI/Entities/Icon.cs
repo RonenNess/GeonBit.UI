@@ -152,12 +152,15 @@ namespace GeonBit.UI.Entities
         /// <param name="background">Weather or not to show icon inventory-like background.</param>
         /// <param name="offset">Offset from anchor position.</param>
         public Icon(IconType icon, Anchor anchor = Anchor.Auto, float scale = 1.0f, bool background = false, Vector2? offset = null) :
-            base(null, DEFAULT_SIZE, ImageDrawMode.Stretch, anchor, offset)
+            base(null, USE_DEFAULT_SIZE, ImageDrawMode.Stretch, anchor, offset)
         {
             // set scale and basic properties
             Scale = scale;
             DrawBackground = background;
             Texture = Resources.IconTextures[(int)icon];
+
+            // set default background color
+            SetStyleProperty("BackgroundColor", new StyleProperty(Color.White));
 
             // update default style
             UpdateStyle(DefaultStyle);
@@ -182,7 +185,7 @@ namespace GeonBit.UI.Entities
                 // get background dest rect
                 Rectangle dest = _destRect;
                 dest.X -= 5; dest.Y -= 5; dest.Width += 10; dest.Height += 10;
-                DrawUtils.DrawImage(spriteBatch, Resources.IconBackgroundTexture, dest, Color.White);
+                DrawUtils.DrawImage(spriteBatch, Resources.IconBackgroundTexture, dest, GetActiveStyle("BackgroundColor").asColor);
             }
 
             // now draw the image itself

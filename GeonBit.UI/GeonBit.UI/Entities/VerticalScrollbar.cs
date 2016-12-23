@@ -35,7 +35,7 @@ namespace GeonBit.UI.Entities
         /// <param name="anchor">Position anchor.</param>
         /// <param name="offset">Offset from anchor position.</param>
         public VerticalScrollbar(uint min, uint max, Anchor anchor = Anchor.Auto, Vector2? offset = null) :
-            base(0, 0, DEFAULT_SIZE, SliderSkin.Default, anchor, offset)
+            base(0, 0, USE_DEFAULT_SIZE, SliderSkin.Default, anchor, offset)
         {
             // set this scrollbar to respond even when direct parent is locked
             DoEventsIfDirectParentIsLocked = true;

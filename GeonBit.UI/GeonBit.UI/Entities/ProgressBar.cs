@@ -68,7 +68,7 @@ namespace GeonBit.UI.Entities
         /// <param name="anchor">Position anchor.</param>
         /// <param name="offset">Offset from anchor position.</param>
         public ProgressBar(uint min = 0, uint max = 10, Anchor anchor = Anchor.Auto, Vector2? offset = null) :
-            this(min, max, DEFAULT_SIZE, anchor, offset)
+            this(min, max, USE_DEFAULT_SIZE, anchor, offset)
         { }
 
         /// <summary>

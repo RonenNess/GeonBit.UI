@@ -108,7 +108,7 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// A special size used value to use when you want to get the entity default size.
         /// </summary>
-        public static Vector2 DEFAULT_SIZE = new Vector2(-1, -1);
+        public static readonly Vector2 USE_DEFAULT_SIZE = new Vector2(-1, -1);
 
         /// <summary>The direct parent of this entity.</summary>
         protected Entity _parent = null;

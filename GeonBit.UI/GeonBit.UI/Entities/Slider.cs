@@ -98,7 +98,7 @@ namespace GeonBit.UI.Entities
         /// <param name="anchor">Position anchor.</param>
         /// <param name="offset">Offset from anchor position.</param>
         public Slider(uint min = 0, uint max = 10, SliderSkin skin = SliderSkin.Default, Anchor anchor = Anchor.Auto, Vector2? offset = null) :
-            this(min, max, DEFAULT_SIZE, skin, anchor, offset)
+            this(min, max, USE_DEFAULT_SIZE, skin, anchor, offset)
         {
         }
 
