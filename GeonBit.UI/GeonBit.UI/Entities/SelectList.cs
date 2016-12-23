@@ -283,7 +283,7 @@ namespace GeonBit.UI.Entities
                 paragraph.PrepareForDraw();
 
                 // if out of list bounderies remove this paragraph and stop
-                if ((paragraph.GetActualDestRect().Bottom > _destRect.Bottom - Padding.Y) || i > _list.Count)
+                if ((paragraph.GetActualDestRect().Bottom > _destRect.Bottom - _scaledPadding.Y) || i > _list.Count)
                 {
                     RemoveChild(paragraph);
                     _paragraphs.Remove(paragraph);
