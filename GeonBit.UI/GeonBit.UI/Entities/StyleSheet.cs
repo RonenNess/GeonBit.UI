@@ -8,6 +8,7 @@
 // Since: 2016.
 //-----------------------------------------------------------------------------
 #endregion
+using System.Text;
 using System.Collections.Generic;
 using GeonBit.UI.DataTypes;
 
@@ -28,15 +29,22 @@ namespace GeonBit.UI.Entities
         /// <returns>Style property value for given state or default, or null if undefined.</returns>
         public StyleProperty GetStyleProperty(string property, EntityState state = EntityState.Default, bool fallbackToDefault = true)
         {
+            // build full property name ("<state>.<property>")
+            StringBuilder fullPropertyIdentifier = new StringBuilder(state.ToString());
+            fullPropertyIdentifier.Append('.');
+            fullPropertyIdentifier.Append(property);
+
             // try to get for current state
             StyleProperty ret;
-            TryGetValue(state.ToString() + "." + property, out ret);
+            TryGetValue(fullPropertyIdentifier.ToString(), out ret);
 
             // if not found, try default
             if (ret == null && state != EntityState.Default && fallbackToDefault)
             {
                 return GetStyleProperty(property, EntityState.Default);
             }
+
+            // return style value
             return ret;
         }
 
