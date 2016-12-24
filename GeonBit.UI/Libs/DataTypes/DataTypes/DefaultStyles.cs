@@ -65,5 +65,8 @@ namespace GeonBit.UI.DataTypes
         // space after
         [XmlElement("Vector", IsNullable = true)]
         public Vector2? SpaceAfter = null;
+
+        // shadow scale
+        public float? ShadowScale = null;
     }
 }

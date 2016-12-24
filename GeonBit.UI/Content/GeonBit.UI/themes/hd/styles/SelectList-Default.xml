@@ -13,5 +13,6 @@
     <Padding>30 22</Padding>
     <SpaceBefore Null="true" />
     <SpaceAfter Null="true" />
+    <ShadowScale Null="true" />
   </Asset>
 </XnaContent>

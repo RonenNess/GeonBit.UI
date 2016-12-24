@@ -431,6 +431,15 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Entity shadow scale - this is just a sugarcoat to access the default shadow scale style property.
+        /// </summary>
+        public float ShadowScale
+        {
+            set { SetStyleProperty("ShadowScale", new StyleProperty(value)); }
+            get { return GetActiveStyle("ShadowScale").asFloat; }
+        }
+
+        /// <summary>
         /// Entity shadow offset - this is just a sugarcoat to access the default shadow offset style property.
         /// </summary>
         public Vector2 ShadowOffset
@@ -635,7 +644,7 @@ namespace GeonBit.UI.Entities
             _destRectInternal = CalcInternalRect();
 
             // if there's a shadow
-            if (ShadowColor.A > 0)
+            if (ShadowColor.A > 0 && ShadowScale > 0f)
             {
                 // update position to draw shadow
                 _destRect.X += (int)ShadowOffset.X;
@@ -644,6 +653,7 @@ namespace GeonBit.UI.Entities
                 // store previous state and colors
                 Color oldFill = FillColor;
                 Color oldOutline = OutlineColor;
+                float oldScale = Scale;
                 int oldOutlineWidth = OutlineWidth;
                 EntityState oldState = _entityState;
 
@@ -651,6 +661,7 @@ namespace GeonBit.UI.Entities
                 FillColor = ShadowColor;
                 OutlineColor = Color.Transparent;
                 OutlineWidth = 0;
+                Scale = ShadowScale;
                 _entityState = EntityState.Default;
 
                 // if disabled, turn color into greyscale
@@ -668,6 +679,7 @@ namespace GeonBit.UI.Entities
                 _destRect.X -= (int)ShadowOffset.X;
                 _destRect.Y -= (int)ShadowOffset.Y;
                 FillColor = oldFill;
+                Scale = oldScale;
                 OutlineColor = oldOutline;
                 OutlineWidth = oldOutlineWidth;
                 _entityState = oldState;
