@@ -63,6 +63,9 @@ namespace GeonBit.UI.Entities
 
         /// <summary>Optional custom skin that override's the default theme button textures.</summary>
         private Texture2D[] _customSkin = null;
+        
+        /// <summary>Frame width for when using custom skin.</summary>
+        private Vector2 _customFrame = Vector2.Zero;
 
         /// <summary>
         /// Create the button.
@@ -94,12 +97,14 @@ namespace GeonBit.UI.Entities
         /// <param name="defaultTexture">Texture to use for default state.</param>
         /// <param name="mouseHoverTexture">Texture to use when mouse hover over the button.</param>
         /// <param name="mouseDownTexture">Texture to use when mouse button is down over this button.</param>
-        public void SetCustomSkin(Texture2D defaultTexture, Texture2D mouseHoverTexture, Texture2D mouseDownTexture)
+        /// <param name="frameWidth">The width of the custom texture's frame, in percents of texture size.</param>
+        public void SetCustomSkin(Texture2D defaultTexture, Texture2D mouseHoverTexture, Texture2D mouseDownTexture, Vector2? frameWidth = null)
         {
             _customSkin = new Texture2D[3];
             _customSkin[(int)EntityState.Default] = defaultTexture;
             _customSkin[(int)EntityState.MouseHover] = mouseHoverTexture;
             _customSkin[(int)EntityState.MouseDown] = mouseDownTexture;
+            _customFrame = frameWidth ?? _customFrame;
         }
 
         /// <summary>
@@ -151,11 +156,19 @@ namespace GeonBit.UI.Entities
 
             // get frame width
             TextureData data = Resources.ButtonData[(int)_skin];
-            Vector2 frameSize = new Vector2(data.FrameWidth, data.FrameHeight);
+            Vector2 frameSize = _customSkin == null ? new Vector2(data.FrameWidth, data.FrameHeight) : _customFrame;
 
-            // draw the button background
-            float scale = frameSize.Y > 0 ? Scale : 1f;
-            DrawUtils.DrawSurface(spriteBatch, texture, _destRect, frameSize, 1, FillColor, scale);
+            // draw the button background with frame
+            if (frameSize.Length() > 0)
+            {
+                float scale = frameSize.Y > 0 ? Scale : 1f;
+                DrawUtils.DrawSurface(spriteBatch, texture, _destRect, frameSize, 1, FillColor, scale);
+            }
+            // draw the button background without frame (just stretch texture)
+            else
+            {
+                DrawUtils.DrawImage(spriteBatch, texture, _destRect, FillColor, 1);
+            }
 
             // call base draw function
             base.DrawEntity(spriteBatch);

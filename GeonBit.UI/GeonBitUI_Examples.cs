@@ -241,7 +241,7 @@ To start the demo, please click the 'Next' button on the top navbar."));
             // example: featues list
             {
                 // create panel and add to list of panels and manager
-                Panel panel = new Panel(new Vector2(500, 610));
+                Panel panel = new Panel(new Vector2(500, 640));
                 panels.Add(panel);
                 UIManager.AddEntity(panel);
 
@@ -260,6 +260,7 @@ To start the demo, please click the 'Next' button on the top navbar."));
 - Images & Icons
 - Select List
 - Dropdown
+- Panel Tabs
 - Sliders & Progressbars
 - Text input
 - And more...
@@ -310,7 +311,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
             // example: buttons
             {
                 // create panel and add to list of panels and manager
-                Panel panel = new Panel(new Vector2(450, 610));
+                Panel panel = new Panel(new Vector2(450, 700));
                 panels.Add(panel);
                 UIManager.AddEntity(panel);
 
@@ -319,10 +320,20 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 panel.AddChild(new HorizontalLine());
                 panel.AddChild(new Paragraph("GeonBit.UI comes with 3 button skins:"));
 
+                // add default buttons
                 panel.AddChild(new Button("Default", ButtonSkin.Default));
                 panel.AddChild(new Button("Alternative", ButtonSkin.Alternative));
                 panel.AddChild(new Button("Fancy", ButtonSkin.Fancy));
 
+                // custom button
+                Button custom = new Button("Custom Skin", ButtonSkin.Default, size: new Vector2(0, 80));
+                custom.SetCustomSkin(
+                    Content.Load<Texture2D>("example/btn_default"), 
+                    Content.Load<Texture2D>("example/btn_hover"), 
+                    Content.Load<Texture2D>("example/btn_down"));
+                panel.AddChild(custom);
+
+                // toggle button
                 panel.AddChild(new LineSpace());
                 panel.AddChild(new HorizontalLine());
                 panel.AddChild(new LineSpace());
