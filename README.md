@@ -500,11 +500,11 @@ Entity primary color. For things like images, panels etc. this propertly will ac
 
 ### OutlineColor [color]
 
-Outline color, if defined. This property is not supported by all entities.
+Outline color, if defined.
 
 ### OutlineWidth [int]
 
-Outline width, or 0 for no outline. This property is not supported by all entities.
+Outline width, or 0 for no outline.
 
 ### ForceAlignCenter [bool]
 
