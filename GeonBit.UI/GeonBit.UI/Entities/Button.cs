@@ -61,6 +61,9 @@ namespace GeonBit.UI.Entities
         /// <summary>Default styling for buttons label. Note: loaded from UI theme xml file.</summary>
         public static StyleSheet DefaultParagraphStyle = new StyleSheet();
 
+        /// <summary>Optional custom skin that override's the default theme button textures.</summary>
+        private Texture2D[] _customSkin = null;
+
         /// <summary>
         /// Create the button.
         /// </summary>
@@ -82,6 +85,21 @@ namespace GeonBit.UI.Entities
             ButtonParagraph = new Paragraph(text, Anchor.Center);
             ButtonParagraph.UpdateStyle(DefaultParagraphStyle);
             AddChild(ButtonParagraph, true);
+        }
+
+        /// <summary>
+        /// Override the default theme textures and set a custom skin for this specific button.
+        /// </summary>
+        /// <remarks>You must provide all state textures when overriding button skin.</remarks>
+        /// <param name="defaultTexture">Texture to use for default state.</param>
+        /// <param name="mouseHoverTexture">Texture to use when mouse hover over the button.</param>
+        /// <param name="mouseDownTexture">Texture to use when mouse button is down over this button.</param>
+        public void SetCustomSkin(Texture2D defaultTexture, Texture2D mouseHoverTexture, Texture2D mouseDownTexture)
+        {
+            _customSkin = new Texture2D[3];
+            _customSkin[(int)EntityState.Default] = defaultTexture;
+            _customSkin[(int)EntityState.MouseHover] = mouseHoverTexture;
+            _customSkin[(int)EntityState.MouseDown] = mouseDownTexture;
         }
 
         /// <summary>
@@ -128,8 +146,8 @@ namespace GeonBit.UI.Entities
             EntityState state = _entityState;
             if (Checked) { state = EntityState.MouseDown; }
            
-            // get texture based on style
-            Texture2D texture = Resources.ButtonTextures[(int)_skin, (int)state];
+            // get texture based on skin and state
+            Texture2D texture = _customSkin == null ? Resources.ButtonTextures[(int)_skin, (int)state] : _customSkin[(int)state];
 
             // get frame width
             TextureData data = Resources.ButtonData[(int)_skin];
