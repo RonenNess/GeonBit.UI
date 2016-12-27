@@ -72,7 +72,7 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
-        /// Set / get current panel skin
+        /// Set / get current panel skin.
         /// </summary>
         public PanelSkin Skin
         {

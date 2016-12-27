@@ -108,6 +108,15 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Set / get current button skin.
+        /// </summary>
+        public ButtonSkin Skin
+        {
+            get { return _skin; }
+            set { _skin = value; _customSkin = null; }
+        }
+
+        /// <summary>
         /// Is the button a natrually-interactable entity.
         /// </summary>
         /// <returns>True.</returns>

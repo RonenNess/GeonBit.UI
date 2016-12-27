@@ -28,7 +28,7 @@ namespace GeonBit.UI.Entities
         public static StyleSheet DefaultButtonParagraphStyle = new StyleSheet();
 
         /// <summary>Data we store per tab, contains the tab's panel and the button to toggle it.</summary>
-        public struct TabData
+        public class TabData
         {
             /// <summary>The tab panel.</summary>
             public Panel panel;
@@ -47,7 +47,7 @@ namespace GeonBit.UI.Entities
         private Panel _panelsPanel;
 
         /// <summary>Currently active tab.</summary>
-        Panel _activePanel = null;
+        TabData _activeTab = null;
 
         /// <summary>
         /// Create the panel tabs.
@@ -93,6 +93,14 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Get the currently active tab.
+        /// </summary>
+        public TabData ActiveTab
+        {
+            get { return _activeTab; }
+        }
+
+        /// <summary>
         /// Add a new tab to the panel tabs.
         /// </summary>
         /// <param name="name">Tab name (also what will appear on the panel button).</param>
@@ -104,6 +112,9 @@ namespace GeonBit.UI.Entities
             newTab.panel = new Panel(Vector2.Zero, PanelSkin.None);
             newTab.panel.Padding = Vector2.Zero;
             newTab.button = new Button(name, ButtonSkin.Default, Anchor.AutoInline, new Vector2(-1, -1));
+
+            // link tab data to panel
+            newTab.panel.AttachedData = newTab;
 
             // set button styles
             newTab.button.UpdateStyle(DefaultButtonStyle);
@@ -138,8 +149,8 @@ namespace GeonBit.UI.Entities
                 Button self = (Button)(entity);
 
                 // clear the currently active panel
-                Panel prevActive = _activePanel;
-                _activePanel = null;
+                Panel prevActive = _activeTab != null ? _activeTab.panel : null;
+                _activeTab = null;
 
                 // if we were checked, uncheck all the other buttons
                 if (self.Checked)
@@ -164,14 +175,20 @@ namespace GeonBit.UI.Entities
                 // if our new value is checked, set as the currently active tab
                 if (self.Checked)
                 {
-                    _activePanel = selfPanel;
+                    _activeTab = (TabData)selfPanel.AttachedData;
                 }
                 
                 // if at this phase there's no active panel, revert by checking self again
                 // it could happen if user click the same tab button twice or via code.
-                if (_activePanel == null && prevActive == selfPanel)
+                if (_activeTab == null && prevActive == selfPanel)
                 {
                     self.Checked = true;
+                }
+
+                // invoke change event
+                if (self.Checked)
+                {
+                    DoOnValueChange();
                 }
             };
 
