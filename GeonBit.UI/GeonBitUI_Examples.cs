@@ -217,7 +217,7 @@ namespace GeonBit.UI.Example
             UIManager.AddEntity(zoomin);
 
             // init all examples
-            
+
             // example: welcome message
             {
                 // create panel and add to list of panels and manager
@@ -627,6 +627,46 @@ Related to the cleric is the paladin, who is typically a Lawful Good[citation ne
                 panel.AddChild(textMulti);
             }
 
+            // example: panel tabs
+            {
+                // create panel and add to list of panels and manager
+                Panel panel = new Panel(new Vector2(540, 480));
+                panels.Add(panel);
+                UIManager.AddEntity(panel);
+
+                // create panel tabs
+                PanelTabs tabs = new PanelTabs();
+                panel.AddChild(tabs);
+
+                // add first panel
+                {
+                    PanelTabs.TabData tab = tabs.AddTab("Tab 1");
+                    tab.panel.AddChild(new Header("PanelTabs"));
+                    tab.panel.AddChild(new HorizontalLine());
+                    tab.panel.AddChild(new Paragraph(@"PanelTab creates a group of internal panels with toggle buttons to switch between them.
+
+Choose a tab in the buttons above for more info..."));
+                }
+
+                // add second panel
+                {
+                    PanelTabs.TabData tab = tabs.AddTab("Tab 2");
+                    tab.panel.AddChild(new Header("Tab 2"));
+                    tab.panel.AddChild(new HorizontalLine());
+                    tab.panel.AddChild(new Paragraph(@"Awesome, you got to tab2!
+
+Maybe something interesting in tab3?"));
+                }
+
+                // add third panel
+                {
+                    PanelTabs.TabData tab = tabs.AddTab("Tab 3");
+                    tab.panel.AddChild(new Header("Nope."));
+                    tab.panel.AddChild(new HorizontalLine());
+                    tab.panel.AddChild(new Paragraph("Nothing to see here."));
+                }
+            }
+
             // example: disabled
             {
                 // create panel and add to list of panels and manager
@@ -761,7 +801,7 @@ Click on 'Next' to see the character creation demo."));
 
             // example: character build page - final
             {
-                int panelWidth = 700;
+                int panelWidth = 730;
 
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(panelWidth, 570));
@@ -778,21 +818,18 @@ Click on 'Next' to see the character creation demo."));
                 entitiesGroup.Padding = Vector2.Zero;
                 panel.AddChild(entitiesGroup);
 
-                // internal column width
-                int columnWidth = panelWidth / 3 - 20;
-
                 // now left side
-                Panel leftPanel = new Panel(new Vector2(columnWidth, 0), PanelSkin.None, Anchor.TopLeft);
+                Panel leftPanel = new Panel(new Vector2(0.33f, 0), PanelSkin.None, Anchor.TopLeft);
                 leftPanel.Padding = Vector2.Zero;
                 entitiesGroup.AddChild(leftPanel);
 
                 // right side
-                Panel rightPanel = new Panel(new Vector2(columnWidth, 0), PanelSkin.None, Anchor.TopRight);
+                Panel rightPanel = new Panel(new Vector2(0.33f, 0), PanelSkin.None, Anchor.TopRight);
                 rightPanel.Padding = Vector2.Zero;
                 entitiesGroup.AddChild(rightPanel);
 
                 // center
-                Panel centerPanel = new Panel(new Vector2(columnWidth, 0), PanelSkin.None, Anchor.TopCenter);
+                Panel centerPanel = new Panel(new Vector2(0.33f, 0), PanelSkin.None, Anchor.TopCenter);
                 centerPanel.Padding = Vector2.Zero;
                 entitiesGroup.AddChild(centerPanel);
 
@@ -841,7 +878,7 @@ Click on 'Next' to see the character creation demo."));
                 // create color selection buttons
                 rightPanel.AddChild(new Label(@"Color", Anchor.AutoCenter));
                 Color[] colors = { Color.White, Color.Red, Color.Green, Color.Blue, Color.Yellow, Color.Purple, Color.Cyan, Color.Brown };
-                int colorPickSize = 26;
+                int colorPickSize = 24;
                 foreach (Color baseColor in colors)
                 {
                     rightPanel.AddChild(new LineSpace());
@@ -849,7 +886,7 @@ Click on 'Next' to see the character creation demo."));
                     {
                         Color color = baseColor * (1.0f - (i * 2 / 16.0f)); color.A = 255;
                         ColoredRectangle currColorButton = new ColoredRectangle(color, Vector2.One * colorPickSize, Anchor.AutoInline);
-                        currColorButton.SpaceAfter = Vector2.Zero;
+                        currColorButton.SpaceAfter = currColorButton.SpaceBefore = Vector2.Zero;
                         currColorButton.OnClick = (Entity entity) =>
                         {
                             previewImageColor.FillColor = entity.FillColor;
@@ -872,30 +909,29 @@ Click on 'Next' to see the character creation demo."));
 
                 // add character name, last name, and age
                 // first add the labels
-                entitiesGroup.AddChild(new Label(@"First Name: ", Anchor.AutoInline, new Vector2(250, -1)));
-                entitiesGroup.AddChild(new Label(@"Last Name: ", Anchor.AutoInline, new Vector2(250, -1)));
-                entitiesGroup.AddChild(new Label(@"Age: ", Anchor.AutoInline, new Vector2(100, -1)));
-                entitiesGroup.AddChild(new LineSpace());
+                entitiesGroup.AddChild(new Label(@"First Name: ", Anchor.AutoInline, size: new Vector2(250, -1)));
+                entitiesGroup.AddChild(new Label(@"Last Name: ", Anchor.AutoInline, size: new Vector2(250, -1)));
+                entitiesGroup.AddChild(new Label(@"Age: ", Anchor.AutoInline, size: new Vector2(100, -1)));
 
                 // now add the text inputs
 
                 // first name
-                TextInput firstName = new TextInput(false, new Vector2(250, -1), Anchor.AutoInline);
+                TextInput firstName = new TextInput(false, new Vector2(0.4f, -1), anchor: Anchor.Auto);
                 firstName.PlaceholderText = "Name";
                 firstName.Validators.Add(new TextValidatorEnglishCharsOnly());
                 firstName.Validators.Add(new TextValidatorMakeTitle());
                 entitiesGroup.AddChild(firstName);
 
                 // last name
-                TextInput lastName = new TextInput(false, new Vector2(250, -1), Anchor.AutoInline);
+                TextInput lastName = new TextInput(false, new Vector2(0.4f, -1), anchor: Anchor.AutoInline);
                 lastName.PlaceholderText = "Surname";
                 lastName.Validators.Add(new TextValidatorEnglishCharsOnly());
                 lastName.Validators.Add(new TextValidatorMakeTitle());
                 entitiesGroup.AddChild(lastName);
 
                 // age
-                TextInput age = new TextInput(false, new Vector2(120, -1), Anchor.AutoInline);
-                age.Validators.Add(new TextValidatorNumbersOnly(false, 0, 60));
+                TextInput age = new TextInput(false, new Vector2(0.2f, -1), anchor: Anchor.AutoInline);
+                age.Validators.Add(new TextValidatorNumbersOnly(false, 0, 80));
                 age.Value = "20";
                 entitiesGroup.AddChild(age);
             }

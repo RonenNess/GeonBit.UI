@@ -84,9 +84,8 @@ namespace GeonBit.UI.Entities
             // recalculate the size of the panel containing the internal panels
             if (_tabs.Count > 0)
             {
-                float buttonsHeight = _tabs[0].button.GetActualDestRect().Height;
-                _panelsPanel.Size = new Vector2(0, _destRectInternal.Height - buttonsHeight);
-                _panelsPanel.SetOffset(new Vector2(0, buttonsHeight));
+                float buttonsHeight = _tabs[0].button.GetActualDestRect().Height / UserInterface.SCALE;
+                _buttonsPanel.SetOffset(new Vector2(0, -buttonsHeight));
             }
 
             // call base draw function
@@ -103,6 +102,7 @@ namespace GeonBit.UI.Entities
             // create the new tab data
             TabData newTab = new TabData();
             newTab.panel = new Panel(Vector2.Zero, PanelSkin.None);
+            newTab.panel.Padding = Vector2.Zero;
             newTab.button = new Button(name, ButtonSkin.Default, Anchor.AutoInline, new Vector2(-1, -1));
 
             // set button styles

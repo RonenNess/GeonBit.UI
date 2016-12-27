@@ -900,8 +900,8 @@ namespace GeonBit.UI.Entities
             // 0.0 - 1.0: takes percent of parent size.
             // > 1.0: size in pixels.
             Vector2 size = _scaledSize;
-            ret.Width  = (size.X == 0f ? parentDest.Width  : (size.X < 1f ? (int)(parentDest.Width  * size.X) : (int)size.X));
-            ret.Height = (size.Y == 0f ? parentDest.Height : (size.Y < 1f ? (int)(parentDest.Height * size.Y) : (int)size.Y));
+            ret.Width  = (size.X == 0f ? parentDest.Width  : (size.X > 0f && size.X < 1f ? (int)(parentDest.Width  * _size.X) : (int)size.X));
+            ret.Height = (size.Y == 0f ? parentDest.Height : (size.Y > 0f && size.Y < 1f ? (int)(parentDest.Height * _size.Y) : (int)size.Y));
 
             // make sure valid size
             if (ret.Width < 1) { ret.Width = 1; }
