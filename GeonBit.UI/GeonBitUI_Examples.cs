@@ -637,7 +637,7 @@ Related to the cleric is the paladin, who is typically a Lawful Good[citation ne
                 // create panel tabs
                 PanelTabs tabs = new PanelTabs();
                 panel.AddChild(tabs);
-
+                
                 // add first panel
                 {
                     PanelTabs.TabData tab = tabs.AddTab("Tab 1");
@@ -909,9 +909,9 @@ Click on 'Next' to see the character creation demo."));
 
                 // add character name, last name, and age
                 // first add the labels
-                entitiesGroup.AddChild(new Label(@"First Name: ", Anchor.AutoInline, size: new Vector2(250, -1)));
-                entitiesGroup.AddChild(new Label(@"Last Name: ", Anchor.AutoInline, size: new Vector2(250, -1)));
-                entitiesGroup.AddChild(new Label(@"Age: ", Anchor.AutoInline, size: new Vector2(100, -1)));
+                entitiesGroup.AddChild(new Label(@"First Name: ", Anchor.AutoInline, size: new Vector2(0.4f, -1)));
+                entitiesGroup.AddChild(new Label(@"Last Name: ", Anchor.AutoInline, size: new Vector2(0.4f, -1)));
+                entitiesGroup.AddChild(new Label(@"Age: ", Anchor.AutoInline, size: new Vector2(0.2f, -1)));
 
                 // now add the text inputs
 

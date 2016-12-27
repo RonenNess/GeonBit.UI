@@ -353,6 +353,14 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Draw entity outline. Note: in paragraph its a special case and we implement it inside the DrawEntity function.
+        /// </summary>
+        /// <param name="spriteBatch">Sprite batch to draw on.</param>
+        override protected void DrawEntityOutline(SpriteBatch spriteBatch)
+        {
+        }
+
+        /// <summary>
         /// Draw the entity.
         /// </summary>
         /// <param name="spriteBatch">Sprite batch to draw on.</param>
@@ -361,12 +369,13 @@ namespace GeonBit.UI.Entities
             // calculate internal stuff
             PrepareForDraw();
 
-            // get some properties
+            // get outline width
             int outlineWidth = OutlineWidth;
 
-            // if got outline, draw it first
+            // if we got outline draw it
             if (outlineWidth > 0)
             {
+                // get outline color
                 Color outlineColor = OutlineColor;
 
                 // for not-too-thick outline we render just two corners

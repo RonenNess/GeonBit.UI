@@ -34,14 +34,17 @@ namespace GeonBit.UI.Entities
         /// <summary>Default styling for the dropdown currently-selected label. Note: loaded from UI theme xml file.</summary>
         public static StyleSheet DefaultSelectedParagraphStyle = new StyleSheet();
 
-        // internal panel and paragraph to show selected value
+        // internal panel and paragraph to show selected value.
         Panel _selectedTextPanel;
         Paragraph _selectedTextParagraph;
 
-        // the height, in pixels, of the panel to show currently selected value
+        // the height, in pixels, of the panel to show currently selected value.
         static int SelectedPanelHeight = 67;
 
-        // is the list part currently visible?
+        // set temporarily to true while we render dropdown outlines.
+        private bool _isOutlinePass = false;
+
+        // is the list part currently visible or not.
         bool _isListVisible = false;
 
         /// <summary>
@@ -144,6 +147,17 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Draw entity outline. Override in dropdown to indicate when we are in outline rendering pass.
+        /// </summary>
+        /// <param name="spriteBatch">Sprite batch to draw on.</param>
+        override protected void DrawEntityOutline(SpriteBatch spriteBatch)
+        {
+            _isOutlinePass = true;
+            base.DrawEntityOutline(spriteBatch);
+            _isOutlinePass = false;
+        }
+
+        /// <summary>
         /// Draw the entity.
         /// </summary>
         /// <param name="spriteBatch">Sprite batch to draw on.</param>
@@ -152,14 +166,17 @@ namespace GeonBit.UI.Entities
             // draw the list only when visible
             if (_isListVisible)
             {
-                // first move the dest rect down below the selected item text
-                int extraY = (int)(_selectedTextPanel.Size.Y * UserInterface.SCALE);
-                _destRect.Y += extraY;
-                _destRectInternal.Y += extraY;
+                if (!_isOutlinePass)
+                {
+                    // first move the dest rect down below the selected item text
+                    int extraY = (int)(_selectedTextPanel.Size.Y * UserInterface.SCALE);
+                    _destRect.Y += extraY;
+                    _destRectInternal.Y += extraY;
 
-                // also remove the selected part height from the total height, so the element size.y will be absolute
-                _destRect.Height -= extraY;
-                _destRectInternal.Height -= extraY;
+                    // also remove the selected part height from the total height, so the element size.y will be absolute
+                    _destRect.Height -= extraY;
+                    _destRectInternal.Height -= extraY;
+                }
 
                 // now draw the list part
                 base.DrawEntity(spriteBatch);

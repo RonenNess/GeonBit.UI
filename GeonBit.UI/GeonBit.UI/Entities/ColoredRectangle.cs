@@ -96,13 +96,9 @@ namespace GeonBit.UI.Entities
             // get outline width
             int outlineWidth = OutlineWidth;
 
-            // mark if we rendered outline or not
-            bool renderedOutline = false;
-
             // draw outline
             if (outlineWidth > 0)
 			{
-                renderedOutline = true;
                 Rectangle outlineDest = _destRect;
 				outlineDest.X -= outlineWidth;
 				outlineDest.Y -= outlineWidth;
@@ -113,12 +109,6 @@ namespace GeonBit.UI.Entities
 
             // get fill color
             Color fill = FillColor;
-
-            // sanity check - can't have transperancy with border
-            if (fill.A < 255 && renderedOutline)
-            {
-                throw new System.Exception("Can't draw colored rectangle with transperancy and borders!");
-            }
 
             // draw the rectangle
             spriteBatch.Draw(Resources.WhiteTexture, _destRect, fill);

@@ -11,6 +11,7 @@
 #endregion
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace GeonBit.UI.Entities
 {
@@ -28,6 +29,7 @@ namespace GeonBit.UI.Entities
         {
             Padding = Vector2.Zero;
             ShadowColor = Color.Transparent;
+            OutlineWidth = 0;
         }
 
         /// <summary>
@@ -39,6 +41,38 @@ namespace GeonBit.UI.Entities
             int width = UserInterface.ScreenWidth;
             int height = UserInterface.ScreenHeight;
             return new Rectangle(0, 0, width, height);
+        }
+
+        /// <summary>
+        /// Draw this entity and its children.
+        /// </summary>
+        /// <param name="spriteBatch">SpriteBatch to use for drawing.</param>
+        override public void Draw(SpriteBatch spriteBatch)
+        {
+            // if not visible skip
+            if (!Visible)
+            {
+                return;
+            }
+
+            // do before draw event
+            OnBeforeDraw(spriteBatch);
+
+            // calc desination rect
+            _destRect = CalcDestRect();
+            _destRectInternal = CalcInternalRect();
+
+            // get sorted children list
+            List<Entity> childrenSorted = GetSortedChildren();
+
+            // draw all children
+            foreach (Entity child in childrenSorted)
+            {
+                child.Draw(spriteBatch);
+            }
+
+            // do after draw event
+            OnAfterDraw(spriteBatch);
         }
     }
 }

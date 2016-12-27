@@ -218,6 +218,9 @@ namespace GeonBit.UI.Entities
         /// <summary>If true, this entity and its children will not respond to events (but will be drawn normally, unlike when disabled).</summary>
         public bool Locked = false;
 
+        /// <summary>Is this entity currently disabled?</summary>
+        private bool _isCurrentlyDisabled = false;
+
         /// <summary>Current entity state.</summary>
         protected EntityState _entityState = EntityState.Default;
 
@@ -675,13 +678,16 @@ namespace GeonBit.UI.Entities
         /// Draw this entity and its children.
         /// </summary>
         /// <param name="spriteBatch">SpriteBatch to use for drawing.</param>
-        public void Draw(SpriteBatch spriteBatch)
+        virtual public void Draw(SpriteBatch spriteBatch)
         {
             // if not visible skip
             if (!Visible)
             {
                 return;
             }
+
+            // update if disabled
+            _isCurrentlyDisabled = IsDisabled();
 
             // draw background
             if (Background != null)
@@ -699,50 +705,14 @@ namespace GeonBit.UI.Entities
             _destRect = CalcDestRect();
             _destRectInternal = CalcInternalRect();
 
-            // if there's a shadow
-            if (ShadowColor.A > 0 && ShadowScale > 0f)
-            {
-                // update position to draw shadow
-                _destRect.X += (int)ShadowOffset.X;
-                _destRect.Y += (int)ShadowOffset.Y;
+            // draw shadow
+            DrawEntityShadow(spriteBatch);
 
-                // store previous state and colors
-                Color oldFill = FillColor;
-                Color oldOutline = OutlineColor;
-                float oldScale = Scale;
-                int oldOutlineWidth = OutlineWidth;
-                EntityState oldState = _entityState;
-
-                // set default colors and state for shadow pass
-                FillColor = ShadowColor;
-                OutlineColor = Color.Transparent;
-                OutlineWidth = 0;
-                Scale = ShadowScale;
-                _entityState = EntityState.Default;
-
-                // if disabled, turn color into greyscale
-                if (IsDisabled())
-                {
-                    FillColor = new Color(Color.White * (((FillColor.R + FillColor.G + FillColor.B) / 3f) / 255f), FillColor.A);
-                }
-
-                // draw with shadow effect
-                DrawUtils.StartDrawSilhouette(spriteBatch);
-                DrawEntity(spriteBatch);
-                DrawUtils.EndDraw(spriteBatch);
-
-                // return position and colors back to what they were
-                _destRect.X -= (int)ShadowOffset.X;
-                _destRect.Y -= (int)ShadowOffset.Y;
-                FillColor = oldFill;
-                Scale = oldScale;
-                OutlineColor = oldOutline;
-                OutlineWidth = oldOutlineWidth;
-                _entityState = oldState;
-            }
+            // draw entity outline
+            DrawEntityOutline(spriteBatch);
 
             // draw the entity itself
-            DrawUtils.StartDraw(spriteBatch, IsDisabled());
+            DrawUtils.StartDraw(spriteBatch, _isCurrentlyDisabled);
             DrawEntity(spriteBatch);
             DrawUtils.EndDraw(spriteBatch);
 
@@ -759,6 +729,109 @@ namespace GeonBit.UI.Entities
             OnAfterDraw(spriteBatch);
         }
 
+        /// <summary>
+        /// Draw entity shadow (if defined shadow).
+        /// </summary>
+        /// <param name="spriteBatch">Sprite batch to draw on.</param>
+        virtual protected void DrawEntityShadow(SpriteBatch spriteBatch)
+        {
+            // get current shadow color and if transparent skip
+            Color shadowColor = ShadowColor;
+            if (shadowColor.A == 0) { return; }
+
+            // get shadow scale
+            float shadowScale = ShadowScale;
+
+            // update position to draw shadow
+            _destRect.X += (int)ShadowOffset.X;
+            _destRect.Y += (int)ShadowOffset.Y;
+
+            // store previous state and colors
+            Color oldFill = FillColor;
+            Color oldOutline = OutlineColor;
+            float oldScale = Scale;
+            int oldOutlineWidth = OutlineWidth;
+            EntityState oldState = _entityState;
+
+            // set default colors and state for shadow pass
+            FillColor = shadowColor;
+            OutlineColor = Color.Transparent;
+            OutlineWidth = 0;
+            Scale = shadowScale;
+            _entityState = EntityState.Default;
+
+            // if disabled, turn color into greyscale
+            if (_isCurrentlyDisabled)
+            {
+                FillColor = new Color(Color.White * (((shadowColor.R + shadowColor.G + shadowColor.B) / 3f) / 255f), shadowColor.A);
+            }
+
+            // draw with shadow effect
+            DrawUtils.StartDrawSilhouette(spriteBatch);
+            DrawEntity(spriteBatch);
+            DrawUtils.EndDraw(spriteBatch);
+
+            // return position and colors back to what they were
+            _destRect.X -= (int)ShadowOffset.X;
+            _destRect.Y -= (int)ShadowOffset.Y;
+            FillColor = oldFill;
+            Scale = oldScale;
+            OutlineColor = oldOutline;
+            OutlineWidth = oldOutlineWidth;
+            _entityState = oldState;
+        }
+
+        /// <summary>
+        /// Draw entity outline.
+        /// </summary>
+        /// <param name="spriteBatch">Sprite batch to draw on.</param>
+        virtual protected void DrawEntityOutline(SpriteBatch spriteBatch)
+        {
+            // get outline width and if 0 return
+            int outlineWidth = OutlineWidth;
+            if (OutlineWidth == 0) { return; }
+
+            // get outline color
+            Color outlineColor = OutlineColor;
+
+            // if disabled, turn outline to grey
+            if (_isCurrentlyDisabled)
+            {
+                outlineColor = new Color(Color.White * (((outlineColor.R + outlineColor.G + outlineColor.B) / 3f) / 255f), outlineColor.A);
+            }
+
+            // store previous fill color
+            Color oldFill = FillColor;
+
+            // store original destination rect
+            Rectangle originalDest = _destRect;
+            Rectangle originalIntDest = _destRectInternal;
+
+            // store entity previous state
+            EntityState oldState = _entityState;
+
+            // set fill color
+            SetStyleProperty("FillColor", new StyleProperty(outlineColor), oldState);
+
+            // draw the entity outline
+            DrawUtils.StartDrawSilhouette(spriteBatch);
+            _destRect.Location = originalDest.Location + new Point(-outlineWidth, 0);
+            DrawEntity(spriteBatch);
+            _destRect.Location = originalDest.Location + new Point(0, -outlineWidth);
+            DrawEntity(spriteBatch);
+            _destRect.Location = originalDest.Location + new Point(outlineWidth, 0);
+            DrawEntity(spriteBatch);
+            _destRect.Location = originalDest.Location + new Point(0, outlineWidth);
+            DrawEntity(spriteBatch);
+            DrawUtils.EndDraw(spriteBatch);
+
+            // turn back to previous fill color
+            SetStyleProperty("FillColor", new StyleProperty(oldFill), oldState);
+
+            // return to the original destination rect
+            _destRect = originalDest;
+            _destRectInternal = originalIntDest;
+        }
 
         /// <summary>
         /// The internal function to draw the entity itself.
@@ -1282,11 +1355,15 @@ namespace GeonBit.UI.Entities
                 _entityState = _parent._entityState;
                 _isMouseOver = _parent._isMouseOver;
                 IsFocused = _parent.IsFocused;
+                _isCurrentlyDisabled = _parent._isCurrentlyDisabled;
                 return;
             }
 
+            // get if disabled
+            _isCurrentlyDisabled = IsDisabled();
+
             // if disabled , invisible, or locked - skip
-            if (IsDisabled() || IsLocked() || !IsVisible())
+            if (_isCurrentlyDisabled || IsLocked() || !IsVisible())
             {
                 // if this very entity is locked (eg not locked due to parent being locked), 
                 // iterate children and invoke those with DoEventsIfDirectParentIsLocked setting
