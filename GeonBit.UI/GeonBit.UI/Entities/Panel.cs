@@ -72,6 +72,15 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Set / get current panel skin
+        /// </summary>
+        public PanelSkin Skin
+        {
+            get { return _skin; }
+            set { _skin = value; }
+        }
+
+        /// <summary>
         /// Draw the entity.
         /// </summary>
         /// <param name="spriteBatch">Sprite batch to draw on.</param>
