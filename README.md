@@ -1136,6 +1136,10 @@ When using Panel draw mode, this determine the frame width in percents (0f - 1f)
 
 Image texture to draw.
 
+#### SourceRectangle
+
+Image source rectangle.
+
 
 ## Icon
 
