@@ -91,12 +91,6 @@ namespace GeonBit.UI.Entities
     };
 
     /// <summary>
-    /// A callback function you can on entity events, like on-click, on-mouse-leave, etc.
-    /// </summary>
-    /// <param name="entity">The entity instance the event came from.</param>
-    public delegate void EventCallback(Entity entity);
-
-    /// <summary>
     /// Basic UI entity.
     /// All entities inherit from this class and share this API.
     /// </summary>
@@ -121,6 +115,9 @@ namespace GeonBit.UI.Entities
 
         /// <summary>Is the entity currently visible.</summary>
         public bool Visible = true;
+
+        /// <summary>Optional identifier you can attach to entities so you can later search and retrieve by.</summary>
+        public string Identifier = "";
 
         /// <summary>
         /// If this set to true, this entity will still react to events if its direct parent is locked.
@@ -374,6 +371,65 @@ namespace GeonBit.UI.Entities
         public List<Entity> GetChildren()
         {
             return _children;
+        }
+
+        /// <summary>
+        /// Find and return first occurance of a child entity with a given identifier and specific type.
+        /// </summary>
+        /// <typeparam name="T">Entity type to get.</typeparam>
+        /// <param name="identifier">Identifier to find.</param>
+        /// <param name="recursive">If true, will search recursively in children of children. If false, will search only in direct children.</param>
+        /// <returns>First found entity with given identifier and type, or null if nothing found.</returns>
+        public T Find<T> (string identifier, bool recursive = false) where T : Entity
+        {
+            // iterate children
+            foreach (Entity child in _children)
+            {
+                // check if identifier and type matches - if so, return it
+                if (child.Identifier == identifier && child.GetType() == typeof(T))
+                {
+                    return (T)child;
+                }
+
+                // if recursive, search in child
+                if (recursive)
+                {
+                    // search in child
+                    T ret = child.Find<T>(identifier, recursive);
+
+                    // if found return it
+                    if (ret != null)
+                    {
+                        return ret;
+                    }
+                }
+            }
+
+            // not found?
+            return null;
+        }
+
+        /// <summary>
+        /// Find and return first occurance of a child entity with a given identifier.
+        /// </summary>
+        /// <param name="identifier">Identifier to find.</param>
+        /// <param name="recursive">If true, will search recursively in children of children. If false, will search only in direct children.</param>
+        /// <returns>First found entity with given identifier, or null if nothing found.</returns>
+        public Entity Find(string identifier, bool recursive = false)
+        {
+            return Find<Entity>(identifier, recursive);
+        }
+
+        /// <summary>
+        /// Iterate over children and call 'callback' for every direct child of this entity.
+        /// </summary>
+        /// <param name="callback">Callback function to call with every child of this entity.</param>
+        public void IterateChildren(EventCallback callback)
+        {
+            foreach (Entity child in _children)
+            {
+                callback(child);
+            }
         }
 
         /// <summary>
@@ -764,6 +820,16 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Bring this entity to be on front (inside its parent).
+        /// </summary>
+        public void BringToFront()
+        {
+            Entity parent = _parent;
+            parent.RemoveChild(this);
+            parent.AddChild(this);
+        }
+
+        /// <summary>
         /// Remove child entity.
         /// </summary>
         /// <param name="child">Entity to remove.</param>
@@ -829,10 +895,13 @@ namespace GeonBit.UI.Entities
             // get parent internal destination rectangle
             Rectangle parentDest = _parent._destRectInternal;
 
-            // set size (takes either this entity size, or if set to 0 take parent's size
+            // set size:
+            // 0: takes whole parent size.
+            // 0.0 - 1.0: takes percent of parent size.
+            // > 1.0: size in pixels.
             Vector2 size = _scaledSize;
-            ret.Width   = (size.X != 0f ? (int)size.X : parentDest.Width);
-            ret.Height  = (size.Y != 0f ? (int)size.Y : parentDest.Height);
+            ret.Width  = (size.X == 0f ? parentDest.Width  : (size.X < 1f ? (int)(parentDest.Width  * size.X) : (int)size.X));
+            ret.Height = (size.Y == 0f ? parentDest.Height : (size.Y < 1f ? (int)(parentDest.Height * size.Y) : (int)size.Y));
 
             // make sure valid size
             if (ret.Width < 1) { ret.Width = 1; }
