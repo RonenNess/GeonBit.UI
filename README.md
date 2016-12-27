@@ -39,6 +39,7 @@ GeonBit.UI provide the following functionality:
 - Dropdown widgets with different skins.
 - Slider bars & Progress bars.
 - Text boxes for user text input - support multiline, word-wrap, scrollbars and skins.
+- PanelTabs to easily create multitabs panels.
 - Stylesheets and themes, easily extendable.
 - Locked, disabled, shadow, and other basic UI effects and states.
 - Global scaling property to support different screen sizes.
@@ -1167,6 +1168,61 @@ Icon icon = new Icon(IconType.Sword, anchor: Anchor.TopLeft, scale: 1.2f, backgr
 #### DrawBackground
 
 Show / hide the built-in inventory-like background.
+
+
+## PanelTabs
+
+![PanelTabs](assets/img/entity_paneltabs.png "PanelTabs")
+
+Docs: [PanelTabs Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_PanelTabs.htm ).
+
+A PanelTabs is a special entity you attach to panels to split them into tabs with automatic toggle buttons to switch between them.
+
+To create a new PanelTabs:
+
+```cs
+// add tabs to a panel
+PanelTabs tabs = new PanelTabs();
+panel.AddChild(tabs);
+```
+
+And now to add a new tab:
+
+```cs
+// create a new tab titled "Tab 1"
+// 'tab' is a struct that contains two entities: button, and panel.
+PanelTabs.TabData tab = tabs.AddTab("Tab 1");
+```
+
+The code above will add a new tab with the title "Tab 1". It will also create the top button for the new tab.
+
+The returned object, TabData, will contain 'button', which is the top button to select this tab, and 'panel', which is the panel that will be visible when this tab is selected.
+
+### Special notice:
+
+If you override the ```Identifier```, ```OnValueChange``` callback or ```AttachedData``` of the internal buttons and panels of the PanelTabs, things will break and not work properly.
+
+### Events
+
+To listen and respond to whenever user switch tabs, use the ```OnValueChange``` event handler:
+
+```cs
+tabs.OnValueChange = (Entity panelTabs) => { 
+	// the user switched tabs. to get the currently active tab use tabs.ActiveTab.
+};
+```
+
+### PanelTabs API
+
+In addition to the basic API that every UI entity shares, ```PanelTabs``` provide the following API:
+
+#### ActiveTab
+
+Property to get the currently active tab data.
+
+#### AddTab()
+
+Create a new tab and return the tab object that contains the internal panel and switch button entities.
 
 
 ## ColoredRectangle

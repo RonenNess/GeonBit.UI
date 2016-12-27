@@ -27,7 +27,7 @@ namespace GeonBit.UI.Entities
         /// <summary>Default styling for panel buttons paragraphs. Note: loaded from UI theme xml file.</summary>
         public static StyleSheet DefaultButtonParagraphStyle = new StyleSheet();
 
-        /// <summary>Data we store per tab, contains the tab's panel and the button to toggle it.</summary>
+        /// <summary>Contains the button and panel of a single tab in the PanelTabs.</summary>
         public class TabData
         {
             /// <summary>The tab panel.</summary>
