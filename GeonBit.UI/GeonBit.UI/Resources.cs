@@ -244,6 +244,8 @@ namespace GeonBit.UI
             LoadDefaultStyles(ref TextInput.DefaultParagraphStyle, "TextInputParagraph", root, content);
             LoadDefaultStyles(ref TextInput.DefaultPlaceholderStyle, "TextInputPlaceholder", root, content);
             LoadDefaultStyles(ref VerticalScrollbar.DefaultStyle, "VerticalScrollbar", root, content);
+            LoadDefaultStyles(ref PanelTabs.DefaultButtonStyle, "PanelTabsButton", root, content);
+            LoadDefaultStyles(ref PanelTabs.DefaultButtonParagraphStyle, "PanelTabsButtonParagraph", root, content);
         }
 
         /// <summary>

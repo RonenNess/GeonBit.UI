@@ -3212,3 +3212,63 @@
 /processor:PassThroughProcessor
 /build:GeonBit.UI/themes/hd/ThemeData.xml
 
+#begin GeonBit.UI/themes/hd/styles/PanelTabsButton-Default.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:GeonBit.UI/themes/hd/styles/PanelTabsButton-Default.xml
+
+#begin GeonBit.UI/themes/hd/styles/PanelTabsButton-MouseDown.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:GeonBit.UI/themes/hd/styles/PanelTabsButton-MouseDown.xml
+
+#begin GeonBit.UI/themes/hd/styles/PanelTabsButton-MouseHover.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:GeonBit.UI/themes/hd/styles/PanelTabsButton-MouseHover.xml
+
+#begin GeonBit.UI/themes/hd/styles/PanelTabsButtonParagraph-Default.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:GeonBit.UI/themes/hd/styles/PanelTabsButtonParagraph-Default.xml
+
+#begin GeonBit.UI/themes/hd/styles/PanelTabsButtonParagraph-MouseDown.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:GeonBit.UI/themes/hd/styles/PanelTabsButtonParagraph-MouseDown.xml
+
+#begin GeonBit.UI/themes/hd/styles/PanelTabsButtonParagraph-MouseHover.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:GeonBit.UI/themes/hd/styles/PanelTabsButtonParagraph-MouseHover.xml
+
+#begin GeonBit.UI/themes/lowres/styles/PanelTabsButton-Default.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:GeonBit.UI/themes/lowres/styles/PanelTabsButton-Default.xml
+
+#begin GeonBit.UI/themes/lowres/styles/PanelTabsButton-MouseDown.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:GeonBit.UI/themes/lowres/styles/PanelTabsButton-MouseDown.xml
+
+#begin GeonBit.UI/themes/lowres/styles/PanelTabsButton-MouseHover.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:GeonBit.UI/themes/lowres/styles/PanelTabsButton-MouseHover.xml
+
+#begin GeonBit.UI/themes/lowres/styles/PanelTabsButtonParagraph-Default.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:GeonBit.UI/themes/lowres/styles/PanelTabsButtonParagraph-Default.xml
+
+#begin GeonBit.UI/themes/lowres/styles/PanelTabsButtonParagraph-MouseDown.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:GeonBit.UI/themes/lowres/styles/PanelTabsButtonParagraph-MouseDown.xml
+
+#begin GeonBit.UI/themes/lowres/styles/PanelTabsButtonParagraph-MouseHover.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:GeonBit.UI/themes/lowres/styles/PanelTabsButtonParagraph-MouseHover.xml
+
