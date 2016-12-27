@@ -315,10 +315,13 @@ As explained before, these determine the position of the entity inside its paren
 
 ### Size
 
-The size of the entity in pixels. Most entities have a default size so you don't need to set it. However, there are few special values that are supported by the size property and you should know:
+The size of the entity in pixels. 
+
+Most entities have a default size so you don't need to set it. However, there are three special values that are supported by the size property and you should know:
 
 - Size of 0 means full parent size.
 - Size of -1 means default entity size (vary per entity).
+- Size between 0.0f and 1.0f (not inclusive) will be percents of parent size (eg 0.5f = 50% of parent size).
 
 So if for example you set an entity size of (0, -1), it means the entity will have its default height with width of 100% of its parent width (minus the padding, which are explained next).
 
@@ -416,6 +419,10 @@ Set / get the default shadow color style property.
 
 Set / get the default shadow offset style property.
 
+### ShadowScale
+
+Set / get the default shadow scale style property.
+
 ### Scale
 
 Set / get the default scale style property.
@@ -455,6 +462,18 @@ Change entity anchor.
 ### SetOffset()
 
 Change entity offset.
+
+### Find()
+
+Find a child with specific type and identifier. This function can either search recursively or look only in direct children.
+
+### IterateChildren()
+
+Iterate over children and apply a callback function on them.
+
+### BringToFront()
+
+Move this entity to be at the front of all the children inside its direct parent. This is equivalent to just adding this entity last.
 
 ## Entity StyleSheets
 
@@ -505,6 +524,10 @@ Entity shadow color. Set to alpha 0 (or ```Color.Transparent```) for no shadow.
 ### ShadowOffset [vector2]
 
 Shadow distance from entity original position.
+
+### ShadowScale [float]
+
+Shadow scale (multiple base entity size).
 
 ### Padding [vector2]
 
@@ -688,6 +711,15 @@ When in toggle mode, you can also register to the ```OnValueChange``` event to d
 #### Checked
 
 When button is in ```toggle mode```, set / get the button pressed mode.
+
+#### SetCustomSkin
+
+You can override the default theme button textures for a specific instance, by using the SetCustomSkin() function. 
+This function get 3 textures (one texture for every button state), and an optional vector indicating frame width in texture file.
+
+#### Skin
+
+Get / set current button skin.
 
 
 ## Checkbox
