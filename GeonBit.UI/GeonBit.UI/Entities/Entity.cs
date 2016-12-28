@@ -113,9 +113,6 @@ namespace GeonBit.UI.Entities
         /// <summary>Is the entity currently interactable.</summary>
         protected bool _isInteractable = false;
 
-        /// <summary>Is the entity currently visible.</summary>
-        public bool Visible = true;
-
         /// <summary>Optional identifier you can attach to entities so you can later search and retrieve by.</summary>
         public string Identifier = "";
 
@@ -209,6 +206,9 @@ namespace GeonBit.UI.Entities
         /// <summary>Callback to execute every frame after this entity updates.</summary>
         public EventCallback AfterUpdate = null;
 
+        /// <summary>Callback to execute every time the visibility of this entity changes (also invokes when parent becomes invisible / visible again).</summary>
+        public EventCallback OnVisiblityChange = null;
+
         /// <summary>Is mouse currently pointing on this entity.</summary>
         protected bool _isMouseOver = false;
 
@@ -217,6 +217,9 @@ namespace GeonBit.UI.Entities
 
         /// <summary>If true, this entity and its children will not respond to events (but will be drawn normally, unlike when disabled).</summary>
         public bool Locked = false;
+
+        /// <summary>Is the entity currently visible.</summary>
+        public bool _visible = true;
 
         /// <summary>Is this entity currently disabled?</summary>
         private bool _isCurrentlyDisabled = false;
@@ -328,6 +331,15 @@ namespace GeonBit.UI.Entities
 
         /// <summary>Get offset with current UI scale applied. </summary>
         protected Vector2 _scaledPadding { get { return Padding * UserInterface.SCALE; } }
+
+        /// <summary>
+        /// Set / get visibility.
+        /// </summary>
+        public bool Visible
+        {
+            get { return _visible; }
+            set { _visible = value; DoOnVisibilityChange(); }
+        }
 
         /// <summary>
         /// Return entity priority in drawing order and event handling.
@@ -1137,6 +1149,20 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Return the relative offset, in pixels, from parent top-left corner.
+        /// </summary>
+        /// <remarks>
+        /// This return the offset between the top left corner of this entity regardless of anchor type.
+        /// </remarks>
+        /// <returns>Calculated offset from parent top-left corner.</returns>
+        public Vector2 GetRelativeOffset()
+        {
+            Rectangle dest = GetActualDestRect();
+            Rectangle parentDest = _parent.GetActualDestRect();
+            return new Vector2(dest.X - parentDest.X, dest.Y - parentDest.Y);
+        }
+
+        /// <summary>
         /// Return the entity before this one in parent container, aka the next older sibling.
         /// </summary>
         /// <returns>Entity before this in parent, or null if first in parent or if orphan entity.</returns>
@@ -1291,6 +1317,15 @@ namespace GeonBit.UI.Entities
         {
             AfterUpdate?.Invoke(this);
             UserInterface.AfterUpdate?.Invoke(this);
+        }
+
+        /// <summary>
+        /// Called every time the visibility property of this entity changes.
+        /// </summary>
+        virtual protected void DoOnVisibilityChange()
+        {
+            OnVisiblityChange?.Invoke(this);
+            UserInterface.OnVisiblityChange?.Invoke(this);
         }
 
         /// <summary>

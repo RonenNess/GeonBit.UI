@@ -123,6 +123,9 @@ namespace GeonBit.UI
         /// <summary>Callback to execute every frame after entity is rendered.</summary>
         static public EventCallback AfterDraw = null;
 
+        /// <summary>Callback to execute every time the visibility property of an entity change.</summary>
+        static public EventCallback OnVisiblityChange = null;
+
         // cursor pointer and X offset
         Texture2D _cursor;
         int _cursorOffset;
