@@ -35,6 +35,26 @@ namespace GeonBit.UI.Entities
 
             /// <summary>The tab top button.</summary>
             public Button button;
+
+            /// <summary>Tab identifier / name.</summary>
+            readonly public string name;
+
+            /// <summary>
+            /// Create the new tab type.
+            /// </summary>
+            /// <param name="tabName">Tab name / identifier.</param>
+            /// <param name="tabPanel">Tab panel.</param>
+            /// <param name="tabButton">Tab button.</param>
+            public TabData(string tabName, Panel tabPanel, Button tabButton)
+            {
+                // store name, panel and button
+                name = tabName;
+                panel = tabPanel;
+                button = tabButton;
+
+                // set panel padding to zero by default
+                panel.Padding = Vector2.Zero;
+            }
         }
 
         /// <summary>List of tabs data currently in panel tabs.</summary>
@@ -101,6 +121,26 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Select tab to be the currently active tab.
+        /// </summary>
+        /// <param name="name">Tab identifier to select.</param>
+        public void SelectTab(string name)
+        {
+            // find the right tab and select it
+            foreach (TabData tab in _tabs)
+            {
+                if (tab.name == name)
+                {
+                    tab.button.Checked = true;
+                    return;
+                }
+            }
+
+            // tab not found?
+            throw new System.Exception("Tab not found!");
+        }
+
+        /// <summary>
         /// Add a new tab to the panel tabs.
         /// </summary>
         /// <param name="name">Tab name (also what will appear on the panel button).</param>
@@ -108,10 +148,9 @@ namespace GeonBit.UI.Entities
         public TabData AddTab(string name)
         {
             // create the new tab data
-            TabData newTab = new TabData();
-            newTab.panel = new Panel(Vector2.Zero, PanelSkin.None);
-            newTab.panel.Padding = Vector2.Zero;
-            newTab.button = new Button(name, ButtonSkin.Default, Anchor.AutoInline, new Vector2(-1, -1));
+            TabData newTab = new TabData(name, 
+                new Panel(Vector2.Zero, PanelSkin.None), 
+                new Button(name, ButtonSkin.Default, Anchor.AutoInline, new Vector2(-1, -1)));
 
             // link tab data to panel
             newTab.panel.AttachedData = newTab;
