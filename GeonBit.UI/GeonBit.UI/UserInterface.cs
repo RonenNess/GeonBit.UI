@@ -55,7 +55,7 @@ namespace GeonBit.UI
         ContentManager _content;
 
         /// <summary>Current GeonBit.UI version identifier.</summary>
-        public const string VERSION = "1.0.2";
+        public const string VERSION = "1.0.3";
 
         // root panel that covers the entire screen and everything is added to it
         Panel _root;
