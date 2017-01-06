@@ -135,6 +135,14 @@ If you ever choose to remove GeonBit.UI from your project, simply follow these s
 2. Delete the ```GeonBit.UI``` source folder from your solution / project source code.
 3. Remove the ```References``` to the DataTypes dll from the pipeline manager and your project.
 
+## Extra steps for Linux
+
+There are few more things to do if you use Linux:
+
+1. After installing the fonts from ```GeonBit.UI/GeonBit.UI/Content/Fonts/```, you also need to copy the font files into the folder where the spritefont files reside (eg ```Content/GeonBit.UI/themes/<team-name>/fonts/```).
+2. Since at this time MonoGame can't build effects on Linux, you need to use a pre-compiled effects. Take the built effects from ```Content/BuiltEffects/``` and put them instead of the ```.fx``` files of your theme (eg ```Content/GeonBit.UI/themes/<team-name>/effects/```). Also change their 'Build Action' from 'Build' to 'Copy'.
+
+
 # Using GeonBit.UI
 
 Once successfully integrated and project compiles, you can start using GeonBit.UI.
