@@ -383,6 +383,7 @@ You can set callbacks to be called on different entity-related events. The avail
 - WhileMouseHover: called every frame while mouse hovers over this entity.
 - OnClick: called when mouse left button is released on this entity.
 - OnValueChange: called when the value of this entity change (relevant for entities with value only).
+- OnVisiblityChange: called when the 'Visible' property of this entity changes.
 - OnMouseEnter: called when mouse enter the entity boundaries.
 - OnMouseLeave: called when mouse leave the entity boundaries.
 - BeforeDraw: called every frame before we draw this entity (only if visible).
@@ -1235,6 +1236,10 @@ Property to get the currently active tab data.
 #### AddTab()
 
 Create a new tab and return the tab object that contains the internal panel and switch button entities.
+
+#### SelectTab()
+
+Change the currently active tab by string identifier.
 
 
 ## ColoredRectangle
