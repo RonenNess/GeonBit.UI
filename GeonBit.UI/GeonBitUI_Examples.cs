@@ -1007,6 +1007,13 @@ If you liked GeonBit.UI feel free to star the repo on GitHub. :)"));
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            // make sure window is focused
+            if (!IsActive)
+            {
+                return;
+            }
+
+            // exit on escape
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
