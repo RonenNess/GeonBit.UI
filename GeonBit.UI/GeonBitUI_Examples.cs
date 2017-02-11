@@ -1009,9 +1009,7 @@ If you liked GeonBit.UI feel free to star the repo on GitHub. :)"));
         {
             // make sure window is focused
             if (!IsActive)
-            {
                 return;
-            }
 
             // exit on escape
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
