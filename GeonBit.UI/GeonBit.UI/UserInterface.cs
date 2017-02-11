@@ -25,7 +25,7 @@ namespace GeonBit.UI
     }
 
     /// <summary>
-    /// A callback function you can on entity events, like on-click, on-mouse-leave, etc.
+    /// A callback function you can register on entity events, like on-click, on-mouse-leave, etc.
     /// </summary>
     /// <param name="entity">The entity instance the event came from.</param>
     public delegate void EventCallback(Entity entity);
