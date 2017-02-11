@@ -415,62 +415,72 @@ namespace GeonBit.UI
             // default color
             color = color ?? Color.White;
 
-            // calc some helpers
-            Vector2 frameSizeTexture = new Vector2(texture.Width, texture.Height * frameWidth);
-            Vector2 frameSizeRender = frameSizeTexture;
-            float ScaleYfac = destination.Width / frameSizeRender.X;
-            frameSizeRender.Y = (int)System.Math.Ceiling((double)frameSizeRender.Y * ScaleYfac) * frameScale;
-            frameSizeRender.X = destination.Width;
+            // calc frame size in texture file (Src) and in destination render rect (Dest)
+            float ScaleYfac = (float)destination.Width / (float)texture.Width;
+            Vector2 frameSizeTextureVector = new Vector2(texture.Width, texture.Height * frameWidth);
+            Point frameSizeSrc = VectorToRoundPoint(frameSizeTextureVector);
+            Point frameSizeDest = VectorToRoundPoint(new Vector2(destination.Width, frameSizeTextureVector.Y * ScaleYfac * frameScale));
 
-            // start by rendering sides
-            // top side
+            // calc the surface center in texture file (Src) and for drawing destination (Dest)
+            Vector2 frameCenterSrcVec = new Vector2(texture.Width, texture.Height - frameSizeSrc.Y * 2);
+            Point centerSizeSrc = VectorToRoundPoint(frameCenterSrcVec);
+            Point centerSizeDest = VectorToRoundPoint(new Vector2(destination.Width, destination.Height - frameSizeDest.Y * 2));
+
+            // source rect and dest rect (reused throughout the function to reduce new allocations)
+            Rectangle srcRect = new Rectangle();
+            Rectangle destRect = new Rectangle();
+
+            // draw upper side
             {
-                Rectangle src = new Rectangle(0, 0, (int)frameSizeTexture.X, (int)frameSizeTexture.Y);
-                Rectangle dest = new Rectangle(destination.X, destination.Y, (int)frameSizeRender.X, (int)frameSizeRender.Y);
-                spriteBatch.Draw(texture, dest, src, (Color)color);
+                srcRect.X = 0; srcRect.Y = 0; srcRect.Width = frameSizeSrc.X; srcRect.Height = frameSizeSrc.Y;
+                destRect.X = destination.X; destRect.Y = destination.Y; destRect.Width = frameSizeDest.X; destRect.Height = frameSizeDest.Y;
+                spriteBatch.Draw(texture, destRect, srcRect, (Color)color);
             }
-            // bottom side
+            // draw bottom
             {
-                Rectangle src = new Rectangle(0, texture.Height - (int)frameSizeTexture.Y, (int)frameSizeTexture.X, (int)frameSizeTexture.Y);
-                Rectangle dest = new Rectangle(destination.X, destination.Bottom - (int)frameSizeRender.Y, (int)frameSizeRender.X, (int)frameSizeRender.Y);
-                spriteBatch.Draw(texture, dest, src, (Color)color);
+                srcRect.Y = texture.Height - frameSizeSrc.Y;
+                destRect.Y = destination.Bottom - frameSizeDest.Y;
+                spriteBatch.Draw(texture, destRect, srcRect, (Color)color);
             }
-
-            // calc center parts
-            Vector2 centerSizeTexture = new Vector2(texture.Height, texture.Height - frameSizeTexture.Y * 2);
-            if (centerSizeTexture.X <= 0) centerSizeTexture.X = 2;
-            if (centerSizeTexture.Y <= 0) centerSizeTexture.Y = 2;
-            Vector2 centerSizeRender = centerSizeTexture * ScaleYfac;
-            centerSizeRender.X = destination.Width - 2;
-            Vector2 centerSizeTotal = new Vector2(destination.Width - frameSizeRender.X * 2,
-                                                  destination.Height - frameSizeRender.Y * 2);
-
-            // render center
+            // draw center parts
+            if (destination.Height > frameSizeDest.Y * 2)
             {
-                int limitI = (int)System.Math.Max(1, System.Math.Ceiling((double)centerSizeTotal.Y / centerSizeRender.Y));
-                for (int i = 0; i < limitI; ++i)
+                // current y position
+                int currY = frameSizeDest.Y;
+
+                // set source rectangle
+                srcRect.X = 0;
+                srcRect.Y = frameSizeSrc.Y;
+                srcRect.Width = centerSizeSrc.X;
+                srcRect.Height = centerSizeSrc.Y;
+
+                // set dest rectangle (except for x which changes internally)
+                destRect.Y = destination.Y;
+                destRect.Width = centerSizeDest.X;
+                destRect.Height = centerSizeDest.Y;
+
+                // draw top and bottom strips until get to edge
+                do
                 {
-                    // calc dest rect
-                    Rectangle dest = new Rectangle((int)destination.X, 
-                                                    (int)System.Math.Floor(destination.Y + (int)frameSizeRender.Y + i * centerSizeRender.Y),
-                                                    (int)centerSizeRender.X + 2,
-                                                    (int)centerSizeRender.Y + 2);
+                    // set destination y
+                    destRect.Y = destination.Y + currY;
 
-                    // calc source rect
-                    Rectangle src = new Rectangle(0, (int)frameSizeTexture.Y, texture.Width, (int)centerSizeTexture.Y);
-
-                    // make sure size doesn't overflow
-                    int toCut = dest.Bottom - (int)(destination.Bottom - frameSizeRender.Y);
+                    // special case - if its last call and this segment overflows bottom, cut it
+                    int toCut = destRect.Bottom - (destination.Bottom - frameSizeDest.Y);
                     if (toCut > 0)
                     {
-                        src.Height -= (int)System.Math.Floor(toCut * ((float)src.Height / (float)dest.Height));
-                        dest.Height -= toCut;
+                        destRect.Height -= toCut;
+                        srcRect.Height -= (int)((float)toCut / ((float)srcRect.Height / (float)destRect.Height));
                     }
 
-                    // draw center part
-                    spriteBatch.Draw(texture, dest, src, (Color)color);
+                    // draw center segment
+                    spriteBatch.Draw(texture, destRect, srcRect, (Color)color);
 
-                }
+                    // advance current y position
+                    currY += centerSizeDest.Y;
+
+                    // stop loop when reach bottom
+                } while (currY < destination.Height - frameSizeDest.Y);
             }
         }
 
