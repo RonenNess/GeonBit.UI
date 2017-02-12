@@ -1068,7 +1068,7 @@ namespace GeonBit.UI.Entities
             if ((anchor == Anchor.Auto || anchor == Anchor.AutoInline || anchor == Anchor.AutoCenter) && _parent != null)
             {
                 // get previous entity before this
-                Entity prevEntity = GetPreviousEntity();
+                Entity prevEntity = GetPreviousEntity(true);
 
                 // only if found align based on it
                 if (prevEntity != null)
@@ -1166,7 +1166,8 @@ namespace GeonBit.UI.Entities
         /// Return the entity before this one in parent container, aka the next older sibling.
         /// </summary>
         /// <returns>Entity before this in parent, or null if first in parent or if orphan entity.</returns>
-        protected Entity GetPreviousEntity()
+        /// <param name="skipInvisibles">If true, will skip invisible entities, eg will return the first visible older sibling.</param>
+        protected Entity GetPreviousEntity(bool skipInvisibles = false)
         {
             // no parent? skip
             if (_parent == null) { return null; }
@@ -1180,6 +1181,12 @@ namespace GeonBit.UI.Entities
                 if (sibling == this)
                 {
                     break;
+                }
+
+                // if older sibling is invisible, skip it
+                if (skipInvisibles && !sibling.Visible)
+                {
+                    continue;
                 }
 
                 // set prev
