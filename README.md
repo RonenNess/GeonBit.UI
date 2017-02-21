@@ -124,9 +124,10 @@ Now there are two things to update in the Content Manager:
 1. Add a ```Reference``` to the DataTypes.dll lib, located in ```packages\GeonBit.UI.<version>\lib\geonbitui\```
 2. During installation, GeonBit.UI placed a folder in ```Content\GeonBit.UI```. Add this whole folder, as-is, to your content manager (when asked if to copy or link files, choose link, since the folder is already in its right place).
 
-That's it!
+That's it! Just two things to remember:
 
-If your development environment is on Linux, there are few more steps to follow: [Installing on Linux](#extra-steps-for-linux).
+- If you want to edit the default themes (textures, styles, etc), its recommended to *copy* the theme to a new folder and never change the original package files, since they will be overrided next time you update GeonBit.UI via NuGet.
+- If your development environment is on Linux, there are few more steps to follow: [Installing on Linux](#extra-steps-for-linux).
 
 
 ## Manual Install
