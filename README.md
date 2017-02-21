@@ -123,7 +123,7 @@ Now you just need to add the default themes to your Content Manager.
 Go to the installed package folder and add all the Content from ```content\GeonBit.UI``` to your Content Manager. 
 After copying your content should have a ```GeonBit.UI\themes\...``` folder.
 
-If your development environment is on Linux, there are few more steps to follow: [Installing on Linux](https://github.com/RonenNess/GeonBit.UI/blob/master/README.md#extra-steps-for-linux).
+If your development environment is on Linux, there are few more steps to follow: [Installing on Linux](#extra-steps-for-linux).
 
 
 ## Manual Install
