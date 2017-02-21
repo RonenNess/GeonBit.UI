@@ -109,11 +109,26 @@ Please note however that you might need to install some fonts first from ```Geon
 
 # Install
 
-GeonBit.UI currently don't have a pre-built distribution as a single dll file (due to some complications I had with resources management & build targets in MonoGame). So in order to use GeonBit.UI you need to integrate the source and content into your project.
+You can either install GeonBit.UI with NuGet or manually.
 
-While this may sound intrusive, GeonBit.UI integration is actually quite simple and straight-forward, and removing it is just a matter of deleting two folders (source & content) and removing a Referece.
+## Via NuGet
 
-To integrate GeonBit.UI into your project, follow these steps:
+First, run the NuGet install command:
+
+```
+Install-Package GeonBit.UI
+```
+
+Now you just need to add the default themes to your Content Manager. 
+Go to the installed package folder and add all the Content from ```content\GeonBit.UI``` to your Content Manager. 
+After copying your content should have a ```GeonBit.UI\themes\...``` folder.
+
+If your development environment is on Linux, there are few more steps to follow: [Installing on Linux](https://github.com/RonenNess/GeonBit.UI/blob/master/README.md#extra-steps-for-linux).
+
+
+## Manual Install
+
+To manually install GeonBit.UI into your project, follow these steps:
 
 1. **Copy source:** Copy the source code from ```GeonBit.UI/GeonBit.UI/``` into your project source root (just copy the whole folder as-is).
 2. **Add content:** Copy all the Content from ```GeonBit.UI/GeonBit.UI/Content/GeonBit.UI/``` into your MonoGame pipeline Manager (can be done by clicking on "add folder" and selecting the GeonBit.UI folder).

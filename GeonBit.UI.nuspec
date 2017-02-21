@@ -22,6 +22,7 @@ It provide all the basic UI elements required to make a game / editor UI, and co
 	<file src="readme.txt" target="" />
 	<file src="GeonBit.UI\bin\DesktopGL\x86\Release\DataTypes.dll" target="lib\geonbitui\DataTypes.dll"/>
 	<file src="GeonBit.UI\bin\DesktopGL\x86\Release\GeonBit.UI.dll" target="lib\geonbitui\GeonBit.UI.dll"/>
-	<file src="GeonBit.UI\Content\GeonBit.UI\**\*.*" target="content" /> 
+	<file src="Help\Documentation.chm" target="Documentation.chm"/>
+	<file src="GeonBit.UI\Content\GeonBit.UI\**\*.*" target="content\GeonBit.UI" /> 
   </files>
 </package>
