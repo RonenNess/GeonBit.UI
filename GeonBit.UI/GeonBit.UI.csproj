@@ -55,6 +55,9 @@
   <PropertyGroup>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="GeonBit.UI\Entities\Label.cs" />
     <Compile Include="GeonBit.UI\Entities\Header.cs" />
