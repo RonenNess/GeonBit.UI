@@ -1427,12 +1427,6 @@ GeonBit.UI comes with two built-in themes, which are essentially the same style 
 
 To see the available Themes you can use or to create your own theme, check out the ```Content/GeonBit.UI/themes/``` folder. The best way to create a new theme is to copy one of the built-ins and change its files:
 
-# InputHelper
-
-```InputHelper``` is a useful helper class, used internally, that wraps access to keyboard and mouse.
-If you find yourself writing logic such as storing previous ```MouseState``` or ```KeyboardState``` and comparing it to new states to detect stuff like key release, clicks, etc, you should take a look at this class. 
-It has lots of useful functionality.
-
 ### effects/
 
 Contain required effects for the UI theme.
@@ -1455,6 +1449,26 @@ All the textures for this UI theme. Note that some textures also have a data fil
 ### ThemeData.xml
 
 Contain general data about the theme - name, author, extra info, credits, etc. This file is not really used inside GeonBit.UI, its just a way to attach metadata to themes.
+
+# Migration
+
+This part describe steps needed when upgrading breaking versions.
+
+## 1x -> 2x
+
+When upgrading from 1x version to 2x version, follow these steps:
+
+1. ```UserInterface``` is now a static class. Don't create it anymore, just Initialize() it.
+2. ```UserInterface``` Initialize now takes two params: 'Content' and theme identifier.
+3. If you used ```DrawUtils``` note that its no longer a static class, its now an instance under ```UserInterface```.
+4. To prevent blurriness, Paragraphs base size changed from ```1.175f``` to ```1f```. Its better this way, but if you want to keep texts at the same size, set ```Paragraph.BaseSize = 1.175f```.
+5. ```UserInterface.SCALE``` was renamed to ```UserInterface.GlobalScale```.
+
+# InputHelper
+
+```InputHelper``` is a useful helper class, used internally, that wraps access to keyboard and mouse.
+If you find yourself writing logic such as storing previous ```MouseState``` or ```KeyboardState``` and comparing it to new states to detect stuff like key release, clicks, etc, you should take a look at this class. 
+It has lots of useful functionality.
 
 # Final Words
 
@@ -1515,6 +1529,7 @@ Made NuGet package and update to docs / readme.
 
 ### 2.0.0.0
 
+Refactored UserInterface and some entity behaviors which were flawed.
 The changes in this version break the API and may require some code changes on migration.
 
 - Changed UserInterface to be a fully static class.

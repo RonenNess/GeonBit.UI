@@ -6,5 +6,9 @@ https://github.com/RonenNess/GeonBit.UI/blob/master/README.md#install
 To see full documentation online, please visit:
 https://ronenness.github.io/GeonBit.UI-docs/html/R_Project_Documentation.htm
 
+Important note:
+If you are upgrading from 1x version to 2x version, please see the migration manual (its really easy don't worry):
+https://github.com/RonenNess/GeonBit.UI/blob/master/README.md#migration
+
 Thanks!
 - Ronen Ness
