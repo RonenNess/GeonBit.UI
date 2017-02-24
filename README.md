@@ -1460,9 +1460,11 @@ When upgrading from 1x version to 2x version, follow these steps:
 
 1. ```UserInterface``` is now a static class. Don't create it anymore, just Initialize() it.
 2. ```UserInterface``` Initialize now takes two params: 'Content' and theme identifier.
-3. If you used ```DrawUtils``` note that its no longer a static class, its now an instance under ```UserInterface```.
-4. To prevent blurriness, Paragraphs base size changed from ```1.175f``` to ```1f```. Its better this way, but if you want to keep texts at the same size, set ```Paragraph.BaseSize = 1.175f```.
-5. ```UserInterface.SCALE``` was renamed to ```UserInterface.GlobalScale```.
+3. In the Content Manager, remove and add again the ```Reference``` to DataTypes.dll.
+4. Cursor texture files changed + added cursor metadata. If you are using default themes remove and add them again. If you use custom theme checkout the cursor-related files in ```theme/<id>/textures/``` to figure out how to arrange your cursor files and metadata.
+5. If you used ```DrawUtils``` note that its no longer a static class, its now an instance under ```UserInterface```.
+6. To prevent blurriness, Paragraphs base size changed from ```1.175f``` to ```1f```. Its better this way, but if you want to keep texts at the same size, set ```Paragraph.BaseSize = 1.175f```.
+7. ```UserInterface.SCALE``` was renamed to ```UserInterface.GlobalScale```.
 
 # InputHelper
 
