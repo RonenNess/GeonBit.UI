@@ -313,6 +313,8 @@ There's not too much to tell about this class, but its recommended to take a pee
 
 Now we can finally start talking about the different UI entities GeonBit.UI provides, and how to use them, starting from the base UI Entity.
 
+*Note:* This is just a partial API of the entities, containing the most important properties and functions. Its recommended to look at the full API in the docs.
+
 ## Base Entity
 
 Docs: [Entity Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_Entity.htm ).
@@ -1424,6 +1426,12 @@ GeonBit.UI comes with two built-in themes, which are essentially the same style 
 ![Themes](assets/img/themes.png "Themes")
 
 To see the available Themes you can use or to create your own theme, check out the ```Content/GeonBit.UI/themes/``` folder. The best way to create a new theme is to copy one of the built-ins and change its files:
+
+# InputHelper
+
+```InputHelper``` is a useful helper class, used internally, that wraps access to keyboard and mouse.
+If you find yourself writing logic such as storing previous ```MouseState``` or ```KeyboardState``` and comparing it to new states to detect stuff like key release, clicks, etc, you should take a look at this class. 
+It has lots of useful functionality.
 
 ### effects/
 
