@@ -1460,6 +1460,61 @@ For bug report, questions or feature requests, please use the [github Issues](ht
 
 For anything else, feel free to contact me directly at [ronenness@gmail.com](mailto:ronenness@gmail.com).
 
+## ChangeLog
+
+### 1.0.0
+
+First stable released version.
+
+### 1.0.1
+
+This release contains lots of small bugs fixes and general improvements, mostly from first users feedbacks and more in-depth tests.
+
+- Fixed slider Min value + Scaling + odd steps count mark positioning bug.
+- Fixed positioning of empty paragraphs with Auto anchors.
+- Made draggable entities always move to top when dragging start.
+- Changed entities focus condition to be when mouse pressed on them, instead of released.
+- Made draggable entities only start dragging when focused.
+- Added scaling property to checkboxes / radio buttons.
+- Fixed SelectList hightlight when scaled.
+- Fixed draggable entities positioning bugs when screen is scaled.
+- Fixed scrollbars mark positioning when scaled.
+- Removed the forced x3 width factor for panels and buttons frames.
+- Some graphic updates to the default HD theme.
+- Fixed locked text-input with scrollbar scaling + wrapping issue.
+
+### 1.0.2
+
+Improvements and new features.
+
+- Added function in InputHelper to change mouse position.
+- Added source rectangle for images.
+- Added background color for icons.
+- Fixed dropdown / list selection problem when scaling.
+- Optimize strings usage and getting keyboard input to produce less garbage.
+- Added shadow scale style property.
+- Added button custom skins.
+- Added option to change panel and buttons skins after creation.
+- Added Identifier to all entities + Find() functionality to locate children by identifier and / or type.
+- Added support in size percents (eg size that is certain percent of its parent size).
+- Added BringToFront() helper function.
+- New entity: PanelTabs.
+- Made all entities support Outline styling by default.
+
+### 1.0.2b
+
+Made NuGet package and update to docs / readme.
+
+### 2.0.0.0
+
+The changes in this version break the API and may require some code changes on migration.
+
+- Changed UserInterface to be a fully static class.
+- Made DrawUtils a non-static class, instantiated by UserInterface. This gives the ability to create an alternative DrawUtils and change the basic behavior.
+- Changed Paragraphs default size to 1f, so fonts won't be scaled and blurry by default.
+- Renamed the UserInterface 'SCALE' property into 'GlobalScale'.
+- Refactored cursors and their types, Added IBeam cursor, and added an option to use custom cursors via the UserInterface.
+
 ## Credits
 
 GeonBit.UI was written by Ronen Ness, but uses some free textures made by awesome people who share their work for free. 
