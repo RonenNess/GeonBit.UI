@@ -1404,7 +1404,7 @@ namespace GeonBit.UI.Entities
             // get if disabled
             _isCurrentlyDisabled = IsDisabled();
 
-            // if disabled , invisible, or locked - skip
+            // if disabled, invisible, or locked - skip
             if (_isCurrentlyDisabled || IsLocked() || !IsVisible())
             {
                 // if this very entity is locked (eg not locked due to parent being locked), 

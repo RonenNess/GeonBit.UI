@@ -67,8 +67,8 @@ namespace GeonBit.UI.Entities
         /// <summary>If true, and a long word is broken due to word wrap, will add hyphen at the breaking point</summary>
         public bool AddHyphenWhenBreakWord = true;
 
-        /// <summary>Base font size. Change this property to affect the size of all paragraphs.</summary>
-        public static float BaseSize = 1.175f;
+        /// <summary>Base font size. Change this property to affect the size of all paragraphs and other text entities.</summary>
+        public static float BaseSize = 1f;
 
         /// <summary>
         /// Create the paragraph.
