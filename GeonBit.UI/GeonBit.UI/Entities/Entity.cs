@@ -1426,8 +1426,13 @@ namespace GeonBit.UI.Entities
                 return;
             }
 
-            // entity is interactable!
-            _isInteractable = true;
+            // in in previous frame this entity wasn't interactable but now it is, skip updates in this frame.
+            // this is to prevent newly-spawned entities from "stealing" events immediately (like with pop-ups etc).
+            if (!_isInteractable)
+            {
+                _isInteractable = true;
+                return;
+            }
 
             // do before update event
             DoBeforeUpdate(input);
