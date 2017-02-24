@@ -3332,3 +3332,33 @@
 /processorParam:TextureFormat=Color
 /build:GeonBit.UI/themes/lowres/textures/cursor_ibeam.png
 
+#begin GeonBit.UI/themes/hd/textures/cursor_default_md.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:GeonBit.UI/themes/hd/textures/cursor_default_md.xml
+
+#begin GeonBit.UI/themes/hd/textures/cursor_ibeam_md.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:GeonBit.UI/themes/hd/textures/cursor_ibeam_md.xml
+
+#begin GeonBit.UI/themes/hd/textures/cursor_pointer_md.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:GeonBit.UI/themes/hd/textures/cursor_pointer_md.xml
+
+#begin GeonBit.UI/themes/lowres/textures/cursor_default_md.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:GeonBit.UI/themes/lowres/textures/cursor_default_md.xml
+
+#begin GeonBit.UI/themes/lowres/textures/cursor_ibeam_md.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:GeonBit.UI/themes/lowres/textures/cursor_ibeam_md.xml
+
+#begin GeonBit.UI/themes/lowres/textures/cursor_pointer_md.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:GeonBit.UI/themes/lowres/textures/cursor_pointer_md.xml
+

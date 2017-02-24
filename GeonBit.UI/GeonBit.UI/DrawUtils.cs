@@ -120,7 +120,7 @@ namespace GeonBit.UI
             Rectangle destRect = new Rectangle();
 
             // factor used to scale between source in texture file and dest on the screen
-            float ScaleFactor = UserInterface.SCALE * frameScale;
+            float ScaleFactor = UserInterface.GlobalScale * frameScale;
 
             // calc the surface frame size in texture file (Src) and for drawing destination (Dest)
             Vector2 frameSizeSrcVec = new Vector2(texture.Width, texture.Height) * textureFrameWidth;

@@ -22,13 +22,16 @@ namespace GeonBit.UI
     /// <summary>
     /// A static class to init and store all UI resources (textures, effects, fonts, etc.)
     /// </summary>
-    public class Resources
+    public static class Resources
     {
         /// <summary>Just a plain white texture, used internally.</summary>
         public static Texture2D WhiteTexture;
 
         /// <summary>Cursor textures.</summary>
         public static Texture2D[] Cursors;
+
+        /// <summary>Metadata about cursor textures.</summary>
+        public static CursorTextureData[] CursorsData;
 
         /// <summary>All panel skin textures.</summary>
         public static Texture2D[] PanelTextures;
@@ -110,16 +113,20 @@ namespace GeonBit.UI
             // note: in order not to break old themes etc if the new cursor style is not found, we load the default cursor
             // in the old themes style.
             Cursors = new Texture2D[Enum.GetValues(typeof(CursorType)).Length];
+            CursorsData = new CursorTextureData[Enum.GetValues(typeof(CursorType)).Length];
             foreach (CursorType cursor in Enum.GetValues(typeof(CursorType)))
             {
+                int cursorI = (int)cursor;
                 try
                 {
                     string cursorName = cursor.ToString().ToLower();
-                    Cursors[(int)cursor] = content.Load<Texture2D>(root + "textures/cursor_" + cursorName);
+                    Cursors[cursorI] = content.Load<Texture2D>(root + "textures/cursor_" + cursorName);
+                    CursorsData[cursorI] = content.Load<CursorTextureData>(root + "textures/cursor_" + cursorName + "_md");
                 }
                 catch (Microsoft.Xna.Framework.Content.ContentLoadException)
                 {
-                    Cursors[(int)cursor] = content.Load<Texture2D>(root + "textures/cursor");
+                    Cursors[cursorI] = content.Load<Texture2D>(root + "textures/cursor");
+                    CursorsData[cursorI] = new CursorTextureData();
                 }
             }
 

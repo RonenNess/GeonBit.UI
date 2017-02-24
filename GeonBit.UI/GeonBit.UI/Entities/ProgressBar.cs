@@ -94,8 +94,8 @@ namespace GeonBit.UI.Entities
 
             // update the progress bar filled part
             int markWidth = (int)((_destRect.Width - _frameActualWidth * 2) * GetValueAsPercent());
-            ProgressFill.SetOffset(new Vector2(_frameActualWidth / UserInterface.SCALE, 0));
-            ProgressFill.Size = new Vector2(markWidth, _destRectInternal.Height) / UserInterface.SCALE;
+            ProgressFill.SetOffset(new Vector2(_frameActualWidth / UserInterface.GlobalScale, 0));
+            ProgressFill.Size = new Vector2(markWidth, _destRectInternal.Height) / UserInterface.GlobalScale;
             ProgressFill.Visible = markWidth > 0;
         }
     }

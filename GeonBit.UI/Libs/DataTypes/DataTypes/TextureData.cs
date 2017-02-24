@@ -2,7 +2,7 @@
 {
     /// <summary>
     /// Meta data we attach to different textures.
-    /// The values of these structs are defined in xml files that share the same name as the texture.
+    /// The values of these structs are defined in xml files that share the same name as the texture with _md sufix.
     /// It tells us things like the width of the frame (if texture is for panel), etc.
     /// </summary>
     public class TextureData

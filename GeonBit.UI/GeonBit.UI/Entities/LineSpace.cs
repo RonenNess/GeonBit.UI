@@ -22,7 +22,7 @@ namespace GeonBit.UI.Entities
         /// </summary>
         /// <param name="spacesCount">How many spaces to create.</param>
         public LineSpace(int spacesCount = 1) :
-            base(Vector2.One * 8 * UserInterface.SCALE * System.Math.Min(spacesCount, 1), 
+            base(Vector2.One * 8 * UserInterface.GlobalScale * System.Math.Min(spacesCount, 1), 
                 Anchor.Auto, Vector2.Zero)
         {
             // by default locked so it won't do events

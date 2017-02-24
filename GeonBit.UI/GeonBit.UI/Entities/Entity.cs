@@ -318,19 +318,19 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>Get extra space after with current UI scale applied. </summary>
-        protected Vector2 _scaledSpaceAfter { get { return SpaceAfter * UserInterface.SCALE; } }
+        protected Vector2 _scaledSpaceAfter { get { return SpaceAfter * UserInterface.GlobalScale; } }
 
         /// <summary>Get extra space before with current UI scale applied. </summary>
-        protected Vector2 _scaledSpaceBefore { get { return SpaceBefore * UserInterface.SCALE; } }
+        protected Vector2 _scaledSpaceBefore { get { return SpaceBefore * UserInterface.GlobalScale; } }
 
         /// <summary>Get size with current UI scale applied. </summary>
-        protected Vector2 _scaledSize { get { return _size * UserInterface.SCALE; } }
+        protected Vector2 _scaledSize { get { return _size * UserInterface.GlobalScale; } }
 
         /// <summary>Get offset with current UI scale applied. </summary>
-        protected Vector2 _scaledOffset { get { return _offset * UserInterface.SCALE; } }
+        protected Vector2 _scaledOffset { get { return _offset * UserInterface.GlobalScale; } }
 
         /// <summary>Get offset with current UI scale applied. </summary>
-        protected Vector2 _scaledPadding { get { return Padding * UserInterface.SCALE; } }
+        protected Vector2 _scaledPadding { get { return Padding * UserInterface.GlobalScale; } }
 
         /// <summary>
         /// Set / get visibility.

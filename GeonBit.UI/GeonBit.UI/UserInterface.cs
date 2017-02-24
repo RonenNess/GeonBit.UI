@@ -64,10 +64,10 @@ namespace GeonBit.UI
         static Panel _root;
 
         /// <summary>Scale the entire UI and all the entities in it. This is useful for smaller device screens.</summary>
-        static public float SCALE = 1.0f;
+        static public float GlobalScale = 1.0f;
 
         /// <summary>Cursor rendering size.</summary>
-        static public Vector2 CURSOR_SIZE = new Vector2(36, 36);
+        static public float CursorScale = 1f;
 
         /// <summary>Screen width.</summary>
         static public int ScreenWidth = 0;
@@ -132,8 +132,9 @@ namespace GeonBit.UI
         /// <summary>Callback to execute every time the visibility property of an entity change.</summary>
         static public EventCallback OnVisiblityChange = null;
 
-        // cursor pointer and X offset
-        static Texture2D _cursor = null;
+        // cursor draw settings
+        static Texture2D _cursorTexture = null;
+        static int _cursorWidth = 32;
         static Point _cursorOffset = Point.Zero;
 
         /// <summary>Weather or not to draw the cursor.</summary>
@@ -171,28 +172,21 @@ namespace GeonBit.UI
         /// <param name="type">What type of cursor to show.</param>
         static public void SetCursor(CursorType type)
         {
-            switch (type)
-            {
-                case CursorType.Default:
-                    _cursor = Resources.Cursors[(int)type];
-                    _cursorOffset = new Point(0, 0);
-                    break;
-
-                case CursorType.Pointer:
-                    _cursor = Resources.Cursors[(int)type];
-                    _cursorOffset = new Point(-10, 0);
-                    break;
-            }
+            int typeI = (int)type;
+            DataTypes.CursorTextureData data = Resources.CursorsData[typeI];
+            SetCursor(Resources.Cursors[typeI], data.DrawWidth, new Point(data.OffsetX, data.OffsetY));
         }
 
         /// <summary>
         /// Set cursor graphics from a custom texture.
         /// </summary>
         /// <param name="texture">Texture to use for cursor.</param>
+        /// <param name="drawWidth">Width, in pixels to draw the cursor. Height will be calculated automatically to fit texture propotions.</param>
         /// <param name="offset">Cursor offset from mouse position (if not provided will draw cursor with top-left corner on mouse position).</param>
-        static public void SetCursor(Texture2D texture, Point? offset = null)
+        static public void SetCursor(Texture2D texture, int drawWidth = 32, Point? offset = null)
         {
-            _cursor = texture;
+            _cursorTexture = texture;
+            _cursorWidth = drawWidth;
             _cursorOffset = offset ?? Point.Zero;
         }
 
@@ -205,11 +199,16 @@ namespace GeonBit.UI
             // start drawing for cursor
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
 
+            // calculate cursor size
+            float cursorSize = CursorScale * GlobalScale * ((float)_cursorWidth / (float)_cursorTexture.Width);
+
             // get cursor position and draw it
             Vector2 cursorPos = _input.MousePosition;
-            spriteBatch.Draw(_cursor, 
-                                new Rectangle((int)cursorPos.X + _cursorOffset.X, (int)cursorPos.Y + _cursorOffset.Y, (int)CURSOR_SIZE.X, (int)CURSOR_SIZE.Y), 
-                                Color.White);
+            spriteBatch.Draw(_cursorTexture,
+                new Rectangle(
+                    (int)(cursorPos.X + _cursorOffset.X * cursorSize), (int)(cursorPos.Y + _cursorOffset.Y * cursorSize),
+                    (int)(_cursorTexture.Width * cursorSize), (int)(_cursorTexture.Height * cursorSize)), 
+                Color.White);
 
             // end drawing
             spriteBatch.End();

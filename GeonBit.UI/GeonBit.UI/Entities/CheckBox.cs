@@ -105,7 +105,7 @@ namespace GeonBit.UI.Entities
             Texture2D texture = GetTexture();
 
             // calculate actual size
-            Vector2 actualSize = CHECKBOX_SIZE * UserInterface.SCALE;
+            Vector2 actualSize = CHECKBOX_SIZE * UserInterface.GlobalScale;
 
             // update internal dest rect to adjust text position
             _destRectInternal.X += (int)(actualSize.X * 0.75f);

@@ -117,7 +117,7 @@ namespace GeonBit.UI.Entities
         public Vector2 GetCharacterActualSize()
         {
             SpriteFont font = GetCurrFont();
-            float scale = Scale * BaseSize * UserInterface.SCALE;
+            float scale = Scale * BaseSize * UserInterface.GlobalScale;
             return font.MeasureString(" ") * scale;
         }
 
@@ -277,7 +277,7 @@ namespace GeonBit.UI.Entities
             _currFont = font;
 
             // calc actual scale
-            _actualScale = Scale * BaseSize * UserInterface.SCALE;
+            _actualScale = Scale * BaseSize * UserInterface.GlobalScale;
 
             // get text and add things like line-breaks to wrap words etc.
             _processedText = Text;

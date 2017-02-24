@@ -115,7 +115,7 @@ namespace GeonBit.UI.Entities
 
             // get dest rect and fix height value
             Rectangle ret = _destRect;
-            ret.Height = (int)(SelectedPanelHeight * UserInterface.SCALE);
+            ret.Height = (int)(SelectedPanelHeight * UserInterface.GlobalScale);
             return ret;
         }
 
@@ -138,7 +138,7 @@ namespace GeonBit.UI.Entities
         {
             if (_isListVisible)
             {
-                int extraY = (int)(_selectedTextPanel.Size.Y * UserInterface.SCALE);
+                int extraY = (int)(_selectedTextPanel.Size.Y * UserInterface.GlobalScale);
                 _destRect.Height -= extraY;
                 _destRectInternal.Height -= extraY;
                 base.OnResize(false);
@@ -169,7 +169,7 @@ namespace GeonBit.UI.Entities
                 if (!_isOutlinePass)
                 {
                     // first move the dest rect down below the selected item text
-                    int extraY = (int)(_selectedTextPanel.Size.Y * UserInterface.SCALE);
+                    int extraY = (int)(_selectedTextPanel.Size.Y * UserInterface.GlobalScale);
                     _destRect.Y += extraY;
                     _destRectInternal.Y += extraY;
 

@@ -72,6 +72,7 @@ namespace GeonBit.UI.Example
         {         
             // create and init the UI manager
             UserInterface.Initialize(Content, "hd");
+            UserInterface.SetCursor(CursorType.Pointer);
             
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -195,9 +196,9 @@ namespace GeonBit.UI.Example
             Icon zoomoutIcon = new Icon(IconType.ZoomOut, Anchor.Center, 0.75f);
             zoomout.AddChild(zoomoutIcon, true);
             zoomout.OnClick = (Entity btn) => {
-                if (UserInterface.SCALE > 0.5f)
-                    UserInterface.SCALE -= zoominFactor;
-                scaleShow.Text = ((int)System.Math.Round(UserInterface.SCALE * 100f)).ToString() + "%";
+                if (UserInterface.GlobalScale > 0.5f)
+                    UserInterface.GlobalScale -= zoominFactor;
+                scaleShow.Text = ((int)System.Math.Round(UserInterface.GlobalScale * 100f)).ToString() + "%";
             };
             UserInterface.AddEntity(zoomout);
 
@@ -206,9 +207,9 @@ namespace GeonBit.UI.Example
             Icon zoominIcon = new Icon(IconType.ZoomIn, Anchor.Center, 0.75f);
             zoomin.AddChild(zoominIcon, true);
             zoomin.OnClick = (Entity btn) => {
-                if (UserInterface.SCALE < 1.45f)
-                    UserInterface.SCALE += zoominFactor;
-                scaleShow.Text = ((int)System.Math.Round(UserInterface.SCALE * 100f)).ToString() + "%";
+                if (UserInterface.GlobalScale < 1.45f)
+                    UserInterface.GlobalScale += zoominFactor;
+                scaleShow.Text = ((int)System.Math.Round(UserInterface.GlobalScale * 100f)).ToString() + "%";
             };
             UserInterface.AddEntity(zoomin);
 
