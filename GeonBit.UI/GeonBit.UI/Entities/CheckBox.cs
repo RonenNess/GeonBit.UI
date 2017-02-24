@@ -61,6 +61,9 @@ namespace GeonBit.UI.Entities
             TextParagraph.UpdateStyle(DefaultParagraphStyle);
             AddChild(TextParagraph, true);
 
+            // checkboxes are promiscuous by default.
+            PromiscuousClicksMode = true;
+
             // set value
             Checked = isChecked;
         }

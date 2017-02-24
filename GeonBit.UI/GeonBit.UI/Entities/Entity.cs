@@ -116,6 +116,12 @@ namespace GeonBit.UI.Entities
         /// <summary>Optional identifier you can attach to entities so you can later search and retrieve by.</summary>
         public string Identifier = "";
 
+        /// <summary>If in promiscuous mode, mouse button is pressed *outside* the entity and then released on the entity, click event will be fired.
+        /// If false, in order to fire click event the mouse button must be pressed AND released over this entity (but can travel outside while being
+        /// held down, as long as its released inside).
+        /// Note: Windows default behavior is non promiscuous mode.</summary>
+        public bool PromiscuousClicksMode = false;
+
         /// <summary>
         /// If this set to true, this entity will still react to events if its direct parent is locked.
         /// This setting is mostly for scrollbars etc, that even if parent is locked should still be scrollable.
@@ -1477,7 +1483,7 @@ namespace GeonBit.UI.Entities
                         _isMouseOver = true;
 
                         // update mouse state
-                        _entityState = input.MouseButtonDown() ? EntityState.MouseDown : EntityState.MouseHover;
+                        _entityState = (IsFocused || PromiscuousClicksMode) && input.MouseButtonDown() ? EntityState.MouseDown : EntityState.MouseHover;
                     }
                 }
 

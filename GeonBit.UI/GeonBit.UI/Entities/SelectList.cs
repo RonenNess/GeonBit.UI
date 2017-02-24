@@ -257,7 +257,7 @@ namespace GeonBit.UI.Entities
             {
                 // create and add new paragraph
                 Paragraph paragraph = new Paragraph(".", Anchor.Auto, new Vector2(0, 40));
-                // note: we set negative padding for the selected mark size so it won't be negative size
+                paragraph.PromiscuousClicksMode = true;
                 paragraph.WrapWords = false;
                 paragraph.UpdateStyle(DefaultParagraphStyle);
                 paragraph.Scale = paragraph.Scale * ItemsScale;
