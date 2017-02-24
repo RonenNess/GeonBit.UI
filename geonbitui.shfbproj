@@ -18,9 +18,8 @@
     <HtmlHelpName>Documentation</HtmlHelpName>
     <Language>en-US</Language>
     <DocumentationSources>
-      <DocumentationSource sourceFile="GeonBit.UI\bin\DesktopGL\x86\Debug\GeonBit.UI.XML" />
-      <DocumentationSource sourceFile="GeonBit.UI\bin\DesktopGL\x86\Debug\GeonBit.UI.exe" />
-    </DocumentationSources>
+      <DocumentationSource sourceFile="GeonBit.UI\bin\Debug\GeonBit.UI.XML" />
+<DocumentationSource sourceFile="GeonBit.UI\bin\Debug\GeonBit.UI.dll" /></DocumentationSources>
     <TocParentId>-1</TocParentId>
     <TocParentVersion>100</TocParentVersion>
     <TopicVersion>100</TopicVersion>

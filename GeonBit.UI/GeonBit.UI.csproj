@@ -7,7 +7,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{72642CDA-0678-43D0-A5C0-662B35381E62}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GeonBit.UI</RootNamespace>
     <AssemblyName>GeonBit.UI</AssemblyName>
@@ -99,6 +99,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\Release\GeonBit.UI.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="GeonBit.UI\Entities\Label.cs" />
