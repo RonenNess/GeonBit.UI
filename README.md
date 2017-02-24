@@ -1514,7 +1514,6 @@ The changes in this version break the API and may require some code changes on m
 - Changed Paragraphs default size to 1f, so fonts won't be scaled and blurry by default.
 - Renamed the UserInterface 'SCALE' property into 'GlobalScale'.
 - Refactored cursors and their types, Added IBeam cursor, and added an option to use custom cursors via the UserInterface.
-- Made entities skip first Update() call when turning interactable, so pop-ups etc won't respond to the event that spawned them.
 - Added 'PromiscuousClicksMode' to entities to make them behave similar to windows. Most entities by default won't be in 'Promiscuous' mode.
 - Added 'OnEntitySpawn' event, to make an easy place to init all newly created entities.
 
