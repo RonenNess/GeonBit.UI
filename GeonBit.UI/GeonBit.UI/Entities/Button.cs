@@ -171,12 +171,12 @@ namespace GeonBit.UI.Entities
             if (frameSize.Length() > 0)
             {
                 float scale = frameSize.Y > 0 ? Scale : 1f;
-                DrawUtils.DrawSurface(spriteBatch, texture, _destRect, frameSize, 1, FillColor, scale);
+                UserInterface.DrawUtils.DrawSurface(spriteBatch, texture, _destRect, frameSize, 1, FillColor, scale);
             }
             // draw the button background without frame (just stretch texture)
             else
             {
-                DrawUtils.DrawImage(spriteBatch, texture, _destRect, FillColor, 1);
+                UserInterface.DrawUtils.DrawImage(spriteBatch, texture, _destRect, FillColor, 1);
             }
 
             // call base draw function

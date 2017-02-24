@@ -95,7 +95,7 @@ namespace GeonBit.UI.Entities
                 Vector2 frameSize = new Vector2(data.FrameWidth, data.FrameHeight);
 
                 // draw panel
-                DrawUtils.DrawSurface(spriteBatch, texture, _destRect, frameSize, 1f, FillColor, Scale);
+                UserInterface.DrawUtils.DrawSurface(spriteBatch, texture, _destRect, frameSize, 1f, FillColor, Scale);
             }
 
             // call base draw function

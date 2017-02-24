@@ -22,7 +22,7 @@ namespace GeonBit.UI
         /// <param name="rect">Rectangle to scale.</param>
         /// <param name="scale">By how much to scale the rectangle.</param>
         /// <returns>Scaled rectangle.</returns>
-        public static Rectangle ScaleRect(Rectangle rect, float scale)
+        public virtual Rectangle ScaleRect(Rectangle rect, float scale)
         {
             // if scale is 1 just return rect as-is
             if (scale == 1f)
@@ -52,7 +52,7 @@ namespace GeonBit.UI
         /// </summary>
         /// <param name="vector">Vector to convert to point.</param>
         /// <returns>new rounded point instance.</returns>
-        protected static Point VectorToRoundPoint(Vector2 vector)
+        protected Point VectorToRoundPoint(Vector2 vector)
         {
             return new Point((int)System.Math.Floor(vector.X), (int)System.Math.Floor(vector.Y));
         }
@@ -67,7 +67,7 @@ namespace GeonBit.UI
         /// <param name="color">Optional color tint.</param>
         /// <param name="scale">Optional scale factor.</param>
         /// <param name="sourceRect">Optional source rectangle to use.</param>
-        public static void DrawImage(SpriteBatch spriteBatch, Texture2D texture, Rectangle destination, Color? color = null, float scale = 1f, Rectangle? sourceRect = null)
+        public virtual void DrawImage(SpriteBatch spriteBatch, Texture2D texture, Rectangle destination, Color? color = null, float scale = 1f, Rectangle? sourceRect = null)
         {
             // default color
             color = color ?? Color.White;
@@ -93,7 +93,7 @@ namespace GeonBit.UI
         /// <param name="scale">Optional scale factor.</param>
         /// <param name="color">Optional color tint.</param>
         /// <param name="frameScale">Optional scale factor for the frame parts.</param>
-        public static void DrawSurface(SpriteBatch spriteBatch, Texture2D texture, Rectangle destination, Vector2 textureFrameWidth, float scale = 1f, Color? color = null, float frameScale = 1f)
+        public virtual void DrawSurface(SpriteBatch spriteBatch, Texture2D texture, Rectangle destination, Vector2 textureFrameWidth, float scale = 1f, Color? color = null, float frameScale = 1f)
         {
             // default color
             color = color ?? Color.White;
@@ -327,7 +327,7 @@ namespace GeonBit.UI
         /// <param name="frameWidth">Frame width in percents relative to texture file size. For example, 0.1 means the frame takes 10% of the texture file.</param>
         /// <param name="color">Optional tint color to draw texture with.</param>
         /// <param name="frameScale">Optional scale for the frame part.</param>
-        public static void DrawSurfaceHorizontal(SpriteBatch spriteBatch, Texture2D texture, Rectangle destination, float frameWidth, Color? color = null, float frameScale = 1f)
+        public virtual void DrawSurfaceHorizontal(SpriteBatch spriteBatch, Texture2D texture, Rectangle destination, float frameWidth, Color? color = null, float frameScale = 1f)
         {
             // default color
             color = color ?? Color.White;
@@ -410,7 +410,7 @@ namespace GeonBit.UI
         /// <param name="frameWidth">Frame width in percents relative to texture file size. For example, 0.1 means the frame takes 10% of the texture file.</param>
         /// <param name="color">Optional tint color to draw texture with.</param>
         /// <param name="frameScale">Optional scale for the frame part.</param>
-        public static void DrawSurfaceVertical(SpriteBatch spriteBatch, Texture2D texture, Rectangle destination, float frameWidth, Color? color = null, float frameScale = 1f)
+        public virtual void DrawSurfaceVertical(SpriteBatch spriteBatch, Texture2D texture, Rectangle destination, float frameWidth, Color? color = null, float frameScale = 1f)
         {
             // default color
             color = color ?? Color.White;
@@ -489,7 +489,7 @@ namespace GeonBit.UI
         /// </summary>
         /// <param name="spriteBatch">SpriteBatch to draw on.</param>
         /// <param name="isDisabled">If true, will use the greyscale 'disabled' effect.</param>
-        public static void StartDraw(SpriteBatch spriteBatch, bool isDisabled)
+        public virtual void StartDraw(SpriteBatch spriteBatch, bool isDisabled)
         {
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp,
                 DepthStencilState.None, RasterizerState.CullCounterClockwise,
@@ -501,7 +501,7 @@ namespace GeonBit.UI
         /// Start drawing on a given SpriteBatch, but only draw colored Silhouette of the texture.
         /// </summary>
         /// <param name="spriteBatch">SpriteBatch to draw on.</param>
-        public static void StartDrawSilhouette(SpriteBatch spriteBatch)
+        public virtual void StartDrawSilhouette(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp,
                 DepthStencilState.None, RasterizerState.CullCounterClockwise, Resources.SilhouetteEffect);
@@ -511,7 +511,7 @@ namespace GeonBit.UI
         /// Finish drawing on a given SpriteBatch
         /// </summary>
         /// <param name="spriteBatch">SpriteBatch to draw on.</param>
-        public static void EndDraw(SpriteBatch spriteBatch)
+        public virtual void EndDraw(SpriteBatch spriteBatch)
         {
             spriteBatch.End();
         }

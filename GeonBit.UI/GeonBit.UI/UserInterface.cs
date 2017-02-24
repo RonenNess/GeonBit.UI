@@ -46,19 +46,19 @@ namespace GeonBit.UI
     /// Main GeonBit.UI class that manage and draw all the UI entities.
     /// This is the main manager you use to update, draw, and add entities to.
     /// </summary>
-    public class UserInterface
+    public static class UserInterface
     {
         // input manager
-        InputHelper _input;
+        static InputHelper _input;
 
         // content manager
-        ContentManager _content;
+        static ContentManager _content;
 
         /// <summary>Current GeonBit.UI version identifier.</summary>
         public const string VERSION = "1.0.3";
 
         // root panel that covers the entire screen and everything is added to it
-        Panel _root;
+        static Panel _root;
 
         /// <summary>Scale the entire UI and all the entities in it. This is useful for smaller device screens.</summary>
         static public float SCALE = 1.0f;
@@ -71,6 +71,9 @@ namespace GeonBit.UI
         
         /// <summary>Screen height.</summary>
         static public int ScreenHeight = 0;
+
+        /// <summary>Draw utils helper. Contain general drawing functionality and handle effects replacement.</summary>
+        static public DrawUtils DrawUtils = null;
 
         /// <summary>Current active entity, eg last entity user interacted with.</summary>
         static public Entity ActiveEntity = null;
@@ -127,18 +130,22 @@ namespace GeonBit.UI
         static public EventCallback OnVisiblityChange = null;
 
         // cursor pointer and X offset
-        Texture2D _cursor;
-        int _cursorOffset;
+        static Texture2D _cursor;
+        static int _cursorOffset;
 
         /// <summary>Weather or not to draw the cursor.</summary>
-        public bool ShowCursor = true;
+        static public bool ShowCursor = true;
 
         /// <summary>
-        /// Create the UI manager.
+        /// Initialize UI manager (mostly load resources and set some defaults).
         /// </summary>
         /// <param name="contentManager">Content manager.</param>
-        public UserInterface(ContentManager contentManager)
+        /// <param name="theme">Which UI theme to use (see options in Content/GeonBit.UI/themes/). This basically affect the appearance of all textures and effects.</param>
+        static public void Initialize(ContentManager contentManager, string theme = "hd")
         {
+            // create draw utils
+            DrawUtils = new DrawUtils();
+
             // store the content manager
             _content = contentManager;
 
@@ -147,14 +154,7 @@ namespace GeonBit.UI
 
             // create the root panel
             _root = new RootPanel();
-        }
 
-        /// <summary>
-        /// Initialize UI manager (mostly load resources and set some defaults).
-        /// </summary>
-        /// <param name="theme">Which UI theme to use (see options in Content/GeonBit.UI/themes/). This basically affect the appearance of all textures and effects.</param>
-        public void Initialize(string theme = "hd")
-        {
             // load textures etc
             Resources.LoadContent(_content, theme);
 
@@ -166,7 +166,7 @@ namespace GeonBit.UI
         /// Set cursor style.
         /// </summary>
         /// <param name="type">What type of cursor to show.</param>
-        public void SetCursor(CursorType type)
+        static public void SetCursor(CursorType type)
         {
             switch (type)
             {
@@ -186,7 +186,7 @@ namespace GeonBit.UI
         /// Draw the cursor.
         /// </summary>
         /// <param name="spriteBatch">SpriteBatch to draw the cursor.</param>
-        private void DrawCursor(SpriteBatch spriteBatch)
+        static private void DrawCursor(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
             Vector2 cursorPos = _input.MousePosition;
@@ -200,7 +200,7 @@ namespace GeonBit.UI
         /// Add an entity to screen.
         /// </summary>
         /// <param name="entity">Entity to add.</param>
-        public void AddEntity(Entity entity)
+        static public void AddEntity(Entity entity)
         {
             _root.AddChild(entity);
         }
@@ -209,7 +209,7 @@ namespace GeonBit.UI
         /// Remove an entity from screen.
         /// </summary>
         /// <param name="entity">Entity to remove.</param>
-        public void RemoveEntity(Entity entity)
+        static public void RemoveEntity(Entity entity)
         {
             _root.RemoveChild(entity);
         }
@@ -218,7 +218,7 @@ namespace GeonBit.UI
         /// Update the UI manager. This function should be called from your Game 'Update()' function, as early as possible (eg before you update your game state).
         /// </summary>
         /// <param name="gameTime">Current game time.</param>
-        public void Update(GameTime gameTime)
+        static public void Update(GameTime gameTime)
         {
             // update input manager
             _input.Update(gameTime);
@@ -243,7 +243,7 @@ namespace GeonBit.UI
         /// Draw the UI. This function should be called from your Game 'Draw()' function, as late as possible (eg after you draw all your game graphics).
         /// </summary>
         /// <param name="spriteBatch">SpriteBatch to draw on.</param>
-        public void Draw(SpriteBatch spriteBatch)
+        static public void Draw(SpriteBatch spriteBatch)
         {
             // update screen size
             ScreenWidth = spriteBatch.GraphicsDevice.Viewport.Width;

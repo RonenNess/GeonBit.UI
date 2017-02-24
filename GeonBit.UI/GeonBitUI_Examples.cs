@@ -55,9 +55,6 @@ namespace GeonBit.UI.Example
         // current example shown
         int currExample = 0;
 
-        // ui manager
-        UserInterface UIManager;
-
         /// <summary>
         /// Create the game instance.
         /// </summary>
@@ -74,8 +71,7 @@ namespace GeonBit.UI.Example
         protected override void Initialize()
         {         
             // create and init the UI manager
-            UIManager = new UserInterface(Content);
-            UIManager.Initialize("hd");
+            UserInterface.Initialize(Content, "hd");
             
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -101,7 +97,7 @@ namespace GeonBit.UI.Example
             int topPanelHeight = 65;
             Panel topPanel = new Panel(new Vector2(0, topPanelHeight + 2), PanelSkin.Simple, Anchor.TopCenter);
             topPanel.Padding = Vector2.Zero;
-            UIManager.AddEntity(topPanel);
+            UserInterface.AddEntity(topPanel);
 
             // add previous example button
             previousExampleButton = new Button("<- Back", ButtonSkin.Default, Anchor.TopLeft, new Vector2(300, topPanelHeight));
@@ -124,7 +120,7 @@ namespace GeonBit.UI.Example
             {
                 System.Environment.Exit(1);
             };
-            UIManager.AddEntity(exitBtn);
+            UserInterface.AddEntity(exitBtn);
 
             // events panel for debug
             Panel eventsPanel = new Panel(new Vector2(400, 500), PanelSkin.Simple, Anchor.CenterLeft, new Vector2(-10, 0));
@@ -147,7 +143,7 @@ namespace GeonBit.UI.Example
             eventsPanel.AddChild(eventsNow);
 
             // add the events panel
-            UIManager.AddEntity(eventsPanel);
+            UserInterface.AddEntity(eventsPanel);
 
             // whenever events log list size changes, make sure its not too long. if it is, trim it.
             eventsLog.OnListChange = (Entity entity) =>
@@ -185,14 +181,14 @@ namespace GeonBit.UI.Example
             {
                 eventsPanel.Visible = !eventsPanel.Visible;
             };
-            UIManager.AddEntity(infoBtn);
+            UserInterface.AddEntity(infoBtn);
 
             // zoom in / out factor
             float zoominFactor = 0.05f;
 
             // scale show
             Paragraph scaleShow = new Paragraph("100%", Anchor.BottomLeft, offset: new Vector2(10, 70));
-            UIManager.AddEntity(scaleShow);
+            UserInterface.AddEntity(scaleShow);
 
             // init zoom-out button
             Button zoomout = new Button("", ButtonSkin.Default, Anchor.BottomLeft, new Vector2(70, 70));
@@ -203,7 +199,7 @@ namespace GeonBit.UI.Example
                     UserInterface.SCALE -= zoominFactor;
                 scaleShow.Text = ((int)System.Math.Round(UserInterface.SCALE * 100f)).ToString() + "%";
             };
-            UIManager.AddEntity(zoomout);
+            UserInterface.AddEntity(zoomout);
 
             // init zoom-in button
             Button zoomin = new Button("", ButtonSkin.Default, Anchor.BottomLeft, new Vector2(70, 70), new Vector2(70, 0));
@@ -214,7 +210,7 @@ namespace GeonBit.UI.Example
                     UserInterface.SCALE += zoominFactor;
                 scaleShow.Text = ((int)System.Math.Round(UserInterface.SCALE * 100f)).ToString() + "%";
             };
-            UIManager.AddEntity(zoomin);
+            UserInterface.AddEntity(zoomin);
 
             // init all examples
 
@@ -223,7 +219,7 @@ namespace GeonBit.UI.Example
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(500, 650));
                 panels.Add(panel);
-                UIManager.AddEntity(panel);
+                UserInterface.AddEntity(panel);
 
                 // add title and text
                 Image title = new Image(Content.Load<Texture2D>("example/GeonBitUI-sm"), new Vector2(400, 240), anchor: Anchor.TopCenter, offset: new Vector2(0, -20));
@@ -243,7 +239,7 @@ To start the demo, please click the 'Next' button on the top navbar."));
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(500, 640));
                 panels.Add(panel);
-                UIManager.AddEntity(panel);
+                UserInterface.AddEntity(panel);
 
                 // add title and text
                 panel.AddChild(new Header("Widgets Types"));
@@ -272,7 +268,7 @@ To start the demo, please click the 'Next' button on the top navbar."));
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(740, 680));
                 panels.Add(panel);
-                UIManager.AddEntity(panel);
+                UserInterface.AddEntity(panel);
 
                 // add title and text
                 panel.AddChild(new Header("Basic Concepts"));
@@ -289,7 +285,7 @@ Another thing to keep in mind is size; Most widgets come with a default size, bu
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(800, 650));
                 panels.Add(panel);
-                UIManager.AddEntity(panel);
+                UserInterface.AddEntity(panel);
 
                 // add title and text
                 panel.AddChild(new Paragraph(@"Anchors help position elements. For example, this paragraph anchor is 'center'.
@@ -313,7 +309,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(450, 700));
                 panels.Add(panel);
-                UIManager.AddEntity(panel);
+                UserInterface.AddEntity(panel);
 
                 // add title and text
                 panel.AddChild(new Header("Buttons"));
@@ -348,7 +344,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(450, 570));
                 panels.Add(panel);
-                UIManager.AddEntity(panel);
+                UserInterface.AddEntity(panel);
 
                 // checkboxes example
                 panel.AddChild(new Header("CheckBox"));
@@ -374,7 +370,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(450, 660));
                 panels.Add(panel);
-                UIManager.AddEntity(panel);
+                UserInterface.AddEntity(panel);
 
                 // title and text
                 panel.AddChild(new Header("Panels"));
@@ -409,7 +405,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 Panel panel = new Panel(new Vector2(450, 690));
                 panel.Draggable = true;
                 panels.Add(panel);
-                UIManager.AddEntity(panel);
+                UserInterface.AddEntity(panel);
 
                 // title and text
                 panel.AddChild(new Header("Draggable"));
@@ -437,7 +433,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(450, 600));
                 panels.Add(panel);
-                UIManager.AddEntity(panel);
+                UserInterface.AddEntity(panel);
 
                 // sliders title
                 panel.AddChild(new Header("Sliders"));
@@ -463,7 +459,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(450, 480));
                 panels.Add(panel);
-                UIManager.AddEntity(panel);
+                UserInterface.AddEntity(panel);
 
                 // list title
                 panel.AddChild(new Header("SelectList"));
@@ -489,7 +485,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(450, 480));
                 panels.Add(panel);
-                UIManager.AddEntity(panel);
+                UserInterface.AddEntity(panel);
 
                 // list title
                 panel.AddChild(new Header("SelectList - Skin"));
@@ -515,7 +511,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(450, 480));
                 panels.Add(panel);
-                UIManager.AddEntity(panel);
+                UserInterface.AddEntity(panel);
 
                 // dropdown title
                 panel.AddChild(new Header("DropDown"));
@@ -548,7 +544,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(460, 670));
                 panels.Add(panel);
-                UIManager.AddEntity(panel);
+                UserInterface.AddEntity(panel);
 
                 // icons title
                 panel.AddChild(new Header("Icons"));
@@ -577,7 +573,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(450, 590));
                 panels.Add(panel);
-                UIManager.AddEntity(panel);
+                UserInterface.AddEntity(panel);
 
                 // text input example
                 panel.AddChild(new Header("Text Input"));
@@ -601,7 +597,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(500, 590));
                 panels.Add(panel);
-                UIManager.AddEntity(panel);
+                UserInterface.AddEntity(panel);
 
                 // text input example
                 panel.AddChild(new Header("Locked Text Input"));
@@ -632,7 +628,7 @@ Related to the cleric is the paladin, who is typically a Lawful Good[citation ne
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(540, 480));
                 panels.Add(panel);
-                UIManager.AddEntity(panel);
+                UserInterface.AddEntity(panel);
 
                 // create panel tabs
                 PanelTabs tabs = new PanelTabs();
@@ -673,7 +669,7 @@ Maybe something interesting in tab3?"));
                 Panel panel = new Panel(new Vector2(480, 650));
                 panel.Disabled = true;
                 panels.Add(panel);
-                UIManager.AddEntity(panel);
+                UserInterface.AddEntity(panel);
 
                 // disabled title
                 panel.AddChild(new Header("Disabled"));
@@ -704,7 +700,7 @@ Maybe something interesting in tab3?"));
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(520, 680));
                 panels.Add(panel);
-                UIManager.AddEntity(panel);
+                UserInterface.AddEntity(panel);
 
                 // locked title
                 panel.AddChild(new Header("Locked"));
@@ -737,7 +733,7 @@ Maybe something interesting in tab3?"));
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(530, 650));
                 panels.Add(panel);
-                UIManager.AddEntity(panel);
+                UserInterface.AddEntity(panel);
 
                 // misc title
                 panel.AddChild(new Header("Miscellaneous"));
@@ -789,7 +785,7 @@ Maybe something interesting in tab3?"));
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(500, 380));
                 panels.Add(panel);
-                UIManager.AddEntity(panel);
+                UserInterface.AddEntity(panel);
 
                 // add title and text
                 panel.AddChild(new Header("Final Example"));
@@ -806,7 +802,7 @@ Click on 'Next' to see the character creation demo."));
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(panelWidth, 570));
                 panels.Add(panel);
-                UIManager.AddEntity(panel);
+                UserInterface.AddEntity(panel);
 
                 // add title and text
                 panel.AddChild(new Header("Create New Character"));
@@ -941,7 +937,7 @@ Click on 'Next' to see the character creation demo."));
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(500, 560));
                 panels.Add(panel);
-                UIManager.AddEntity(panel);
+                UserInterface.AddEntity(panel);
 
                 // add title and text
                 panel.AddChild(new Header("End Of Examples"));
@@ -1016,7 +1012,7 @@ If you liked GeonBit.UI feel free to star the repo on GitHub. :)"));
                 Exit();
 
             // update UI
-            UIManager.Update(gameTime);
+            UserInterface.Update(gameTime);
 
             // call base update
             base.Update(gameTime);
@@ -1032,7 +1028,7 @@ If you liked GeonBit.UI feel free to star the repo on GitHub. :)"));
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // draw ui
-            UIManager.Draw(spriteBatch);
+            UserInterface.Draw(spriteBatch);
 
             // call base draw function
             base.Draw(gameTime);

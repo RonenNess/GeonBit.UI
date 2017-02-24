@@ -724,9 +724,9 @@ namespace GeonBit.UI.Entities
             DrawEntityOutline(spriteBatch);
 
             // draw the entity itself
-            DrawUtils.StartDraw(spriteBatch, _isCurrentlyDisabled);
+            UserInterface.DrawUtils.StartDraw(spriteBatch, _isCurrentlyDisabled);
             DrawEntity(spriteBatch);
-            DrawUtils.EndDraw(spriteBatch);
+            UserInterface.DrawUtils.EndDraw(spriteBatch);
 
             // get sorted children list
             List<Entity> childrenSorted = GetSortedChildren();
@@ -779,9 +779,9 @@ namespace GeonBit.UI.Entities
             }
 
             // draw with shadow effect
-            DrawUtils.StartDrawSilhouette(spriteBatch);
+            UserInterface.DrawUtils.StartDrawSilhouette(spriteBatch);
             DrawEntity(spriteBatch);
-            DrawUtils.EndDraw(spriteBatch);
+            UserInterface.DrawUtils.EndDraw(spriteBatch);
 
             // return position and colors back to what they were
             _destRect.X -= (int)ShadowOffset.X;
@@ -826,7 +826,7 @@ namespace GeonBit.UI.Entities
             SetStyleProperty("FillColor", new StyleProperty(outlineColor), oldState);
 
             // draw the entity outline
-            DrawUtils.StartDrawSilhouette(spriteBatch);
+            UserInterface.DrawUtils.StartDrawSilhouette(spriteBatch);
             _destRect.Location = originalDest.Location + new Point(-outlineWidth, 0);
             DrawEntity(spriteBatch);
             _destRect.Location = originalDest.Location + new Point(0, -outlineWidth);
@@ -835,7 +835,7 @@ namespace GeonBit.UI.Entities
             DrawEntity(spriteBatch);
             _destRect.Location = originalDest.Location + new Point(0, outlineWidth);
             DrawEntity(spriteBatch);
-            DrawUtils.EndDraw(spriteBatch);
+            UserInterface.DrawUtils.EndDraw(spriteBatch);
 
             // turn back to previous fill color
             SetStyleProperty("FillColor", new StyleProperty(oldFill), oldState);

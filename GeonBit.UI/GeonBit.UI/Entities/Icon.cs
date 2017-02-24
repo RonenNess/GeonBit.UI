@@ -185,7 +185,7 @@ namespace GeonBit.UI.Entities
                 // get background dest rect
                 Rectangle dest = _destRect;
                 dest.X -= 5; dest.Y -= 5; dest.Width += 10; dest.Height += 10;
-                DrawUtils.DrawImage(spriteBatch, Resources.IconBackgroundTexture, dest, GetActiveStyle("BackgroundColor").asColor);
+                UserInterface.DrawUtils.DrawImage(spriteBatch, Resources.IconBackgroundTexture, dest, GetActiveStyle("BackgroundColor").asColor);
             }
 
             // now draw the image itself
