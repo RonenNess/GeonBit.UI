@@ -139,6 +139,9 @@ namespace GeonBit.UI.Entities
         // the background will be rendered on the full size of this entity, behind it, and will not respond to events etc.
         private Entity _background = null;
 
+        // mark the first update call on this entity.
+        private bool _isFirstUpdate = true;
+
         // entity current style properties
         private StyleSheet _style = new StyleSheet();
 
@@ -279,6 +282,15 @@ namespace GeonBit.UI.Entities
             // check default size on specific axises
             if (_size.X == -1) { _size.X = DefaultSize.X; }
             if (_size.Y == -1) { _size.Y = DefaultSize.Y; }
+        }
+
+        /// <summary>
+        /// Call this function when the first update occures.
+        /// </summary>
+        protected virtual void DoOnFirstUpdate()
+        {
+            // call the spawn event
+            UserInterface.OnEntitySpawn?.Invoke(this);
         }
 
         /// <summary>
@@ -1397,6 +1409,13 @@ namespace GeonBit.UI.Entities
         /// <param name="wasEventHandled">Set to true if current event was already handled by a deeper child.</param>
         virtual public void Update(InputHelper input, ref Entity targetEntity, ref Entity dragTargetEntity, ref bool wasEventHandled)
         {
+            // check if should invoke the spawn effect
+            if (_isFirstUpdate)
+            {
+                DoOnFirstUpdate();
+                _isFirstUpdate = false;
+            }
+
             // if inherit parent state just copy it and stop
             if (InheritParentState)
             {

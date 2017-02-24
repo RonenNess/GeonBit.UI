@@ -132,6 +132,9 @@ namespace GeonBit.UI
         /// <summary>Callback to execute every time the visibility property of an entity change.</summary>
         static public EventCallback OnVisiblityChange = null;
 
+        /// <summary>Callback to execute every time a new entity is spawned (note: spawn = first time Update() is called on this entity).</summary>
+        static public EventCallback OnEntitySpawn = null;
+
         // cursor draw settings
         static Texture2D _cursorTexture = null;
         static int _cursorWidth = 32;
