@@ -39,7 +39,10 @@ namespace GeonBit.UI
         Default,
 
         /// <summary>Pointing hand cursor.</summary>
-        Pointer
+        Pointer,
+
+        /// <summary>Text-input I-beam cursor.</summary>
+        IBeam,
     };
 
     /// <summary>
@@ -130,8 +133,8 @@ namespace GeonBit.UI
         static public EventCallback OnVisiblityChange = null;
 
         // cursor pointer and X offset
-        static Texture2D _cursor;
-        static int _cursorOffset;
+        static Texture2D _cursor = null;
+        static Point _cursorOffset = Point.Zero;
 
         /// <summary>Weather or not to draw the cursor.</summary>
         static public bool ShowCursor = true;
@@ -171,15 +174,26 @@ namespace GeonBit.UI
             switch (type)
             {
                 case CursorType.Default:
-                    _cursor = Resources.CursorDefault;
-                    _cursorOffset = 0;
+                    _cursor = Resources.Cursors[(int)type];
+                    _cursorOffset = new Point(0, 0);
                     break;
 
                 case CursorType.Pointer:
-                    _cursor = Resources.CursorHand;
-                    _cursorOffset = -10;
+                    _cursor = Resources.Cursors[(int)type];
+                    _cursorOffset = new Point(-10, 0);
                     break;
             }
+        }
+
+        /// <summary>
+        /// Set cursor graphics from a custom texture.
+        /// </summary>
+        /// <param name="texture">Texture to use for cursor.</param>
+        /// <param name="offset">Cursor offset from mouse position (if not provided will draw cursor with top-left corner on mouse position).</param>
+        static public void SetCursor(Texture2D texture, Point? offset = null)
+        {
+            _cursor = texture;
+            _cursorOffset = offset ?? Point.Zero;
         }
 
         /// <summary>
@@ -188,11 +202,16 @@ namespace GeonBit.UI
         /// <param name="spriteBatch">SpriteBatch to draw the cursor.</param>
         static private void DrawCursor(SpriteBatch spriteBatch)
         {
+            // start drawing for cursor
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
+
+            // get cursor position and draw it
             Vector2 cursorPos = _input.MousePosition;
             spriteBatch.Draw(_cursor, 
-                                new Rectangle((int)cursorPos.X + _cursorOffset, (int)cursorPos.Y, (int)CURSOR_SIZE.X, (int)CURSOR_SIZE.Y), 
+                                new Rectangle((int)cursorPos.X + _cursorOffset.X, (int)cursorPos.Y + _cursorOffset.Y, (int)CURSOR_SIZE.X, (int)CURSOR_SIZE.Y), 
                                 Color.White);
+
+            // end drawing
             spriteBatch.End();
         }
 

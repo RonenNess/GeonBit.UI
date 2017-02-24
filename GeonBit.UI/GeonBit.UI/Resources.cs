@@ -27,11 +27,8 @@ namespace GeonBit.UI
         /// <summary>Just a plain white texture, used internally.</summary>
         public static Texture2D WhiteTexture;
 
-        /// <summary>Default cursor texture.</summary>
-        public static Texture2D CursorDefault;
-
-        /// <summary>Hand cursor texture.</summary>
-        public static Texture2D CursorHand;
+        /// <summary>Cursor textures.</summary>
+        public static Texture2D[] Cursors;
 
         /// <summary>All panel skin textures.</summary>
         public static Texture2D[] PanelTextures;
@@ -109,9 +106,22 @@ namespace GeonBit.UI
             // set resources root path
             string root = "GeonBit.UI/themes/" + theme + "/";
 
-            // cursor texture
-            CursorDefault = content.Load<Texture2D>(root + "textures/cursor");
-            CursorHand = content.Load<Texture2D>(root + "textures/cursor_hand");
+            // load cursor textures
+            // note: in order not to break old themes etc if the new cursor style is not found, we load the default cursor
+            // in the old themes style.
+            Cursors = new Texture2D[Enum.GetValues(typeof(CursorType)).Length];
+            foreach (CursorType cursor in Enum.GetValues(typeof(CursorType)))
+            {
+                try
+                {
+                    string cursorName = cursor.ToString().ToLower();
+                    Cursors[(int)cursor] = content.Load<Texture2D>(root + "textures/cursor_" + cursorName);
+                }
+                catch (Microsoft.Xna.Framework.Content.ContentLoadException)
+                {
+                    Cursors[(int)cursor] = content.Load<Texture2D>(root + "textures/cursor");
+                }
+            }
 
             // load white texture for rectangle
             WhiteTexture = content.Load<Texture2D>(root + "textures/white_texture");

@@ -939,30 +939,6 @@
 /processorParam:TextureFormat=Color
 /build:GeonBit.UI/themes/lowres/textures/checkbox_hover.png
 
-#begin GeonBit.UI/themes/lowres/textures/cursor.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:GeonBit.UI/themes/lowres/textures/cursor.png
-
-#begin GeonBit.UI/themes/lowres/textures/cursor_hand.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:GeonBit.UI/themes/lowres/textures/cursor_hand.png
-
 #begin GeonBit.UI/themes/lowres/textures/dot.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2773,30 +2749,6 @@
 /processorParam:TextureFormat=Color
 /build:GeonBit.UI/themes/hd/textures/checkbox_hover.png
 
-#begin GeonBit.UI/themes/hd/textures/cursor.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:GeonBit.UI/themes/hd/textures/cursor.png
-
-#begin GeonBit.UI/themes/hd/textures/cursor_hand.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:GeonBit.UI/themes/hd/textures/cursor_hand.png
-
 #begin GeonBit.UI/themes/hd/textures/horizontal_line.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -3307,4 +3259,76 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:example/btn_hover.png
+
+#begin GeonBit.UI/themes/hd/textures/cursor_ibeam.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GeonBit.UI/themes/hd/textures/cursor_ibeam.png
+
+#begin GeonBit.UI\themes\hd\textures\cursor_default.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GeonBit.UI\themes\hd\textures\cursor_default.png
+
+#begin GeonBit.UI\themes\hd\textures\cursor_pointer.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GeonBit.UI\themes\hd\textures\cursor_pointer.png
+
+#begin GeonBit.UI\themes\lowres\textures\cursor_default.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GeonBit.UI\themes\lowres\textures\cursor_default.png
+
+#begin GeonBit.UI\themes\lowres\textures\cursor_pointer.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GeonBit.UI\themes\lowres\textures\cursor_pointer.png
+
+#begin GeonBit.UI/themes/lowres/textures/cursor_ibeam.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GeonBit.UI/themes/lowres/textures/cursor_ibeam.png
 
