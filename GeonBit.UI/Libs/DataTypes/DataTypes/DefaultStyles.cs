@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System.Xml.Serialization;
+using Microsoft.Xna.Framework.Content;
 
 namespace GeonBit.UI.DataTypes
 {

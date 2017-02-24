@@ -72,7 +72,6 @@ namespace GeonBit.UI.Example
         {         
             // create and init the UI manager
             UserInterface.Initialize(Content, "hd");
-            UserInterface.SetCursor(CursorType.Pointer);
             
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -727,6 +726,52 @@ Maybe something interesting in tab3?"));
                 list.AddItem("Mage");
                 panel2.AddChild(list);
                 panel2.AddChild(new CheckBox("locked.."));
+            }
+
+            // example: Cursors
+            {
+                // create panel and add to list of panels and manager
+                Panel panel = new Panel(new Vector2(450, 620));
+                panels.Add(panel);
+                UserInterface.AddEntity(panel);
+
+                // add title and text
+                panel.AddChild(new Header("Cursor"));
+                panel.AddChild(new HorizontalLine());
+                panel.AddChild(new Paragraph("GeonBit.UI comes with 3 basic cursor types:"));
+
+                // default cursor show
+                {
+                    Button btn = new Button("Default", ButtonSkin.Default);
+                    btn.OnMouseEnter = (Entity entity) => { UserInterface.SetCursor(CursorType.Default); };
+                    btn.OnMouseLeave = (Entity entity) => { UserInterface.SetCursor(CursorType.Default); };
+                    panel.AddChild(btn);
+                }
+
+                // pointer cursor show
+                {
+                    Button btn = new Button("Pointer", ButtonSkin.Default);
+                    btn.OnMouseEnter = (Entity entity) => { UserInterface.SetCursor(CursorType.Pointer); };
+                    btn.OnMouseLeave = (Entity entity) => { UserInterface.SetCursor(CursorType.Default); };
+                    panel.AddChild(btn);
+                }
+
+                // ibeam cursor show
+                {
+                    Button btn = new Button("IBeam", ButtonSkin.Default);
+                    btn.OnMouseEnter = (Entity entity) => { UserInterface.SetCursor(CursorType.IBeam); };
+                    btn.OnMouseLeave = (Entity entity) => { UserInterface.SetCursor(CursorType.Default); };
+                    panel.AddChild(btn);
+                }
+
+                panel.AddChild(new Paragraph("And as always, you can also set your own custom cursor:"));
+                {
+                    Button btn = new Button("Custom", ButtonSkin.Default);
+                    btn.OnMouseEnter = (Entity entity) => { UserInterface.SetCursor(Content.Load<Texture2D>("example/cursor"), 40); };
+                    btn.OnMouseLeave = (Entity entity) => { UserInterface.SetCursor(CursorType.Default); };
+                    panel.AddChild(btn);
+                }
+
             }
 
             // example: Misc

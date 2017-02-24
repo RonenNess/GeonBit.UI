@@ -17,5 +17,6 @@ Sources can be found here:
     </Credits>
     <Version>1.0.0</Version>
     <RepoUrl></RepoUrl>
+	<License>MIT</License>
   </Asset>
 </XnaContent>

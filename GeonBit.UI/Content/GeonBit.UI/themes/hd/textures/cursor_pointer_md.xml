@@ -5,7 +5,7 @@
   <Asset Type="GeonBit.UI.DataTypes.CursorTextureData">
     <OffsetX>-4</OffsetX>
     <OffsetY>0</OffsetY>
-	<DrawWidth>40</DrawWidth>
+	<DrawWidth>50</DrawWidth>
   </Asset>
 
 </XnaContent>
