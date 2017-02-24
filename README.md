@@ -54,7 +54,7 @@ For example, the following code:
 ```cs
 // create a panel and position in center of screen
 Panel panel = new Panel(new Vector2(400, 400), PanelSkin.Default, Anchor.Center);
-UIManager.AddEntity(panel);
+UserInterface.AddEntity(panel);
 
 // add title and text
 panel.AddChild(new Header("Example Panel"));
@@ -170,8 +170,8 @@ Once successfully integrated and project compiles, you can start using GeonBit.U
 
 GeonBit.UI is built to be called from the MonoGame ```Game``` class in to strategic places - ```Update()``` and ```Draw()```:
 
-1. Create & init a ```UserInterface``` manager in ```Initialize()```.
-2. Update the UI manager every frame by calling ```UserInterface.Update()``` in your game ```Update()``` function.
+1. Init the ```UserInterface``` manager in your ```Initialize()``` function.
+2. Update the ```UserInterface``` manager every frame by calling ```UserInterface.Update()``` in your game ```Update()``` function.
 3. Draw the UI every frame by calling ```UserInterface.Draw()``` in your game ```Draw()``` function.
 
 For example, take a look at the following ```Game``` class implementation:
@@ -195,9 +195,6 @@ namespace GeonBit.UI.Example
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        // GeonBit.UI: UI manager instance
-        UserInterface UIManager;
-
 		/// Game constructor.
         public GeonBitUI_Examples()
         {
@@ -209,9 +206,8 @@ namespace GeonBit.UI.Example
         /// here we create and init the UI manager.
         protected override void Initialize()
         {
-            // GeonBit.UI: create and init the UI manager
-            UIManager = new UserInterface(Content);
-            UIManager.Initialize();
+            // GeonBit.UI: Init the UI manager using the "hd" theme
+            UserInterface.Initialize(Content, "hd");
 
             // GeonBit.UI: tbd create your GUI layouts here..
 
@@ -232,7 +228,7 @@ namespace GeonBit.UI.Example
         protected override void Update(GameTime gameTime)
         {
             // GeonBit.UIL update UI manager
-            UIManager.Update(gameTime);
+            UserInterface.Update(gameTime);
             
             // tbd add your own update() stuff here..
 
@@ -248,7 +244,7 @@ namespace GeonBit.UI.Example
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // GeonBit.UI: draw UI using the spriteBatch you created above
-            UIManager.Draw(spriteBatch);
+            UserInterface.Draw(spriteBatch);
 
             // call base draw function
             base.Draw(gameTime);
@@ -304,6 +300,12 @@ This means that if, for example, you place an auto anchored entity right after a
 
 For that reason, whenever you mix Auto Anchors with static Anchors always place the static anchors *last*.
 
+# UserInterface
+
+As you noticed before, we use the ```UserInterface``` to Update, Draw, and Initialize GeonBit.UI.
+The ```UserInterface``` is a static class that manage and run the UI. You add entities to it, use it to control stuff like cursor, global scale, etc, and update it every frame.
+
+There's not too much to tell about this class, but its recommended to take a peek at its docs.
 
 # Entities
 
@@ -596,7 +598,7 @@ To create a new panel and add it to the screen, use the following syntax:
 // create a panel with default skin and anchor, at the size of 500x500, and add to UI manager.
 // panels default anchor is the center of the screen, so this will create a panel in the center.
 Panel panel = new Panel(new Vector2(500, 500));
-UIManager.AddEntity(panel);
+UserInterface.AddEntity(panel);
 ```
 
 Or to create with different skin and advance parameters:
@@ -605,12 +607,12 @@ Or to create with different skin and advance parameters:
 // create a panel at the top-left corner of with 10x10 offset from it, with 'Golden' panel skin.
 // to see more skins check out the PanelSkin enum options or look at the panel examples in the example project.
 Panel panel = new Panel(size: new Vector2(500, 500), skin: PanelSkin.Golden, anchor: Anchor.TopLeft, offset: new Vector2(10, 10));
-UIManager.AddEntity(panel);
+UserInterface.AddEntity(panel);
 ```
 
 If you want a panel without frame, just use ```PanelSkin.None```.
 
-Note that ```UIManager.AddEntity()``` accept any type of entity, but from now on in all of our examples we'll be adding entities to a panel, and not directly to the manager.
+Note that ```UserInterface.AddEntity()``` accept any type of entity, but from now on in all of our examples we'll be adding entities to a panel, and not directly to the manager.
 
 
 ## Paragraph
@@ -1411,8 +1413,7 @@ panel.AddChild(sp);
 When calling ```UserInterface.Initialize()```, you can also provide a Theme identifier parameter. for example:
 
 ```cs
-UIManager = new UserInterface(Content);
-UIManager.Initialize("lowres");
+UserInterface.Initialize(Content, "lowres");
 ```
 
 Will create a UI with a theme called "lowres".
