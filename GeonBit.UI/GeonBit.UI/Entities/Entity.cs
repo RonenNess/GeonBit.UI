@@ -1157,7 +1157,7 @@ namespace GeonBit.UI.Entities
                 if (ret.Bottom > parent_bottom)
                 {
                     ret.Y -= ret.Bottom - parent_bottom;
-                    if (_draggable) _dragOffset.Y -= ret.Bottom - parent_bottom; }
+                    if (_draggable) { _dragOffset.Y -= ret.Bottom - parent_bottom; }
                 }
             }
 
