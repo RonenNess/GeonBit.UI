@@ -1373,7 +1373,7 @@ namespace GeonBit.UI.Entities
         {
             // get rectangle for the test
             Rectangle rect = UseActualSizeForCollision ? GetActualDestRect() : _destRect;
-            
+
             // now test detection
             return (point.X >= rect.Left && point.X <= rect.Right &&
                     point.Y >= rect.Top && point.Y <= rect.Bottom);
@@ -1432,7 +1432,7 @@ namespace GeonBit.UI.Entities
             // if disabled, invisible, or locked - skip
             if (_isCurrentlyDisabled || IsLocked() || !IsVisible())
             {
-                // if this very entity is locked (eg not locked due to parent being locked), 
+                // if this very entity is locked (eg not locked due to parent being locked),
                 // iterate children and invoke those with DoEventsIfDirectParentIsLocked setting
                 if (Locked)
                 {
@@ -1487,12 +1487,6 @@ namespace GeonBit.UI.Entities
                             targetEntity = this;
                         }
 
-                        // set self as the dragging target, but only if draggable or interactive
-                        if (_draggable || IsNaturallyInteractable())
-                        {
-                            dragTargetEntity = this;
-                        }
-
                         // mouse is over entity
                         _isMouseOver = true;
 
@@ -1520,6 +1514,11 @@ namespace GeonBit.UI.Entities
             for (int i = childrenSorted.Count - 1; i >= 0; i--)
             {
                 childrenSorted[i].Update(input, ref targetEntity, ref dragTargetEntity, ref wasEventHandled);
+            }
+
+            // check dragging after children so that the most nested entity gets priority
+            if ((_draggable || IsNaturallyInteractable()) && dragTargetEntity == null && _isMouseOver && input.MouseButtonPressed(MouseButton.Left)) {
+                dragTargetEntity = this;
             }
 
             // STEP 3: CALL EVENTS
@@ -1589,8 +1588,8 @@ namespace GeonBit.UI.Entities
 
             // STEP 4: HANDLE DRAGGING FOR DRAGABLES
 
-            // if draggable, and after calling all the children target is still self, it means we are being dragged!
-            if (_draggable && (dragTargetEntity == this) && input.MouseButtonDown(MouseButton.Left) && IsFocused)
+            // if draggable, and after calling all the children target is self, it means we are being dragged!
+            if (_draggable && (dragTargetEntity == this) && IsFocused)
             {
                 // check if we need to start dragging the entity that was not dragged before
                 if (!_isBeingDragged && input.MousePositionDiff.Length() != 0)
