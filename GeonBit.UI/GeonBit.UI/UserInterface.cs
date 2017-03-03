@@ -58,10 +58,13 @@ namespace GeonBit.UI
         static ContentManager _content;
 
         /// <summary>Current GeonBit.UI version identifier.</summary>
-        public const string VERSION = "2.0.0";
+        public const string VERSION = "2.0.0.1";
 
         // root panel that covers the entire screen and everything is added to it
         static Panel _root;
+
+        // the entity currently being dragged
+        static Entity _dragTarget;
 
         /// <summary>Scale the entire UI and all the entities in it. This is useful for smaller device screens.</summary>
         static public float GlobalScale = 1.0f;
@@ -71,7 +74,7 @@ namespace GeonBit.UI
 
         /// <summary>Screen width.</summary>
         static public int ScreenWidth = 0;
-        
+
         /// <summary>Screen height.</summary>
         static public int ScreenHeight = 0;
 
@@ -210,7 +213,7 @@ namespace GeonBit.UI
             spriteBatch.Draw(_cursorTexture,
                 new Rectangle(
                     (int)(cursorPos.X + _cursorOffset.X * cursorSize), (int)(cursorPos.Y + _cursorOffset.Y * cursorSize),
-                    (int)(_cursorTexture.Width * cursorSize), (int)(_cursorTexture.Height * cursorSize)), 
+                    (int)(_cursorTexture.Width * cursorSize), (int)(_cursorTexture.Height * cursorSize)),
                 Color.White);
 
             // end drawing
@@ -244,11 +247,15 @@ namespace GeonBit.UI
             // update input manager
             _input.Update(gameTime);
 
+            // unset the drag target if the mouse was released
+            if (_dragTarget != null && !_input.MouseButtonDown(MouseButton.Left)) {
+              _dragTarget = null;
+            }
+
             // update root panel
-            Entity dragTarget = null;
             Entity target = null;
             bool wasEventHandled = false;
-            _root.Update(_input, ref target, ref dragTarget, ref wasEventHandled);
+            _root.Update(_input, ref target, ref _dragTarget, ref wasEventHandled);
 
             // set active entity
             if (_input.MouseButtonDown(MouseButton.Left))
@@ -269,7 +276,7 @@ namespace GeonBit.UI
             // update screen size
             ScreenWidth = spriteBatch.GraphicsDevice.Viewport.Width;
             ScreenHeight = spriteBatch.GraphicsDevice.Viewport.Height;
-            
+
             // draw root panel
             _root.Draw(spriteBatch);
 
