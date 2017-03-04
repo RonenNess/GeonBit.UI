@@ -108,8 +108,8 @@ namespace GeonBit.UI.Entities
             // setup the callback to show / hide the list when clicking the dropbox
             _selectedTextPanel.OnClick = (Entity self) =>
             {
-                _isListVisible = !_isListVisible;
-                OnResize();
+                // change visibility
+                ListVisible = !ListVisible;
             };
 
             // update styles
@@ -124,7 +124,7 @@ namespace GeonBit.UI.Entities
         /// </summary>
         public bool ListVisible {
             get {return _isListVisible;}
-            set {_isListVisible = value;}
+            set {_isListVisible = value; OnDropDownVisibilityChange(); }
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace GeonBit.UI.Entities
         /// </summary>
         override protected void DoOnValueChange()
         {
-            _isListVisible = false;
+            ListVisible = false;
             base.DoOnValueChange();
         }
 
@@ -165,31 +165,45 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
-        /// Called when DropDown is resized.
-        /// DropDown entity override this function to handle the list when opened.
+        /// Called whenever the dropdown list is shown / hidden.
+        /// Note: called *after* _isListVisible is set.
         /// </summary>
-        /// <param name="recalcDestRect"></param>
-        protected override void OnResize(bool recalcDestRect = true)
+        private void OnDropDownVisibilityChange()
         {
-            // if drop down is currently shown:
+            // update arrow image
+            _arrowDownImage.Texture = _isListVisible ? Resources.ArrowUp : Resources.ArrowDown;
+            RecalcDropDownListSize();
+        }
+
+        /// <summary>
+        /// Recalculate and update dropdown list size.
+        /// </summary>
+        private void RecalcDropDownListSize()
+        {
+            // if dropdown list is currently visible
             if (_isListVisible)
             {
                 // recalculate destination rect height
                 int extraY = (int)(_selectedTextPanel.Size.Y * UserInterface.GlobalScale);
                 _destRect.Height -= extraY;
                 _destRectInternal.Height -= extraY;
-                
-                // call base resize function
+
+                // to make sure the list itself update to new size
                 base.OnResize(false);
 
                 // scroll list to selected item
                 ScrollToSelected();
             }
-            // if drop down is not shown (drop down is closed)
-            else
-            {
-                base.OnResize(false);
-            }
+        }
+
+        /// <summary>
+        /// Called when DropDown is resized.
+        /// DropDown entity override this function to set that it needs resize update.
+        /// </summary>
+        /// <param name="recalcDestRect"></param>
+        protected override void OnResize(bool recalcDestRect = true)
+        {
+            RecalcDropDownListSize();
         }
 
         /// <summary>
@@ -212,6 +226,8 @@ namespace GeonBit.UI.Entities
             // draw the list only when visible
             if (_isListVisible)
             {
+
+                // draw outline pass
                 if (!_isOutlinePass)
                 {
                     // first move the dest rect down below the selected item text
@@ -314,7 +330,7 @@ namespace GeonBit.UI.Entities
                 // check if mouse down and not inside list
                 if (input.AnyMouseButtonDown() && !IsInsideEntity(input.MousePosition))
                 {
-                    _isListVisible = false;
+                    ListVisible = false;
                 }
 
                 // return use actual rect state back to normal
