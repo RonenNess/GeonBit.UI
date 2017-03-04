@@ -37,9 +37,44 @@ namespace GeonBit.UI.Entities
         // internal panel and paragraph to show selected value.
         Panel _selectedTextPanel;
         Paragraph _selectedTextParagraph;
+        Image _arrowDownImage;
 
-        // the height, in pixels, of the panel to show currently selected value.
-        static int SelectedPanelHeight = 67;
+        /// <summary>
+        /// Get the selected text panel (what's shown when DropDown is closed).
+        /// </summary>
+        public Panel SelectedTextPanel
+        {
+            get { return _selectedTextPanel; }
+        }
+
+        /// <summary>
+        /// Get the selected text panel paragraph (the text that's shown when DropDown is closed).
+        /// </summary>
+        public Paragraph SelectedTextPanelParagraph
+        {
+            get { return _selectedTextParagraph; }
+        }
+
+        /// <summary>
+        /// Get the image entity of the arrow on the side of the Selected Text Panel.
+        /// </summary>
+        public Image ArrowDownImage
+        {
+            get
+            {
+                return _arrowDownImage;
+            }
+        }
+
+        /// <summary>
+        /// Default height, in pixels, of the selected text panel.
+        /// </summary>
+        public static int SelectedPanelHeight = 67;
+
+        /// <summary>
+        /// Size of the arrow to show on the side of the Selected Text Panel.
+        /// </summary>
+        public static int ArrowSize = 30;
 
         // set temporarily to true while we render dropdown outlines.
         private bool _isOutlinePass = false;
@@ -57,9 +92,9 @@ namespace GeonBit.UI.Entities
         public DropDown(Vector2 size, Anchor anchor = Anchor.Auto, Vector2? offset = null, PanelSkin skin = PanelSkin.ListBackground) :
             base(size, anchor, offset, skin)
         {
-            // create the panel and paragraph used to show selected value
+            // create the panel and paragraph used to show currently selected value (what's shown when drop-down is closed)
             _selectedTextPanel = new Panel(new Vector2(0, SelectedPanelHeight), skin, Anchor.TopLeft);
-            _selectedTextParagraph = new Paragraph("", Anchor.CenterLeft, new Vector2(0, SelectedPanelHeight + 8));
+            _selectedTextParagraph = new Paragraph("", Anchor.CenterLeft);
             _selectedTextParagraph.UseActualSizeForCollision = false;
             _selectedTextParagraph.UpdateStyle(SelectList.DefaultParagraphStyle);
             _selectedTextParagraph.UpdateStyle(DefaultParagraphStyle);
@@ -67,8 +102,8 @@ namespace GeonBit.UI.Entities
             _selectedTextPanel.AddChild(_selectedTextParagraph, true);
 
             // create the arrow down icon
-            Image arrow = new Image(Resources.ArrowDown, new Vector2(30, 30), ImageDrawMode.Stretch, Anchor.CenterRight, new Vector2(-10, 0));
-            _selectedTextPanel.AddChild(arrow, true);
+            _arrowDownImage = new Image(Resources.ArrowDown, new Vector2(ArrowSize, ArrowSize), ImageDrawMode.Stretch, Anchor.CenterRight, new Vector2(-10, 0));
+            _selectedTextPanel.AddChild(_arrowDownImage, true);
 
             // setup the callback to show / hide the list when clicking the dropbox
             _selectedTextPanel.OnClick = (Entity self) =>
@@ -136,13 +171,24 @@ namespace GeonBit.UI.Entities
         /// <param name="recalcDestRect"></param>
         protected override void OnResize(bool recalcDestRect = true)
         {
+            // if drop down is currently shown:
             if (_isListVisible)
             {
+                // recalculate destination rect height
                 int extraY = (int)(_selectedTextPanel.Size.Y * UserInterface.GlobalScale);
                 _destRect.Height -= extraY;
                 _destRectInternal.Height -= extraY;
+                
+                // call base resize function
                 base.OnResize(false);
+
+                // scroll list to selected item
                 ScrollToSelected();
+            }
+            // if drop down is not shown (drop down is closed)
+            else
+            {
+                base.OnResize(false);
             }
         }
 
