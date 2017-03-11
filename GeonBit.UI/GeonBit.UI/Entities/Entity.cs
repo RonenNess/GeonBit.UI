@@ -666,7 +666,7 @@ namespace GeonBit.UI.Entities
         public void SetPosition(Anchor anchor, Vector2 offset)
         {
             _anchor = anchor;
-            _offset = offset;
+            SetOffset(offset);
         }
 
         /// <summary>
@@ -684,7 +684,11 @@ namespace GeonBit.UI.Entities
         /// <param name="offset">New offset to set.</param>
         public void SetOffset(Vector2 offset)
         {
-            _offset = offset;
+            if (_isBeingDragged) {
+                _dragOffset = offset;
+            } else {
+                _offset = offset;
+            }
         }
 
         /// <summary>
