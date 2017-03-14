@@ -1553,7 +1553,7 @@ namespace GeonBit.UI.Entities
                 if (prevState != _entityState)
                 {
                     // mouse down
-                    if (input.MouseButtonDown())
+                    if (input.MouseButtonPressed())
                     {
                         DoOnMouseDown(input);
                     }
