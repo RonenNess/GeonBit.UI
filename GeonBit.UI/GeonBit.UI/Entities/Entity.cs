@@ -1495,7 +1495,8 @@ namespace GeonBit.UI.Entities
                         _isMouseOver = true;
 
                         // update mouse state
-                        _entityState = (IsFocused || PromiscuousClicksMode) && input.MouseButtonDown() ? EntityState.MouseDown : EntityState.MouseHover;
+                        _entityState = (IsFocused || PromiscuousClicksMode || input.MouseButtonPressed()) && 
+                            input.MouseButtonDown() ? EntityState.MouseDown : EntityState.MouseHover;
                     }
                 }
 
