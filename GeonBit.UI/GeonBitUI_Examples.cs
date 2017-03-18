@@ -556,7 +556,7 @@ The default behavior is to simply overflow (eg entities will be drawn outside), 
 
 In this example, we use scrollbars when entities overflow the panel boundaries."));
                 panel.PanelOverflowBehavior = PanelOverflowBehavior.VerticalScroll;
-                panel.Scrollbar.Max = 90;
+                panel.Scrollbar.Max = 100;
                 panel.Scrollbar.StepsCount = 10;
             }
 

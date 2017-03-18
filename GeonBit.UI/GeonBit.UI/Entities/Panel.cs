@@ -172,6 +172,7 @@ namespace GeonBit.UI.Entities
 
                 // update scrollbar position
                 _scrollbar.SetOffset(new Vector2(-_scrollbar.GetActualDestRect().Width, -_destRectInternal.Y));
+                _scrollbar.BringToFront();
 
                 // adjust internal rect width
                 _destRectInternal.Width -= _scrollbar.GetActualDestRect().Width;
@@ -197,6 +198,26 @@ namespace GeonBit.UI.Entities
                 UserInterface.DrawUtils.StartDraw(spriteBatch, IsDisabled());
                 spriteBatch.Draw(_renderTarget, _destRectInternal, Color.White);
                 UserInterface.DrawUtils.EndDraw(spriteBatch);
+
+                // recalc children dest rect to fix it
+                foreach (Entity child in GetChildren())
+                {
+                    if (child != _scrollbar)
+                    {
+                        child.CalcDestRect();
+                        child.CalcInternalRect();
+                        if (child.GetType().IsSubclassOf(typeof(Paragraph)) || child.GetType() == typeof(Paragraph))
+                        {
+                            ((Paragraph)(child)).PrepareForDraw();
+                        }
+                    }
+                }
+
+                // adjust internal rect width
+                _destRectInternal.Y -= _scrollbar.Value;
+                _destRectInternal.Width -= _scrollbar.GetActualDestRect().Width;
+                _scrollbar.CalcDestRect();
+                _destRectInternal = _originalInternalDestRect;
             }
         }
 

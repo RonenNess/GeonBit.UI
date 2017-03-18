@@ -1476,7 +1476,7 @@ namespace GeonBit.UI.Entities
                 _entityState = EntityState.Default;
                 return;
             }
-
+            
             // set if interactable
             _isInteractable = true;
 
