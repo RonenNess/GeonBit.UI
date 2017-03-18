@@ -750,6 +750,9 @@ namespace GeonBit.UI.Entities
             DrawEntity(spriteBatch);
             UserInterface.DrawUtils.EndDraw(spriteBatch);
 
+            // do stuff before drawing children
+            BeforeDrawChildren(spriteBatch);
+
             // get sorted children list
             List<Entity> childrenSorted = GetSortedChildren();
 
@@ -759,8 +762,27 @@ namespace GeonBit.UI.Entities
                 child.Draw(spriteBatch);
             }
 
+            // do stuff after drawing children
+            AfterDrawChildren(spriteBatch);
+
             // do after draw event
             OnAfterDraw(spriteBatch);
+        }
+
+        /// <summary>
+        /// Called before drawing child entities of this entity.
+        /// </summary>
+        /// <param name="spriteBatch">SpriteBatch used to draw entities.</param>
+        protected virtual void BeforeDrawChildren(SpriteBatch spriteBatch)
+        {
+        }
+
+        /// <summary>
+        /// Called after drawing child entities of this entity.
+        /// </summary>
+        /// <param name="spriteBatch">SpriteBatch used to draw entities.</param>
+        protected virtual void AfterDrawChildren(SpriteBatch spriteBatch)
+        {
         }
 
         /// <summary>

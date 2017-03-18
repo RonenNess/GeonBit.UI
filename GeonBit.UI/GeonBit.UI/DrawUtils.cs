@@ -8,6 +8,7 @@
 #endregion
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace GeonBit.UI
 {
@@ -16,6 +17,26 @@ namespace GeonBit.UI
     /// </summary>
     public class DrawUtils
     {
+        // Stack of rendering targets
+        private Stack<RenderTarget2D> _renderTargets = new Stack<RenderTarget2D>();
+
+        /// <summary>
+        /// Add a render target to the render targets stack.
+        /// </summary>
+        /// <param name="target"></param>
+        public void PushRenderTarget(RenderTarget2D target)
+        {
+            _renderTargets.Push(target);
+        }
+
+        /// <summary>
+        /// Pop a render target from the render targets stack.
+        /// </summary>
+        public void PopRenderTarget()
+        {
+            _renderTargets.Pop();
+        }
+
         /// <summary>
         /// Scale a rectangle by given factor
         /// </summary>
@@ -491,11 +512,14 @@ namespace GeonBit.UI
         /// <param name="isDisabled">If true, will use the greyscale 'disabled' effect.</param>
         public virtual void StartDraw(SpriteBatch spriteBatch, bool isDisabled)
         {
+            // start drawing
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp,
                 DepthStencilState.None, RasterizerState.CullCounterClockwise,
                 isDisabled ? Resources.DisabledEffect : null);
-        }
 
+            // update drawing target
+            UpdateRenderTarget(spriteBatch);
+        }
 
         /// <summary>
         /// Start drawing on a given SpriteBatch, but only draw colored Silhouette of the texture.
@@ -503,8 +527,29 @@ namespace GeonBit.UI
         /// <param name="spriteBatch">SpriteBatch to draw on.</param>
         public virtual void StartDrawSilhouette(SpriteBatch spriteBatch)
         {
+            // start drawing silhouette
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp,
                 DepthStencilState.None, RasterizerState.CullCounterClockwise, Resources.SilhouetteEffect);
+
+            // update drawing target
+            UpdateRenderTarget(spriteBatch);
+        }
+
+        /// <summary>
+        /// Update the current rendering target.
+        /// </summary>
+        /// <param name="spriteBatch">Current spritebatch we are using.</param>
+        protected virtual void UpdateRenderTarget(SpriteBatch spriteBatch)
+        {
+            // set render target
+            if (_renderTargets.Count > 0)
+            {
+                spriteBatch.GraphicsDevice.SetRenderTarget(_renderTargets.Peek());
+            }
+            else
+            {
+                spriteBatch.GraphicsDevice.SetRenderTarget(null);
+            }
         }
 
         /// <summary>

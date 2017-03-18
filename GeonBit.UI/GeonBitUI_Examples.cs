@@ -540,6 +540,44 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 panel.AddChild(drop);
             }
 
+            // example: panels with scrollbars / overflow
+            {
+                // create panel and add to list of panels and manager
+                Panel panel = new Panel(new Vector2(450, 440));
+                panels.Add(panel);
+                UserInterface.AddEntity(panel);
+
+                // dropdown title
+                panel.AddChild(new Header("Panel Overflow"));
+                panel.AddChild(new HorizontalLine());
+                panel.AddChild(new Paragraph(@"You can choose how to treat entities that overflow parent panel's boundaries. 
+                    The default behavior is to simply overflow (eg entities will be drawn outside), but you can make overflow entities hidden or scrollable. 
+
+In this example, we use scrollbars when entities overflow the panel boundaries."));
+                panel.PanelOverflowBehavior = PanelOverflowBehavior.VerticalScroll;
+
+                DropDown drop = new DropDown(new Vector2(0, 280));
+                drop.AddItem("Warrior");
+                drop.AddItem("Mage");
+                drop.AddItem("Ranger");
+                drop.AddItem("Rogue");
+                drop.AddItem("Paladin");
+                drop.AddItem("Cleric");
+                drop.AddItem("Warlock");
+                drop.AddItem("Barbarian");
+                drop.AddItem("Monk");
+                drop.AddItem("Ranger");
+                panel.AddChild(drop);
+
+                panel.AddChild(new Paragraph("And like list, we can set different skins:"));
+                drop = new DropDown(new Vector2(0, 240), skin: PanelSkin.Golden);
+                drop.AddItem("Warrior");
+                drop.AddItem("Mage");
+                drop.AddItem("Monk");
+                drop.AddItem("Ranger");
+                panel.AddChild(drop);
+            }
+
             // example: icons
             {
                 // create panel and add to list of panels and manager

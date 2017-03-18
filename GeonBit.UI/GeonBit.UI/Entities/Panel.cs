@@ -46,6 +46,28 @@ namespace GeonBit.UI.Entities
     }
 
     /// <summary>
+    /// How to treat entities that overflow panel boundaries.
+    /// </summary>
+    public enum PanelOverflowBehavior
+    {
+        /// <summary>
+        /// Entity will be rendered as usual outside the panel boundaries.
+        /// </summary>
+        Overflow,
+
+        /// <summary>
+        /// Entities that exceed panel boundaries will be hidden.
+        /// </summary>
+        Hidden,
+
+        /// <summary>
+        /// Entities that exceed panel on Y axis will create a scrollbar.
+        /// Exceeding on X axis will be hidden.
+        /// </summary>
+        VerticalScroll,
+    }
+
+    /// <summary>
     /// A graphical panel or form you can create and add entities to.
     /// Used to group together entities with common logic.
     /// </summary>
@@ -56,6 +78,21 @@ namespace GeonBit.UI.Entities
 
         /// <summary>Default styling for panels. Note: loaded from UI theme xml file.</summary>
         new public static StyleSheet DefaultStyle = new StyleSheet();
+
+        // how the panel draw entities that exceed boundaries.
+        private PanelOverflowBehavior _overflowMode = PanelOverflowBehavior.Overflow;
+
+        /// <summary>
+        /// Set / get panel overflow behavior.
+        /// </summary>
+        public PanelOverflowBehavior PanelOverflowBehavior
+        {
+            get { return _overflowMode; }
+            set { _overflowMode = value; }
+        }
+
+        /// <summary>If panel got scrollbars, use this render target to scroll.</summary>
+        protected RenderTarget2D _renderTarget = null;
 
         /// <summary>
         /// Create the panel.
@@ -78,6 +115,54 @@ namespace GeonBit.UI.Entities
         {
             get { return _skin; }
             set { _skin = value; }
+        }
+
+        /// <summary>
+        /// Called before drawing child entities of this entity.
+        /// </summary>
+        /// <param name="spriteBatch">SpriteBatch used to draw entities.</param>
+        protected override void BeforeDrawChildren(SpriteBatch spriteBatch)
+        {
+            // if overflow mode is simply overflow, do nothing.
+            if (_overflowMode == PanelOverflowBehavior.Overflow)
+            {
+                _renderTarget = null;
+                return;
+            }
+
+            // if got here it means we either need to clip entities, or add scrollbars.
+            // first, if we don't have a render target or its size needs an update, create the render target
+            if (_renderTarget == null || 
+                _renderTarget.Width != _destRectInternal.Width || 
+                _renderTarget.Height != _destRectInternal.Height)
+            {
+                _renderTarget = new RenderTarget2D(spriteBatch.GraphicsDevice, 
+                    _destRectInternal.Width, _destRectInternal.Height, false, 
+                    spriteBatch.GraphicsDevice.PresentationParameters.BackBufferFormat,
+                    spriteBatch.GraphicsDevice.PresentationParameters.DepthStencilFormat);
+            }
+
+            // bind the render target
+            UserInterface.DrawUtils.PushRenderTarget(_renderTarget);
+        }
+
+        /// <summary>
+        /// Called after drawing child entities of this entity.
+        /// </summary>
+        /// <param name="spriteBatch">SpriteBatch used to draw entities.</param>
+        protected override void AfterDrawChildren(SpriteBatch spriteBatch)
+        {
+            // if this panel got a render target
+            if (_renderTarget != null)
+            {
+                // unbind the render target
+                UserInterface.DrawUtils.PopRenderTarget();
+
+                // draw the render target
+                UserInterface.DrawUtils.StartDraw(spriteBatch, IsDisabled());
+                spriteBatch.Draw(_renderTarget, _destRectInternal, Color.White);
+                UserInterface.DrawUtils.EndDraw(spriteBatch);
+            }
         }
 
         /// <summary>
