@@ -95,6 +95,11 @@ namespace GeonBit.UI.Entities
         protected RenderTarget2D _renderTarget = null;
 
         /// <summary>
+        /// Store the original destination rectangle if changing due to render target.
+        /// </summary>
+        private Rectangle _originalInternalDestRect;
+
+        /// <summary>
         /// Create the panel.
         /// </summary>
         /// <param name="size">Panel size.</param>
@@ -139,11 +144,19 @@ namespace GeonBit.UI.Entities
                 _renderTarget = new RenderTarget2D(spriteBatch.GraphicsDevice, 
                     _destRectInternal.Width, _destRectInternal.Height, false, 
                     spriteBatch.GraphicsDevice.PresentationParameters.BackBufferFormat,
-                    spriteBatch.GraphicsDevice.PresentationParameters.DepthStencilFormat);
+                    spriteBatch.GraphicsDevice.PresentationParameters.DepthStencilFormat, 0,
+                    RenderTargetUsage.PreserveContents);
             }
 
             // bind the render target
             UserInterface.DrawUtils.PushRenderTarget(_renderTarget);
+
+            // set internal dest rect
+            _originalInternalDestRect = _destRectInternal;
+            _destRectInternal.X = 2;
+            _destRectInternal.Y = 2;
+            _destRectInternal.Width -= 2;
+            _destRectInternal.Height -= 2;
         }
 
         /// <summary>
@@ -157,6 +170,9 @@ namespace GeonBit.UI.Entities
             {
                 // unbind the render target
                 UserInterface.DrawUtils.PopRenderTarget();
+
+                // restore internal dest rect
+                _destRectInternal = _originalInternalDestRect;
 
                 // draw the render target
                 UserInterface.DrawUtils.StartDraw(spriteBatch, IsDisabled());

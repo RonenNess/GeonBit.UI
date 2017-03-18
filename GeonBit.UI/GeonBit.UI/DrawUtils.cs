@@ -26,6 +26,13 @@ namespace GeonBit.UI
         /// <param name="target"></param>
         public void PushRenderTarget(RenderTarget2D target)
         {
+            // sanity check - make sure we are in use-render-target mode
+            if (!UserInterface.UseRenderTarget)
+            {
+                throw new System.Exception("To use features that require rendering targets you must set UserInterface.UseRenderTarget to true!");
+            }
+
+            // add render target
             _renderTargets.Push(target);
         }
 
@@ -548,7 +555,7 @@ namespace GeonBit.UI
             }
             else
             {
-                spriteBatch.GraphicsDevice.SetRenderTarget(null);
+                spriteBatch.GraphicsDevice.SetRenderTarget(UserInterface.RenderTarget);
             }
         }
 

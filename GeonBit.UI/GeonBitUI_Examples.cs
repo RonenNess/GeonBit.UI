@@ -72,7 +72,8 @@ namespace GeonBit.UI.Example
         {         
             // create and init the UI manager
             UserInterface.Initialize(Content, "hd");
-            
+            UserInterface.UseRenderTarget = true;
+
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -551,7 +552,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 panel.AddChild(new Header("Panel Overflow"));
                 panel.AddChild(new HorizontalLine());
                 panel.AddChild(new Paragraph(@"You can choose how to treat entities that overflow parent panel's boundaries. 
-                    The default behavior is to simply overflow (eg entities will be drawn outside), but you can make overflow entities hidden or scrollable. 
+The default behavior is to simply overflow (eg entities will be drawn outside), but you can make overflow entities hidden or scrollable. 
 
 In this example, we use scrollbars when entities overflow the panel boundaries."));
                 panel.PanelOverflowBehavior = PanelOverflowBehavior.VerticalScroll;
@@ -1109,11 +1110,14 @@ If you liked GeonBit.UI feel free to star the repo on GitHub. :)"));
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            // draw ui
+            UserInterface.Draw(spriteBatch);
+
             // clear buffer
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // draw ui
-            UserInterface.Draw(spriteBatch);
+            // finalize ui rendering
+            UserInterface.FinalizeDraw(spriteBatch);
 
             // call base draw function
             base.Draw(gameTime);
