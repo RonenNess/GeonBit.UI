@@ -86,7 +86,7 @@ namespace GeonBit.UI
         public int MouseWheel = 0;
 
         /// <summary>
-        /// Mouse wheel change since last frame.
+        /// Mouse wheel change sign (eg 0, 1 or -1) since last frame.
         /// </summary>
         public int MouseWheelChange = 0;
 

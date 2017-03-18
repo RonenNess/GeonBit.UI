@@ -82,13 +82,24 @@ namespace GeonBit.UI.Entities
         // how the panel draw entities that exceed boundaries.
         private PanelOverflowBehavior _overflowMode = PanelOverflowBehavior.Overflow;
 
+        // panel scrollbar
+        VerticalScrollbar _scrollbar = null;
+
+        /// <summary>
+        /// Get the scrollbar of this panel.
+        /// </summary>
+        public VerticalScrollbar Scrollbar
+        {
+            get { return _scrollbar; }
+        }
+
         /// <summary>
         /// Set / get panel overflow behavior.
         /// </summary>
         public PanelOverflowBehavior PanelOverflowBehavior
         {
             get { return _overflowMode; }
-            set { _overflowMode = value; }
+            set { _overflowMode = value; UpdateOverflowMode(); }
         }
 
         /// <summary>If panel got scrollbars, use this render target to scroll.</summary>
@@ -135,18 +146,13 @@ namespace GeonBit.UI.Entities
                 return;
             }
 
-            // if got here it means we either need to clip entities, or add scrollbars.
-            // first, if we don't have a render target or its size needs an update, create the render target
-            if (_renderTarget == null || 
-                _renderTarget.Width != _destRectInternal.Width || 
-                _renderTarget.Height != _destRectInternal.Height)
-            {
-                _renderTarget = new RenderTarget2D(spriteBatch.GraphicsDevice, 
-                    _destRectInternal.Width, _destRectInternal.Height, false, 
-                    spriteBatch.GraphicsDevice.PresentationParameters.BackBufferFormat,
-                    spriteBatch.GraphicsDevice.PresentationParameters.DepthStencilFormat, 0,
-                    RenderTargetUsage.PreserveContents);
-            }
+            // create the render target for this panel
+            // note: by recreating the target we make sure its cleared
+            _renderTarget = new RenderTarget2D(spriteBatch.GraphicsDevice, 
+                _destRectInternal.Width, _destRectInternal.Height, false, 
+                spriteBatch.GraphicsDevice.PresentationParameters.BackBufferFormat,
+                spriteBatch.GraphicsDevice.PresentationParameters.DepthStencilFormat, 0,
+                RenderTargetUsage.PreserveContents);
 
             // bind the render target
             UserInterface.DrawUtils.PushRenderTarget(_renderTarget);
@@ -157,6 +163,19 @@ namespace GeonBit.UI.Entities
             _destRectInternal.Y = 2;
             _destRectInternal.Width -= 2;
             _destRectInternal.Height -= 2;
+
+            // if in scrolling mode, set scrollbar
+            if (_overflowMode == PanelOverflowBehavior.VerticalScroll)
+            {
+                // move items position based on scrollbar
+                _destRectInternal.Y -= _scrollbar.Value;
+
+                // update scrollbar position
+                _scrollbar.SetOffset(new Vector2(-_scrollbar.GetActualDestRect().Width, -_destRectInternal.Y));
+
+                // adjust internal rect width
+                _destRectInternal.Width -= _scrollbar.GetActualDestRect().Width;
+            }
         }
 
         /// <summary>
@@ -178,6 +197,25 @@ namespace GeonBit.UI.Entities
                 UserInterface.DrawUtils.StartDraw(spriteBatch, IsDisabled());
                 spriteBatch.Draw(_renderTarget, _destRectInternal, Color.White);
                 UserInterface.DrawUtils.EndDraw(spriteBatch);
+            }
+        }
+
+        /// <summary>
+        /// Called after a change in overflow mode.
+        /// </summary>
+        private void UpdateOverflowMode()
+        {
+            // if its vertical scroll mode:
+            if (_overflowMode == PanelOverflowBehavior.VerticalScroll)
+            {
+                // if need to create scrollbar
+                if (_scrollbar == null)
+                {
+                    // create scrollbar
+                    _scrollbar = new VerticalScrollbar(0, 0, Anchor.TopRight);
+                    _scrollbar.Padding = Vector2.Zero;
+                    AddChild(_scrollbar);
+                }
             }
         }
 

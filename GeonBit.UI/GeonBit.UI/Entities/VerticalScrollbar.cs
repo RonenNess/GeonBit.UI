@@ -125,11 +125,14 @@ namespace GeonBit.UI.Entities
         override protected void DoAfterUpdate(InputHelper input)
         {
             // if the active entity is self or parent, listen to mousewheel
-            if (_isInteractable && (UserInterface.ActiveEntity == this || UserInterface.ActiveEntity == _parent || (UserInterface.ActiveEntity != null && UserInterface.ActiveEntity.IsDeepChildOf(_parent))))
+            if (_isInteractable && 
+                (UserInterface.ActiveEntity == this || 
+                UserInterface.ActiveEntity == _parent || 
+                (UserInterface.ActiveEntity != null && UserInterface.ActiveEntity.IsDeepChildOf(_parent))))
             {
                 if (input.MouseWheelChange != 0)
                 {
-                    Value = _value - input.MouseWheelChange;
+                    Value = _value - input.MouseWheelChange * GetStepSize();
                 }
             }
         }

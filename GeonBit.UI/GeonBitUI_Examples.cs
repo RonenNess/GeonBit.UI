@@ -556,27 +556,8 @@ The default behavior is to simply overflow (eg entities will be drawn outside), 
 
 In this example, we use scrollbars when entities overflow the panel boundaries."));
                 panel.PanelOverflowBehavior = PanelOverflowBehavior.VerticalScroll;
-
-                DropDown drop = new DropDown(new Vector2(0, 280));
-                drop.AddItem("Warrior");
-                drop.AddItem("Mage");
-                drop.AddItem("Ranger");
-                drop.AddItem("Rogue");
-                drop.AddItem("Paladin");
-                drop.AddItem("Cleric");
-                drop.AddItem("Warlock");
-                drop.AddItem("Barbarian");
-                drop.AddItem("Monk");
-                drop.AddItem("Ranger");
-                panel.AddChild(drop);
-
-                panel.AddChild(new Paragraph("And like list, we can set different skins:"));
-                drop = new DropDown(new Vector2(0, 240), skin: PanelSkin.Golden);
-                drop.AddItem("Warrior");
-                drop.AddItem("Mage");
-                drop.AddItem("Monk");
-                drop.AddItem("Ranger");
-                panel.AddChild(drop);
+                panel.Scrollbar.Max = 90;
+                panel.Scrollbar.StepsCount = 10;
             }
 
             // example: icons

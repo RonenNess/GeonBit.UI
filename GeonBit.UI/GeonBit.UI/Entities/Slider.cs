@@ -106,9 +106,20 @@ namespace GeonBit.UI.Entities
         /// Get the size of a single step.
         /// </summary>
         /// <returns>Size of a single step, eg how much value changes in a step.</returns>
-        protected int GetStepSize()
+        public int GetStepSize()
         {
-            return (int)((Max - Min) / StepsCount);
+            if (StepsCount > 0)
+            {
+                if (Max - Min == StepsCount)
+                {
+                    return 1;
+                }
+                return (int)System.Math.Max(((Max - Min) / StepsCount + 1), 2);
+            }
+            else
+            {
+                return 1;
+            }
         }
 
         /// <summary>
@@ -119,8 +130,8 @@ namespace GeonBit.UI.Entities
         protected int NormalizeValue(int value)
         {
             // round to steps
-            float steps = (Max - Min) / System.Math.Max(StepsCount - 1, 2);
-            value = (int)(System.Math.Round((double)value / steps) * steps);
+            float stepSize = (float)GetStepSize();
+            value = (int)(System.Math.Round(((double)value) / stepSize) * stepSize);
 
             // camp between min and max
             value = (int)System.Math.Min(System.Math.Max(value, Min), Max);
@@ -134,7 +145,10 @@ namespace GeonBit.UI.Entities
         /// </summary>
         public int Value
         {
+            // get current value
             get { return _value; }
+
+            // set new value
             set
             {
                 int prevVal = _value;
@@ -149,7 +163,7 @@ namespace GeonBit.UI.Entities
         public uint Min
         {
             get { return _min; }
-            set { _min = value; Value = Value; }
+            set { if (_min != value) { _min = value; Value = Value; } }
         }
 
         /// <summary>
@@ -158,7 +172,7 @@ namespace GeonBit.UI.Entities
         public uint Max
         {
             get { return _max; }
-            set { _max = value; Value = Value; }
+            set { if (_max != value) { _max = value; Value = Value; } }
         }
 
         /// <summary>
@@ -264,7 +278,7 @@ namespace GeonBit.UI.Entities
         /// <param name="input">Input helper instance.</param>
         override protected void DoOnMouseWheelScroll(InputHelper input)
         {
-            Value = _value + input.MouseWheelChange;
+            Value = _value + input.MouseWheelChange * GetStepSize();
         }
     }
 }

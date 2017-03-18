@@ -548,7 +548,6 @@ namespace GeonBit.UI
         /// <param name="spriteBatch">Current spritebatch we are using.</param>
         protected virtual void UpdateRenderTarget(SpriteBatch spriteBatch)
         {
-            // set render target
             if (_renderTargets.Count > 0)
             {
                 spriteBatch.GraphicsDevice.SetRenderTarget(_renderTargets.Peek());
