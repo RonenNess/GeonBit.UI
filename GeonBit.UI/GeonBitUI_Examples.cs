@@ -369,7 +369,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
             // example: panels
             {
                 // create panel and add to list of panels and manager
-                Panel panel = new Panel(new Vector2(450, 650));
+                Panel panel = new Panel(new Vector2(450, 640));
                 panels.Add(panel);
                 UserInterface.AddEntity(panel);
 
@@ -517,9 +517,9 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 // dropdown title
                 panel.AddChild(new Header("DropDown"));
                 panel.AddChild(new HorizontalLine());
-                panel.AddChild(new Paragraph("DropDown is just like a list, but take less space since it hide the list when not used:"));
 
-                DropDown drop = new DropDown(new Vector2(0, 280));
+                panel.AddChild(new Paragraph("DropDown is just like a list, but take less space since it hide the list when not used:"));
+                DropDown drop = new DropDown(new Vector2(0, 240));
                 drop.AddItem("Warrior");
                 drop.AddItem("Mage");
                 drop.AddItem("Ranger");
@@ -687,7 +687,7 @@ Maybe something interesting in tab3?"));
             // example: disabled
             {
                 // create panel and add to list of panels and manager
-                Panel panel = new Panel(new Vector2(480, 600));
+                Panel panel = new Panel(new Vector2(480, 590));
                 panel.Disabled = true;
                 panels.Add(panel);
                 UserInterface.AddEntity(panel);
@@ -719,7 +719,7 @@ Maybe something interesting in tab3?"));
             // example: Locked
             {
                 // create panel and add to list of panels and manager
-                Panel panel = new Panel(new Vector2(520, 620));
+                Panel panel = new Panel(new Vector2(520, 610));
                 panels.Add(panel);
                 UserInterface.AddEntity(panel);
 
@@ -1091,11 +1091,11 @@ If you liked GeonBit.UI feel free to star the repo on GitHub. :)"));
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            // clear buffer
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-            
             // draw ui
             UserInterface.Draw(spriteBatch);
+
+            // clear buffer
+            GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // finalize ui rendering
             UserInterface.FinalizeDraw(spriteBatch);

@@ -254,7 +254,7 @@ namespace GeonBit.UI.Entities
         protected EntityState _entityState = EntityState.Default;
 
         /// <summary>Does this entity or one of its children currently focused?</summary>
-        protected bool IsFocused = false;
+        public bool IsFocused = false;
 
         /// <summary>Currently calculated destination rect (eg the region this entity is drawn on).</summary>
         protected Rectangle _destRect;
@@ -311,6 +311,9 @@ namespace GeonBit.UI.Entities
         {
             // call the spawn event
             UserInterface.OnEntitySpawn?.Invoke(this);
+
+            // make parent dirty
+            if (_parent != null) { _parent._isDirty = true; }
         }
 
         /// <summary>
