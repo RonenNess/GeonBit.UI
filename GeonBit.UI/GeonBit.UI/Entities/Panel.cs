@@ -199,24 +199,21 @@ namespace GeonBit.UI.Entities
                 spriteBatch.Draw(_renderTarget, _destRectInternal, Color.White);
                 UserInterface.DrawUtils.EndDraw(spriteBatch);
 
-                // recalc children dest rect to fix it
+                // since we changed the internal dest rect before drawing children, we need to recalc children dest rect back to normal
                 foreach (Entity child in GetChildren())
                 {
                     if (child != _scrollbar)
                     {
-                        child.CalcDestRect();
-                        child.CalcInternalRect();
-                        if (child.GetType().IsSubclassOf(typeof(Paragraph)) || child.GetType() == typeof(Paragraph))
-                        {
-                            ((Paragraph)(child)).PrepareForDraw();
-                        }
+                        child.UpdateDestinationRects();
                     }
                 }
 
-                // adjust internal rect width
+                // fix scrollbar positioning etc
                 _destRectInternal.Y -= _scrollbar.Value;
                 _destRectInternal.Width -= _scrollbar.GetActualDestRect().Width;
-                _scrollbar.CalcDestRect();
+                _scrollbar.UpdateDestinationRects();
+
+                // set destination rect back to normal
                 _destRectInternal = _originalInternalDestRect;
             }
         }

@@ -33,6 +33,14 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Force-mark the root panel as dirty (happens when resolution changes etc).
+        /// </summary>
+        public void MarkAsDirty()
+        {
+            _isDirty = true;
+        }
+
+        /// <summary>
         /// Override the function to calculate the destination rectangle, so the root panel will always cover the entire screen.
         /// </summary>
         /// <returns>Rectangle in the size of the whole screen.</returns>
@@ -59,8 +67,7 @@ namespace GeonBit.UI.Entities
             OnBeforeDraw(spriteBatch);
 
             // calc desination rect
-            _destRect = CalcDestRect();
-            _destRectInternal = CalcInternalRect();
+            UpdateDestinationRectsIfDirty();
 
             // get sorted children list
             List<Entity> childrenSorted = GetSortedChildren();

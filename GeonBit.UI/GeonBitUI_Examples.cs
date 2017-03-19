@@ -1091,11 +1091,11 @@ If you liked GeonBit.UI feel free to star the repo on GitHub. :)"));
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            // draw ui
-            UserInterface.Draw(spriteBatch);
-
             // clear buffer
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            
+            // draw ui
+            UserInterface.Draw(spriteBatch);
 
             // finalize ui rendering
             UserInterface.FinalizeDraw(spriteBatch);

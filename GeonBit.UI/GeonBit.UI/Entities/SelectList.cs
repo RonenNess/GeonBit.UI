@@ -279,8 +279,7 @@ namespace GeonBit.UI.Entities
                 };
 
                 // to calculate paragraph actual bottom
-                paragraph.CalcDestRect();
-                paragraph.PrepareForDraw();
+                paragraph.UpdateDestinationRects();
 
                 // if out of list bounderies remove this paragraph and stop
                 if ((paragraph.GetActualDestRect().Bottom > _destRect.Bottom - _scaledPadding.Y) || i > _list.Count)

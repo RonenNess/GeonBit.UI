@@ -85,13 +85,20 @@ namespace GeonBit.UI
         public const string VERSION = "2.0.0.1";
 
         // root panel that covers the entire screen and everything is added to it
-        static Panel _root;
+        static RootPanel _root;
 
         // the entity currently being dragged
         static Entity _dragTarget;
 
+        // current global scale
+        static private float _scale = 1f;
+
         /// <summary>Scale the entire UI and all the entities in it. This is useful for smaller device screens.</summary>
-        static public float GlobalScale = 1.0f;
+        static public float GlobalScale
+        {
+            get { return _scale; }
+            set { _scale = value; _root.MarkAsDirty(); }
+        }
 
         /// <summary>Cursor rendering size.</summary>
         static public float CursorScale = 1f;
@@ -299,9 +306,16 @@ namespace GeonBit.UI
         /// <param name="spriteBatch">SpriteBatch to draw on.</param>
         static public void Draw(SpriteBatch spriteBatch)
         {
+            int newScreenWidth = spriteBatch.GraphicsDevice.Viewport.Width;
+            int newScreenHeight = spriteBatch.GraphicsDevice.Viewport.Height;
+
             // update screen size
-            ScreenWidth = spriteBatch.GraphicsDevice.Viewport.Width;
-            ScreenHeight = spriteBatch.GraphicsDevice.Viewport.Height;
+            if (ScreenWidth != newScreenWidth || ScreenHeight != newScreenHeight)
+            {
+                ScreenWidth = newScreenWidth;
+                ScreenHeight = newScreenHeight;
+                _root.MarkAsDirty();
+            }
 
             // if using rendering targets
             if (UseRenderTarget)
@@ -346,14 +360,12 @@ namespace GeonBit.UI
         /// This function only works if we are in UseRenderTarget mode.
         /// </summary>
         /// <param name="spriteBatch">Sprite batch to draw on.</param>
-        /// <param name="target">Optional render target to draw the entire UI on.</param>
-        static public void FinalizeDraw(SpriteBatch spriteBatch, RenderTarget2D target = null)
+        static public void FinalizeDraw(SpriteBatch spriteBatch)
         {
             // draw the main render target
             if (RenderTarget != null && !RenderTarget.IsDisposed)
             {
-                spriteBatch.Begin();
-                spriteBatch.GraphicsDevice.SetRenderTarget(target);
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
                 spriteBatch.Draw(RenderTarget, new Rectangle(0, 0, ScreenWidth, ScreenHeight), Color.White);
                 spriteBatch.End();
             }
