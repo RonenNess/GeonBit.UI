@@ -20,6 +20,9 @@ namespace GeonBit.UI
         // Stack of rendering targets
         private Stack<RenderTarget2D> _renderTargets = new Stack<RenderTarget2D>();
 
+        // last used render target
+        RenderTarget2D _lastRenderTarget = null;
+
         /// <summary>
         /// Add a render target to the render targets stack.
         /// </summary>
@@ -548,13 +551,22 @@ namespace GeonBit.UI
         /// <param name="spriteBatch">Current spritebatch we are using.</param>
         protected virtual void UpdateRenderTarget(SpriteBatch spriteBatch)
         {
+            // get current render target
+            RenderTarget2D newRenderTarget = null;
             if (_renderTargets.Count > 0)
             {
-                spriteBatch.GraphicsDevice.SetRenderTarget(_renderTargets.Peek());
+                newRenderTarget = _renderTargets.Peek();
             }
             else
             {
-                spriteBatch.GraphicsDevice.SetRenderTarget(UserInterface.RenderTarget);
+                newRenderTarget = UserInterface.RenderTarget;
+            }
+
+            // only if changed, set render target (costly function)
+            if (_lastRenderTarget != newRenderTarget)
+            {
+                _lastRenderTarget = newRenderTarget;
+                spriteBatch.GraphicsDevice.SetRenderTarget(_lastRenderTarget);
             }
         }
 
