@@ -27,7 +27,7 @@ namespace GeonBit.UI.Entities
         {
             // by default locked so it won't do events
             Locked = Disabled = true;
-            _size.X = 0.1f;
+            _size.X = 0f;
         }
 
         /// <summary>

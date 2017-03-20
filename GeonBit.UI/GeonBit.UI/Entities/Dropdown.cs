@@ -141,7 +141,7 @@ namespace GeonBit.UI.Entities
             };
 
             // hide the list by default
-            ListVisible = false;
+            _selectList.Visible = false;
 
             // setup the callback to show / hide the list when clicking the dropbox
             _selectedTextPanel.OnClick = (Entity self) =>
@@ -235,7 +235,7 @@ namespace GeonBit.UI.Entities
             _selectList.ScrollToSelected();
 
             // mark self as dirty
-            _isDirty = true;
+            MarkAsDirty();
         }        
 
         /// <summary>

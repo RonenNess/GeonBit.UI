@@ -142,6 +142,11 @@ namespace GeonBit.UI.Entities
         new public static StyleSheet DefaultStyle = new StyleSheet();
 
         /// <summary>
+        /// Icon background size in pixels.
+        /// </summary>
+        public static int BackgroundSize = 10;
+
+        /// <summary>
         /// Create a new icon.
         /// Note: if you want to use your own texture for the icon, simply set 'icon' to be IconType.None and replace 'Texture' with
         /// your own texture after it is created.
@@ -162,6 +167,12 @@ namespace GeonBit.UI.Entities
             // set default background color
             SetStyleProperty("BackgroundColor", new StyleProperty(Color.White));
 
+            // if have background, add default space-after
+            if (background)
+            {
+                SpaceAfter = Vector2.One * BackgroundSize;
+            }
+
             // update default style
             UpdateStyle(DefaultStyle);
         }
@@ -175,16 +186,9 @@ namespace GeonBit.UI.Entities
             // draw background
             if (DrawBackground)
             {
-                // when draw background we recalc dest rect with minimal padding
-                Vector2 prevSpaceBefore = SpaceBefore;
-                SpaceBefore = new Vector2(System.Math.Max(7, SpaceBefore.X), System.Math.Max(12, SpaceBefore.Y));
-                _destRect = CalcDestRect();
-                _destRectInternal = CalcInternalRect();
-                SpaceBefore = prevSpaceBefore;
-
                 // get background dest rect
                 Rectangle dest = _destRect;
-                dest.X -= 5; dest.Y -= 5; dest.Width += 10; dest.Height += 10;
+                dest.X -= BackgroundSize / 2; dest.Y -= BackgroundSize / 2; dest.Width += BackgroundSize; dest.Height += BackgroundSize;
                 UserInterface.DrawUtils.DrawImage(spriteBatch, Resources.IconBackgroundTexture, dest, GetActiveStyle("BackgroundColor").asColor);
             }
 

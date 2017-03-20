@@ -48,7 +48,7 @@ namespace GeonBit.UI.Entities
         public string Text
         {
             get { return _text; }
-            set { _text = value;  _isDirty = true; }
+            set { if (_text != value) { _text = value; MarkAsDirty(); } }
         }
 
         // is wrap-words enabled?
@@ -61,7 +61,7 @@ namespace GeonBit.UI.Entities
         public bool WrapWords
         {
             get { return _wrapWords; }
-            set { _wrapWords = value; _isDirty = true; }
+            set { _wrapWords = value; MarkAsDirty(); }
         }
 
         // text actual destination rect
@@ -87,7 +87,7 @@ namespace GeonBit.UI.Entities
         public bool BreakWordsIfMust
         {
             get { return _breakWordsIfMust; }
-            set { _breakWordsIfMust = value; _isDirty = true; }
+            set { _breakWordsIfMust = value; MarkAsDirty(); }
         }
 
         // should we add a hyphen whenever we break words?
@@ -99,7 +99,7 @@ namespace GeonBit.UI.Entities
         public bool AddHyphenWhenBreakWord
         {
             get { return _addHyphenWhenBreakWord; }
-            set { _addHyphenWhenBreakWord = value; _isDirty = true; }
+            set { _addHyphenWhenBreakWord = value; MarkAsDirty(); }
         }
 
         /// <summary>Base font size. Change this property to affect the size of all paragraphs and other text entities.</summary>
@@ -324,7 +324,7 @@ namespace GeonBit.UI.Entities
             SpriteFont font = GetCurrFont();
             if (font != _currFont)
             {
-                _isDirty = true;
+                MarkAsDirty();
                 _currFont = font;
             }
 
@@ -333,7 +333,7 @@ namespace GeonBit.UI.Entities
             if (actualScale != _actualScale)
             {
                 _actualScale = actualScale;
-                _isDirty = true;
+                MarkAsDirty();
             }
 
             // get text and add things like line-breaks to wrap words etc.
@@ -348,7 +348,7 @@ namespace GeonBit.UI.Entities
             if (newProcessedText != _processedText)
             {
                 _processedText = newProcessedText;
-                _isDirty = true;
+                MarkAsDirty();
             }
 
             // due to the mechanism of calculating destination rect etc based on parent and anchor,

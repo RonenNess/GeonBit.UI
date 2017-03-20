@@ -33,14 +33,6 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
-        /// Force-mark the root panel as dirty (happens when resolution changes etc).
-        /// </summary>
-        public void MarkAsDirty()
-        {
-            _isDirty = true;
-        }
-
-        /// <summary>
         /// Override the function to calculate the destination rectangle, so the root panel will always cover the entire screen.
         /// </summary>
         /// <returns>Rectangle in the size of the whole screen.</returns>

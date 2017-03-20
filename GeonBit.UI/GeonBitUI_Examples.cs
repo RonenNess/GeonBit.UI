@@ -119,7 +119,7 @@ namespace GeonBit.UI.Example
             Button exitBtn = new Button("Exit", anchor: Anchor.BottomRight, size: new Vector2(200, -1));
             exitBtn.OnClick = (Entity entity) =>
             {
-                System.Environment.Exit(1);
+                Exit();
             };
             UserInterface.AddEntity(exitBtn);
 
@@ -582,7 +582,7 @@ In this example, we use scrollbars when entities overflow the panel boundaries."
                 }
 
                 panel.AddChild(new Paragraph("And you can also add an inventory-like frame:"));
-
+                panel.AddChild(new LineSpace());
                 for (int i = 0; i < 6; ++i)
                 {
                     panel.AddChild(new Icon((IconType)i, Anchor.AutoInline, 1, true));
@@ -703,9 +703,10 @@ Maybe something interesting in tab3?"));
                 panel.AddChild(panel2);
                 panel2.AddChild(new Button("button"));
 
+                panel2.AddChild(new LineSpace());
                 for (int i = 0; i < 6; ++i)
                 {
-                    panel2.AddChild(new Icon((IconType)i, Anchor.AutoInline, 1, true, new Vector2(12, 6)));
+                    panel2.AddChild(new Icon((IconType)i, Anchor.AutoInline, 1, true));
                 }
                 panel2.AddChild(new Paragraph("\nDisabled entities are drawn in black & white, and you cannot interact with them.."));
 
@@ -735,10 +736,11 @@ Maybe something interesting in tab3?"));
 
                 panel.AddChild(panel2);
                 panel2.AddChild(new Button("button"));
+                panel2.AddChild(new LineSpace());
 
                 for (int i = 0; i < 6; ++i)
                 {
-                    panel2.AddChild(new Icon((IconType)i, Anchor.AutoInline, 1, true, new Vector2(12, 6)));
+                    panel2.AddChild(new Icon((IconType)i, Anchor.AutoInline, 1, true));
                 }
                 panel2.AddChild(new Paragraph("\nLocked entities will not respond to input, but unlike disabled entities they are drawn normally, eg with colors:"));
 

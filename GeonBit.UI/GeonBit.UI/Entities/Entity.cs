@@ -145,7 +145,7 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Mark if this entity is dirty and need to recalculate its destination rect.
         /// </summary>
-        protected bool _isDirty = true;
+        private bool _isDirty = true;
 
         // entity current style properties
         private StyleSheet _style = new StyleSheet();
@@ -289,7 +289,7 @@ namespace GeonBit.UI.Entities
         public Entity(Vector2? size = null, Anchor anchor = Anchor.Auto, Vector2? offset = null)
         {
             // set as dirty (eg need to recalculate destination rect)
-            _isDirty = true;
+            MarkAsDirty();
 
             // store size, anchor and offset
             _size = size ?? DefaultSize;
@@ -313,7 +313,7 @@ namespace GeonBit.UI.Entities
             UserInterface.OnEntitySpawn?.Invoke(this);
 
             // make parent dirty
-            if (_parent != null) { _parent._isDirty = true; }
+            if (_parent != null) { _parent.MarkAsDirty(); }
         }
 
         /// <summary>
@@ -334,10 +334,11 @@ namespace GeonBit.UI.Entities
         /// <param name="property">Property identifier.</param>
         /// <param name="value">Property value.</param>
         /// <param name="state">State to set property for.</param>
-        public void SetStyleProperty(string property, StyleProperty value, EntityState state = EntityState.Default)
+        /// <param name="markAsDirty">If true, will mark this entity as dirty after this style change.</param>
+        public void SetStyleProperty(string property, StyleProperty value, EntityState state = EntityState.Default, bool markAsDirty = true)
         {
             _style.SetStyleProperty(property, value, state);
-            _isDirty = true;
+            if (markAsDirty) { MarkAsDirty(); }
         }
 
         /// <summary>
@@ -357,7 +358,7 @@ namespace GeonBit.UI.Entities
         public void UpdateStyle(StyleSheet updates)
         {
             _style.UpdateFrom(updates);
-            _isDirty = true;
+            MarkAsDirty();
         }
 
         /// <summary>Get extra space after with current UI scale applied. </summary>
@@ -398,7 +399,7 @@ namespace GeonBit.UI.Entities
         public bool Draggable
         {
             get { return _draggable; }
-            set { _needToSetDragOffset = _draggable != value; _draggable = value; _isDirty = true; }
+            set { _needToSetDragOffset = _draggable != value; _draggable = value; MarkAsDirty(); }
         }
 
         /// <summary>
@@ -499,7 +500,7 @@ namespace GeonBit.UI.Entities
         public Vector2 Size
         {
             get { return _size; }
-            set { _size = value; _isDirty = true; }
+            set { if (_size != value) { _size = value; MarkAsDirty(); } }
         }
 
         /// <summary>
@@ -525,7 +526,7 @@ namespace GeonBit.UI.Entities
         /// </summary>
         public Color FillColor
         {
-            set { SetStyleProperty("FillColor", new StyleProperty(value)); }
+            set { SetStyleProperty("FillColor", new StyleProperty(value), markAsDirty: false); }
             get { return GetActiveStyle("FillColor").asColor; }
         }
 
@@ -543,7 +544,7 @@ namespace GeonBit.UI.Entities
         /// </summary>
         public Color ShadowColor
         {
-            set { SetStyleProperty("ShadowColor", new StyleProperty(value)); }
+            set { SetStyleProperty("ShadowColor", new StyleProperty(value), markAsDirty: false); }
             get { return GetActiveStyle("ShadowColor").asColor; }
         }
 
@@ -552,7 +553,7 @@ namespace GeonBit.UI.Entities
         /// </summary>
         public float ShadowScale
         {
-            set { SetStyleProperty("ShadowScale", new StyleProperty(value)); }
+            set { SetStyleProperty("ShadowScale", new StyleProperty(value), markAsDirty: false); }
             get { return GetActiveStyle("ShadowScale").asFloat; }
         }
 
@@ -561,7 +562,7 @@ namespace GeonBit.UI.Entities
         /// </summary>
         public Vector2 ShadowOffset
         {
-            set { SetStyleProperty("ShadowOffset", new StyleProperty(value)); }
+            set { SetStyleProperty("ShadowOffset", new StyleProperty(value), markAsDirty: false); }
             get { return GetActiveStyle("ShadowOffset").asVector; }
         }
 
@@ -579,7 +580,7 @@ namespace GeonBit.UI.Entities
         /// </summary>
         public Color OutlineColor
         {
-            set { SetStyleProperty("OutlineColor", new StyleProperty(value)); }
+            set { SetStyleProperty("OutlineColor", new StyleProperty(value), markAsDirty: false); }
             get { return GetActiveStyle("OutlineColor").asColor; }
         }
 
@@ -588,7 +589,7 @@ namespace GeonBit.UI.Entities
         /// </summary>
         public int OutlineWidth
         {
-            set { SetStyleProperty("OutlineWidth", new StyleProperty(value)); }
+            set { SetStyleProperty("OutlineWidth", new StyleProperty(value), markAsDirty: false); }
             get { return GetActiveStyle("OutlineWidth").asInt; }
         }
 
@@ -693,9 +694,8 @@ namespace GeonBit.UI.Entities
         /// <param name="offset">Offset from new anchor position.</param>
         public void SetPosition(Anchor anchor, Vector2 offset)
         {
-            _anchor = anchor;
+            SetAnchor(anchor);
             SetOffset(offset);
-            _isDirty = true;
         }
 
         /// <summary>
@@ -705,7 +705,7 @@ namespace GeonBit.UI.Entities
         public void SetAnchor(Anchor anchor)
         {
             _anchor = anchor;
-            _isDirty = true;
+            MarkAsDirty();
         }
 
         /// <summary>
@@ -718,15 +718,14 @@ namespace GeonBit.UI.Entities
             if (_isBeingDragged)
             {
                 _dragOffset = offset;
+                MarkAsDirty();
             }
             // if not dragged, set regular offset
-            else
+            else if (_offset != offset)
             {
                 _offset = offset;
+                MarkAsDirty();
             }
-
-            // mark as dirty
-            _isDirty = true;
         }
 
         /// <summary>
@@ -858,6 +857,9 @@ namespace GeonBit.UI.Entities
         /// <param name="spriteBatch">Sprite batch to draw on.</param>
         virtual protected void DrawEntityShadow(SpriteBatch spriteBatch)
         {
+            // store current 'is-dirty' flag, because it changes internally while drawing shadow
+            bool isDirty = _isDirty;
+
             // get current shadow color and if transparent skip
             Color shadowColor = ShadowColor;
             if (shadowColor.A == 0) { return; }
@@ -902,6 +904,9 @@ namespace GeonBit.UI.Entities
             OutlineColor = oldOutline;
             OutlineWidth = oldOutlineWidth;
             _entityState = oldState;
+
+            // restore is-dirty flag
+            _isDirty = isDirty;
         }
 
         /// <summary>
@@ -1018,8 +1023,8 @@ namespace GeonBit.UI.Entities
             child._parentLastDestRectVersion = _destRectVersion - 1;
 
             // mark child as dirty
-            child._isDirty = true;
-            _isDirty = true;
+            child.MarkAsDirty();
+            MarkAsDirty();
         }
 
         /// <summary>
@@ -1057,8 +1062,8 @@ namespace GeonBit.UI.Entities
             }
 
             // mark child and self as dirty
-            child._isDirty = true;
-            _isDirty = true;
+            child.MarkAsDirty();
+            MarkAsDirty();
         }
 
         /// <summary>
@@ -1071,12 +1076,12 @@ namespace GeonBit.UI.Entities
             {
                 child._parent = null;
                 child._indexInParent = -1;
-                child._isDirty = true;
+                child.MarkAsDirty();
             }
             _children.Clear();
 
             // mark self as dirty
-            _isDirty = true;
+            MarkAsDirty();
         }
 
         /// <summary>
@@ -1105,6 +1110,7 @@ namespace GeonBit.UI.Entities
             Rectangle ret = new Rectangle();
 
             // get parent internal destination rectangle
+            _parent.UpdateDestinationRectsIfDirty();
             Rectangle parentDest = _parent._destRectInternal;
 
             // set size:
@@ -1200,6 +1206,9 @@ namespace GeonBit.UI.Entities
                 // only if found align based on it
                 if (prevEntity != null)
                 {
+                    // make sure sibling is up-to-date
+                    prevEntity.UpdateDestinationRectsIfDirty();
+
                     // handle inline align
                     if (anchor == Anchor.AutoInline)
                     {
@@ -1510,6 +1519,22 @@ namespace GeonBit.UI.Entities
         public bool IsMouseOver { get { return _isMouseOver; } }
 
         /// <summary>
+        /// Mark that this entity boundaries or style changed and it need to recalculate cached destination rect and other things.
+        /// </summary>
+        public void MarkAsDirty()
+        {
+            _isDirty = true;
+        }
+
+        /// <summary>
+        /// Remove the IsDirty flag.
+        /// </summary>
+        internal void ClearDirtyFlag()
+        {
+            _isDirty = false;
+        }
+
+        /// <summary>
         /// Called every frame to update entity state and call events.
         /// </summary>
         /// <param name="input">Input helper.</param>
@@ -1732,11 +1757,14 @@ namespace GeonBit.UI.Entities
             {
                 _isBeingDragged = false;
                 DoOnStopDrag(input);
-                _isDirty = true;
+                MarkAsDirty();
             }
 
             // if being dragged, mark as dirty
-            _isDirty = _isDirty || _isBeingDragged;
+            if (_isBeingDragged)
+            {
+                MarkAsDirty();
+            }
 
             // do after-update events
             DoAfterUpdate(input);

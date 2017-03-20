@@ -44,6 +44,9 @@ namespace GeonBit.UI.Entities
         // scrollbar to scroll through the list
         VerticalScrollbar _scrollbar;
 
+        // indicate that we had a resize event while not being visible
+        bool _hadResizeWhileNotVisible = false;
+
         /// <summary>Extra space (in pixels) between items on Y axis.</summary>
         public int ExtraSpaceBetweenLines = 0;
 
@@ -231,11 +234,34 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Called every frame before drawing is done.
+        /// </summary>
+        /// <param name="spriteBatch">SpriteBatch to draw on.</param>
+        override protected void OnBeforeDraw(SpriteBatch spriteBatch)
+        {
+            base.OnBeforeDraw(spriteBatch);
+            if (_hadResizeWhileNotVisible)
+            {
+                OnResize();
+            }
+        }
+
+        /// <summary>
         /// When list is resized (also called on init), create the labels to show item values and init graphical stuff.
         /// </summary>
         /// <param name="recalcDestRect">If true, will also recalculate destination rectangle.</param>
         protected virtual void OnResize(bool recalcDestRect = true)
         {
+            // if not visible, skip
+            if (!IsVisible())
+            {
+                _hadResizeWhileNotVisible = true;
+                return;
+            }
+
+            // clear the _hadResizeWhileNotVisible flag
+            _hadResizeWhileNotVisible = false;
+
             // store current size
             _prevSize = _size;
 
@@ -415,7 +441,7 @@ namespace GeonBit.UI.Entities
         override protected void DrawEntity(SpriteBatch spriteBatch)
         {
             // if size changed, update paragraphs list
-            if (_prevSize.Y != _size.Y)
+            if (_prevSize.Y != _size.Y || _hadResizeWhileNotVisible)
             {
                 OnResize();
             }
