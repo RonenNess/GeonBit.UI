@@ -1638,6 +1638,7 @@ Some bug fixes, optimizations, and few new features.
 - Improved sliders and scrollbars behavior and steps count.
 - Added optimizations to only recalculate entities destination rect when needed.
 - Changed default fonts.
+- Added option for LineSpace with size 0.
 
 ## Credits
 
