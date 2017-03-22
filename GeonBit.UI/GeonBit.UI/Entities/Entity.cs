@@ -956,7 +956,7 @@ namespace GeonBit.UI.Entities
             EntityState oldState = _entityState;
 
             // set fill color
-            SetStyleProperty("FillColor", new StyleProperty(outlineColor), oldState);
+            SetStyleProperty("FillColor", new StyleProperty(outlineColor), oldState, markAsDirty: false);
 
             // draw the entity outline
             UserInterface.DrawUtils.StartDrawSilhouette(spriteBatch);
@@ -971,7 +971,7 @@ namespace GeonBit.UI.Entities
             UserInterface.DrawUtils.EndDraw(spriteBatch);
 
             // turn back to previous fill color
-            SetStyleProperty("FillColor", new StyleProperty(oldFill), oldState);
+            SetStyleProperty("FillColor", new StyleProperty(oldFill), oldState, markAsDirty: false);
 
             // return to the original destination rect
             _destRect = originalDest;
