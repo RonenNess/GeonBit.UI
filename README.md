@@ -1637,6 +1637,7 @@ Some bug fixes, optimizations, and few new features.
 - Added access to the UserInterface Root panel, which is useful for Find() etc.
 - Improved sliders and scrollbars behavior and steps count.
 - Added optimizations to only recalculate entities destination rect when needed.
+- Changed default fonts.
 
 ## Credits
 

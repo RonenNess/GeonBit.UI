@@ -216,7 +216,7 @@ namespace GeonBit.UI.Example
             // example: welcome message
             {
                 // create panel and add to list of panels and manager
-                Panel panel = new Panel(new Vector2(500, 600));
+                Panel panel = new Panel(new Vector2(500, 580));
                 panels.Add(panel);
                 UserInterface.AddEntity(panel);
 
@@ -265,7 +265,7 @@ To start the demo, please click the 'Next' button on the top navbar."));
             // example: basic concepts
             {
                 // create panel and add to list of panels and manager
-                Panel panel = new Panel(new Vector2(740, 560));
+                Panel panel = new Panel(new Vector2(740, 540));
                 panels.Add(panel);
                 UserInterface.AddEntity(panel);
 
@@ -282,7 +282,7 @@ Another thing to keep in mind is size; Most widgets come with a default size, bu
             // example: anchors
             {
                 // create panel and add to list of panels and manager
-                Panel panel = new Panel(new Vector2(800, 650));
+                Panel panel = new Panel(new Vector2(800, 620));
                 panels.Add(panel);
                 UserInterface.AddEntity(panel);
 
@@ -306,7 +306,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
             // example: buttons
             {
                 // create panel and add to list of panels and manager
-                Panel panel = new Panel(new Vector2(450, 670));
+                Panel panel = new Panel(new Vector2(450, 660));
                 panels.Add(panel);
                 UserInterface.AddEntity(panel);
 
@@ -413,7 +413,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 panel.AddChild(new LineSpace());
                 panel.AddChild(new HorizontalLine());
                 panel.AddChild(new LineSpace());
-                Paragraph paragraph = new Paragraph("Note that any type of entity can become draggable. For example, try to drag this paragraph!");
+                Paragraph paragraph = new Paragraph("Any type of entity can be dragged. For example, try to drag this text!");
                 paragraph.SetStyleProperty("FillColor", new StyleProperty(Color.Yellow));
                 paragraph.SetStyleProperty("FillColor", new StyleProperty(Color.Purple), EntityState.MouseHover);
                 paragraph.Draggable = true;
@@ -508,7 +508,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
             // example: dropdown
             {
                 // create panel and add to list of panels and manager
-                Panel panel = new Panel(new Vector2(450, 440));
+                Panel panel = new Panel(new Vector2(450, 430));
                 panels.Add(panel);
                 UserInterface.AddEntity(panel);
 
@@ -561,7 +561,7 @@ In this example, we use scrollbars when entities overflow the panel boundaries."
             // example: icons
             {
                 // create panel and add to list of panels and manager
-                Panel panel = new Panel(new Vector2(460, 650));
+                Panel panel = new Panel(new Vector2(460, 640));
                 panels.Add(panel);
                 UserInterface.AddEntity(panel);
 
@@ -590,7 +590,7 @@ In this example, we use scrollbars when entities overflow the panel boundaries."
             // example: text input
             {
                 // create panel and add to list of panels and manager
-                Panel panel = new Panel(new Vector2(450, 570));
+                Panel panel = new Panel(new Vector2(450, 550));
                 panels.Add(panel);
                 UserInterface.AddEntity(panel);
 
@@ -685,7 +685,7 @@ Maybe something interesting in tab3?"));
             // example: disabled
             {
                 // create panel and add to list of panels and manager
-                Panel panel = new Panel(new Vector2(480, 590));
+                Panel panel = new Panel(new Vector2(480, 580));
                 panel.Disabled = true;
                 panels.Add(panel);
                 UserInterface.AddEntity(panel);
@@ -752,7 +752,7 @@ Maybe something interesting in tab3?"));
             // example: Cursors
             {
                 // create panel and add to list of panels and manager
-                Panel panel = new Panel(new Vector2(450, 550));
+                Panel panel = new Panel(new Vector2(450, 540));
                 panels.Add(panel);
                 UserInterface.AddEntity(panel);
 
@@ -798,7 +798,7 @@ Maybe something interesting in tab3?"));
             // example: Misc
             {
                 // create panel and add to list of panels and manager
-                Panel panel = new Panel(new Vector2(530, 620));
+                Panel panel = new Panel(new Vector2(530, 590));
                 panels.Add(panel);
                 UserInterface.AddEntity(panel);
 
@@ -850,7 +850,7 @@ Maybe something interesting in tab3?"));
             // example: character build page - intro
             {
                 // create panel and add to list of panels and manager
-                Panel panel = new Panel(new Vector2(500, 320));
+                Panel panel = new Panel(new Vector2(500, 300));
                 panels.Add(panel);
                 UserInterface.AddEntity(panel);
 
@@ -944,7 +944,7 @@ Click on 'Next' to see the character creation demo."));
                 int colorPickSize = 24;
                 foreach (Color baseColor in colors)
                 {
-                    rightPanel.AddChild(new LineSpace());
+                    rightPanel.AddChild(new LineSpace(0));
                     for (int i = 0; i < 8; ++i)
                     {
                         Color color = baseColor * (1.0f - (i * 2 / 16.0f)); color.A = 255;
@@ -1002,7 +1002,7 @@ Click on 'Next' to see the character creation demo."));
             // example: epilogue
             {
                 // create panel and add to list of panels and manager
-                Panel panel = new Panel(new Vector2(520, 460));
+                Panel panel = new Panel(new Vector2(520, 400));
                 panels.Add(panel);
                 UserInterface.AddEntity(panel);
 
