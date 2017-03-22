@@ -949,7 +949,7 @@ Click on 'Next' to see the character creation demo."));
                     {
                         Color color = baseColor * (1.0f - (i * 2 / 16.0f)); color.A = 255;
                         ColoredRectangle currColorButton = new ColoredRectangle(color, Vector2.One * colorPickSize, Anchor.AutoInline);
-                        currColorButton.SpaceAfter = currColorButton.SpaceBefore = Vector2.Zero;
+                        currColorButton.Padding = currColorButton.SpaceAfter = currColorButton.SpaceBefore = Vector2.Zero;
                         currColorButton.OnClick = (Entity entity) =>
                         {
                             previewImageColor.FillColor = entity.FillColor;

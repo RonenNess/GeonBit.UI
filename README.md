@@ -1622,7 +1622,7 @@ The changes in this version break the API and may require some code changes on m
 - Added 'PromiscuousClicksMode' to entities to make them behave similar to windows. Most entities by default won't be in 'Promiscuous' mode.
 - Added 'OnEntitySpawn' event, to make an easy place to init all newly created entities.
 
-### 2.0.0.1
+### 2.0.1.0
 
 Some bug fixes, optimizations, and few new features.
 
@@ -1633,7 +1633,7 @@ Some bug fixes, optimizations, and few new features.
 - Fixed mouse down event so it want trigger multiple event calls when mouse goes in and out of entity's boundaries.
 - Added RenderTarget mode that draws everything on a RenderTarget instead of the default BackBuffer.
 - Added overflow modes to panels.
-- Added max items to lists.
+- Added max items property to lists.
 - Added access to the UserInterface Root panel, which is useful for Find() etc.
 - Improved sliders and scrollbars behavior and steps count.
 - Added optimizations to only recalculate entities destination rect when needed.

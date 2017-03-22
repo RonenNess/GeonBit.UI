@@ -193,6 +193,7 @@ namespace GeonBit.UI.Entities
             // if list is currently visible, return the full size
             if (ListVisible)
             {
+                _selectList.UpdateDestinationRectsIfDirty();
                 Rectangle ret = _selectList.GetActualDestRect();
                 ret.Height += SelectedPanelHeight;
                 ret.Y -= SelectedPanelHeight;
@@ -201,6 +202,7 @@ namespace GeonBit.UI.Entities
             // if list is not currently visible, return the header size
             else
             {
+                _selectedTextPanel.UpdateDestinationRectsIfDirty();
                 return _selectedTextPanel.GetActualDestRect();
             }
         }
