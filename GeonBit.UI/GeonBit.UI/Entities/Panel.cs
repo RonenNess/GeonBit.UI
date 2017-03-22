@@ -56,13 +56,14 @@ namespace GeonBit.UI.Entities
         Overflow,
 
         /// <summary>
-        /// Entities that exceed panel boundaries will be hidden.
+        /// Entities that exceed panel boundaries will be clipped.
+        /// Note: Requires render targets.
         /// </summary>
-        Hidden,
+        Clipped,
 
         /// <summary>
-        /// Entities that exceed panel on Y axis will create a scrollbar.
-        /// Exceeding on X axis will be hidden.
+        /// Entities that exceed panel on Y axis will create a scrollbar. Exceeding on X axis will be hidden.
+        /// Note: Requires render targets.
         /// </summary>
         VerticalScroll,
     }
@@ -95,6 +96,7 @@ namespace GeonBit.UI.Entities
 
         /// <summary>
         /// Set / get panel overflow behavior.
+        /// Note: some modes require Render Targets, eg setting the 'UseRenderTarget' to true.
         /// </summary>
         public PanelOverflowBehavior PanelOverflowBehavior
         {

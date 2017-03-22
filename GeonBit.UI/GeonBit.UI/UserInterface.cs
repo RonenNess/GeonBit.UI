@@ -87,6 +87,14 @@ namespace GeonBit.UI
         // root panel that covers the entire screen and everything is added to it
         static RootPanel _root;
 
+        /// <summary>
+        /// Get the root entity.
+        /// </summary>
+        static RootPanel Root
+        {
+            get { return _root; }
+        }
+
         // the entity currently being dragged
         static Entity _dragTarget;
 
@@ -360,7 +368,7 @@ namespace GeonBit.UI
         /// This function only works if we are in UseRenderTarget mode.
         /// </summary>
         /// <param name="spriteBatch">Sprite batch to draw on.</param>
-        static public void FinalizeDraw(SpriteBatch spriteBatch)
+        static public void DrawMainRenderTarget(SpriteBatch spriteBatch)
         {
             // draw the main render target
             if (RenderTarget != null && !RenderTarget.IsDisposed)

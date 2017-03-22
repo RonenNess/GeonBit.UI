@@ -117,10 +117,7 @@ namespace GeonBit.UI.Example
 
             // add exit button
             Button exitBtn = new Button("Exit", anchor: Anchor.BottomRight, size: new Vector2(200, -1));
-            exitBtn.OnClick = (Entity entity) =>
-            {
-                Exit();
-            };
+            exitBtn.OnClick = (Entity entity) => { Exit(); };
             UserInterface.AddEntity(exitBtn);
 
             // events panel for debug
@@ -174,6 +171,7 @@ namespace GeonBit.UI.Example
             UserInterface.WhileDragging = (Entity entity) => { eventsNow.AddItem("Dragging: " + entity.GetType().Name); eventsNow.scrollToEnd(); };
             UserInterface.WhileMouseDown = (Entity entity) => { eventsNow.AddItem("MouseDown: " + entity.GetType().Name); eventsNow.scrollToEnd(); };
             UserInterface.WhileMouseHover = (Entity entity) => { eventsNow.AddItem("MouseHover: " + entity.GetType().Name); eventsNow.scrollToEnd(); };
+            eventsNow.MaxItems = 4;
 
             // add extra info button
             Button infoBtn = new Button("  Events", anchor: Anchor.BottomLeft, size: new Vector2(280, -1), offset: new Vector2(140, 0));
@@ -1100,7 +1098,7 @@ If you liked GeonBit.UI feel free to star the repo on GitHub. :)"));
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // finalize ui rendering
-            UserInterface.FinalizeDraw(spriteBatch);
+            UserInterface.DrawMainRenderTarget(spriteBatch);
 
             // call base draw function
             base.Draw(gameTime);

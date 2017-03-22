@@ -245,7 +245,7 @@ namespace GeonBit.UI.Entities
         public bool Locked = false;
 
         /// <summary>Is the entity currently visible.</summary>
-        public bool _visible = true;
+        private bool _visible = true;
 
         /// <summary>Is this entity currently disabled?</summary>
         private bool _isCurrentlyDisabled = false;
@@ -528,6 +528,23 @@ namespace GeonBit.UI.Entities
         {
             set { SetStyleProperty("FillColor", new StyleProperty(value), markAsDirty: false); }
             get { return GetActiveStyle("FillColor").asColor; }
+        }
+
+        /// <summary>
+        /// Entity fill color opacity - this is just a sugarcoat to access the default fill color alpha style property.
+        /// </summary>
+        public byte Opacity
+        {
+            set
+            {
+                Color col = FillColor;
+                col.A = value;
+                SetStyleProperty("FillColor", new StyleProperty(col), markAsDirty: false);
+            }
+            get
+            {
+                return FillColor.A;
+            }
         }
 
         /// <summary>

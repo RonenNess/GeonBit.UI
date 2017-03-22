@@ -71,6 +71,11 @@ namespace GeonBit.UI.Entities
         // list of values
         List<string> _list = new List<string>();
 
+        /// <summary>
+        /// If provided, will not be able to add any more of this number of items.
+        /// </summary>
+        public int MaxItems = 0;
+
         /// <summary>Default select list size in pixels.</summary>
         override public Vector2 DefaultSize { get { return new Vector2(0f, 220f); } }
 
@@ -132,6 +137,7 @@ namespace GeonBit.UI.Entities
         /// <param name="value">Value to add.</param>
         public void AddItem(string value)
         {
+            if (MaxItems != 0 && Count >= MaxItems) { return; }
             _list.Add(value);
             OnListChanged();
         }
@@ -144,6 +150,7 @@ namespace GeonBit.UI.Entities
         /// <param name="index">Index to insert the new item into.</param>
         public void AddItem(string value, int index)
         {
+            if (MaxItems != 0 && Count >= MaxItems) { return; }
             _list.Insert(index, value);
             OnListChanged();
         }
@@ -249,8 +256,7 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// When list is resized (also called on init), create the labels to show item values and init graphical stuff.
         /// </summary>
-        /// <param name="recalcDestRect">If true, will also recalculate destination rectangle.</param>
-        protected virtual void OnResize(bool recalcDestRect = true)
+        protected virtual void OnResize()
         {
             // if not visible, skip
             if (!IsVisible())
@@ -271,11 +277,8 @@ namespace GeonBit.UI.Entities
             // remove previous paragraphs list
             _paragraphs.Clear();
 
-            // calculate self destination rect
-            if (recalcDestRect)
-            {
-                _destRect = CalcDestRect();
-            }
+            // make sure destination rect is up-to-date
+            UpdateDestinationRects();
 
             // calculate paragraphs quantity
             int i = 0;
@@ -317,7 +320,7 @@ namespace GeonBit.UI.Entities
             }
 
             // add scrollbar last, but only if needed
-            if (_paragraphs.Count < _list.Count)
+            if (_paragraphs.Count > 0 && _paragraphs.Count < _list.Count)
             {
                 // add scrollbar to list
                 AddChild(_scrollbar, false);
