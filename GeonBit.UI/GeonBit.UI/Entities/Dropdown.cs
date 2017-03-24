@@ -20,7 +20,7 @@ namespace GeonBit.UI.Entities
     /// DropDown is just like a list, but it only shows the currently selected value unless clicked on (the list is
     /// only revealed while interacted with).
     /// </summary>
-    public class DropDown : SelectList
+    public class DropDown : Entity
     {
         /// <summary>Default text to show when no value is selected from the list.</summary>
         public string DefaultText = "Click to Select";
@@ -29,23 +29,66 @@ namespace GeonBit.UI.Entities
         new public static StyleSheet DefaultStyle = new StyleSheet();
 
         /// <summary>Default styling for dropdown labels. Note: loaded from UI theme xml file.</summary>
-        new public static StyleSheet DefaultParagraphStyle = new StyleSheet();
+        public static StyleSheet DefaultParagraphStyle = new StyleSheet();
 
         /// <summary>Default styling for the dropdown currently-selected label. Note: loaded from UI theme xml file.</summary>
         public static StyleSheet DefaultSelectedParagraphStyle = new StyleSheet();
 
+        /// <summary>Default select list size in pixels.</summary>
+        override public Vector2 DefaultSize { get { return new Vector2(0f, 220f); } }
+
         // internal panel and paragraph to show selected value.
         Panel _selectedTextPanel;
         Paragraph _selectedTextParagraph;
+        Image _arrowDownImage;
 
-        // the height, in pixels, of the panel to show currently selected value.
-        static int SelectedPanelHeight = 67;
+        // an internal select list used when dropdown is opened.
+        SelectList _selectList;
 
-        // set temporarily to true while we render dropdown outlines.
-        private bool _isOutlinePass = false;
+        /// <summary>
+        /// Get the selected text panel (what's shown when DropDown is closed).
+        /// </summary>
+        public Panel SelectedTextPanel
+        {
+            get { return _selectedTextPanel; }
+        }
 
-        // is the list part currently visible or not.
-        bool _isListVisible = false;
+        /// <summary>
+        /// Get the drop-down list component.
+        /// </summary>
+        public SelectList SelectList
+        {
+            get { return _selectList; }
+        }
+
+        /// <summary>
+        /// Get the selected text panel paragraph (the text that's shown when DropDown is closed).
+        /// </summary>
+        public Paragraph SelectedTextPanelParagraph
+        {
+            get { return _selectedTextParagraph; }
+        }
+
+        /// <summary>
+        /// Get the image entity of the arrow on the side of the Selected Text Panel.
+        /// </summary>
+        public Image ArrowDownImage
+        {
+            get
+            {
+                return _arrowDownImage;
+            }
+        }
+
+        /// <summary>
+        /// Default height, in pixels, of the selected text panel.
+        /// </summary>
+        public static int SelectedPanelHeight = 67;
+
+        /// <summary>
+        /// Size of the arrow to show on the side of the Selected Text Panel.
+        /// </summary>
+        public static int ArrowSize = 30;
 
         /// <summary>
         /// Create the DropDown list.
@@ -55,11 +98,17 @@ namespace GeonBit.UI.Entities
         /// <param name="offset">Offset from anchor position.</param>
         /// <param name="skin">Panel skin to use for this DropDown list and header.</param>
         public DropDown(Vector2 size, Anchor anchor = Anchor.Auto, Vector2? offset = null, PanelSkin skin = PanelSkin.ListBackground) :
-            base(size, anchor, offset, skin)
+            base(size, anchor, offset)
         {
-            // create the panel and paragraph used to show selected value
+            // default padding of self is 0
+            Padding = Vector2.Zero;
+
+            // to get collision right when list is opened
+            UseActualSizeForCollision = true;
+
+            // create the panel and paragraph used to show currently selected value (what's shown when drop-down is closed)
             _selectedTextPanel = new Panel(new Vector2(0, SelectedPanelHeight), skin, Anchor.TopLeft);
-            _selectedTextParagraph = new Paragraph("", Anchor.CenterLeft, new Vector2(0, SelectedPanelHeight + 8));
+            _selectedTextParagraph = new Paragraph("", Anchor.CenterLeft);
             _selectedTextParagraph.UseActualSizeForCollision = false;
             _selectedTextParagraph.UpdateStyle(SelectList.DefaultParagraphStyle);
             _selectedTextParagraph.UpdateStyle(DefaultParagraphStyle);
@@ -67,29 +116,63 @@ namespace GeonBit.UI.Entities
             _selectedTextPanel.AddChild(_selectedTextParagraph, true);
 
             // create the arrow down icon
-            Image arrow = new Image(Resources.ArrowDown, new Vector2(30, 30), ImageDrawMode.Stretch, Anchor.CenterRight, new Vector2(-10, 0));
-            _selectedTextPanel.AddChild(arrow, true);
+            _arrowDownImage = new Image(Resources.ArrowDown, new Vector2(ArrowSize, ArrowSize), ImageDrawMode.Stretch, Anchor.CenterRight, new Vector2(-10, 0));
+            _selectedTextPanel.AddChild(_arrowDownImage, true);
+
+            // create the list component
+            _selectList = new SelectList(size, Anchor.TopCenter, Vector2.Zero, skin);
+
+            // update list offset and space before
+            _selectList.SetOffset(new Vector2(0, SelectedPanelHeight));
+            _selectList.SpaceBefore = Vector2.Zero;
+
+            // add the header and select list as children
+            AddChild(_selectedTextPanel);
+            AddChild(_selectList);
+
+            // add callback on list value change
+            _selectList.OnValueChange = (Entity entity) =>
+            {
+                // hide list
+                ListVisible = false;
+
+                // set selected text
+                _selectedTextParagraph.Text = (SelectedValue ?? DefaultText);
+            };
+
+            // hide the list by default
+            _selectList.Visible = false;
 
             // setup the callback to show / hide the list when clicking the dropbox
             _selectedTextPanel.OnClick = (Entity self) =>
             {
-                _isListVisible = !_isListVisible;
-                OnResize();
+                // change visibility
+                ListVisible = !ListVisible;
             };
 
-            // update styles
-            UpdateStyle(DefaultStyle);
+            // set starting text
+            _selectedTextParagraph.Text = (SelectedValue ?? DefaultText);
 
-            // make sure default state is without children, eg list is hidden
-            ClearChildren();
+            // update styles
+            _selectList.UpdateStyle(DefaultStyle);
         }
         
         /// <summary>
         /// Is the DropDown list currentle opened (visible).
         /// </summary>
-        public bool ListVisible {
-            get {return _isListVisible;}
-            set {_isListVisible = value;}
+        public bool ListVisible
+        {
+
+            // get if the list is visible
+            get {return _selectList.Visible;}
+
+            // show / hide the list
+            set
+            {
+                // show / hide list
+                _selectList.Visible = value;
+                OnDropDownVisibilityChange();
+            }
         }
 
         /// <summary>
@@ -97,7 +180,7 @@ namespace GeonBit.UI.Entities
         /// </summary>
         override protected void DoOnValueChange()
         {
-            _isListVisible = false;
+            ListVisible = false;
             base.DoOnValueChange();
         }
 
@@ -107,16 +190,21 @@ namespace GeonBit.UI.Entities
         /// <returns>Actual destination rect when DropDown list is closed.</returns>
         override public Rectangle GetActualDestRect()
         {
-            // to fix the bug that dropdown mess up auto positions for first frame.
-            if (_destRect.Height == 0)
+            // if list is currently visible, return the full size
+            if (ListVisible)
             {
-                _destRect = CalcDestRect();
+                _selectList.UpdateDestinationRectsIfDirty();
+                Rectangle ret = _selectList.GetActualDestRect();
+                ret.Height += SelectedPanelHeight;
+                ret.Y -= SelectedPanelHeight;
+                return ret;
             }
-
-            // get dest rect and fix height value
-            Rectangle ret = _destRect;
-            ret.Height = (int)(SelectedPanelHeight * UserInterface.GlobalScale);
-            return ret;
+            // if list is not currently visible, return the header size
+            else
+            {
+                _selectedTextPanel.UpdateDestinationRectsIfDirty();
+                return _selectedTextPanel.GetActualDestRect();
+            }
         }
 
         /// <summary>
@@ -130,32 +218,27 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
-        /// Called when DropDown is resized.
-        /// DropDown entity override this function to handle the list when opened.
+        /// Called whenever the dropdown list is shown / hidden.
+        /// Note: called *after* _isListVisible is set.
         /// </summary>
-        /// <param name="recalcDestRect"></param>
-        protected override void OnResize(bool recalcDestRect = true)
+        private void OnDropDownVisibilityChange()
         {
-            if (_isListVisible)
-            {
-                int extraY = (int)(_selectedTextPanel.Size.Y * UserInterface.GlobalScale);
-                _destRect.Height -= extraY;
-                _destRectInternal.Height -= extraY;
-                base.OnResize(false);
-                ScrollToSelected();
-            }
-        }
+            // update arrow image
+            _arrowDownImage.Texture = ListVisible ? Resources.ArrowUp : Resources.ArrowDown;
 
-        /// <summary>
-        /// Draw entity outline. Override in dropdown to indicate when we are in outline rendering pass.
-        /// </summary>
-        /// <param name="spriteBatch">Sprite batch to draw on.</param>
-        override protected void DrawEntityOutline(SpriteBatch spriteBatch)
-        {
-            _isOutlinePass = true;
-            base.DrawEntityOutline(spriteBatch);
-            _isOutlinePass = false;
-        }
+            // focus on selectlist
+            _selectList.IsFocused = true;
+            UserInterface.ActiveEntity = _selectList;
+
+            // update destination rectangles
+            _selectList.UpdateDestinationRects();
+
+            // scroll to selected
+            _selectList.ScrollToSelected();
+
+            // mark self as dirty
+            MarkAsDirty();
+        }        
 
         /// <summary>
         /// Draw the entity.
@@ -163,89 +246,6 @@ namespace GeonBit.UI.Entities
         /// <param name="spriteBatch">Sprite batch to draw on.</param>
         override protected void DrawEntity(SpriteBatch spriteBatch)
         {
-            // draw the list only when visible
-            if (_isListVisible)
-            {
-                if (!_isOutlinePass)
-                {
-                    // first move the dest rect down below the selected item text
-                    int extraY = (int)(_selectedTextPanel.Size.Y * UserInterface.GlobalScale);
-                    _destRect.Y += extraY;
-                    _destRectInternal.Y += extraY;
-
-                    // also remove the selected part height from the total height, so the element size.y will be absolute
-                    _destRect.Height -= extraY;
-                    _destRectInternal.Height -= extraY;
-                }
-
-                // now draw the list part
-                base.DrawEntity(spriteBatch);
-            }
-            // if not currently visible, make sure all the paragraphs and scrollbar are removed so they won't be drawn
-            // note: but still calculate dest rect
-            else
-            {
-                ClearChildren();
-            }
-        }
-
-        /// <summary>
-        /// Called for every new paragraph entity created as part of the list, to allow children classes
-        /// to add extra processing etc to list labels.
-        /// </summary>
-        /// <param name="paragraph">The newly created paragraph once ready (after added to list container).</param>
-        protected override void OnCreatedListParagraph(Paragraph paragraph)
-        {
-            paragraph.UpdateStyle(DefaultParagraphStyle);
-        }
-
-        /// <summary>
-        /// Called after drawing the entity, every frame.
-        /// DropDown entity override this function to draw the extra panel with the currently selected value.
-        /// </summary>
-        /// <param name="spriteBatch">SpriteBatch to draw on.</param>
-        override protected void OnAfterDraw(SpriteBatch spriteBatch)
-        {
-            // return destination rect to its original position
-            _destRect = CalcDestRect();
-            _destRectInternal = CalcInternalRect();
-
-            // call base on-after-draw function
-            base.OnAfterDraw(spriteBatch);
-
-            // now draw the selected text part...
-
-            // first add the selected text panel as a child
-            AddChild(_selectedTextPanel);
-
-            // remove padding and recalculate internal rect
-            Vector2 originalPadding = Padding;
-            Padding = Vector2.Zero;
-            _destRectInternal = CalcInternalRect();
-
-            // set selected text
-            _selectedTextParagraph.Text = (SelectedValue ?? DefaultText);
-
-            // draw selected text panel
-            _selectedTextPanel.Draw(spriteBatch);
-
-            // return padding to normal and remove selected text panel
-            Padding = originalPadding;
-            RemoveChild(_selectedTextPanel);
-        }
-
-        /// <summary>
-        /// Called every frame before update.
-        /// DropDown entity override this function to add the selected item panel before doing any updates.
-        /// </summary>
-        /// <param name="input">Input helper instance.</param>
-        override protected void DoBeforeUpdate(InputHelper input)
-        {
-            // add selection panel to self
-            AddChild(_selectedTextPanel, false);
-
-            // call base do-before-update
-            base.DoBeforeUpdate(input);
         }
 
         /// <summary>
@@ -256,33 +256,141 @@ namespace GeonBit.UI.Entities
         override protected void DoAfterUpdate(InputHelper input)
         {
             // if list currently visible we want to check if we need to close it
-            if (_isListVisible)
+            if (ListVisible)
             {
-                // first calculate dest rect
-                _destRect = CalcDestRect();
-
-                // temporarily set to use dest rect and not actual dest rect
-                bool prevUseActualSizeForCollision = UseActualSizeForCollision;
-                UseActualSizeForCollision = false;
-
                 // check if mouse down and not inside list
                 if (input.AnyMouseButtonDown() && !IsInsideEntity(input.MousePosition))
                 {
-                    _isListVisible = false;
+                    if (!IsInsideEntity(input.MousePosition))
+                    ListVisible = false;
                 }
-
-                // return use actual rect state back to normal
-                UseActualSizeForCollision = prevUseActualSizeForCollision;
-            }
-
-            // remove selection panel from self
-            if (_selectedTextPanel.Parent != null)
-            {
-                RemoveChild(_selectedTextPanel);
             }
 
             // call base do-before-update
             base.DoAfterUpdate(input);
+        }
+
+        /// <summary>
+        /// Currently selected item value (or null if none is selected).
+        /// </summary>
+        public string SelectedValue
+        {
+            get { return _selectList.SelectedValue; }
+            set { _selectList.SelectedValue = value; }
+        }
+
+        /// <summary>
+        /// Currently selected item index (or -1 if none is selected).
+        /// </summary>
+        public int SelectedIndex
+        {
+            get { return _selectList.SelectedIndex; }
+            set { _selectList.SelectedIndex = value; }
+        }
+
+        /// <summary>
+        /// Current scrollbar position.
+        /// </summary>
+        public int ScrollPosition
+        {
+            get { return _selectList.ScrollPosition; }
+            set { _selectList.ScrollPosition = value; }
+        }
+
+        /// <summary>
+        /// Clear current selection.
+        /// </summary>
+        public void Unselect()
+        {
+            _selectList.Unselect();
+        }
+
+        /// <summary>
+        /// Add value to list.
+        /// </summary>
+        /// <remarks>Values can be duplicated, however, this will cause annoying behavior when trying to delete or select by value (will always pick the first found).</remarks>
+        /// <param name="value">Value to add.</param>
+        public void AddItem(string value)
+        {
+            _selectList.AddItem(value);
+        }
+
+        /// <summary>
+        /// Add value to list at a specific index.
+        /// </summary>
+        /// <remarks>Values can be duplicated, however, this will cause annoying behavior when trying to delete or select by value (will always pick the first found).</remarks>
+        /// <param name="value">Value to add.</param>
+        /// <param name="index">Index to insert the new item into.</param>
+        public void AddItem(string value, int index)
+        {
+            _selectList.AddItem(value, index);
+        }
+
+        /// <summary>
+        /// Remove value from the list.
+        /// </summary>
+        /// <param name="value">Value to remove.</param>
+        public void RemoveItem(string value)
+        {
+            _selectList.RemoveItem(value);
+        }
+
+        /// <summary>
+        /// Remove item from the list, by index.
+        /// </summary>
+        /// <param name="index">Index of the item to remove.</param>
+        public void RemoveItem(int index)
+        {
+            _selectList.RemoveItem(index);
+        }
+
+        /// <summary>
+        /// Remove all items from the list.
+        /// </summary>
+        public void ClearItems()
+        {
+            _selectList.ClearItems();
+        }
+
+        /// <summary>
+        /// How many items currently in the list.
+        /// </summary>
+        public int Count
+        {
+            get { return _selectList.Count; }
+        }
+
+        /// <summary>
+        /// Is the list currently empty.
+        /// </summary>
+        public bool Empty
+        {
+            get { return _selectList.Empty; }
+        }
+
+        /// <summary>
+        /// Is the list a natrually-interactable entity.
+        /// </summary>
+        /// <returns>True.</returns>
+        override public bool IsNaturallyInteractable()
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// Move scrollbar to currently selected item.
+        /// </summary>
+        public void ScrollToSelected()
+        {
+            _selectList.ScrollToSelected();
+        }
+
+        /// <summary>
+        /// Move scrollbar to last item in list.
+        /// </summary>
+        public void scrollToEnd()
+        {
+            _selectList.scrollToEnd();
         }
     }
 }

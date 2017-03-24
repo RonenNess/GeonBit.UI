@@ -72,7 +72,8 @@ namespace GeonBit.UI.Example
         {         
             // create and init the UI manager
             UserInterface.Initialize(Content, "hd");
-            
+            UserInterface.UseRenderTarget = true;
+
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -116,10 +117,7 @@ namespace GeonBit.UI.Example
 
             // add exit button
             Button exitBtn = new Button("Exit", anchor: Anchor.BottomRight, size: new Vector2(200, -1));
-            exitBtn.OnClick = (Entity entity) =>
-            {
-                System.Environment.Exit(1);
-            };
+            exitBtn.OnClick = (Entity entity) => { Exit(); };
             UserInterface.AddEntity(exitBtn);
 
             // events panel for debug
@@ -173,6 +171,7 @@ namespace GeonBit.UI.Example
             UserInterface.WhileDragging = (Entity entity) => { eventsNow.AddItem("Dragging: " + entity.GetType().Name); eventsNow.scrollToEnd(); };
             UserInterface.WhileMouseDown = (Entity entity) => { eventsNow.AddItem("MouseDown: " + entity.GetType().Name); eventsNow.scrollToEnd(); };
             UserInterface.WhileMouseHover = (Entity entity) => { eventsNow.AddItem("MouseHover: " + entity.GetType().Name); eventsNow.scrollToEnd(); };
+            eventsNow.MaxItems = 4;
 
             // add extra info button
             Button infoBtn = new Button("  Events", anchor: Anchor.BottomLeft, size: new Vector2(280, -1), offset: new Vector2(140, 0));
@@ -217,7 +216,7 @@ namespace GeonBit.UI.Example
             // example: welcome message
             {
                 // create panel and add to list of panels and manager
-                Panel panel = new Panel(new Vector2(500, 600));
+                Panel panel = new Panel(new Vector2(500, 580));
                 panels.Add(panel);
                 UserInterface.AddEntity(panel);
 
@@ -266,7 +265,7 @@ To start the demo, please click the 'Next' button on the top navbar."));
             // example: basic concepts
             {
                 // create panel and add to list of panels and manager
-                Panel panel = new Panel(new Vector2(740, 560));
+                Panel panel = new Panel(new Vector2(740, 540));
                 panels.Add(panel);
                 UserInterface.AddEntity(panel);
 
@@ -283,7 +282,7 @@ Another thing to keep in mind is size; Most widgets come with a default size, bu
             // example: anchors
             {
                 // create panel and add to list of panels and manager
-                Panel panel = new Panel(new Vector2(800, 650));
+                Panel panel = new Panel(new Vector2(800, 620));
                 panels.Add(panel);
                 UserInterface.AddEntity(panel);
 
@@ -307,7 +306,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
             // example: buttons
             {
                 // create panel and add to list of panels and manager
-                Panel panel = new Panel(new Vector2(450, 670));
+                Panel panel = new Panel(new Vector2(450, 660));
                 panels.Add(panel);
                 UserInterface.AddEntity(panel);
 
@@ -368,7 +367,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
             // example: panels
             {
                 // create panel and add to list of panels and manager
-                Panel panel = new Panel(new Vector2(450, 650));
+                Panel panel = new Panel(new Vector2(450, 640));
                 panels.Add(panel);
                 UserInterface.AddEntity(panel);
 
@@ -414,7 +413,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 panel.AddChild(new LineSpace());
                 panel.AddChild(new HorizontalLine());
                 panel.AddChild(new LineSpace());
-                Paragraph paragraph = new Paragraph("Note that any type of entity can become draggable. For example, try to drag this paragraph!");
+                Paragraph paragraph = new Paragraph("Any type of entity can be dragged. For example, try to drag this text!");
                 paragraph.SetStyleProperty("FillColor", new StyleProperty(Color.Yellow));
                 paragraph.SetStyleProperty("FillColor", new StyleProperty(Color.Purple), EntityState.MouseHover);
                 paragraph.Draggable = true;
@@ -509,16 +508,16 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
             // example: dropdown
             {
                 // create panel and add to list of panels and manager
-                Panel panel = new Panel(new Vector2(450, 440));
+                Panel panel = new Panel(new Vector2(450, 430));
                 panels.Add(panel);
                 UserInterface.AddEntity(panel);
 
                 // dropdown title
                 panel.AddChild(new Header("DropDown"));
                 panel.AddChild(new HorizontalLine());
-                panel.AddChild(new Paragraph("DropDown is just like a list, but take less space since it hide the list when not used:"));
 
-                DropDown drop = new DropDown(new Vector2(0, 280));
+                panel.AddChild(new Paragraph("DropDown is just like a list, but take less space since it hide the list when not used:"));
+                DropDown drop = new DropDown(new Vector2(0, 240));
                 drop.AddItem("Warrior");
                 drop.AddItem("Mage");
                 drop.AddItem("Ranger");
@@ -540,10 +539,29 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 panel.AddChild(drop);
             }
 
+            // example: panels with scrollbars / overflow
+            {
+                // create panel and add to list of panels and manager
+                Panel panel = new Panel(new Vector2(450, 440));
+                panels.Add(panel);
+                UserInterface.AddEntity(panel);
+
+                // dropdown title
+                panel.AddChild(new Header("Panel Overflow"));
+                panel.AddChild(new HorizontalLine());
+                panel.AddChild(new Paragraph(@"You can choose how to treat entities that overflow parent panel's boundaries. 
+The default behavior is to simply overflow (eg entities will be drawn outside), but you can make overflow entities hidden or scrollable. 
+
+In this example, we use scrollbars when entities overflow the panel boundaries."));
+                panel.PanelOverflowBehavior = PanelOverflowBehavior.VerticalScroll;
+                panel.Scrollbar.Max = 100;
+                panel.Scrollbar.StepsCount = 10;
+            }
+
             // example: icons
             {
                 // create panel and add to list of panels and manager
-                Panel panel = new Panel(new Vector2(460, 650));
+                Panel panel = new Panel(new Vector2(460, 640));
                 panels.Add(panel);
                 UserInterface.AddEntity(panel);
 
@@ -562,7 +580,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 }
 
                 panel.AddChild(new Paragraph("And you can also add an inventory-like frame:"));
-
+                panel.AddChild(new LineSpace());
                 for (int i = 0; i < 6; ++i)
                 {
                     panel.AddChild(new Icon((IconType)i, Anchor.AutoInline, 1, true));
@@ -572,7 +590,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
             // example: text input
             {
                 // create panel and add to list of panels and manager
-                Panel panel = new Panel(new Vector2(450, 570));
+                Panel panel = new Panel(new Vector2(450, 550));
                 panels.Add(panel);
                 UserInterface.AddEntity(panel);
 
@@ -667,7 +685,7 @@ Maybe something interesting in tab3?"));
             // example: disabled
             {
                 // create panel and add to list of panels and manager
-                Panel panel = new Panel(new Vector2(480, 600));
+                Panel panel = new Panel(new Vector2(480, 580));
                 panel.Disabled = true;
                 panels.Add(panel);
                 UserInterface.AddEntity(panel);
@@ -683,9 +701,10 @@ Maybe something interesting in tab3?"));
                 panel.AddChild(panel2);
                 panel2.AddChild(new Button("button"));
 
+                panel2.AddChild(new LineSpace());
                 for (int i = 0; i < 6; ++i)
                 {
-                    panel2.AddChild(new Icon((IconType)i, Anchor.AutoInline, 1, true, new Vector2(12, 6)));
+                    panel2.AddChild(new Icon((IconType)i, Anchor.AutoInline, 1, true));
                 }
                 panel2.AddChild(new Paragraph("\nDisabled entities are drawn in black & white, and you cannot interact with them.."));
 
@@ -699,7 +718,7 @@ Maybe something interesting in tab3?"));
             // example: Locked
             {
                 // create panel and add to list of panels and manager
-                Panel panel = new Panel(new Vector2(520, 620));
+                Panel panel = new Panel(new Vector2(520, 610));
                 panels.Add(panel);
                 UserInterface.AddEntity(panel);
 
@@ -715,10 +734,11 @@ Maybe something interesting in tab3?"));
 
                 panel.AddChild(panel2);
                 panel2.AddChild(new Button("button"));
+                panel2.AddChild(new LineSpace());
 
                 for (int i = 0; i < 6; ++i)
                 {
-                    panel2.AddChild(new Icon((IconType)i, Anchor.AutoInline, 1, true, new Vector2(12, 6)));
+                    panel2.AddChild(new Icon((IconType)i, Anchor.AutoInline, 1, true));
                 }
                 panel2.AddChild(new Paragraph("\nLocked entities will not respond to input, but unlike disabled entities they are drawn normally, eg with colors:"));
 
@@ -732,7 +752,7 @@ Maybe something interesting in tab3?"));
             // example: Cursors
             {
                 // create panel and add to list of panels and manager
-                Panel panel = new Panel(new Vector2(450, 550));
+                Panel panel = new Panel(new Vector2(450, 540));
                 panels.Add(panel);
                 UserInterface.AddEntity(panel);
 
@@ -778,7 +798,7 @@ Maybe something interesting in tab3?"));
             // example: Misc
             {
                 // create panel and add to list of panels and manager
-                Panel panel = new Panel(new Vector2(530, 620));
+                Panel panel = new Panel(new Vector2(530, 590));
                 panels.Add(panel);
                 UserInterface.AddEntity(panel);
 
@@ -830,7 +850,7 @@ Maybe something interesting in tab3?"));
             // example: character build page - intro
             {
                 // create panel and add to list of panels and manager
-                Panel panel = new Panel(new Vector2(500, 320));
+                Panel panel = new Panel(new Vector2(500, 300));
                 panels.Add(panel);
                 UserInterface.AddEntity(panel);
 
@@ -924,12 +944,12 @@ Click on 'Next' to see the character creation demo."));
                 int colorPickSize = 24;
                 foreach (Color baseColor in colors)
                 {
-                    rightPanel.AddChild(new LineSpace());
+                    rightPanel.AddChild(new LineSpace(0));
                     for (int i = 0; i < 8; ++i)
                     {
                         Color color = baseColor * (1.0f - (i * 2 / 16.0f)); color.A = 255;
                         ColoredRectangle currColorButton = new ColoredRectangle(color, Vector2.One * colorPickSize, Anchor.AutoInline);
-                        currColorButton.SpaceAfter = currColorButton.SpaceBefore = Vector2.Zero;
+                        currColorButton.Padding = currColorButton.SpaceAfter = currColorButton.SpaceBefore = Vector2.Zero;
                         currColorButton.OnClick = (Entity entity) =>
                         {
                             previewImageColor.FillColor = entity.FillColor;
@@ -982,7 +1002,7 @@ Click on 'Next' to see the character creation demo."));
             // example: epilogue
             {
                 // create panel and add to list of panels and manager
-                Panel panel = new Panel(new Vector2(520, 460));
+                Panel panel = new Panel(new Vector2(520, 400));
                 panels.Add(panel);
                 UserInterface.AddEntity(panel);
 
@@ -1071,11 +1091,14 @@ If you liked GeonBit.UI feel free to star the repo on GitHub. :)"));
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            // draw ui
+            UserInterface.Draw(spriteBatch);
+
             // clear buffer
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // draw ui
-            UserInterface.Draw(spriteBatch);
+            // finalize ui rendering
+            UserInterface.DrawMainRenderTarget(spriteBatch);
 
             // call base draw function
             base.Draw(gameTime);

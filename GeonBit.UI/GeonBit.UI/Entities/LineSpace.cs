@@ -18,16 +18,30 @@ namespace GeonBit.UI.Entities
     public class LineSpace : Entity
     {
         /// <summary>
+        /// Single line space height.
+        /// </summary>
+        public static float SpaceSize = 8f;
+
+        /// <summary>Default size this entity will have when no size is provided or when -1 is set for either width or height.</summary>
+        override public Vector2 DefaultSize { get { return Vector2.Zero; } }
+
+        /// <summary>
         /// Create a new Line Space entity.
         /// </summary>
         /// <param name="spacesCount">How many spaces to create.</param>
         public LineSpace(int spacesCount = 1) :
-            base(Vector2.One * 8 * UserInterface.GlobalScale * System.Math.Min(spacesCount, 1), 
-                Anchor.Auto, Vector2.Zero)
+            base(Vector2.One, Anchor.Auto, Vector2.Zero)
         {
             // by default locked so it won't do events
             Locked = Disabled = true;
-            _size.X = 0.1f;
+
+            // set size based on space count
+            _size.X = 0f;
+            _size.Y = spacesCount != 0 ? 
+                SpaceSize * UserInterface.GlobalScale * System.Math.Max(spacesCount, 0) : -1;
+
+            // default padding and spacing zero
+            SpaceAfter = SpaceBefore = Padding = Vector2.Zero;
         }
 
         /// <summary>

@@ -41,11 +41,28 @@ namespace GeonBit.UI.Entities
         /// <summary>Default styling for paragraphs. Note: loaded from UI theme xml file.</summary>
         new public static StyleSheet DefaultStyle = new StyleSheet();
 
-        /// <summary>The paragraph text.</summary>
-        public string Text;
+        // the paragraph displayed text.
+        private string _text = "";
 
-        /// <summary>If true, and text exceed destination width, will wrap words by adding line breaks between words.</summary>
-        public bool WrapWords = true;
+        /// <summary>Get / Set the paragraph text.</summary>
+        public string Text
+        {
+            get { return _text; }
+            set { if (_text != value) { _text = value; MarkAsDirty(); } }
+        }
+
+        // is wrap-words enabled?
+        private bool _wrapWords = true;
+
+        /// <summary>
+        /// Get / Set word wrap mode.
+        /// If true, and text exceeded destination width, the paragraph will wrap words by adding line breaks where needed.
+        /// </summary>
+        public bool WrapWords
+        {
+            get { return _wrapWords; }
+            set { _wrapWords = value; MarkAsDirty(); }
+        }
 
         // text actual destination rect
         Rectangle _actualDestRect = new Rectangle();
@@ -59,13 +76,31 @@ namespace GeonBit.UI.Entities
         float _actualScale;
         Vector2 _position;
         Vector2 _fontOrigin;
+        
+        // should we break words too long if in wrap mode?
+        private bool _breakWordsIfMust = true;
 
-        /// <summary>If WrapWords is true and there's a word that's too long (eg longer than max width), will break the word in the middle.
-        /// If false, word wrap will only break lines in between words (eg spaces) and never break words.</summary>
-        public bool BreakWordsIfMust = true;
+        /// <summary>
+        /// If WrapWords is true and there's a word that's too long (eg longer than max width), will break the word in the middle.
+        /// If false, word wrap will only break lines in between words (eg spaces) and never break words.
+        /// </summary>
+        public bool BreakWordsIfMust
+        {
+            get { return _breakWordsIfMust; }
+            set { _breakWordsIfMust = value; MarkAsDirty(); }
+        }
 
-        /// <summary>If true, and a long word is broken due to word wrap, will add hyphen at the breaking point</summary>
-        public bool AddHyphenWhenBreakWord = true;
+        // should we add a hyphen whenever we break words?
+        private bool _addHyphenWhenBreakWord = true;
+
+        /// <summary>
+        /// If true and a long word is broken due to word wrap, will add hyphen at the breaking point.
+        /// </summary>
+        public bool AddHyphenWhenBreakWord
+        {
+            get { return _addHyphenWhenBreakWord; }
+            set { _addHyphenWhenBreakWord = value; MarkAsDirty(); }
+        }
 
         /// <summary>Base font size. Change this property to affect the size of all paragraphs and other text entities.</summary>
         public static float BaseSize = 1f;
@@ -268,23 +303,52 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
-        /// called before drawing paragraph to calculate text actual size, word-wrap, etc.
+        /// Update dest rect and internal dest rect.
+        /// This is called internally whenever a change is made to the entity or its parent.
         /// </summary>
-        public void PrepareForDraw()
+        override public void UpdateDestinationRects()
+        {
+            // call base function
+            base.UpdateDestinationRects();
+
+            // do extra preperation for text entities
+            CalcTextActualRectWithWrap();
+        }
+
+        /// <summary>
+        /// Calculate the paragraph actual destination rect with word-wrap and other factors taken into consideration.
+        /// </summary>
+        public void CalcTextActualRectWithWrap()
         {
             // get font
             SpriteFont font = GetCurrFont();
-            _currFont = font;
+            if (font != _currFont)
+            {
+                MarkAsDirty();
+                _currFont = font;
+            }
 
             // calc actual scale
-            _actualScale = Scale * BaseSize * UserInterface.GlobalScale;
+            float actualScale = Scale * BaseSize * UserInterface.GlobalScale;
+            if (actualScale != _actualScale)
+            {
+                _actualScale = actualScale;
+                MarkAsDirty();
+            }
 
             // get text and add things like line-breaks to wrap words etc.
-            _processedText = Text;
+            string newProcessedText = Text;
             if (WrapWords)
             {
-                _processedText = WrapText(font, _processedText, _destRect.Width, _actualScale);
-                _processedText = _processedText.TrimEnd(' ');
+                newProcessedText = WrapText(font, newProcessedText, _destRect.Width, _actualScale);
+                newProcessedText = newProcessedText.TrimEnd(' ');
+            }
+
+            // if processed text changed
+            if (newProcessedText != _processedText)
+            {
+                _processedText = newProcessedText;
+                MarkAsDirty();
             }
 
             // due to the mechanism of calculating destination rect etc based on parent and anchor,
@@ -349,7 +413,6 @@ namespace GeonBit.UI.Entities
             _actualDestRect.Y = (int)_position.Y;
             _actualDestRect.Width = (int)((_fontOrigin.X + size.X) * _actualScale);
             _actualDestRect.Height = (int)((_fontOrigin.Y + size.Y) * _actualScale);
-
         }
 
         /// <summary>
@@ -366,9 +429,6 @@ namespace GeonBit.UI.Entities
         /// <param name="spriteBatch">Sprite batch to draw on.</param>
         override protected void DrawEntity(SpriteBatch spriteBatch)
         {
-            // calculate internal stuff
-            PrepareForDraw();
-
             // get outline width
             int outlineWidth = OutlineWidth;
 

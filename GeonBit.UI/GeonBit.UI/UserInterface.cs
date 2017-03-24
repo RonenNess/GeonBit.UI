@@ -57,21 +57,63 @@ namespace GeonBit.UI
         // content manager
         static ContentManager _content;
 
+        // the main render target we render everything on
+        static RenderTarget2D _renderTarget = null;
+
+        // are we currently in use-render-target mode
+        static private bool _useRenderTarget = false;
+
+        /// <summary>
+        /// If true, will draw the UI on a render target before drawing on screen.
+        /// This mode is required for some of the features.
+        /// </summary>
+        static public bool UseRenderTarget
+        {
+            get { return _useRenderTarget; }
+            set { _useRenderTarget = value; _renderTarget = null; }
+        }
+
+        /// <summary>
+        /// Get the main render target all the UI draws on.
+        /// </summary>
+        public static RenderTarget2D RenderTarget
+        {
+            get { return _renderTarget; }
+        }
+
         /// <summary>Current GeonBit.UI version identifier.</summary>
-        public const string VERSION = "2.0.0";
+        public const string VERSION = "2.0.1.0";
 
         // root panel that covers the entire screen and everything is added to it
-        static Panel _root;
+        static RootPanel _root;
+
+        /// <summary>
+        /// Get the root entity.
+        /// </summary>
+        static RootPanel Root
+        {
+            get { return _root; }
+        }
+
+        // the entity currently being dragged
+        static Entity _dragTarget;
+
+        // current global scale
+        static private float _scale = 1f;
 
         /// <summary>Scale the entire UI and all the entities in it. This is useful for smaller device screens.</summary>
-        static public float GlobalScale = 1.0f;
+        static public float GlobalScale
+        {
+            get { return _scale; }
+            set { _scale = value; _root.MarkAsDirty(); }
+        }
 
         /// <summary>Cursor rendering size.</summary>
         static public float CursorScale = 1f;
 
         /// <summary>Screen width.</summary>
         static public int ScreenWidth = 0;
-        
+
         /// <summary>Screen height.</summary>
         static public int ScreenHeight = 0;
 
@@ -210,7 +252,7 @@ namespace GeonBit.UI
             spriteBatch.Draw(_cursorTexture,
                 new Rectangle(
                     (int)(cursorPos.X + _cursorOffset.X * cursorSize), (int)(cursorPos.Y + _cursorOffset.Y * cursorSize),
-                    (int)(_cursorTexture.Width * cursorSize), (int)(_cursorTexture.Height * cursorSize)), 
+                    (int)(_cursorTexture.Width * cursorSize), (int)(_cursorTexture.Height * cursorSize)),
                 Color.White);
 
             // end drawing
@@ -244,11 +286,15 @@ namespace GeonBit.UI
             // update input manager
             _input.Update(gameTime);
 
+            // unset the drag target if the mouse was released
+            if (_dragTarget != null && !_input.MouseButtonDown(MouseButton.Left)) {
+              _dragTarget = null;
+            }
+
             // update root panel
-            Entity dragTarget = null;
             Entity target = null;
             bool wasEventHandled = false;
-            _root.Update(_input, ref target, ref dragTarget, ref wasEventHandled);
+            _root.Update(_input, ref target, ref _dragTarget, ref wasEventHandled);
 
             // set active entity
             if (_input.MouseButtonDown(MouseButton.Left))
@@ -261,15 +307,46 @@ namespace GeonBit.UI
         }
 
         /// <summary>
-        /// Draw the UI. This function should be called from your Game 'Draw()' function, as late as possible (eg after you draw all your game graphics).
+        /// Draw the UI. This function should be called from your Game 'Draw()' function.
+        /// Note: if UseRenderTarget is true, this function should be called FIRST in your draw function.
+        /// If UseRenderTarget is false, this function should be called LAST in your draw function.
         /// </summary>
         /// <param name="spriteBatch">SpriteBatch to draw on.</param>
         static public void Draw(SpriteBatch spriteBatch)
         {
+            int newScreenWidth = spriteBatch.GraphicsDevice.Viewport.Width;
+            int newScreenHeight = spriteBatch.GraphicsDevice.Viewport.Height;
+
             // update screen size
-            ScreenWidth = spriteBatch.GraphicsDevice.Viewport.Width;
-            ScreenHeight = spriteBatch.GraphicsDevice.Viewport.Height;
-            
+            if (ScreenWidth != newScreenWidth || ScreenHeight != newScreenHeight)
+            {
+                ScreenWidth = newScreenWidth;
+                ScreenHeight = newScreenHeight;
+                _root.MarkAsDirty();
+            }
+
+            // if using rendering targets
+            if (UseRenderTarget)
+            {
+                // check if screen size changed or don't have a render target yet. if so, create the render target.
+                if (_renderTarget == null ||
+                    _renderTarget.Width != ScreenWidth ||
+                    _renderTarget.Height != ScreenHeight)
+                {
+                    _renderTarget = new RenderTarget2D(spriteBatch.GraphicsDevice,
+                        ScreenWidth, ScreenHeight, false,
+                        spriteBatch.GraphicsDevice.PresentationParameters.BackBufferFormat,
+                        spriteBatch.GraphicsDevice.PresentationParameters.DepthStencilFormat, 0,
+                        RenderTargetUsage.PreserveContents);
+                }
+                // if didn't create a new render target, clear it
+                else
+                {
+                    spriteBatch.GraphicsDevice.SetRenderTarget(_renderTarget);
+                    spriteBatch.GraphicsDevice.Clear(Color.Transparent);
+                }
+            }
+
             // draw root panel
             _root.Draw(spriteBatch);
 
@@ -277,6 +354,28 @@ namespace GeonBit.UI
             if (ShowCursor)
             {
                 DrawCursor(spriteBatch);
+            }
+
+            // reset render target
+            if (UseRenderTarget)
+            {
+                spriteBatch.GraphicsDevice.SetRenderTarget(null);
+            }
+        }
+
+        /// <summary>
+        /// Finalize the draw frame and draw all the UI on screen.
+        /// This function only works if we are in UseRenderTarget mode.
+        /// </summary>
+        /// <param name="spriteBatch">Sprite batch to draw on.</param>
+        static public void DrawMainRenderTarget(SpriteBatch spriteBatch)
+        {
+            // draw the main render target
+            if (RenderTarget != null && !RenderTarget.IsDisposed)
+            {
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+                spriteBatch.Draw(RenderTarget, new Rectangle(0, 0, ScreenWidth, ScreenHeight), Color.White);
+                spriteBatch.End();
             }
         }
     }

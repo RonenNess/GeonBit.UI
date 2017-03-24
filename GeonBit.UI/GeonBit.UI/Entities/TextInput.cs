@@ -185,7 +185,7 @@ namespace GeonBit.UI.Entities
             else
             {
                 TextParagraph.Text = _value;
-                TextParagraph.PrepareForDraw();
+                TextParagraph.CalcTextActualRectWithWrap();
                 string processedValueText = TextParagraph.GetProcessedText();
                 int currLine = processedValueText.Substring(0, _caret).Split('\n').Length;
                 _scrollbar.Value = currLine - 1;
@@ -241,8 +241,7 @@ namespace GeonBit.UI.Entities
 
             // get current paragraph and prepare to draw
             Paragraph currParagraph = usePlaceholder ? PlaceholderParagraph : TextParagraph;
-            TextParagraph.CalcDestRect();
-            TextParagraph.PrepareForDraw();
+            TextParagraph.UpdateDestinationRectsIfDirty();
 
             // get text to display
             return currParagraph.GetProcessedText();
@@ -275,7 +274,7 @@ namespace GeonBit.UI.Entities
                 {
                     // get the whole processed text
                     TextParagraph.Text = _value;
-                    TextParagraph.PrepareForDraw();
+                    TextParagraph.CalcTextActualRectWithWrap();
                     string processedValueText = TextParagraph.GetProcessedText();
 
                     // calc y position and add scrollbar value to it
