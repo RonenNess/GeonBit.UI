@@ -22,7 +22,7 @@ using Microsoft.Xna.Framework.Graphics;
 namespace GeonBit.UI.Entities
 {
     /// <summary>
-    /// A sub-class of te slider entity, with graphics more fitting for a progress bar or things like hp bar etc.
+    /// A sub-class of the slider entity, with graphics more fitting for a progress bar or things like hp bar etc.
     /// Behaves the same as a slider, if you want it to be for display only (and not changeable by user), simple set Locked = true.
     /// </summary>
     public class ProgressBar : Slider
@@ -38,6 +38,9 @@ namespace GeonBit.UI.Entities
 
         /// <summary>The fill part of the progress bar.</summary>
         public Image ProgressFill;
+
+        /// <summary>An optional caption to display over the center of the progress bar.</summary>
+        public Label Caption;
 
         /// <summary>
         /// Create progress bar with size.
@@ -58,6 +61,10 @@ namespace GeonBit.UI.Entities
             ProgressFill = new Image(Resources.ProgressBarFillTexture, Vector2.Zero, ImageDrawMode.Stretch, Anchor.CenterLeft);
             ProgressFill.UpdateStyle(DefaultFillStyle);
             AddChild(ProgressFill, true);
+
+            // the caption is just a label centered on the progress bar itself
+            Caption = new Label(string.Empty, Anchor.Center);
+            AddChild(Caption);
         }
 
         /// <summary>

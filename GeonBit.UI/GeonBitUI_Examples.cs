@@ -794,9 +794,10 @@ Maybe something interesting in tab3?"));
                 panel.AddChild(btn);
 
                 // change progressbar color
-                panel.AddChild(new Paragraph("Different PrograssBar colors:"));
+                panel.AddChild(new Paragraph("Different ProgressBar colors:"));
                 ProgressBar pb = new ProgressBar();
                 pb.ProgressFill.FillColor = Color.Red;
+                pb.Caption.Text = "Optional caption...";
                 panel.AddChild(pb);
 
                 // paragraph style with mouse
