@@ -5,7 +5,7 @@
 	<version>2.0.1.0</version>
 	<authors>Ronen Ness</authors>
 	<owners>RonenNess</owners>
-	<title>GeonBit.UI</title>
+	<title>MonoGame GeonBit.UI</title>
 	<summary>GeonBit.UI is the UI / HUD system of the GeonBit engine, exported as an independent MonoGame extension under the MIT license.
 It provide all the basic UI elements required to make a game / editor UI, and comes with few built-in UI skins compatible for commerical projects.</summary>
 	<licenseUrl>https://en.wikipedia.org/wiki/MIT_License</licenseUrl>
