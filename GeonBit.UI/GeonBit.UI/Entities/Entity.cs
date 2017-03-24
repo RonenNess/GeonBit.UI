@@ -257,7 +257,7 @@ namespace GeonBit.UI.Entities
         public bool IsFocused = false;
 
         /// <summary>Currently calculated destination rect (eg the region this entity is drawn on).</summary>
-        protected Rectangle _destRect;
+        internal Rectangle _destRect;
 
         /// <summary>Currently calculated internal destination rect (eg the region this entity children are positioned in).</summary>
         protected Rectangle _destRectInternal;
@@ -1546,9 +1546,31 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Remove the IsDirty flag.
         /// </summary>
-        internal void ClearDirtyFlag()
+        /// <param name="updateChildren">If true, will set a flag that will still make children update.</param>
+        internal void ClearDirtyFlag(bool updateChildren = false)
         {
             _isDirty = false;
+            if (updateChildren)
+            {
+                _destRectVersion++;
+            }
+        }
+
+        /// <summary>
+        /// Called every frame to update the children of this entity.
+        /// </summary>
+        /// <param name="input">Input helper.</param>
+        /// <param name="targetEntity">The deepest child entity with highest priority that we point on and can be interacted with.</param>
+        /// <param name="dragTargetEntity">The deepest child dragable entity with highest priority that we point on and can be drag if mouse down.</param>
+        /// <param name="wasEventHandled">Set to true if current event was already handled by a deeper child.</param>
+        virtual protected void UpdateChildren(InputHelper input, ref Entity targetEntity, ref Entity dragTargetEntity, ref bool wasEventHandled)
+        {
+            // update all children (note: we go in reverse order so that entities on front will receive events before entites on back.
+            List<Entity> childrenSorted = GetSortedChildren();
+            for (int i = childrenSorted.Count - 1; i >= 0; i--)
+            {
+                childrenSorted[i].Update(input, ref targetEntity, ref dragTargetEntity, ref wasEventHandled);
+            }
         }
 
         /// <summary>
@@ -1665,12 +1687,8 @@ namespace GeonBit.UI.Entities
 
             // STEP 2: NOW WE CALL ALL CHILDREN'S UPDATE
 
-            // update all children (note: we go in reverse order so that entities on front will receive events before entites on back.
-            List<Entity> childrenSorted = GetSortedChildren();
-            for (int i = childrenSorted.Count - 1; i >= 0; i--)
-            {
-                childrenSorted[i].Update(input, ref targetEntity, ref dragTargetEntity, ref wasEventHandled);
-            }
+            // update all children
+            UpdateChildren(input, ref targetEntity, ref dragTargetEntity, ref wasEventHandled);
 
             // check dragging after children so that the most nested entity gets priority
             if ((_draggable || IsNaturallyInteractable()) && dragTargetEntity == null && _isMouseOver && input.MouseButtonPressed(MouseButton.Left))

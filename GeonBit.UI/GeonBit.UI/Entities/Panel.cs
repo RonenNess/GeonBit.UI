@@ -150,8 +150,8 @@ namespace GeonBit.UI.Entities
 
             // create the render target for this panel
             // note: by recreating the target we make sure its cleared
-            _renderTarget = new RenderTarget2D(spriteBatch.GraphicsDevice, 
-                _destRectInternal.Width, _destRectInternal.Height, false, 
+            _renderTarget = new RenderTarget2D(spriteBatch.GraphicsDevice,
+                _destRectInternal.Width, _destRectInternal.Height, false,
                 spriteBatch.GraphicsDevice.PresentationParameters.BackBufferFormat,
                 spriteBatch.GraphicsDevice.PresentationParameters.DepthStencilFormat, 0,
                 RenderTargetUsage.PreserveContents);
@@ -179,6 +179,9 @@ namespace GeonBit.UI.Entities
                 // adjust internal rect width
                 _destRectInternal.Width -= _scrollbar.GetActualDestRect().Width;
             }
+
+            // to make sure the dest rect will not be recalculated while drawing children
+            ClearDirtyFlag(true);
         }
 
         /// <summary>
@@ -187,28 +190,35 @@ namespace GeonBit.UI.Entities
         /// <param name="spriteBatch">SpriteBatch used to draw entities.</param>
         protected override void AfterDrawChildren(SpriteBatch spriteBatch)
         {
+            // if overflow mode is simply overflow, do nothing.
+            if (_overflowMode == PanelOverflowBehavior.Overflow)
+            {
+                return;
+            }
+
             // if this panel got a render target
             if (_renderTarget != null)
             {
                 // unbind the render target
                 UserInterface.DrawUtils.PopRenderTarget();
 
-                // restore internal dest rect
-                _destRectInternal = _originalInternalDestRect;
-
-                // draw the render target
-                UserInterface.DrawUtils.StartDraw(spriteBatch, IsDisabled());
-                spriteBatch.Draw(_renderTarget, _destRectInternal, Color.White);
-                UserInterface.DrawUtils.EndDraw(spriteBatch);
-
-                // since we changed the internal dest rect before drawing children, we need to recalc children dest rect back to normal
+                // fix children's dest rect for the update loop
                 foreach (Entity child in GetChildren())
                 {
                     if (child != _scrollbar)
                     {
-                        child.UpdateDestinationRects();
+                        child._destRect.X += _originalInternalDestRect.X;
+                        child._destRect.Y += _originalInternalDestRect.Y;
                     }
                 }
+
+                // restore internal dest rect
+                _destRectInternal = _originalInternalDestRect;
+
+                // draw the render target itself
+                UserInterface.DrawUtils.StartDraw(spriteBatch, IsDisabled());
+                spriteBatch.Draw(_renderTarget, _destRectInternal, Color.White);
+                UserInterface.DrawUtils.EndDraw(spriteBatch);
 
                 // fix scrollbar positioning etc
                 _destRectInternal.Y -= _scrollbar.Value;
@@ -259,6 +269,30 @@ namespace GeonBit.UI.Entities
 
             // call base draw function
             base.DrawEntity(spriteBatch);
+        }
+
+        /// <summary>
+        /// Called every frame to update the children of this entity.
+        /// </summary>
+        /// <param name="input">Input helper.</param>
+        /// <param name="targetEntity">The deepest child entity with highest priority that we point on and can be interacted with.</param>
+        /// <param name="dragTargetEntity">The deepest child dragable entity with highest priority that we point on and can be drag if mouse down.</param>
+        /// <param name="wasEventHandled">Set to true if current event was already handled by a deeper child.</param>
+        override protected void UpdateChildren(InputHelper input, ref Entity targetEntity, ref Entity dragTargetEntity, ref bool wasEventHandled)
+        {
+            // if not in overflow mode and mouse not on this panel boundaries, skip calling children
+            if (_overflowMode != PanelOverflowBehavior.Overflow)
+            {
+                Vector2 mousePos = input.MousePosition;
+                if (mousePos.X < _destRectInternal.Left || mousePos.X > _destRectInternal.Right ||
+                    mousePos.Y < _destRectInternal.Top || mousePos.Y > _destRectInternal.Bottom)
+                {
+                    return;
+                }
+            }
+
+            // call base update children function
+            base.UpdateChildren(input, ref targetEntity, ref dragTargetEntity, ref wasEventHandled);
         }
     }
 }

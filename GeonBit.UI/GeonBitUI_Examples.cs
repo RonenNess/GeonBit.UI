@@ -549,12 +549,19 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 // dropdown title
                 panel.AddChild(new Header("Panel Overflow"));
                 panel.AddChild(new HorizontalLine());
-                panel.AddChild(new Paragraph(@"You can choose how to treat entities that overflow parent panel's boundaries. 
-The default behavior is to simply overflow (eg entities will be drawn outside), but you can make overflow entities hidden or scrollable. 
+                panel.AddChild(new Paragraph(@"You can choose how to handle entities that overflow parent panel's boundaries. 
 
-In this example, we use scrollbars when entities overflow the panel boundaries."));
+The default behavior is to simply overflow (eg entities will be drawn as usual), but you can also make overflowing entities clip, or make the entire panel scrollable. 
+
+In this example, we use a panel with scrollbars.
+
+Note that in order to use clipping and scrollbar with Panels you need to set the UserInterface.UseRenderTarget flag to true.
+
+
+Here's a button, to test clicking while scolled:"));
+                panel.AddChild(new Button("a button."));
                 panel.PanelOverflowBehavior = PanelOverflowBehavior.VerticalScroll;
-                panel.Scrollbar.Max = 100;
+                panel.Scrollbar.Max = 450;
                 panel.Scrollbar.StepsCount = 10;
             }
 
