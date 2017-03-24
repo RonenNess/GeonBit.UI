@@ -59,8 +59,7 @@ namespace GeonBit.UI.Entities
             OnBeforeDraw(spriteBatch);
 
             // calc desination rect
-            _destRect = CalcDestRect();
-            _destRectInternal = CalcInternalRect();
+            UpdateDestinationRectsIfDirty();
 
             // get sorted children list
             List<Entity> childrenSorted = GetSortedChildren();

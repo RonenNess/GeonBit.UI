@@ -77,8 +77,10 @@ namespace GeonBit.UI.Entities
             if ((input.MousePosition.Y >= _destRect.Y + _frameActualHeight * 0.5) && 
                (input.MousePosition.Y <= _destRect.Bottom - _frameActualHeight * 0.5))
             {
-                float val = ((input.MousePosition.Y - _destRect.Y - _frameActualHeight + _markHeight / 2) / (_destRect.Height - _frameActualHeight * 2));
-                Value = (int)(Min + val * (Max - Min));
+                float relativePos = (input.MousePosition.Y - _destRect.Y - _frameActualHeight * 0.5f - _markHeight * 0.5f);
+                float internalHeight = (_destRect.Height - _frameActualHeight) - _markHeight * 0.5f;
+                float relativeVal = (relativePos / internalHeight);
+                Value = (int)System.Math.Round(Min + relativeVal * (Max - Min));
             }
 
             // call event handler
@@ -125,11 +127,14 @@ namespace GeonBit.UI.Entities
         override protected void DoAfterUpdate(InputHelper input)
         {
             // if the active entity is self or parent, listen to mousewheel
-            if (_isInteractable && (UserInterface.ActiveEntity == this || UserInterface.ActiveEntity == _parent || (UserInterface.ActiveEntity != null && UserInterface.ActiveEntity.IsDeepChildOf(_parent))))
+            if (_isInteractable && 
+                (UserInterface.ActiveEntity == this || 
+                UserInterface.ActiveEntity == _parent || 
+                (UserInterface.ActiveEntity != null && UserInterface.ActiveEntity.IsDeepChildOf(_parent))))
             {
                 if (input.MouseWheelChange != 0)
                 {
-                    Value = _value - input.MouseWheelChange;
+                    Value = _value - input.MouseWheelChange * GetStepSize();
                 }
             }
         }
@@ -141,7 +146,7 @@ namespace GeonBit.UI.Entities
         /// <param name="input">Input helper instance.</param>
         override protected void DoOnMouseWheelScroll(InputHelper input)
         {
-            Value = _value - input.MouseWheelChange;
+            Value = _value - input.MouseWheelChange * GetStepSize();
         }
     }
 }

@@ -303,9 +303,35 @@ For that reason, whenever you mix Auto Anchors with static Anchors always place 
 # UserInterface
 
 As you noticed before, we use the ```UserInterface``` to Update, Draw, and Initialize GeonBit.UI.
-The ```UserInterface``` is a static class that manage and run the UI. You add entities to it, use it to control stuff like cursor, global scale, etc, and update it every frame.
+The ```UserInterface``` is a static class that manage and run the UI system. 
 
-There's not too much to tell about this class, but its recommended to take a peek at its docs.
+This is the main class you use from your ```Game```'s Update(), Draw() and Initialize() functions.
+
+## AddEntity / RemoveEntity
+
+Add / remove entities to the current UI screen.
+
+## UserInterface.Root
+
+Provide access to the UI root entity, which is a special skinless panel that covers the entire screen and all entities are added to it.
+
+## Root.Find()
+
+Find() locate and return UI entities by their ```Identifier``` field. For example:
+
+```cs
+// search for a button named "myButton" recrusively.
+Button btn = UserInterface.Root.Find<Button>("myButton", true);
+```
+
+Will search the entire UI tree recursively and return the first ```Button``` entity that has the ```Identifier``` of 'myButton' (or null, if no such entity is found).
+
+Note that Find() is implemented in a naive way and not very efficient, since its not assumed to be called very often.
+
+## SetCursor()
+
+Set the current cursor display, using either one of the built-in theme's cursors or a custom texture.
+
 
 # Entities
 
@@ -443,6 +469,10 @@ Note that if you override the state it will just be overrided again the next ```
 ### FillColor
 
 Set / get the default fill color style property.
+
+### Opacity
+
+Set / get the opacity of the entity's fill color.
 
 ### ShadowColor
 
@@ -616,6 +646,16 @@ If you want a panel without frame, just use ```PanelSkin.None```.
 
 Note that ```UserInterface.AddEntity()``` accept any type of entity, but from now on in all of our examples we'll be adding entities to a panel, and not directly to the manager.
 
+### PanelOverflowBehavior
+
+By default, entities that exceed the panel boundaries will just be drawn outside of it. 
+However, you can change that behavior by setting the ```PanelOverflowBehavior``` flag:
+
+- Overflow: default behavior.
+- Clipped: will clip entities that exceed the boundaries.
+- VerticalScroll: will clip entities that exceed the boundaries but also add a vertical scrollbar.
+
+Note that in order to use the ```Clipped``` and ```VerticalScroll``` options you must first set to ```UseRenderTarget``` mode (explained later in this doc).
 
 ## Paragraph
 
@@ -1410,6 +1450,7 @@ LineSpace sp = new LineSpace(3);
 panel.AddChild(sp);
 ```
 
+
 # Themes
 
 When calling ```UserInterface.Initialize()```, you can also provide a Theme identifier parameter. for example:
@@ -1450,6 +1491,50 @@ All the textures for this UI theme. Note that some textures also have a data fil
 
 Contain general data about the theme - name, author, extra info, credits, etc. This file is not really used inside GeonBit.UI, its just a way to attach metadata to themes.
 
+# Using Render Targets
+
+Sometimes you want to draw the UI on a render target rather than directly on the screen. To do so, you can set the ```UseRenderTarget``` flag:
+
+```cs
+UserInterface.UseRenderTarget = true;
+```
+
+Once ```UseRenderTarget``` is set, all the UI drawings will be on a special render target that you can access via ```UserInterface.RenderTarget```.
+
+When using RenderTargets you need to slightly change your Draw() function, instead of drawing GeonBit.UI *last*, you need to draw it *first* and then draw the RenderTarget last:
+
+```cs
+/// <summary>
+/// This is called when the game should draw itself.
+/// </summary>
+/// <param name="gameTime">Provides a snapshot of timing values.</param>
+protected override void Draw(GameTime gameTime)
+{
+    // draw ui
+    UserInterface.Draw(spriteBatch);
+
+    // clear buffer
+    GraphicsDevice.Clear(Color.CornflowerBlue);
+    
+    // do your game renderings...
+
+    // use `UserInterface.RenderTarget` here.
+    // in this example we call DrawMainRenderTarget(), which will draw the UserInterface.RenderTarget on the currently set target (or backbuffer if non is set)
+    UserInterface.DrawMainRenderTarget(spriteBatch);
+
+    // call base draw function
+    base.Draw(gameTime);
+}
+```
+
+
+# InputHelper
+
+```InputHelper``` is a useful helper class, used internally, that wraps access to keyboard and mouse.
+If you find yourself writing logic such as storing previous ```MouseState``` or ```KeyboardState``` and comparing it to new states to detect stuff like key release, clicks, etc, you should take a look at this class. 
+It has lots of useful functionality.
+
+
 # Migration
 
 This part describe steps needed when upgrading breaking versions.
@@ -1466,11 +1551,6 @@ When upgrading from 1x version to 2x version, follow these steps:
 6. To prevent blurriness, Paragraphs base size changed from ```1.175f``` to ```1f```. Its better this way, but if you want to keep texts at the same size, set ```Paragraph.BaseSize = 1.175f```.
 7. ```UserInterface.SCALE``` was renamed to ```UserInterface.GlobalScale```.
 
-# InputHelper
-
-```InputHelper``` is a useful helper class, used internally, that wraps access to keyboard and mouse.
-If you find yourself writing logic such as storing previous ```MouseState``` or ```KeyboardState``` and comparing it to new states to detect stuff like key release, clicks, etc, you should take a look at this class. 
-It has lots of useful functionality.
 
 # Final Words
 
@@ -1541,6 +1621,24 @@ The changes in this version break the API and may require some code changes on m
 - Refactored cursors and their types, Added IBeam cursor, and added an option to use custom cursors via the UserInterface.
 - Added 'PromiscuousClicksMode' to entities to make them behave similar to windows. Most entities by default won't be in 'Promiscuous' mode.
 - Added 'OnEntitySpawn' event, to make an easy place to init all newly created entities.
+
+### 2.0.1.0
+
+Some bug fixes, optimizations, and few new features.
+
+- Improved dragging behavior + can set position while dragged (useful for snapping to grid).
+- Extended DropDown API to make it more flexible.
+- Reimplemented DropDown in a less patchy way.
+- Added arrow that changes up/down to DropDown.
+- Fixed mouse down event so it want trigger multiple event calls when mouse goes in and out of entity's boundaries.
+- Added RenderTarget mode that draws everything on a RenderTarget instead of the default BackBuffer.
+- Added overflow modes to panels.
+- Added max items property to lists.
+- Added access to the UserInterface Root panel, which is useful for Find() etc.
+- Improved sliders and scrollbars behavior and steps count.
+- Added optimizations to only recalculate entities destination rect when needed.
+- Changed default fonts.
+- Added option for LineSpace with size 0.
 
 ## Credits
 

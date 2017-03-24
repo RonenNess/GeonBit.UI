@@ -90,6 +90,9 @@ namespace GeonBit.UI
         /// <summary>Arrow-down texture (used in dropdown).</summary>
         public static Texture2D ArrowDown;
 
+        /// <summary>Arrow-up texture (used in dropdown).</summary>
+        public static Texture2D ArrowUp;
+
         /// <summary>Default font types.</summary>
         public static SpriteFont[] Fonts;
 
@@ -123,7 +126,7 @@ namespace GeonBit.UI
                     Cursors[cursorI] = content.Load<Texture2D>(root + "textures/cursor_" + cursorName);
                     CursorsData[cursorI] = content.Load<CursorTextureData>(root + "textures/cursor_" + cursorName + "_md");
                 }
-                catch (Microsoft.Xna.Framework.Content.ContentLoadException)
+                catch (ContentLoadException)
                 {
                     Cursors[cursorI] = content.Load<Texture2D>(root + "textures/cursor");
                     CursorsData[cursorI] = new CursorTextureData();
@@ -150,8 +153,18 @@ namespace GeonBit.UI
                 PanelData[(int)skin] = content.Load<TextureData>(root + "textures/panel_" + skinName + "_md");
             }
 
-            // arrow down
+            // load arrow down texture
             ArrowDown = content.Load<Texture2D>(root + "textures/arrow_down");
+
+            // load arrow up texture, but if doesn't exist use the same as arrow down
+            try
+            {
+                ArrowUp = content.Load<Texture2D>(root + "textures/arrow_up");
+            }
+            catch (ContentLoadException)
+            {
+                ArrowUp = ArrowDown;
+            }
 
             // scrollbar texture
             VerticalScrollbarTexture = content.Load<Texture2D>(root + "textures/scrollbar");

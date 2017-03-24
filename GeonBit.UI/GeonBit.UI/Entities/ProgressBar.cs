@@ -99,7 +99,7 @@ namespace GeonBit.UI.Entities
             // calc frame width in pixels
             _frameActualWidth = progressbarFrameWidth * barTexture.Width * ScaleXfac;
 
-            // update the progress bar filled part
+            // update the progress bar color and size
             int markWidth = (int)((_destRect.Width - _frameActualWidth * 2) * GetValueAsPercent());
             ProgressFill.SetOffset(new Vector2(_frameActualWidth / UserInterface.GlobalScale, 0));
             ProgressFill.Size = new Vector2(markWidth, _destRectInternal.Height) / UserInterface.GlobalScale;
