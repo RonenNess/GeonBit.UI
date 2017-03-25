@@ -71,7 +71,7 @@ namespace GeonBit.UI.Example
         protected override void Initialize()
         {         
             // create and init the UI manager
-            UserInterface.Initialize(Content, "hd");
+            UserInterface.Initialize(Content, BuiltinThemes.hd);
             UserInterface.UseRenderTarget = true;
 
             // Create a new SpriteBatch, which can be used to draw textures.
@@ -531,7 +531,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 panel.AddChild(drop);
 
                 panel.AddChild(new Paragraph("And like list, we can set different skins:"));
-                drop = new DropDown(new Vector2(0, 240), skin: PanelSkin.Golden);
+                drop = new DropDown(new Vector2(0, 180), skin: PanelSkin.Golden);
                 drop.AddItem("Warrior");
                 drop.AddItem("Mage");
                 drop.AddItem("Monk");

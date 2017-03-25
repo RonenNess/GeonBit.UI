@@ -206,8 +206,8 @@ namespace GeonBit.UI.Example
         /// here we create and init the UI manager.
         protected override void Initialize()
         {
-            // GeonBit.UI: Init the UI manager using the "hd" theme
-            UserInterface.Initialize(Content, "hd");
+            // GeonBit.UI: Init the UI manager using the "hd" built-in theme
+            UserInterface.Initialize(Content, BuiltinThemes.hd);
 
             // GeonBit.UI: tbd create your GUI layouts here..
 
@@ -1456,12 +1456,13 @@ panel.AddChild(sp);
 When calling ```UserInterface.Initialize()```, you can also provide a Theme identifier parameter. for example:
 
 ```cs
-UserInterface.Initialize(Content, "lowres");
+UserInterface.Initialize(Content, BuiltinThemes.lowres);
 ```
 
-Will create a UI with a theme called "lowres".
+Will create a UI with a built-in theme called "lowres".
 
 A Theme in GeonBit.UI is the set of Textures, Effects, Fonts and StyleSheets, that define the entire look and feel of the UI system.
+
 GeonBit.UI comes with two built-in themes, which are essentially the same style but in low-res and high-res variations (called "lowres" and "hd" respectively, "hd" being the default theme used).
 
 ![Themes](assets/img/themes.png "Themes")

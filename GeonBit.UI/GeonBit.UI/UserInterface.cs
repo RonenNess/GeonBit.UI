@@ -46,6 +46,22 @@ namespace GeonBit.UI
     };
 
     /// <summary>
+    /// Enum with all the built-in themes.
+    /// </summary>
+    public enum BuiltinThemes
+    {
+        /// <summary>
+        /// Old-school style theme with hi-res textures.
+        /// </summary>
+        hd,
+
+        /// <summary>
+        /// Old-school style theme with low-res textures.
+        /// </summary>
+        lowres,
+    }
+
+    /// <summary>
     /// Main GeonBit.UI class that manage and draw all the UI entities.
     /// This is the main manager you use to update, draw, and add entities to.
     /// </summary>
@@ -189,7 +205,7 @@ namespace GeonBit.UI
         /// Initialize UI manager (mostly load resources and set some defaults).
         /// </summary>
         /// <param name="contentManager">Content manager.</param>
-        /// <param name="theme">Which UI theme to use (see options in Content/GeonBit.UI/themes/). This basically affect the appearance of all textures and effects.</param>
+        /// <param name="theme">Which UI theme to use (see options in Content/GeonBit.UI/themes/). This affect the appearance of all textures and effects.</param>
         static public void Initialize(ContentManager contentManager, string theme = "hd")
         {
             // create draw utils
@@ -209,6 +225,16 @@ namespace GeonBit.UI
 
             // set default cursor
             SetCursor(CursorType.Default);
+        }
+
+        /// <summary>
+        /// Initialize UI manager (mostly load resources and set some defaults).
+        /// </summary>
+        /// <param name="contentManager">Content manager.</param>
+        /// <param name="theme">Which UI theme to use. This affect the appearance of all textures and effects.</param>
+        static public void Initialize(ContentManager contentManager, BuiltinThemes theme)
+        {
+            Initialize(contentManager, theme.ToString());
         }
 
         /// <summary>
