@@ -1640,6 +1640,16 @@ Some bug fixes, optimizations, and few new features.
 - Changed default fonts.
 - Added option for LineSpace with size 0.
 
+### 2.0.1.1
+
+Bug fixes and some more optimizations.
+
+- Fixed DropDown events.
+- Fixed DropDown exception when setting value before adding to parent.
+- Internal optimizations with render targets.
+- Internal optimizations with strings.
+- Fixed leakage with panel render targets.
+
 ## Credits
 
 GeonBit.UI was written by Ronen Ness, but uses some free textures made by awesome people who share their work for free. 
