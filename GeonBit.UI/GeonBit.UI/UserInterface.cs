@@ -333,6 +333,7 @@ namespace GeonBit.UI
                     _renderTarget.Width != ScreenWidth ||
                     _renderTarget.Height != ScreenHeight)
                 {
+                    if (_renderTarget != null) { _renderTarget.Dispose(); }
                     _renderTarget = new RenderTarget2D(spriteBatch.GraphicsDevice,
                         ScreenWidth, ScreenHeight, false,
                         spriteBatch.GraphicsDevice.PresentationParameters.BackBufferFormat,

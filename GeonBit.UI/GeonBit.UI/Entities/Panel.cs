@@ -149,12 +149,21 @@ namespace GeonBit.UI.Entities
             }
 
             // create the render target for this panel
-            // note: by recreating the target we make sure its cleared
-            _renderTarget = new RenderTarget2D(spriteBatch.GraphicsDevice,
-                _destRectInternal.Width, _destRectInternal.Height, false,
-                spriteBatch.GraphicsDevice.PresentationParameters.BackBufferFormat,
-                spriteBatch.GraphicsDevice.PresentationParameters.DepthStencilFormat, 0,
-                RenderTargetUsage.PreserveContents);
+            if (_renderTarget == null || 
+                _renderTarget.Width != _destRectInternal.Width || 
+                _renderTarget.Height != _destRectInternal.Height)
+            {
+                if (_renderTarget != null) { _renderTarget.Dispose(); }
+                _renderTarget = new RenderTarget2D(spriteBatch.GraphicsDevice,
+                    _destRectInternal.Width, _destRectInternal.Height, false,
+                    spriteBatch.GraphicsDevice.PresentationParameters.BackBufferFormat,
+                    spriteBatch.GraphicsDevice.PresentationParameters.DepthStencilFormat, 0,
+                    RenderTargetUsage.PreserveContents);
+            }
+
+            // clear render target
+            spriteBatch.GraphicsDevice.SetRenderTarget(_renderTarget);
+            spriteBatch.GraphicsDevice.Clear(Color.Transparent);
 
             // bind the render target
             UserInterface.DrawUtils.PushRenderTarget(_renderTarget);
