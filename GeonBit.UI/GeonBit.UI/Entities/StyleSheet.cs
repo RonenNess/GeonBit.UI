@@ -20,6 +20,25 @@ namespace GeonBit.UI.Entities
     /// </summary>
     public class StyleSheet : Dictionary<string, StyleProperty>
     {
+        // caching of states as strings, to eliminate state.ToString() calls
+        private static readonly string[] StateAsString =
+        {
+            "Default",
+            "MouseHover",
+            "MouseDown",
+        };
+
+        /// <summary>
+        /// Get the full string that represent a style property identifier.
+        /// </summary>
+        private string GetPropertyFullId(string property, EntityState state)
+        {
+            StringBuilder fullPropertyIdentifier = new StringBuilder(StateAsString[(int)state]);
+            fullPropertyIdentifier.Append('.');
+            fullPropertyIdentifier.Append(property);
+            return fullPropertyIdentifier.ToString();
+        }
+
         /// <summary>
         /// Return stylesheet property for a given state.
         /// </summary>
@@ -29,14 +48,9 @@ namespace GeonBit.UI.Entities
         /// <returns>Style property value for given state or default, or null if undefined.</returns>
         public StyleProperty GetStyleProperty(string property, EntityState state = EntityState.Default, bool fallbackToDefault = true)
         {
-            // build full property name ("<state>.<property>")
-            StringBuilder fullPropertyIdentifier = new StringBuilder(state.ToString());
-            fullPropertyIdentifier.Append('.');
-            fullPropertyIdentifier.Append(property);
-
             // try to get for current state
             StyleProperty ret;
-            TryGetValue(fullPropertyIdentifier.ToString(), out ret);
+            TryGetValue(GetPropertyFullId(property, state), out ret);
 
             // if not found, try default
             if (ret == null && state != EntityState.Default && fallbackToDefault)
@@ -56,7 +70,7 @@ namespace GeonBit.UI.Entities
         /// <param name="state">State to set property for.</param>
         public void SetStyleProperty(string property, StyleProperty value, EntityState state = EntityState.Default)
         {
-            this[state.ToString() + "." + property] = value;
+            this[GetPropertyFullId(property, state)] = value;
         }
 
         /// <summary>
