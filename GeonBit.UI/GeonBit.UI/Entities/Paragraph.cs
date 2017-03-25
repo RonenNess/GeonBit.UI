@@ -132,8 +132,8 @@ namespace GeonBit.UI.Entities
         public Paragraph(string text, Anchor anchor, Color color, float? scale = null, Vector2? size = null, Vector2? offset = null) :
             this(text, anchor, size, offset)
         {
-            SetStyleProperty("FillColor", new StyleProperty(color));
-            if (scale != null) { SetStyleProperty("Scale", new StyleProperty((float)scale)); }
+            SetStyleProperty(StylePropertyIds.FillColor, new StyleProperty(color));
+            if (scale != null) { SetStyleProperty(StylePropertyIds.Scale, new StyleProperty((float)scale)); }
         }
 
         /// <summary>

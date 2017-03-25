@@ -28,6 +28,23 @@ namespace GeonBit.UI.Entities
     }
 
     /// <summary>
+    /// Static strings with all common style property names, to reduce string creations.
+    /// </summary>
+    internal static class StylePropertyIds
+    {
+        public static readonly string SpaceAfter = "SpaceAfter";
+        public static readonly string SpaceBefore = "SpaceBefore";
+        public static readonly string FillColor = "FillColor";
+        public static readonly string Scale = "Scale";
+        public static readonly string Padding = "Padding";
+        public static readonly string ShadowColor = "ShadowColor";
+        public static readonly string ShadowScale = "ShadowScale";
+        public static readonly string ShadowOffset = "ShadowOffset";
+        public static readonly string OutlineColor = "OutlineColor";
+        public static readonly string OutlineWidth = "OutlineWidth";
+    }
+
+    /// <summary>
     /// An Anchor is a pre-defined position in parent entity that we use to position a child.
     /// For eample, we can use anchors to position an entity at the bottom-center point of its parent.
     /// Note: anchor affect both the position relative to parent and also the offset origin point of the entity.
@@ -516,8 +533,8 @@ namespace GeonBit.UI.Entities
         /// </summary>
         public Vector2 SpaceAfter
         {
-            set { SetStyleProperty("SpaceAfter", new StyleProperty(value)); }
-            get { return GetActiveStyle("SpaceAfter").asVector; }
+            set { SetStyleProperty(StylePropertyIds.SpaceAfter, new StyleProperty(value)); }
+            get { return GetActiveStyle(StylePropertyIds.SpaceAfter).asVector; }
         }
 
         /// <summary>
@@ -525,8 +542,8 @@ namespace GeonBit.UI.Entities
         /// </summary>
         public Vector2 SpaceBefore
         {
-            set { SetStyleProperty("SpaceBefore", new StyleProperty(value)); }
-            get { return GetActiveStyle("SpaceBefore").asVector; }
+            set { SetStyleProperty(StylePropertyIds.SpaceBefore, new StyleProperty(value)); }
+            get { return GetActiveStyle(StylePropertyIds.SpaceBefore).asVector; }
         }
 
         /// <summary>
@@ -534,8 +551,8 @@ namespace GeonBit.UI.Entities
         /// </summary>
         public Color FillColor
         {
-            set { SetStyleProperty("FillColor", new StyleProperty(value), markAsDirty: false); }
-            get { return GetActiveStyle("FillColor").asColor; }
+            set { SetStyleProperty(StylePropertyIds.FillColor, new StyleProperty(value), markAsDirty: false); }
+            get { return GetActiveStyle(StylePropertyIds.FillColor).asColor; }
         }
 
         /// <summary>
@@ -547,7 +564,7 @@ namespace GeonBit.UI.Entities
             {
                 Color col = FillColor;
                 col.A = value;
-                SetStyleProperty("FillColor", new StyleProperty(col), markAsDirty: false);
+                SetStyleProperty(StylePropertyIds.FillColor, new StyleProperty(col), markAsDirty: false);
             }
             get
             {
@@ -560,8 +577,8 @@ namespace GeonBit.UI.Entities
         /// </summary>
         public Vector2 Padding
         {
-            set { SetStyleProperty("Padding", new StyleProperty(value)); }
-            get { return GetActiveStyle("Padding").asVector; }
+            set { SetStyleProperty(StylePropertyIds.Padding, new StyleProperty(value)); }
+            get { return GetActiveStyle(StylePropertyIds.Padding).asVector; }
         }
 
         /// <summary>
@@ -569,8 +586,8 @@ namespace GeonBit.UI.Entities
         /// </summary>
         public Color ShadowColor
         {
-            set { SetStyleProperty("ShadowColor", new StyleProperty(value), markAsDirty: false); }
-            get { return GetActiveStyle("ShadowColor").asColor; }
+            set { SetStyleProperty(StylePropertyIds.ShadowColor, new StyleProperty(value), markAsDirty: false); }
+            get { return GetActiveStyle(StylePropertyIds.ShadowColor).asColor; }
         }
 
         /// <summary>
@@ -578,8 +595,8 @@ namespace GeonBit.UI.Entities
         /// </summary>
         public float ShadowScale
         {
-            set { SetStyleProperty("ShadowScale", new StyleProperty(value), markAsDirty: false); }
-            get { return GetActiveStyle("ShadowScale").asFloat; }
+            set { SetStyleProperty(StylePropertyIds.ShadowScale, new StyleProperty(value), markAsDirty: false); }
+            get { return GetActiveStyle(StylePropertyIds.ShadowScale).asFloat; }
         }
 
         /// <summary>
@@ -587,8 +604,8 @@ namespace GeonBit.UI.Entities
         /// </summary>
         public Vector2 ShadowOffset
         {
-            set { SetStyleProperty("ShadowOffset", new StyleProperty(value), markAsDirty: false); }
-            get { return GetActiveStyle("ShadowOffset").asVector; }
+            set { SetStyleProperty(StylePropertyIds.ShadowOffset, new StyleProperty(value), markAsDirty: false); }
+            get { return GetActiveStyle(StylePropertyIds.ShadowOffset).asVector; }
         }
 
         /// <summary>
@@ -596,8 +613,8 @@ namespace GeonBit.UI.Entities
         /// </summary>
         public float Scale
         {
-            set { SetStyleProperty("Scale", new StyleProperty(value)); }
-            get { return GetActiveStyle("Scale").asFloat; }
+            set { SetStyleProperty(StylePropertyIds.Scale, new StyleProperty(value)); }
+            get { return GetActiveStyle(StylePropertyIds.Scale).asFloat; }
         }
 
         /// <summary>
@@ -605,8 +622,8 @@ namespace GeonBit.UI.Entities
         /// </summary>
         public Color OutlineColor
         {
-            set { SetStyleProperty("OutlineColor", new StyleProperty(value), markAsDirty: false); }
-            get { return GetActiveStyle("OutlineColor").asColor; }
+            set { SetStyleProperty(StylePropertyIds.OutlineColor, new StyleProperty(value), markAsDirty: false); }
+            get { return GetActiveStyle(StylePropertyIds.OutlineColor).asColor; }
         }
 
         /// <summary>
@@ -614,8 +631,8 @@ namespace GeonBit.UI.Entities
         /// </summary>
         public int OutlineWidth
         {
-            set { SetStyleProperty("OutlineWidth", new StyleProperty(value), markAsDirty: false); }
-            get { return GetActiveStyle("OutlineWidth").asInt; }
+            set { SetStyleProperty(StylePropertyIds.OutlineWidth, new StyleProperty(value), markAsDirty: false); }
+            get { return GetActiveStyle(StylePropertyIds.OutlineWidth).asInt; }
         }
 
         /// <summary>
@@ -964,7 +981,7 @@ namespace GeonBit.UI.Entities
             EntityState oldState = _entityState;
 
             // set fill color
-            SetStyleProperty("FillColor", new StyleProperty(outlineColor), oldState, markAsDirty: false);
+            SetStyleProperty(StylePropertyIds.FillColor, new StyleProperty(outlineColor), oldState, markAsDirty: false);
 
             // draw the entity outline
             UserInterface.DrawUtils.StartDrawSilhouette(spriteBatch);
@@ -979,7 +996,7 @@ namespace GeonBit.UI.Entities
             UserInterface.DrawUtils.EndDraw(spriteBatch);
 
             // turn back to previous fill color
-            SetStyleProperty("FillColor", new StyleProperty(oldFill), oldState, markAsDirty: false);
+            SetStyleProperty(StylePropertyIds.FillColor, new StyleProperty(oldFill), oldState, markAsDirty: false);
 
             // return to the original destination rect
             _destRect = originalDest;
