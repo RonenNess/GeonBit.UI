@@ -44,6 +44,18 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Update dest rect and internal dest rect, but only if needed (eg if something changed since last update).
+        /// </summary>
+        override public void UpdateDestinationRectsIfDirty()
+        {
+            // if dirty, update destination rectangles
+            if (IsDirty)
+            {
+                UpdateDestinationRects();
+            }
+        }
+
+        /// <summary>
         /// Draw this entity and its children.
         /// </summary>
         /// <param name="spriteBatch">SpriteBatch to use for drawing.</param>

@@ -394,6 +394,14 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Get if this entity needs to recalculate destination rect.
+        /// </summary>
+        public bool IsDirty
+        {
+            get { return _isDirty; }
+        }
+
+        /// <summary>
         /// Is the entity draggable (eg can a user grab it and drag it around).
         /// </summary>
         public bool Draggable
@@ -783,10 +791,10 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Update dest rect and internal dest rect, but only if needed (eg if something changed since last update).
         /// </summary>
-        public void UpdateDestinationRectsIfDirty()
+        virtual public void UpdateDestinationRectsIfDirty()
         {
             // if dirty, update destination rectangles
-            if (_isDirty || (_parent != null && _parentLastDestRectVersion != _parent._destRectVersion))
+            if (_parent != null && (_isDirty || (_parentLastDestRectVersion != _parent._destRectVersion)))
             {
                 UpdateDestinationRects();
             }
@@ -1125,6 +1133,12 @@ namespace GeonBit.UI.Entities
         {
             // create new rectangle
             Rectangle ret = new Rectangle();
+
+            // no parent? stop here and return empty rect
+            if (_parent == null)
+            {
+                return ret;
+            }
 
             // get parent internal destination rectangle
             _parent.UpdateDestinationRectsIfDirty();
