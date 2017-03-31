@@ -183,7 +183,14 @@ namespace GeonBit.UI.Entities
 
                 // update scrollbar position
                 _scrollbar.SetOffset(new Vector2(-_scrollbar.GetActualDestRect().Width, -_destRectInternal.Y));
-                _scrollbar.BringToFront();
+                if (_scrollbar.Parent != null)
+                {
+                    _scrollbar.BringToFront();
+                }
+                else
+                {
+                    AddChild(_scrollbar);
+                }
 
                 // adjust internal rect width
                 _destRectInternal.Width -= _scrollbar.GetActualDestRect().Width;
