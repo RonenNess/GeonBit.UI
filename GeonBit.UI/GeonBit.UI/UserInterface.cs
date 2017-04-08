@@ -68,7 +68,7 @@ namespace GeonBit.UI
     public static class UserInterface
     {
         // input manager
-        static InputHelper _input;
+        static internal InputHelper _input;
 
         // content manager
         static ContentManager _content;
@@ -138,6 +138,12 @@ namespace GeonBit.UI
 
         /// <summary>Current active entity, eg last entity user interacted with.</summary>
         static public Entity ActiveEntity = null;
+
+        /// <summary>The current target entity, eg what cursor points on. Can be null if cursor don't point on any entity.</summary>
+        static public Entity TargetEntity { get { return _targetEntity; } }
+
+        // current target entity
+        static private Entity _targetEntity = null;
 
         /// <summary>Callback to execute when mouse button is pressed over an entity (called once when button is pressed).</summary>
         static public EventCallback OnMouseDown = null;
@@ -330,6 +336,9 @@ namespace GeonBit.UI
 
             // default active entity is root panel
             ActiveEntity = ActiveEntity ?? _root;
+
+            // set current target entity
+            _targetEntity = target;
         }
 
         /// <summary>

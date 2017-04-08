@@ -52,6 +52,9 @@ namespace GeonBit.UI.Example
         Button nextExampleButton;
         Button previousExampleButton;
 
+        // paragraph that shows the currently active entity
+        Paragraph targetEntityShow;
+
         // current example shown
         int currExample = 0;
 
@@ -121,7 +124,7 @@ namespace GeonBit.UI.Example
             UserInterface.AddEntity(exitBtn);
 
             // events panel for debug
-            Panel eventsPanel = new Panel(new Vector2(400, 500), PanelSkin.Simple, Anchor.CenterLeft, new Vector2(-10, 0));
+            Panel eventsPanel = new Panel(new Vector2(400, 530), PanelSkin.Simple, Anchor.CenterLeft, new Vector2(-10, 0));
             eventsPanel.Visible = false;
 
             // events log (single-time events)
@@ -139,6 +142,10 @@ namespace GeonBit.UI.Example
             eventsNow.ItemsScale = 0.5f;
             eventsNow.Locked = true;
             eventsPanel.AddChild(eventsNow);
+
+            // paragraph to show currently active panel
+            targetEntityShow = new Paragraph("test", Anchor.Auto, Color.White, scale: 0.75f);
+            eventsPanel.AddChild(targetEntityShow);
 
             // add the events panel
             UserInterface.AddEntity(eventsPanel);
@@ -1087,6 +1094,9 @@ If you liked GeonBit.UI feel free to star the repo on GitHub. :)"));
 
             // update UI
             UserInterface.Update(gameTime);
+
+            // show currently active entity (for testing)
+            targetEntityShow.Text = "Target Entity: " + (UserInterface.TargetEntity != null ? UserInterface.TargetEntity.GetType().Name : "null");
 
             // call base update
             base.Update(gameTime);
