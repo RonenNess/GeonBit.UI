@@ -133,6 +133,14 @@ namespace GeonBit.UI.Entities
         /// <summary>Optional identifier you can attach to entities so you can later search and retrieve by.</summary>
         public string Identifier = "";
 
+        /// <summary>
+        /// If this boolean is true, events will just "go through" this entity to its children or entities behind it.
+        /// This bool comes to solve conditions where you have two panels without skin that hide each other but you want
+        /// users to be able to click on the bottom panel through the upper panel, provided it doesn't hit any of the first
+        /// panel's children.
+        /// </summary>
+        public bool ClickThrough = false;
+
         /// <summary>If in promiscuous mode, mouse button is pressed *outside* the entity and then released on the entity, click event will be fired.
         /// If false, in order to fire click event the mouse button must be pressed AND released over this entity (but can travel outside while being
         /// held down, as long as its released inside).
@@ -1652,6 +1660,13 @@ namespace GeonBit.UI.Entities
                 // set to default and return
                 _isInteractable = false;
                 _entityState = EntityState.Default;
+                return;
+            }
+
+            // if click-through is true, update children and stop here
+            if (ClickThrough)
+            {
+                UpdateChildren(input, ref targetEntity, ref dragTargetEntity, ref wasEventHandled);
                 return;
             }
 

@@ -30,6 +30,7 @@ namespace GeonBit.UI.Entities
             Padding = Vector2.Zero;
             ShadowColor = Color.Transparent;
             OutlineWidth = 0;
+            ClickThrough = true;
         }
 
         /// <summary>
