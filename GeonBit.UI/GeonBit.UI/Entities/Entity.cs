@@ -1523,6 +1523,7 @@ namespace GeonBit.UI.Entities
         /// </summary>
         virtual protected void DoOnVisibilityChange()
         {
+            // invoke callbacks
             OnVisiblityChange?.Invoke(this);
             UserInterface.OnVisiblityChange?.Invoke(this);
         }
@@ -1654,6 +1655,22 @@ namespace GeonBit.UI.Entities
                         {
                             _children[i].Update(input, ref targetEntity, ref dragTargetEntity, ref wasEventHandled);
                         }
+                    }
+                }
+
+                // if was previously interactable, we might need to trigger some events
+                if (_isInteractable)
+                {
+                    // if mouse was over, trigger mouse leave event
+                    if (_entityState == EntityState.MouseHover)
+                    {
+                        DoOnMouseLeave(input);
+                    }
+                    // if mouse was down, trigger mouse up and leave events
+                    else if (_entityState == EntityState.MouseDown)
+                    {
+                        DoOnMouseReleased(input);
+                        DoOnMouseLeave(input);
                     }
                 }
 
