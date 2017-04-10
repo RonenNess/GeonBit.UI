@@ -1053,7 +1053,8 @@ namespace GeonBit.UI.Entities
         /// </summary>
         /// <param name="child">Entity to add as child.</param>
         /// <param name="inheritParentState">If true, this entity will inherit the parent's state (set InheritParentState property).</param>
-        public void AddChild(Entity child, bool inheritParentState = false)
+        /// <param name="index">If provided, will be the index in the children array to push the new entity.</param>
+        public void AddChild(Entity child, bool inheritParentState = false, int index = -1)
         {
             // make sure don't already have a parent
             if (child._parent != null)
@@ -1064,10 +1065,28 @@ namespace GeonBit.UI.Entities
             // set inherit parent mode
             child.InheritParentState = inheritParentState;
 
-            // set parent and add
+            // set child's new parent
             child._parent = this;
-            child._indexInParent = _children.Count;
-            _children.Add(child);
+
+            // add to list of child entities at the end
+            if (index == -1 || index >= _children.Count)
+            {
+                child._indexInParent = _children.Count;
+                _children.Add(child);
+            }
+            // add to list of child entities at a given index
+            else
+            {
+                // insert at index
+                child._indexInParent = index;
+                _children.Insert(index, child);
+
+                // update any siblings which need their index updating
+                for (int i = index + 1; i < _children.Count; i++)
+                {
+                    _children[i]._indexInParent += 1;
+                }
+            }
 
             // reset child parent dest rect version
             child._parentLastDestRectVersion = _destRectVersion - 1;
