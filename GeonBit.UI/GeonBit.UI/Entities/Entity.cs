@@ -1068,24 +1068,20 @@ namespace GeonBit.UI.Entities
             // set child's new parent
             child._parent = this;
 
-            // add to list of child entities at the end
+            // if index is -1 or out of range, set to last item in childrens list
             if (index == -1 || index >= _children.Count)
             {
-                child._indexInParent = _children.Count;
-                _children.Add(child);
+                index = _children.Count;
             }
-            // add to list of child entities at a given index
-            else
-            {
-                // insert at index
-                child._indexInParent = index;
-                _children.Insert(index, child);
+            
+            // add child at index
+            child._indexInParent = index;
+            _children.Insert(index, child);
 
-                // update any siblings which need their index updating
-                for (int i = index + 1; i < _children.Count; i++)
-                {
-                    _children[i]._indexInParent += 1;
-                }
+            // update any siblings which need their index updating
+            for (int i = index + 1; i < _children.Count; i++)
+            {
+                _children[i]._indexInParent += 1;
             }
 
             // reset child parent dest rect version
