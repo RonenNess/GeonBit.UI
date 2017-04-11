@@ -35,7 +35,7 @@ namespace GeonBit.UI.Entities
         public static StyleSheet DefaultSelectedParagraphStyle = new StyleSheet();
 
         /// <summary>Default select list size in pixels.</summary>
-        override public Vector2 DefaultSize { get { return new Vector2(0f, 220f); } }
+        new public static Vector2 DefaultSize = new Vector2(0f, 220f);
 
         // internal panel and paragraph to show selected value.
         Panel _selectedTextPanel;

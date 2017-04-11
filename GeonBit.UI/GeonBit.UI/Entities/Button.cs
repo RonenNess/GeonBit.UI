@@ -53,7 +53,7 @@ namespace GeonBit.UI.Entities
         private bool _checked = false;
 
         /// <summary>Default button size for when no size is provided or when -1 is set for either width or height.</summary>
-        override public Vector2 DefaultSize { get { return new Vector2(0f, 70f); } }
+        new public static Vector2 DefaultSize = new Vector2(0f, 70f);
 
         /// <summary>Default styling for the button itself. Note: loaded from UI theme xml file.</summary>
         new public static StyleSheet DefaultStyle = new StyleSheet();

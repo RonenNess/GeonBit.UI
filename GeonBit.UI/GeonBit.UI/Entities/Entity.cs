@@ -12,6 +12,7 @@
 // Since: 2016.
 //-----------------------------------------------------------------------------
 #endregion
+using System.Reflection;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -300,7 +301,7 @@ namespace GeonBit.UI.Entities
         private bool _isBeingDragged = false;
 
         /// <summary>Default size this entity will have when no size is provided or when -1 is set for either width or height.</summary>
-        virtual public Vector2 DefaultSize { get { return Vector2.Zero; } }
+        public static Vector2 DefaultSize = Vector2.Zero;
 
         /// <summary>If true, users will not be able to drag this entity outside its parent boundaries.</summary>
         public bool LimitDraggingToParentBoundaries = true;
@@ -317,7 +318,8 @@ namespace GeonBit.UI.Entities
             MarkAsDirty();
 
             // store size, anchor and offset
-            _size = size ?? DefaultSize;
+            Vector2 defaultSize = EntityDefaultSize;
+            _size = size ?? defaultSize;
             _offset = offset ?? Vector2.Zero;
             _anchor = anchor;
 
@@ -325,8 +327,27 @@ namespace GeonBit.UI.Entities
             UpdateStyle(DefaultStyle);
 
             // check default size on specific axises
-            if (_size.X == -1) { _size.X = DefaultSize.X; }
-            if (_size.Y == -1) { _size.Y = DefaultSize.Y; }
+            if (_size.X == -1) { _size.X = defaultSize.X; }
+            if (_size.Y == -1) { _size.Y = defaultSize.Y; }
+        }
+
+        /// <summary>
+        /// Return the default size for this entity.
+        /// </summary>
+        public Vector2 EntityDefaultSize
+        {
+            get
+            {
+                // get static field from class type
+                System.Type type = GetType();
+                FieldInfo field = type.GetField("DefaultSize", BindingFlags.Public | BindingFlags.Static);
+
+                // if not found, return the static default size of the base entity
+                if (field == null) { return DefaultSize; }
+
+                // return default size
+                return (Vector2)(field.GetValue(null));
+            }
         }
 
         /// <summary>

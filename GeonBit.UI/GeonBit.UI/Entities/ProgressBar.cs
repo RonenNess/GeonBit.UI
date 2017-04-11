@@ -34,7 +34,7 @@ namespace GeonBit.UI.Entities
         public static StyleSheet DefaultFillStyle = new StyleSheet();
 
         /// <summary>Default progressbar size for when no size is provided or when -1 is set for either width or height.</summary>
-        override public Vector2 DefaultSize { get { return new Vector2(0f, 52f); } }
+        new public static Vector2 DefaultSize = new Vector2(0f, 52f);
 
         /// <summary>The fill part of the progress bar.</summary>
         public Image ProgressFill;

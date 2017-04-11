@@ -136,7 +136,7 @@ namespace GeonBit.UI.Entities
         public bool DrawBackground = false;
 
         /// <summary>Default icon size for when no size is provided or when -1 is set for either width or height.</summary>
-        override public Vector2 DefaultSize { get { return new Vector2(50f, 50f); } }
+        new public static Vector2 DefaultSize = new Vector2(50f, 50f);
 
         /// <summary>Default styling for icons. Note: loaded from UI theme xml file.</summary>
         new public static StyleSheet DefaultStyle = new StyleSheet();

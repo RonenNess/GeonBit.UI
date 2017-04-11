@@ -62,7 +62,7 @@ namespace GeonBit.UI.Entities
         public static float CaretBlinkingSpeed = 2f;
 
         /// <summary>Default text-input size for when no size is provided or when -1 is set for either width or height.</summary>
-        override public Vector2 DefaultSize { get { return new Vector2(0f, 65f); } }
+        new public static Vector2 DefaultSize = new Vector2(0f, 65f);
 
         /// <summary>The actual displayed text, after wordwrap and other processing. 
         /// note: only the text currently visible by scrollbar.</summary>

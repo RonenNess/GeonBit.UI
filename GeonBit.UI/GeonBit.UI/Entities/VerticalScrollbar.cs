@@ -22,7 +22,7 @@ namespace GeonBit.UI.Entities
         int _markHeight = 20;
 
         /// <summary>Default scrollbar size for when no size is provided or when -1 is set for either width or height.</summary>
-        override public Vector2 DefaultSize { get { return new Vector2(30f, 0f); } }
+        new public static Vector2 DefaultSize = new Vector2(30f, 0f);
 
         /// <summary>Default styling for vertical scrollbars. Note: loaded from UI theme xml file.</summary>
         new public static StyleSheet DefaultStyle = new StyleSheet();

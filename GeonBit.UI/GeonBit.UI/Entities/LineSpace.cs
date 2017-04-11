@@ -23,7 +23,7 @@ namespace GeonBit.UI.Entities
         public static float SpaceSize = 8f;
 
         /// <summary>Default size this entity will have when no size is provided or when -1 is set for either width or height.</summary>
-        override public Vector2 DefaultSize { get { return Vector2.Zero; } }
+        new public static Vector2 DefaultSize = Vector2.Zero;
 
         /// <summary>
         /// Create a new Line Space entity.

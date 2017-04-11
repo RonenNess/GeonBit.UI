@@ -29,7 +29,7 @@ namespace GeonBit.UI.Entities
     public class RadioButton : CheckBox
     {
         /// <summary>Default radio buttons size in pixels.</summary>
-        override public Vector2 DefaultSize { get { return new Vector2(0f, 50f); } }
+        new public static Vector2 DefaultSize = new Vector2(0f, 50f);
 
         /// <summary>Default styling for the radio button itself. Note: loaded from UI theme xml file.</summary>
         new public static StyleSheet DefaultStyle = new StyleSheet();
