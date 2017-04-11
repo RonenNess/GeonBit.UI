@@ -51,9 +51,6 @@ namespace GeonBit.UI.Entities
                 name = tabName;
                 panel = tabPanel;
                 button = tabButton;
-
-                // set panel padding to zero by default
-                panel.Padding = Vector2.Zero;
             }
         }
 
@@ -66,30 +63,37 @@ namespace GeonBit.UI.Entities
         /// <summary>A special internal panel to hold all the panels.</summary>
         private Panel _panelsPanel;
 
+        /// <summary>Internal panel that contains everything.</summary>
+        private Panel _internalPanel;
+
         /// <summary>Currently active tab.</summary>
         TabData _activeTab = null;
 
         /// <summary>
         /// Create the panel tabs.
         /// </summary>
-        public PanelTabs() :
-            base(new Vector2(0, 0), Anchor.TopCenter, Vector2.Zero)
+        public PanelTabs() : base(new Vector2(0, 0), Anchor.TopCenter, Vector2.Zero)
         {
             // update style
             UpdateStyle(DefaultStyle);
 
-            // create the panel to hold the tab buttons
-            _buttonsPanel = new Panel(new Vector2(0, 0), PanelSkin.None, Anchor.TopCenter);
-            _buttonsPanel.Padding = Vector2.Zero;
-            AddChild(_buttonsPanel);
-
-            // create the panel to hold the tab panels
-            _panelsPanel = new Panel(new Vector2(0, 0), PanelSkin.None, Anchor.TopCenter, new Vector2(0, 0));
-            _panelsPanel.Padding = Vector2.Zero;
-            AddChild(_panelsPanel);
-
             // remove self padding
             Padding = Vector2.Zero;
+
+            // create the internal panel that contains everything
+            _internalPanel = new Panel(Vector2.Zero, PanelSkin.None, Anchor.Center);
+            _internalPanel.Padding = Vector2.Zero;
+            AddChild(_internalPanel);
+
+            // create the panel to hold the tab buttons
+            _buttonsPanel = new Panel(Vector2.Zero, PanelSkin.None, Anchor.TopCenter);
+            _buttonsPanel.SpaceBefore = _buttonsPanel.SpaceAfter = _buttonsPanel.Padding = Vector2.Zero;
+            _internalPanel.AddChild(_buttonsPanel);
+
+            // create the panel to hold the tab panels
+            _panelsPanel = new Panel(Vector2.Zero, PanelSkin.None, Anchor.TopCenter, new Vector2(0, 0));
+            _panelsPanel.SpaceBefore = _panelsPanel.SpaceAfter = _panelsPanel.Padding = Vector2.Zero;
+            _internalPanel.AddChild(_panelsPanel);
         }
 
         /// <summary>
@@ -98,8 +102,8 @@ namespace GeonBit.UI.Entities
         /// <param name="spriteBatch">Sprite batch to draw on.</param>
         override protected void DrawEntity(SpriteBatch spriteBatch)
         {
-            // make sure buttons panel padding is up to date
-            _buttonsPanel.Padding = _parent.Padding * -1;
+            // negate parent's padding
+            _internalPanel.Padding = -Parent.Padding;
 
             // recalculate the size of the panel containing the internal panels
             if (_tabs.Count > 0)
@@ -141,16 +145,49 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Calculate and return the destination rectangle, eg the space this entity is rendered on.
+        /// </summary>
+        /// <returns>Destination rectangle.</returns>
+        override public Rectangle CalcDestRect()
+        {
+            // call base calculate dest rect
+            Rectangle ret = base.CalcDestRect();
+
+            // make sure the panel tabs are not out of screen boundaries
+            if (_tabs.Count > 0)
+            {
+                // get first button
+                Button btn = _tabs[0].button;
+
+                // calculate button dest rect
+                Rectangle buttonRect = btn.GetActualDestRect();
+
+                // make sure there's enough room for panel buttons
+                if (ret.Y < buttonRect.Height)
+                {
+                    ret.Y += buttonRect.Height;
+                }
+            }
+
+            // return updated rectangle
+            _destRect = ret;
+            return ret;
+        }
+
+        /// <summary>
         /// Add a new tab to the panel tabs.
         /// </summary>
         /// <param name="name">Tab name (also what will appear on the panel button).</param>
+        /// <param name="panelSkin">Panel skin to use for this panel.</param>
         /// <returns>The new tab we created - contains the panel and the button to switch it.</returns>
-        public TabData AddTab(string name)
+        public TabData AddTab(string name, PanelSkin panelSkin = PanelSkin.None)
         {
+            // create new panel and button
+            Panel newPanel = new Panel(Vector2.Zero, panelSkin, Anchor.TopCenter);
+            Button newButton = new Button(name, ButtonSkin.Default, Anchor.AutoInline, new Vector2(-1, -1));
+
             // create the new tab data
-            TabData newTab = new TabData(name, 
-                new Panel(Vector2.Zero, PanelSkin.None), 
-                new Button(name, ButtonSkin.Default, Anchor.AutoInline, new Vector2(-1, -1)));
+            TabData newTab = new TabData(name, newPanel, newButton);
 
             // link tab data to panel
             newTab.panel.AttachedData = newTab;
@@ -240,6 +277,9 @@ namespace GeonBit.UI.Entities
             {
                 newTab.button.Checked = true;
             }
+
+            // set as dirty to recalculate destination rect
+            MarkAsDirty();
 
             // return the newly created tab data (panel + button)
             return newTab;
