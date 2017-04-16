@@ -468,7 +468,7 @@ namespace GeonBit.UI.Entities
                 else
                 {
                     _paragraphs[i].Visible = false;
-                    _paragraphs[i].Text = "";
+                    _paragraphs[i].Text = string.Empty;
                 }
             }
 

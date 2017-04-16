@@ -20,7 +20,7 @@ namespace GeonBit.UI.Entities
     public class TextInput : Panel
     {
         // current text value
-        string _value = "";
+        string _value = string.Empty;
 
         // current caret position (-1 is last character).
         int _caret = -1;
@@ -41,7 +41,7 @@ namespace GeonBit.UI.Entities
         float _caretAnim = 0f;
 
         /// <summary>Text to show when there's no input. Note that this text will be drawn with PlaceholderParagraph, and not TextParagraph.</summary>
-        string _placeholderText = "";
+        string _placeholderText = string.Empty;
 
         /// <summary>Set to any number to limit input by characters count.</summary>
         public int CharactersLimit = 0;
@@ -66,7 +66,7 @@ namespace GeonBit.UI.Entities
 
         /// <summary>The actual displayed text, after wordwrap and other processing. 
         /// note: only the text currently visible by scrollbar.</summary>
-        string _actualDisplayText = "";
+        string _actualDisplayText = string.Empty;
 
         /// <summary>List of validators to apply on text input.</summary>
         public List<ITextValidator> Validators = new List<ITextValidator>();
@@ -98,12 +98,12 @@ namespace GeonBit.UI.Entities
             LimitBySize = !_multiLine;
 
             // create paragraph to show current value
-            TextParagraph = new Paragraph("", _multiLine ? Anchor.TopLeft : Anchor.CenterLeft);
+            TextParagraph = new Paragraph(string.Empty, _multiLine ? Anchor.TopLeft : Anchor.CenterLeft);
             TextParagraph.UpdateStyle(DefaultParagraphStyle);
             AddChild(TextParagraph, true);
 
             // create the placeholder paragraph
-            PlaceholderParagraph = new Paragraph("", _multiLine ? Anchor.TopLeft : Anchor.CenterLeft);
+            PlaceholderParagraph = new Paragraph(string.Empty, _multiLine ? Anchor.TopLeft : Anchor.CenterLeft);
             PlaceholderParagraph.UpdateStyle(DefaultPlaceholderStyle);
             AddChild(PlaceholderParagraph, true);
 
@@ -233,7 +233,7 @@ namespace GeonBit.UI.Entities
         protected string PrepareInputTextForDisplay(bool usePlaceholder, bool showCaret)
         {
             // set main paragraph text and add caret mark if needed
-            string caretShow = showCaret ? ((int)_caretAnim % 2 == 0) ? "|" : " " : "";
+            string caretShow = showCaret ? ((int)_caretAnim % 2 == 0) ? "|" : " " : string.Empty;
             TextParagraph.Text = _value.Insert(_caret >= 0 ? _caret : _value.Length, caretShow);
 
             // update placeholder text

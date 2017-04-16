@@ -132,7 +132,7 @@ namespace GeonBit.UI.Entities
         protected bool _isInteractable = false;
 
         /// <summary>Optional identifier you can attach to entities so you can later search and retrieve by.</summary>
-        public string Identifier = "";
+        public string Identifier = string.Empty;
 
         /// <summary>
         /// If this boolean is true, events will just "go through" this entity to its children or entities behind it.

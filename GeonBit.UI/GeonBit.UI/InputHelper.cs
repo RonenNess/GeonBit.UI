@@ -454,7 +454,7 @@ namespace GeonBit.UI
             }
 
             // add current character
-            return txt.Insert(pos++, "" + _currCharacterInput);
+            return txt.Insert(pos++, _currCharacterInput.ToString());
         }
 
         /// <summary>
