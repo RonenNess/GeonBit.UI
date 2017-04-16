@@ -1652,6 +1652,19 @@ Bug fixes and some more optimizations.
 - Internal optimizations with strings.
 - Fixed leakage with panel render targets.
 
+### 2.0.2.0
+
+Bug fixes and improvements to API.
+
+- Fixed exception when clearing a panel with scrollbars.
+- Added click-through feature, to make entities pass events through them.
+- Fixed mouse leave and mouse up events when entity becomes invisible / disabled.
+- Added ```UserInterface.TargetEntity``` that you can use to determine the entity currently pointed on.
+- Added option to insert child at a given index.
+- Refactor - made entities ```DefaultSize``` a static property, so you can access things like ```Button.DefaultSize``` without having to instanciate it.
+- Fixed out-of-screen buttons in tabs panel that's attached to the top of the screen.
+- Added option to easily set per-panel skin in tabs panel.
+
 ## Credits
 
 GeonBit.UI was written by Ronen Ness, but uses some free textures made by awesome people who share their work for free. 
