@@ -232,7 +232,7 @@ namespace GeonBit.UI.Example
                 title.ShadowColor = Color.Black;
                 title.ShadowOffset = Vector2.One * -3;
                 panel.AddChild(title);
-                panel.AddChild(new Paragraph(@"Welcome to GeonBit UI!
+            panel.AddChild(new Paragraph(@"Welcome to {{red}}GeonBit{{magenta}} UI{{default}}!
 
 This UI is part of the GeonBit project.
 It provide a simple yet extensive UI for MonoGame based projects.
@@ -828,9 +828,10 @@ Maybe something interesting in tab3?"));
                 panel.AddChild(btn);
 
                 // change progressbar color
-                panel.AddChild(new Paragraph("Different PrograssBar colors:"));
+                panel.AddChild(new Paragraph("Different ProgressBar colors:"));
                 ProgressBar pb = new ProgressBar();
                 pb.ProgressFill.FillColor = Color.Red;
+                pb.Caption.Text = "Optional caption...";
                 panel.AddChild(pb);
 
                 // paragraph style with mouse
