@@ -107,6 +107,7 @@
     <Compile Include="GeonBit.UI\DrawUtils.cs" />
     <Compile Include="GeonBit.UI\Entities\DropDown.cs" />
     <Compile Include="GeonBit.UI\Entities\PanelTabs.cs" />
+    <Compile Include="GeonBit.UI\Entities\MulticolorParagraph.cs" />
     <Compile Include="GeonBit.UI\Entities\StyleSheet.cs" />
     <Compile Include="GeonBit.UI\Entities\TextInput.cs" />
     <Compile Include="GeonBit.UI\Entities\TextInputValidators.cs" />
