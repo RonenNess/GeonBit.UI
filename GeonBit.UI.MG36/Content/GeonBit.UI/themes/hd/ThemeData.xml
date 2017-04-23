@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:ns="Microsoft.Xna.Framework">
+  <Asset Type="GeonBit.UI.DataTypes.ThemeSettings">
+    <ThemeName>Hd</ThemeName>
+    <AuthorName>Ronen Ness</AuthorName>
+    <Description>A higher-res, old-school style UI theme GeonBit.UI comes with by default.</Description>
+    <Credits>This theme is mostly based on Michele Bucelli ("Buch") works.
+Sources can be found here:
+
+- http://opengameart.org/content/golden-ui
+- http://opengameart.org/content/roguelikerpg-icons
+- http://opengameart.org/content/roguelikerpg-items
+- http://opengameart.org/content/arabian-icons
+- http://opengameart.org/content/2d-static-spritesicons
+- http://opengameart.org/content/30-ability-icons
+- http://opengameart.org/content/whispers-of-avalon-item-icons
+    </Credits>
+    <Version>1.0.0</Version>
+    <RepoUrl></RepoUrl>
+	<License>MIT</License>
+  </Asset>
+</XnaContent>
