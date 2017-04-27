@@ -338,15 +338,26 @@ namespace GeonBit.UI.Entities
         {
             get
             {
-                // get static field from class type
+                // get current class type
                 System.Type type = GetType();
-                FieldInfo field = type.GetField("DefaultSize", BindingFlags.Public | BindingFlags.Static);
 
-                // if not found, return the static default size of the base entity
-                if (field == null) { return DefaultSize; }
+                // try to get default size static property, and if not found, climb to parent class until DefaultSize is defined.
+                // note: eventually it will stop at Entity, since we have defined default size here.
+                while (true)
+                {
+                    // try to get DefaultSize field and if found return it
+                    FieldInfo field = type.GetField("DefaultSize", BindingFlags.Public | BindingFlags.Static);
+                    if (field != null)
+                    {
+                        return (Vector2)(field.GetValue(null));
+                    }
 
-                // return default size
-                return (Vector2)(field.GetValue(null));
+                    // if not found climb up to parent
+                    type = type.BaseType;
+                }
+
+                // should never get here, but return size 0
+                return Vector2.Zero;
             }
         }
 
