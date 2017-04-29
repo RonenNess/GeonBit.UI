@@ -307,6 +307,14 @@ namespace GeonBit.UI
         }
 
         /// <summary>
+        /// Remove all entities from screen.
+        /// </summary>
+        static public void Clear()
+        {
+            _root.ClearChildren();
+        }
+
+        /// <summary>
         /// Update the UI manager. This function should be called from your Game 'Update()' function, as early as possible (eg before you update your game state).
         /// </summary>
         /// <param name="gameTime">Current game time.</param>
