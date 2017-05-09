@@ -226,6 +226,17 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Return the actual dest rect for auto-anchoring purposes.
+        /// This is useful for things like DropDown, that when opened they take a larger part of the screen, but we don't
+        /// want it to push down other entities.
+        /// </summary>
+        override protected Rectangle GetDestRectForAutoAnchors()
+        {
+            _selectedTextPanel.UpdateDestinationRectsIfDirty();
+            return _selectedTextPanel.GetActualDestRect();
+        }
+
+        /// <summary>
         /// Get actual destination rect for positioning, which is the size of the DropDown entity when list is closed.
         /// </summary>
         /// <returns>Actual destination rect when DropDown list is closed.</returns>

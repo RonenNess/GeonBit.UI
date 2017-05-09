@@ -1330,7 +1330,7 @@ namespace GeonBit.UI.Entities
                         }
 
                         // align y
-                        ret.Y = prevEntity.GetActualDestRect().Bottom + (int)(offset.Y +
+                        ret.Y = prevEntity.GetDestRectForAutoAnchors().Bottom + (int)(offset.Y +
                             prevEntity._scaledSpaceAfter.Y +
                             _scaledSpaceBefore.Y);
                     }
@@ -1374,6 +1374,16 @@ namespace GeonBit.UI.Entities
         virtual public Rectangle GetActualDestRect()
         {
             return _destRect;
+        }
+
+        /// <summary>
+        /// Return the actual dest rect for auto-anchoring purposes.
+        /// This is useful for things like DropDown, that when opened they take a larger part of the screen, but we don't
+        /// want it to push down other entities.
+        /// </summary>
+        virtual protected Rectangle GetDestRectForAutoAnchors()
+        {
+            return GetActualDestRect();
         }
 
         /// <summary>
