@@ -356,8 +356,8 @@ namespace GeonBit.UI.Entities
                     type = type.BaseType;
                 }
 
-                // should never get here, but return size 0
-                return Vector2.Zero;
+                // should never get here
+                throw new System.Exception("Internal error in getting default size.");
             }
         }
 
