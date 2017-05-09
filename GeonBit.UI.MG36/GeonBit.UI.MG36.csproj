@@ -41,10 +41,46 @@
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;LINUX</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;LINUX</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;LINUX</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;LINUX</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="..\GeonBit.UI\GeonBitUI_Examples.cs">
-      <Link>Source\GeonBitUI_Examples.cs</Link>
+      <Link>GeonBitUI_Examples.cs</Link>
     </Compile>
     <Compile Include="..\GeonBit.UI\GeonBit.UI\DrawUtils.cs">
       <Link>Source\DrawUtils.cs</Link>
@@ -59,73 +95,73 @@
       <Link>Source\UserInterface.cs</Link>
     </Compile>
     <Compile Include="..\GeonBit.UI\GeonBit.UI\Entities\Button.cs">
-      <Link>Source\Button.cs</Link>
+      <Link>Source\Entities\Button.cs</Link>
     </Compile>
     <Compile Include="..\GeonBit.UI\GeonBit.UI\Entities\CheckBox.cs">
-      <Link>Source\CheckBox.cs</Link>
+      <Link>Source\Entities\CheckBox.cs</Link>
     </Compile>
     <Compile Include="..\GeonBit.UI\GeonBit.UI\Entities\ColoredRectangle.cs">
-      <Link>Source\ColoredRectangle.cs</Link>
+      <Link>Source\Entities\ColoredRectangle.cs</Link>
     </Compile>
     <Compile Include="..\GeonBit.UI\GeonBit.UI\Entities\Dropdown.cs">
-      <Link>Source\Dropdown.cs</Link>
+      <Link>Source\Entities\Dropdown.cs</Link>
     </Compile>
     <Compile Include="..\GeonBit.UI\GeonBit.UI\Entities\Entity.cs">
-      <Link>Source\Entity.cs</Link>
+      <Link>Source\Entities\Entity.cs</Link>
     </Compile>
     <Compile Include="..\GeonBit.UI\GeonBit.UI\Entities\Header.cs">
-      <Link>Source\Header.cs</Link>
+      <Link>Source\Entities\Header.cs</Link>
     </Compile>
     <Compile Include="..\GeonBit.UI\GeonBit.UI\Entities\HorizontalLine.cs">
-      <Link>Source\HorizontalLine.cs</Link>
+      <Link>Source\Entities\HorizontalLine.cs</Link>
     </Compile>
     <Compile Include="..\GeonBit.UI\GeonBit.UI\Entities\Icon.cs">
-      <Link>Source\Icon.cs</Link>
+      <Link>Source\Entities\Icon.cs</Link>
     </Compile>
     <Compile Include="..\GeonBit.UI\GeonBit.UI\Entities\Image.cs">
-      <Link>Source\Image.cs</Link>
+      <Link>Source\Entities\Image.cs</Link>
     </Compile>
     <Compile Include="..\GeonBit.UI\GeonBit.UI\Entities\Label.cs">
-      <Link>Source\Label.cs</Link>
+      <Link>Source\Entities\Label.cs</Link>
     </Compile>
     <Compile Include="..\GeonBit.UI\GeonBit.UI\Entities\LineSpace.cs">
-      <Link>Source\LineSpace.cs</Link>
+      <Link>Source\Entities\LineSpace.cs</Link>
     </Compile>
     <Compile Include="..\GeonBit.UI\GeonBit.UI\Entities\Panel.cs">
-      <Link>Source\Panel.cs</Link>
+      <Link>Source\Entities\Panel.cs</Link>
     </Compile>
     <Compile Include="..\GeonBit.UI\GeonBit.UI\Entities\PanelTabs.cs">
-      <Link>Source\PanelTabs.cs</Link>
+      <Link>Source\Entities\PanelTabs.cs</Link>
     </Compile>
     <Compile Include="..\GeonBit.UI\GeonBit.UI\Entities\Paragraph.cs">
-      <Link>Source\Paragraph.cs</Link>
+      <Link>Source\Entities\Paragraph.cs</Link>
     </Compile>
     <Compile Include="..\GeonBit.UI\GeonBit.UI\Entities\ProgressBar.cs">
-      <Link>Source\ProgressBar.cs</Link>
+      <Link>Source\Entities\ProgressBar.cs</Link>
     </Compile>
     <Compile Include="..\GeonBit.UI\GeonBit.UI\Entities\RadioButton.cs">
-      <Link>Source\RadioButton.cs</Link>
+      <Link>Source\Entities\RadioButton.cs</Link>
     </Compile>
     <Compile Include="..\GeonBit.UI\GeonBit.UI\Entities\RootPanel.cs">
-      <Link>Source\RootPanel.cs</Link>
+      <Link>Source\Entities\RootPanel.cs</Link>
     </Compile>
     <Compile Include="..\GeonBit.UI\GeonBit.UI\Entities\SelectList.cs">
-      <Link>Source\SelectList.cs</Link>
+      <Link>Source\Entities\SelectList.cs</Link>
     </Compile>
     <Compile Include="..\GeonBit.UI\GeonBit.UI\Entities\Slider.cs">
-      <Link>Source\Slider.cs</Link>
+      <Link>Source\Entities\Slider.cs</Link>
     </Compile>
     <Compile Include="..\GeonBit.UI\GeonBit.UI\Entities\StyleSheet.cs">
-      <Link>Source\StyleSheet.cs</Link>
+      <Link>Source\Entities\StyleSheet.cs</Link>
     </Compile>
     <Compile Include="..\GeonBit.UI\GeonBit.UI\Entities\TextInput.cs">
-      <Link>Source\TextInput.cs</Link>
+      <Link>Source\Entities\TextInput.cs</Link>
     </Compile>
     <Compile Include="..\GeonBit.UI\GeonBit.UI\Entities\TextInputValidators.cs">
-      <Link>Source\TextInputValidators.cs</Link>
+      <Link>Source\Entities\TextInputValidators.cs</Link>
     </Compile>
     <Compile Include="..\GeonBit.UI\GeonBit.UI\Entities\VerticalScrollbar.cs">
-      <Link>Source\VerticalScrollbar.cs</Link>
+      <Link>Source\Entities\VerticalScrollbar.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

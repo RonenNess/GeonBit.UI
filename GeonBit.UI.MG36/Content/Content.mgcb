@@ -11,6 +11,7 @@
 #-------------------------------- References --------------------------------#
 
 /reference:..\..\GeonBit.UI\Libs\DataTypes\DataTypes\bin\Release\DataTypes.dll
+/reference:..\..\GeonBit.UI\bin\DesktopGL\x86\Debug\DataTypes.dll
 
 #---------------------------------- Content ---------------------------------#
 
