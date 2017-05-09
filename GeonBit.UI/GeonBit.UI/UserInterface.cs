@@ -106,7 +106,7 @@ namespace GeonBit.UI
         /// <summary>
         /// Get the root entity.
         /// </summary>
-        static RootPanel Root
+        public static RootPanel Root
         {
             get { return _root; }
         }
