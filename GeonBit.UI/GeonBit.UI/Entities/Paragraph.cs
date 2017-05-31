@@ -44,7 +44,7 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Paragraph's current text.
         /// </summary>
-        protected string _text = "";
+        protected string _text = string.Empty;
 
         /// <summary>Get / Set the paragraph text.</summary>
         public virtual string Text
@@ -191,7 +191,7 @@ namespace GeonBit.UI.Entities
             if (maxLineWidth <= 0) { return text; }
 
             // create string to return as result
-            StringBuilder ret = new StringBuilder("");
+            StringBuilder ret = new StringBuilder(string.Empty);
 
             // if text got line breaks, break into lines and process them seperately
             if (text.Contains("\n"))
@@ -230,7 +230,7 @@ namespace GeonBit.UI.Entities
                     int currWordWidth = (int)(font.MeasureString(" ").X * fontSize);
                     foreach (char c in word)
                     {
-                        currWordWidth += (int)(font.MeasureString("" + c).X * fontSize);
+                        currWordWidth += (int)(font.MeasureString(c.ToString()).X * fontSize);
                         if (currWordWidth >= maxLineWidth)
                         {
                             break;

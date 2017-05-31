@@ -111,7 +111,7 @@ namespace GeonBit.UI.Entities
 
             // create the panel and paragraph used to show currently selected value (what's shown when drop-down is closed)
             _selectedTextPanel = new Panel(new Vector2(0, SelectedPanelHeight), skin, Anchor.TopLeft);
-            _selectedTextParagraph = new Paragraph("", Anchor.CenterLeft);
+            _selectedTextParagraph = new Paragraph(string.Empty, Anchor.CenterLeft);
             _selectedTextParagraph.UseActualSizeForCollision = false;
             _selectedTextParagraph.UpdateStyle(SelectList.DefaultParagraphStyle);
             _selectedTextParagraph.UpdateStyle(DefaultParagraphStyle);
@@ -223,6 +223,17 @@ namespace GeonBit.UI.Entities
         {
             ListVisible = false;
             base.DoOnValueChange();
+        }
+
+        /// <summary>
+        /// Return the actual dest rect for auto-anchoring purposes.
+        /// This is useful for things like DropDown, that when opened they take a larger part of the screen, but we don't
+        /// want it to push down other entities.
+        /// </summary>
+        override protected Rectangle GetDestRectForAutoAnchors()
+        {
+            _selectedTextPanel.UpdateDestinationRectsIfDirty();
+            return _selectedTextPanel.GetActualDestRect();
         }
 
         /// <summary>

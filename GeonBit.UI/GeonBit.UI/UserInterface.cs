@@ -98,7 +98,7 @@ namespace GeonBit.UI
         }
 
         /// <summary>Current GeonBit.UI version identifier.</summary>
-        public const string VERSION = "2.0.2.0";
+        public const string VERSION = "2.0.2.1";
 
         // root panel that covers the entire screen and everything is added to it
         static RootPanel _root;
@@ -106,7 +106,7 @@ namespace GeonBit.UI
         /// <summary>
         /// Get the root entity.
         /// </summary>
-        static RootPanel Root
+        public static RootPanel Root
         {
             get { return _root; }
         }
@@ -304,6 +304,14 @@ namespace GeonBit.UI
         static public void RemoveEntity(Entity entity)
         {
             _root.RemoveChild(entity);
+        }
+
+        /// <summary>
+        /// Remove all entities from screen.
+        /// </summary>
+        static public void Clear()
+        {
+            _root.ClearChildren();
         }
 
         /// <summary>

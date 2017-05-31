@@ -1665,6 +1665,15 @@ Bug fixes and improvements to API.
 - Fixed out-of-screen buttons in tabs panel that's attached to the top of the screen.
 - Added option to easily set per-panel skin in tabs panel.
 
+### 2.0.2.1
+
+- Improved strings usage.
+- Added project to build GeonBit.UI with MonoGame 3.6.
+- Fixed DefaultSize static property to work with inheritance.
+- Added ```Clear()``` to UserInterface.
+- Provided public getter for the root panel.
+- Fixed DropDown and auto-anchoring while inside tabs panel.
+
 ## Credits
 
 GeonBit.UI was written by Ronen Ness, but uses some free textures made by awesome people who share their work for free. 

@@ -197,7 +197,7 @@ namespace GeonBit.UI.Example
             UserInterface.AddEntity(scaleShow);
 
             // init zoom-out button
-            Button zoomout = new Button("", ButtonSkin.Default, Anchor.BottomLeft, new Vector2(70, 70));
+            Button zoomout = new Button(string.Empty, ButtonSkin.Default, Anchor.BottomLeft, new Vector2(70, 70));
             Icon zoomoutIcon = new Icon(IconType.ZoomOut, Anchor.Center, 0.75f);
             zoomout.AddChild(zoomoutIcon, true);
             zoomout.OnClick = (Entity btn) => {
@@ -208,7 +208,7 @@ namespace GeonBit.UI.Example
             UserInterface.AddEntity(zoomout);
 
             // init zoom-in button
-            Button zoomin = new Button("", ButtonSkin.Default, Anchor.BottomLeft, new Vector2(70, 70), new Vector2(70, 0));
+            Button zoomin = new Button(string.Empty, ButtonSkin.Default, Anchor.BottomLeft, new Vector2(70, 70), new Vector2(70, 0));
             Icon zoominIcon = new Icon(IconType.ZoomIn, Anchor.Center, 0.75f);
             zoomin.AddChild(zoominIcon, true);
             zoomin.OnClick = (Entity btn) => {

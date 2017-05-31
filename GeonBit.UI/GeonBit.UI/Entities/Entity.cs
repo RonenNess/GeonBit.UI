@@ -132,7 +132,7 @@ namespace GeonBit.UI.Entities
         protected bool _isInteractable = false;
 
         /// <summary>Optional identifier you can attach to entities so you can later search and retrieve by.</summary>
-        public string Identifier = "";
+        public string Identifier = string.Empty;
 
         /// <summary>
         /// If this boolean is true, events will just "go through" this entity to its children or entities behind it.
@@ -338,15 +338,26 @@ namespace GeonBit.UI.Entities
         {
             get
             {
-                // get static field from class type
+                // get current class type
                 System.Type type = GetType();
-                FieldInfo field = type.GetField("DefaultSize", BindingFlags.Public | BindingFlags.Static);
 
-                // if not found, return the static default size of the base entity
-                if (field == null) { return DefaultSize; }
+                // try to get default size static property, and if not found, climb to parent class until DefaultSize is defined.
+                // note: eventually it will stop at Entity, since we have defined default size here.
+                while (true)
+                {
+                    // try to get DefaultSize field and if found return it
+                    FieldInfo field = type.GetField("DefaultSize", BindingFlags.Public | BindingFlags.Static);
+                    if (field != null)
+                    {
+                        return (Vector2)(field.GetValue(null));
+                    }
 
-                // return default size
-                return (Vector2)(field.GetValue(null));
+                    // if not found climb up to parent
+                    type = type.BaseType;
+                }
+
+                // should never get here
+                throw new System.Exception("Internal error in getting default size.");
             }
         }
 
@@ -1319,7 +1330,7 @@ namespace GeonBit.UI.Entities
                         }
 
                         // align y
-                        ret.Y = prevEntity.GetActualDestRect().Bottom + (int)(offset.Y +
+                        ret.Y = prevEntity.GetDestRectForAutoAnchors().Bottom + (int)(offset.Y +
                             prevEntity._scaledSpaceAfter.Y +
                             _scaledSpaceBefore.Y);
                     }
@@ -1363,6 +1374,16 @@ namespace GeonBit.UI.Entities
         virtual public Rectangle GetActualDestRect()
         {
             return _destRect;
+        }
+
+        /// <summary>
+        /// Return the actual dest rect for auto-anchoring purposes.
+        /// This is useful for things like DropDown, that when opened they take a larger part of the screen, but we don't
+        /// want it to push down other entities.
+        /// </summary>
+        virtual protected Rectangle GetDestRectForAutoAnchors()
+        {
+            return GetActualDestRect();
         }
 
         /// <summary>

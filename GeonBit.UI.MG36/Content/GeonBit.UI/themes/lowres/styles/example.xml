@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+This file shows an example of how to make a stylesheet file.
+To create a style for specific entity and state, create an XML with the format below with the following name:
+<entity-type>-<state>.xml
+
+For example, if you want to style paragraph default state:
+Paragraph-Default.xml.
+
+Note:
+- All entity types can be seen in Entities folder in source code.
+- The available states are: Default, MouseHover, MouseDown.
+- If you set only partial settings for a state (for example if you don't set FillColor for MouseDown state), default will be used.
+- The above means that all properties should be set for all entities default state.
+-->
+<XnaContent xmlns:ns="Microsoft.Xna.Framework">
+  <Asset Type="GeonBit.UI.DataTypes.DefaultStyles">
+    <!-- entity scale (or font size for paragraphs) -->
+    <Scale>1</Scale>
+    <!-- fill color or tint for images -->
+    <FillColor>FFFFFFFF</FillColor>
+    <!-- outline color, if defined -->
+    <OutlineColor>FF000000</OutlineColor>
+    <!-- outline width (0 for no outline) -->
+    <OutlineWidth>2</OutlineWidth>
+    <!-- for paragraphs - if true, will always align to center -->
+    <ForceAlignCenter>false</ForceAlignCenter>
+    <!-- Font style: Regular, Bold or Italic -->
+    <FontStyle>Regular</FontStyle>
+    <!-- For lists and dropbox - the selected item background color -->
+    <SelectedHighlightColor>00000000</SelectedHighlightColor>
+    <!-- Shadow color (00000000) for no shadow -->
+    <ShadowColor>00000000</ShadowColor>
+    <!-- Shadow offset -->
+    <ShadowOffset>0 0</ShadowOffset>
+    <!-- Internal padding for child elements -->
+    <Padding>10 10</Padding>
+	<!-- Space in pixels to leave before this entity, when using auto anchors -->
+    <SpaceBefore>0 0</SpaceBefore>
+	<!-- Space in pixels to leave after this entity, when using auto anchors -->
+	<SpaceAfter>0 0</SpaceAfter>
+	<!-- Scale the shadow of this entity (if have shadow) -->
+    <ShadowScale>1</ShadowScale>
+  </Asset>
+</XnaContent>

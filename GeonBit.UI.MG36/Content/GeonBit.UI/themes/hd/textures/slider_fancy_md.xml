@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:ns="Microsoft.Xna.Framework">
+
+  <!-- metadata about this texture. for more info, take a look at the TextureData class in code. -->
+  <Asset Type="GeonBit.UI.DataTypes.TextureData">
+    <FrameWidth>0.28</FrameWidth>
+    <FrameHeight>0.0</FrameHeight>
+  </Asset>
+
+</XnaContent>
