@@ -306,6 +306,9 @@ namespace GeonBit.UI.Entities
         /// <summary>If true, users will not be able to drag this entity outside its parent boundaries.</summary>
         public bool LimitDraggingToParentBoundaries = true;
 
+        /// <summary>If true, this entity will always be positioned within its parent's boundaries.</summary>
+        public bool LimitPositionToParentBoundaries = true;
+
         /// <summary>
         /// Create the entity.
         /// </summary>
@@ -1349,14 +1352,33 @@ namespace GeonBit.UI.Entities
                     _dragOffset.Y = ret.Y - parent_top;
                     _needToSetDragOffset = false;
                 }
+            }
 
-                // if draggable and need to be contained inside parent, validate it
-                if (LimitDraggingToParentBoundaries)
+            // clamp position to parent container
+            if (LimitPositionToParentBoundaries || LimitDraggingToParentBoundaries && _draggable)
+            {
+                if (ret.X < parent_left)
                 {
-                    if (ret.X < parent_left) { ret.X = parent_left; _dragOffset.X = 0; }
-                    if (ret.Y < parent_top) { ret.Y = parent_top; _dragOffset.Y = 0; }
-                    if (ret.Right > parent_right) { _dragOffset.X -= ret.Right - parent_right; ; ret.X -= ret.Right - parent_right; }
-                    if (ret.Bottom > parent_bottom) { _dragOffset.Y -= ret.Bottom - parent_bottom; ret.Y -= ret.Bottom - parent_bottom; }
+                    ret.X = parent_left;
+                    if (_draggable) { _dragOffset.X = 0; }
+                }
+
+                if (ret.Y < parent_top)
+                {
+                    ret.Y = parent_top;
+                    if (_draggable) { _dragOffset.Y = 0; }
+                }
+
+                if (ret.Right > parent_right)
+                {
+                    ret.X -= ret.Right - parent_right;
+                    if (_draggable) { _dragOffset.X -= ret.Right - parent_right; }
+                }
+
+                if (ret.Bottom > parent_bottom)
+                {
+                    ret.Y -= ret.Bottom - parent_bottom;
+                    if (_draggable) { _dragOffset.Y -= ret.Bottom - parent_bottom; }
                 }
             }
 
