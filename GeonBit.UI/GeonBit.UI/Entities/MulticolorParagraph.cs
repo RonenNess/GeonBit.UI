@@ -25,12 +25,12 @@ namespace GeonBit.UI.Entities
         /// <param name="sColor">The string representation of the color to use for rendering.</param>
         public ColorInstruction(string sColor)
         {
-            sColor = sColor.ToUpper();
-
+            // use default paragraph fill color
             if (sColor == "DEFAULT")
             {
                 _useFillColor = true;
             }
+            // change to custom color
             else
             {
                 _color = StringToColor(sColor);
@@ -46,8 +46,6 @@ namespace GeonBit.UI.Entities
         /// <returns>The actual color object or White as the fallback default.</returns>
         public Color StringToColor(string sColor)
         {
-            sColor = sColor.ToUpper();
-
             switch (sColor)
             {
                 case "RED":
@@ -83,7 +81,7 @@ namespace GeonBit.UI.Entities
                 case "TEAL":
                     return Color.Teal;
                 default:
-                    return Color.White;
+                    throw new System.Exception("Unknown color command " + sColor + ".");
             }
         }
 
@@ -115,7 +113,7 @@ namespace GeonBit.UI.Entities
             set { if (_text != value) { _text = value; ParseColorInstructions(); MarkAsDirty(); } }
         }
 
-        // color-changing instructions in current paragraph
+        // color-changing instructions in current paragraph. key is char index, value is color change command.
         Dictionary<int, ColorInstruction> _colorInstructions = new Dictionary<int, ColorInstruction>();
 
         /// <summary>
@@ -224,15 +222,16 @@ namespace GeonBit.UI.Entities
                 Vector2 oCurrentPosition = new Vector2(_position.X - oCharacterSize.X, _position.Y);
                 foreach (char cCharacter in _processedText)
                 {
-                    if (_colorInstructions.ContainsKey(iTextIndex))
+                    ColorInstruction colorInstruction;
+                    if (_colorInstructions.TryGetValue(iTextIndex, out colorInstruction))
                     {
-                        if (_colorInstructions[iTextIndex].UseFillColor)
+                        if (colorInstruction.UseFillColor)
                         {
                             oColor = FillColor;
                         }
                         else
                         {
-                            oColor = _colorInstructions[iTextIndex].Color;
+                            oColor = colorInstruction.Color;
                         }
                     }
 
@@ -257,9 +256,6 @@ namespace GeonBit.UI.Entities
                 spriteBatch.DrawString(_currFont, _processedText, _position, FillColor,
                     0, _fontOrigin, _actualScale, SpriteEffects.None, 0.5f);
             }
-
-            // call base draw function
-            base.DrawEntity(spriteBatch);
         }
     }
 }

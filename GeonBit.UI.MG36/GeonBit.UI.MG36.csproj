@@ -164,6 +164,7 @@
       <Link>Source\Entities\VerticalScrollbar.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\Entities\MulticolorParagraph.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

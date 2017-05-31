@@ -232,7 +232,7 @@ namespace GeonBit.UI.Example
                 title.ShadowColor = Color.Black;
                 title.ShadowOffset = Vector2.One * -3;
                 panel.AddChild(title);
-            panel.AddChild(new MulticolorParagraph(@"Welcome to {{red}}GeonBit{{magenta}} UI{{default}}!
+            panel.AddChild(new MulticolorParagraph(@"Welcome to {{RED}}GeonBit{{MAGENTA}} UI{{DEFAULT}}!
 
 This UI is part of the GeonBit project.
 It provide a simple yet extensive UI for MonoGame based projects.
