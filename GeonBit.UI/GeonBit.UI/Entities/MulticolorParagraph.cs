@@ -18,8 +18,44 @@ namespace GeonBit.UI.Entities
     /// <summary>A simple class structure to hold color and default fill color instructions</summary>
     public class ColorInstruction
     {
+        // should we use the paragraph original color?
         private bool _useFillColor = false;
+
+        // color for this instruction
         private Color _color = Color.White;
+
+        // dictionary with available colors and the code to use them
+        internal static Dictionary<string, Color> _colors = new Dictionary<string, Color>()
+        {
+            { "RED", Color.Red },
+            { "BLUE", Color.Blue },
+            { "GREEN", Color.Green },
+            { "YELLOW", Color.Yellow },
+            { "BROWN", Color.Brown },
+            { "BLACK", Color.Black },
+            { "WHITE", Color.White },
+            { "CYAN", Color.Cyan },
+            { "PINK", Color.Pink },
+            { "GRAY", Color.Gray },
+            { "MAGENTA", Color.Magenta },
+            { "ORANGE", Color.Orange },
+            { "PURPLE", Color.Purple },
+            { "SILVER", Color.Silver },
+            { "GOLD", Color.Gold },
+            { "TEAL", Color.Teal },
+            { "NAVY", Color.Navy },
+        };
+
+        /// <summary>
+        /// Add a custom color we can use in the multicolor paragraph.
+        /// You can also override one of the built-in colors.
+        /// </summary>
+        /// <param name="key">Color key to use this color.</param>
+        /// <param name="color">Color to set.</param>
+        public static void AddCustomColor(string key, Color color)
+        {
+            _colors[key] = color;
+        }
 
         /// <summary>Constructor to use when creating a color instruction.</summary>
         /// <param name="sColor">The string representation of the color to use for rendering.</param>
@@ -46,43 +82,12 @@ namespace GeonBit.UI.Entities
         /// <returns>The actual color object or White as the fallback default.</returns>
         public Color StringToColor(string sColor)
         {
-            switch (sColor)
+            Color outColor;
+            if (!_colors.TryGetValue(sColor, out outColor))
             {
-                case "RED":
-                    return Color.Red;
-                case "BLUE":
-                    return Color.Blue;
-                case "GREEN":
-                    return Color.Green;
-                case "YELLOW":
-                    return Color.Yellow;
-                case "BROWN":
-                    return Color.Brown;
-                case "BLACK":
-                    return Color.Black;
-                case "WHITE":
-                    return Color.White;
-                case "CYAN":
-                    return Color.Cyan;
-                case "PINK":
-                    return Color.Pink;
-                case "GRAY":
-                    return Color.Gray;
-                case "MAGENTA":
-                    return Color.Magenta;
-                case "ORANGE":
-                    return Color.Orange;
-                case "PURPLE":
-                    return Color.Purple;
-                case "SILVER":
-                    return Color.Silver;
-                case "GOLD":
-                    return Color.Gold;
-                case "TEAL":
-                    return Color.Teal;
-                default:
-                    throw new System.Exception("Unknown color command " + sColor + ".");
+                throw new System.Exception("Unknown color code '" + sColor + "'.");
             }
+            return outColor;
         }
 
         /// <summary>Flag represents whether or not to use the default FillColor for this instruction.</summary>
