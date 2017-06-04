@@ -75,7 +75,7 @@ namespace GeonBit.UI.Example
         {         
             // create and init the UI manager
             UserInterface.Initialize(Content, BuiltinThemes.hd);
-            UserInterface.UseRenderTarget = true;
+            UserInterface.Active.UseRenderTarget = true;
 
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -101,7 +101,7 @@ namespace GeonBit.UI.Example
             int topPanelHeight = 65;
             Panel topPanel = new Panel(new Vector2(0, topPanelHeight + 2), PanelSkin.Simple, Anchor.TopCenter);
             topPanel.Padding = Vector2.Zero;
-            UserInterface.AddEntity(topPanel);
+            UserInterface.Active.AddEntity(topPanel);
 
             // add previous example button
             previousExampleButton = new Button("<- Back", ButtonSkin.Default, Anchor.TopLeft, new Vector2(300, topPanelHeight));
@@ -121,7 +121,7 @@ namespace GeonBit.UI.Example
             // add exit button
             Button exitBtn = new Button("Exit", anchor: Anchor.BottomRight, size: new Vector2(200, -1));
             exitBtn.OnClick = (Entity entity) => { Exit(); };
-            UserInterface.AddEntity(exitBtn);
+            UserInterface.Active.AddEntity(exitBtn);
 
             // events panel for debug
             Panel eventsPanel = new Panel(new Vector2(400, 530), PanelSkin.Simple, Anchor.CenterLeft, new Vector2(-10, 0));
@@ -148,7 +148,7 @@ namespace GeonBit.UI.Example
             eventsPanel.AddChild(targetEntityShow);
 
             // add the events panel
-            UserInterface.AddEntity(eventsPanel);
+            UserInterface.Active.AddEntity(eventsPanel);
 
             // whenever events log list size changes, make sure its not too long. if it is, trim it.
             eventsLog.OnListChange = (Entity entity) =>
@@ -161,23 +161,23 @@ namespace GeonBit.UI.Example
             };
 
             // listen to all global events - one timers
-            UserInterface.OnClick = (Entity entity) => { eventsLog.AddItem("Click: " + entity.GetType().Name); eventsLog.scrollToEnd();};
-            UserInterface.OnMouseDown = (Entity entity) => { eventsLog.AddItem("MouseDown: " + entity.GetType().Name); eventsLog.scrollToEnd(); };
-            UserInterface.OnMouseEnter = (Entity entity) => { eventsLog.AddItem("MouseEnter: " + entity.GetType().Name); eventsLog.scrollToEnd(); };
-            UserInterface.OnMouseLeave = (Entity entity) => { eventsLog.AddItem("MouseLeave: " + entity.GetType().Name); eventsLog.scrollToEnd(); };
-            UserInterface.OnMouseReleased = (Entity entity) => { eventsLog.AddItem("MouseReleased: " + entity.GetType().Name); eventsLog.scrollToEnd(); };
-            UserInterface.OnMouseWheelScroll = (Entity entity) => { eventsLog.AddItem("Scroll: " + entity.GetType().Name); eventsLog.scrollToEnd(); };
-            UserInterface.OnStartDrag = (Entity entity) => { eventsLog.AddItem("StartDrag: " + entity.GetType().Name); eventsLog.scrollToEnd(); };
-            UserInterface.OnStopDrag = (Entity entity) => { eventsLog.AddItem("StopDrag: " + entity.GetType().Name); eventsLog.scrollToEnd(); };
-            UserInterface.OnValueChange = (Entity entity) => { if (entity.Parent == eventsLog) { return; } eventsLog.AddItem("ValueChanged: " + entity.GetType().Name); eventsLog.scrollToEnd(); };
+            UserInterface.Active.OnClick = (Entity entity) => { eventsLog.AddItem("Click: " + entity.GetType().Name); eventsLog.scrollToEnd();};
+            UserInterface.Active.OnMouseDown = (Entity entity) => { eventsLog.AddItem("MouseDown: " + entity.GetType().Name); eventsLog.scrollToEnd(); };
+            UserInterface.Active.OnMouseEnter = (Entity entity) => { eventsLog.AddItem("MouseEnter: " + entity.GetType().Name); eventsLog.scrollToEnd(); };
+            UserInterface.Active.OnMouseLeave = (Entity entity) => { eventsLog.AddItem("MouseLeave: " + entity.GetType().Name); eventsLog.scrollToEnd(); };
+            UserInterface.Active.OnMouseReleased = (Entity entity) => { eventsLog.AddItem("MouseReleased: " + entity.GetType().Name); eventsLog.scrollToEnd(); };
+            UserInterface.Active.OnMouseWheelScroll = (Entity entity) => { eventsLog.AddItem("Scroll: " + entity.GetType().Name); eventsLog.scrollToEnd(); };
+            UserInterface.Active.OnStartDrag = (Entity entity) => { eventsLog.AddItem("StartDrag: " + entity.GetType().Name); eventsLog.scrollToEnd(); };
+            UserInterface.Active.OnStopDrag = (Entity entity) => { eventsLog.AddItem("StopDrag: " + entity.GetType().Name); eventsLog.scrollToEnd(); };
+            UserInterface.Active.OnValueChange = (Entity entity) => { if (entity.Parent == eventsLog) { return; } eventsLog.AddItem("ValueChanged: " + entity.GetType().Name); eventsLog.scrollToEnd(); };
 
             // clear the current events after every frame they were drawn
             eventsNow.AfterDraw = (Entity entity) => { eventsNow.ClearItems(); };
 
             // listen to all global events - happening now
-            UserInterface.WhileDragging = (Entity entity) => { eventsNow.AddItem("Dragging: " + entity.GetType().Name); eventsNow.scrollToEnd(); };
-            UserInterface.WhileMouseDown = (Entity entity) => { eventsNow.AddItem("MouseDown: " + entity.GetType().Name); eventsNow.scrollToEnd(); };
-            UserInterface.WhileMouseHover = (Entity entity) => { eventsNow.AddItem("MouseHover: " + entity.GetType().Name); eventsNow.scrollToEnd(); };
+            UserInterface.Active.WhileDragging = (Entity entity) => { eventsNow.AddItem("Dragging: " + entity.GetType().Name); eventsNow.scrollToEnd(); };
+            UserInterface.Active.WhileMouseDown = (Entity entity) => { eventsNow.AddItem("MouseDown: " + entity.GetType().Name); eventsNow.scrollToEnd(); };
+            UserInterface.Active.WhileMouseHover = (Entity entity) => { eventsNow.AddItem("MouseHover: " + entity.GetType().Name); eventsNow.scrollToEnd(); };
             eventsNow.MaxItems = 4;
 
             // add extra info button
@@ -187,36 +187,36 @@ namespace GeonBit.UI.Example
             {
                 eventsPanel.Visible = !eventsPanel.Visible;
             };
-            UserInterface.AddEntity(infoBtn);
+            UserInterface.Active.AddEntity(infoBtn);
 
             // zoom in / out factor
             float zoominFactor = 0.05f;
 
             // scale show
             Paragraph scaleShow = new Paragraph("100%", Anchor.BottomLeft, offset: new Vector2(10, 70));
-            UserInterface.AddEntity(scaleShow);
+            UserInterface.Active.AddEntity(scaleShow);
 
             // init zoom-out button
             Button zoomout = new Button(string.Empty, ButtonSkin.Default, Anchor.BottomLeft, new Vector2(70, 70));
             Icon zoomoutIcon = new Icon(IconType.ZoomOut, Anchor.Center, 0.75f);
             zoomout.AddChild(zoomoutIcon, true);
             zoomout.OnClick = (Entity btn) => {
-                if (UserInterface.GlobalScale > 0.5f)
-                    UserInterface.GlobalScale -= zoominFactor;
-                scaleShow.Text = ((int)System.Math.Round(UserInterface.GlobalScale * 100f)).ToString() + "%";
+                if (UserInterface.Active.GlobalScale > 0.5f)
+                    UserInterface.Active.GlobalScale -= zoominFactor;
+                scaleShow.Text = ((int)System.Math.Round(UserInterface.Active.GlobalScale * 100f)).ToString() + "%";
             };
-            UserInterface.AddEntity(zoomout);
+            UserInterface.Active.AddEntity(zoomout);
 
             // init zoom-in button
             Button zoomin = new Button(string.Empty, ButtonSkin.Default, Anchor.BottomLeft, new Vector2(70, 70), new Vector2(70, 0));
             Icon zoominIcon = new Icon(IconType.ZoomIn, Anchor.Center, 0.75f);
             zoomin.AddChild(zoominIcon, true);
             zoomin.OnClick = (Entity btn) => {
-                if (UserInterface.GlobalScale < 1.45f)
-                    UserInterface.GlobalScale += zoominFactor;
-                scaleShow.Text = ((int)System.Math.Round(UserInterface.GlobalScale * 100f)).ToString() + "%";
+                if (UserInterface.Active.GlobalScale < 1.45f)
+                    UserInterface.Active.GlobalScale += zoominFactor;
+                scaleShow.Text = ((int)System.Math.Round(UserInterface.Active.GlobalScale * 100f)).ToString() + "%";
             };
-            UserInterface.AddEntity(zoomin);
+            UserInterface.Active.AddEntity(zoomin);
 
             // init all examples
 
@@ -225,7 +225,7 @@ namespace GeonBit.UI.Example
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(500, 580));
                 panels.Add(panel);
-                UserInterface.AddEntity(panel);
+                UserInterface.Active.AddEntity(panel);
 
                 // add title and text
                 Image title = new Image(Content.Load<Texture2D>("example/GeonBitUI-sm"), new Vector2(400, 240), anchor: Anchor.TopCenter, offset: new Vector2(0, -20));
@@ -245,7 +245,7 @@ To start the demo, please click the 'Next' button on the top navbar."));
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(500, 570));
                 panels.Add(panel);
-                UserInterface.AddEntity(panel);
+                UserInterface.Active.AddEntity(panel);
 
                 // add title and text
                 panel.AddChild(new Header("Widgets Types"));
@@ -274,7 +274,7 @@ To start the demo, please click the 'Next' button on the top navbar."));
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(740, 540));
                 panels.Add(panel);
-                UserInterface.AddEntity(panel);
+                UserInterface.Active.AddEntity(panel);
 
                 // add title and text
                 panel.AddChild(new Header("Basic Concepts"));
@@ -291,7 +291,7 @@ Another thing to keep in mind is size; Most widgets come with a default size, bu
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(800, 620));
                 panels.Add(panel);
-                UserInterface.AddEntity(panel);
+                UserInterface.Active.AddEntity(panel);
 
                 // add title and text
                 panel.AddChild(new Paragraph(@"Anchors help position elements. For example, this paragraph anchor is 'center'.
@@ -315,7 +315,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(450, 660));
                 panels.Add(panel);
-                UserInterface.AddEntity(panel);
+                UserInterface.Active.AddEntity(panel);
 
                 // add title and text
                 panel.AddChild(new Header("Buttons"));
@@ -350,7 +350,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(450, 520));
                 panels.Add(panel);
-                UserInterface.AddEntity(panel);
+                UserInterface.Active.AddEntity(panel);
 
                 // checkboxes example
                 panel.AddChild(new Header("CheckBox"));
@@ -376,7 +376,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(450, 640));
                 panels.Add(panel);
-                UserInterface.AddEntity(panel);
+                UserInterface.Active.AddEntity(panel);
 
                 // title and text
                 panel.AddChild(new Header("Panels"));
@@ -411,7 +411,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 Panel panel = new Panel(new Vector2(450, 690));
                 panel.Draggable = true;
                 panels.Add(panel);
-                UserInterface.AddEntity(panel);
+                UserInterface.Active.AddEntity(panel);
 
                 // title and text
                 panel.AddChild(new Header("Draggable"));
@@ -439,7 +439,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(450, 540));
                 panels.Add(panel);
-                UserInterface.AddEntity(panel);
+                UserInterface.Active.AddEntity(panel);
 
                 // sliders title
                 panel.AddChild(new Header("Sliders"));
@@ -465,7 +465,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(450, 440));
                 panels.Add(panel);
-                UserInterface.AddEntity(panel);
+                UserInterface.Active.AddEntity(panel);
 
                 // list title
                 panel.AddChild(new Header("SelectList"));
@@ -491,7 +491,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(450, 440));
                 panels.Add(panel);
-                UserInterface.AddEntity(panel);
+                UserInterface.Active.AddEntity(panel);
 
                 // list title
                 panel.AddChild(new Header("SelectList - Skin"));
@@ -517,7 +517,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(450, 430));
                 panels.Add(panel);
-                UserInterface.AddEntity(panel);
+                UserInterface.Active.AddEntity(panel);
 
                 // dropdown title
                 panel.AddChild(new Header("DropDown"));
@@ -551,7 +551,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(450, 440));
                 panels.Add(panel);
-                UserInterface.AddEntity(panel);
+                UserInterface.Active.AddEntity(panel);
 
                 // dropdown title
                 panel.AddChild(new Header("Panel Overflow"));
@@ -562,7 +562,7 @@ The default behavior is to simply overflow (eg entities will be drawn as usual),
 
 In this example, we use a panel with scrollbars.
 
-Note that in order to use clipping and scrollbar with Panels you need to set the UserInterface.UseRenderTarget flag to true.
+Note that in order to use clipping and scrollbar with Panels you need to set the UserInterface.Active.UseRenderTarget flag to true.
 
 
 Here's a button, to test clicking while scolled:"));
@@ -577,7 +577,7 @@ Here's a button, to test clicking while scolled:"));
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(460, 640));
                 panels.Add(panel);
-                UserInterface.AddEntity(panel);
+                UserInterface.Active.AddEntity(panel);
 
                 // icons title
                 panel.AddChild(new Header("Icons"));
@@ -606,7 +606,7 @@ Here's a button, to test clicking while scolled:"));
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(450, 550));
                 panels.Add(panel);
-                UserInterface.AddEntity(panel);
+                UserInterface.Active.AddEntity(panel);
 
                 // text input example
                 panel.AddChild(new Header("Text Input"));
@@ -630,7 +630,7 @@ Here's a button, to test clicking while scolled:"));
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(500, 570));
                 panels.Add(panel);
-                UserInterface.AddEntity(panel);
+                UserInterface.Active.AddEntity(panel);
 
                 // text input example
                 panel.AddChild(new Header("Locked Text Input"));
@@ -661,7 +661,7 @@ Related to the cleric is the paladin, who is typically a Lawful Good[citation ne
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(540, 440));
                 panels.Add(panel);
-                UserInterface.AddEntity(panel);
+                UserInterface.Active.AddEntity(panel);
 
                 // create panel tabs
                 PanelTabs tabs = new PanelTabs();
@@ -702,7 +702,7 @@ Maybe something interesting in tab3?"));
                 Panel panel = new Panel(new Vector2(480, 580));
                 panel.Disabled = true;
                 panels.Add(panel);
-                UserInterface.AddEntity(panel);
+                UserInterface.Active.AddEntity(panel);
 
                 // disabled title
                 panel.AddChild(new Header("Disabled"));
@@ -734,7 +734,7 @@ Maybe something interesting in tab3?"));
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(520, 610));
                 panels.Add(panel);
-                UserInterface.AddEntity(panel);
+                UserInterface.Active.AddEntity(panel);
 
                 // locked title
                 panel.AddChild(new Header("Locked"));
@@ -768,7 +768,7 @@ Maybe something interesting in tab3?"));
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(450, 540));
                 panels.Add(panel);
-                UserInterface.AddEntity(panel);
+                UserInterface.Active.AddEntity(panel);
 
                 // add title and text
                 panel.AddChild(new Header("Cursor"));
@@ -778,32 +778,32 @@ Maybe something interesting in tab3?"));
                 // default cursor show
                 {
                     Button btn = new Button("Default", ButtonSkin.Default);
-                    btn.OnMouseEnter = (Entity entity) => { UserInterface.SetCursor(CursorType.Default); };
-                    btn.OnMouseLeave = (Entity entity) => { UserInterface.SetCursor(CursorType.Default); };
+                    btn.OnMouseEnter = (Entity entity) => { UserInterface.Active.SetCursor(CursorType.Default); };
+                    btn.OnMouseLeave = (Entity entity) => { UserInterface.Active.SetCursor(CursorType.Default); };
                     panel.AddChild(btn);
                 }
 
                 // pointer cursor show
                 {
                     Button btn = new Button("Pointer", ButtonSkin.Default);
-                    btn.OnMouseEnter = (Entity entity) => { UserInterface.SetCursor(CursorType.Pointer); };
-                    btn.OnMouseLeave = (Entity entity) => { UserInterface.SetCursor(CursorType.Default); };
+                    btn.OnMouseEnter = (Entity entity) => { UserInterface.Active.SetCursor(CursorType.Pointer); };
+                    btn.OnMouseLeave = (Entity entity) => { UserInterface.Active.SetCursor(CursorType.Default); };
                     panel.AddChild(btn);
                 }
 
                 // ibeam cursor show
                 {
                     Button btn = new Button("IBeam", ButtonSkin.Default);
-                    btn.OnMouseEnter = (Entity entity) => { UserInterface.SetCursor(CursorType.IBeam); };
-                    btn.OnMouseLeave = (Entity entity) => { UserInterface.SetCursor(CursorType.Default); };
+                    btn.OnMouseEnter = (Entity entity) => { UserInterface.Active.SetCursor(CursorType.IBeam); };
+                    btn.OnMouseLeave = (Entity entity) => { UserInterface.Active.SetCursor(CursorType.Default); };
                     panel.AddChild(btn);
                 }
 
                 panel.AddChild(new Paragraph("And as always, you can also set your own custom cursor:"));
                 {
                     Button btn = new Button("Custom", ButtonSkin.Default);
-                    btn.OnMouseEnter = (Entity entity) => { UserInterface.SetCursor(Content.Load<Texture2D>("example/cursor"), 40); };
-                    btn.OnMouseLeave = (Entity entity) => { UserInterface.SetCursor(CursorType.Default); };
+                    btn.OnMouseEnter = (Entity entity) => { UserInterface.Active.SetCursor(Content.Load<Texture2D>("example/cursor"), 40); };
+                    btn.OnMouseLeave = (Entity entity) => { UserInterface.Active.SetCursor(CursorType.Default); };
                     panel.AddChild(btn);
                 }
 
@@ -814,7 +814,7 @@ Maybe something interesting in tab3?"));
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(530, 590));
                 panels.Add(panel);
-                UserInterface.AddEntity(panel);
+                UserInterface.Active.AddEntity(panel);
 
                 // misc title
                 panel.AddChild(new Header("Miscellaneous"));
@@ -867,7 +867,7 @@ Maybe something interesting in tab3?"));
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(500, 300));
                 panels.Add(panel);
-                UserInterface.AddEntity(panel);
+                UserInterface.Active.AddEntity(panel);
 
                 // add title and text
                 panel.AddChild(new Header("Final Example"));
@@ -884,7 +884,7 @@ Click on 'Next' to see the character creation demo."));
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(panelWidth, 550));
                 panels.Add(panel);
-                UserInterface.AddEntity(panel);
+                UserInterface.Active.AddEntity(panel);
 
                 // add title and text
                 panel.AddChild(new Header("Create New Character"));
@@ -1019,7 +1019,7 @@ Click on 'Next' to see the character creation demo."));
                 // create panel and add to list of panels and manager
                 Panel panel = new Panel(new Vector2(520, 400));
                 panels.Add(panel);
-                UserInterface.AddEntity(panel);
+                UserInterface.Active.AddEntity(panel);
 
                 // add title and text
                 panel.AddChild(new Header("End Of Demo"));
@@ -1094,10 +1094,10 @@ If you liked GeonBit.UI feel free to star the repo on GitHub. :)"));
                 Exit();
 
             // update UI
-            UserInterface.Update(gameTime);
+            UserInterface.Active.Update(gameTime);
 
             // show currently active entity (for testing)
-            targetEntityShow.Text = "Target Entity: " + (UserInterface.TargetEntity != null ? UserInterface.TargetEntity.GetType().Name : "null");
+            targetEntityShow.Text = "Target Entity: " + (UserInterface.Active.TargetEntity != null ? UserInterface.Active.TargetEntity.GetType().Name : "null");
 
             // call base update
             base.Update(gameTime);
@@ -1110,13 +1110,13 @@ If you liked GeonBit.UI feel free to star the repo on GitHub. :)"));
         protected override void Draw(GameTime gameTime)
         {
             // draw ui
-            UserInterface.Draw(spriteBatch);
+            UserInterface.Active.Draw(spriteBatch);
 
             // clear buffer
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // finalize ui rendering
-            UserInterface.DrawMainRenderTarget(spriteBatch);
+            UserInterface.Active.DrawMainRenderTarget(spriteBatch);
 
             // call base draw function
             base.Draw(gameTime);

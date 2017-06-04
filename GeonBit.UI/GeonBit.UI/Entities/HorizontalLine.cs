@@ -54,7 +54,7 @@ namespace GeonBit.UI.Entities
             Texture2D texture = Resources.HorizontalLineTexture;
 
             // draw panel
-            UserInterface.DrawUtils.DrawSurface(spriteBatch, texture, _destRect, FRAME_WIDTH, 1, FillColor);
+            UserInterface.Active.DrawUtils.DrawSurface(spriteBatch, texture, _destRect, FRAME_WIDTH, 1, FillColor);
 
             // call base draw function
             base.DrawEntity(spriteBatch);

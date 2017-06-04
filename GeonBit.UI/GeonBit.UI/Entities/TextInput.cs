@@ -329,7 +329,7 @@ namespace GeonBit.UI.Entities
                 {
                     // fix paragraph width to leave room for the scrollbar
                     float prevWidth = currParagraph.Size.X;
-                    currParagraph.Size = new Vector2(_destRectInternal.Width / UserInterface.GlobalScale - 20, 0);
+                    currParagraph.Size = new Vector2(_destRectInternal.Width / UserInterface.Active.GlobalScale - 20, 0);
                     if (currParagraph.Size.X != prevWidth)
                     {
                         // update size and re-calculate lines in text

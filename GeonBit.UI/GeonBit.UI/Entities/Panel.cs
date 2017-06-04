@@ -166,7 +166,7 @@ namespace GeonBit.UI.Entities
             spriteBatch.GraphicsDevice.Clear(Color.Transparent);
 
             // bind the render target
-            UserInterface.DrawUtils.PushRenderTarget(_renderTarget);
+            UserInterface.Active.DrawUtils.PushRenderTarget(_renderTarget);
 
             // set internal dest rect
             _originalInternalDestRect = _destRectInternal;
@@ -216,7 +216,7 @@ namespace GeonBit.UI.Entities
             if (_renderTarget != null)
             {
                 // unbind the render target
-                UserInterface.DrawUtils.PopRenderTarget();
+                UserInterface.Active.DrawUtils.PopRenderTarget();
 
                 // fix children's dest rect for the update loop
                 foreach (Entity child in GetChildren())
@@ -232,9 +232,9 @@ namespace GeonBit.UI.Entities
                 _destRectInternal = _originalInternalDestRect;
 
                 // draw the render target itself
-                UserInterface.DrawUtils.StartDraw(spriteBatch, IsDisabled());
+                UserInterface.Active.DrawUtils.StartDraw(spriteBatch, IsDisabled());
                 spriteBatch.Draw(_renderTarget, _destRectInternal, Color.White);
-                UserInterface.DrawUtils.EndDraw(spriteBatch);
+                UserInterface.Active.DrawUtils.EndDraw(spriteBatch);
 
                 // fix scrollbar positioning etc
                 _destRectInternal.Y -= _scrollbar.Value;
@@ -280,7 +280,7 @@ namespace GeonBit.UI.Entities
                 Vector2 frameSize = new Vector2(data.FrameWidth, data.FrameHeight);
 
                 // draw panel
-                UserInterface.DrawUtils.DrawSurface(spriteBatch, texture, _destRect, frameSize, 1f, FillColor, Scale);
+                UserInterface.Active.DrawUtils.DrawSurface(spriteBatch, texture, _destRect, frameSize, 1f, FillColor, Scale);
             }
 
             // call base draw function

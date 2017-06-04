@@ -30,9 +30,9 @@ namespace GeonBit.UI
         public void PushRenderTarget(RenderTarget2D target)
         {
             // sanity check - make sure we are in use-render-target mode
-            if (!UserInterface.UseRenderTarget)
+            if (!UserInterface.Active.UseRenderTarget)
             {
-                throw new System.Exception("UserInterface.UseRenderTarget must be 'true' to use render-target features!");
+                throw new System.Exception("UserInterface.Active.UseRenderTarget must be 'true' to use render-target features!");
             }
 
             // add render target
@@ -151,7 +151,7 @@ namespace GeonBit.UI
             Rectangle destRect = new Rectangle();
 
             // factor used to scale between source in texture file and dest on the screen
-            float ScaleFactor = UserInterface.GlobalScale * frameScale;
+            float ScaleFactor = UserInterface.Active.GlobalScale * frameScale;
 
             // calc the surface frame size in texture file (Src) and for drawing destination (Dest)
             Vector2 frameSizeSrcVec = new Vector2(texture.Width, texture.Height) * textureFrameWidth;
@@ -559,7 +559,7 @@ namespace GeonBit.UI
             }
             else
             {
-                newRenderTarget = UserInterface.RenderTarget;
+                newRenderTarget = UserInterface.Active.RenderTarget;
             }
 
             // only if changed, set render target (costly function)

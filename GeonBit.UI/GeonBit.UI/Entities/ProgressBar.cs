@@ -89,7 +89,7 @@ namespace GeonBit.UI.Entities
 
             // draw progress bar frame
             Texture2D barTexture = Resources.ProgressBarTexture;
-            UserInterface.DrawUtils.DrawSurface(spriteBatch, barTexture, _destRect, new Vector2(progressbarFrameWidth, 0f), 1, FillColor);
+            UserInterface.Active.DrawUtils.DrawSurface(spriteBatch, barTexture, _destRect, new Vector2(progressbarFrameWidth, 0f), 1, FillColor);
 
             // calc frame actual height and scaling factor (this is needed to calc frame width in pixels)
             Vector2 frameSizeTexture = new Vector2(barTexture.Width * progressbarFrameWidth, barTexture.Height);
@@ -101,8 +101,8 @@ namespace GeonBit.UI.Entities
 
             // update the progress bar color and size
             int markWidth = (int)((_destRect.Width - _frameActualWidth * 2) * GetValueAsPercent());
-            ProgressFill.SetOffset(new Vector2(_frameActualWidth / UserInterface.GlobalScale, 0));
-            ProgressFill.Size = new Vector2(markWidth, _destRectInternal.Height) / UserInterface.GlobalScale;
+            ProgressFill.SetOffset(new Vector2(_frameActualWidth / UserInterface.Active.GlobalScale, 0));
+            ProgressFill.Size = new Vector2(markWidth, _destRectInternal.Height) / UserInterface.Active.GlobalScale;
             ProgressFill.Visible = markWidth > 0;
         }
     }

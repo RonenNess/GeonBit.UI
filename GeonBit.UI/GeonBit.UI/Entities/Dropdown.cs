@@ -280,7 +280,7 @@ namespace GeonBit.UI.Entities
 
             // focus on selectlist
             _selectList.IsFocused = true;
-            UserInterface.ActiveEntity = _selectList;
+            UserInterface.Active.ActiveEntity = _selectList;
 
             // update destination rectangles
             _selectList.UpdateDestinationRects();

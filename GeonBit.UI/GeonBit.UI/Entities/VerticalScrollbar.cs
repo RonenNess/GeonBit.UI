@@ -99,7 +99,7 @@ namespace GeonBit.UI.Entities
             float FrameHeight = Resources.VerticalScrollbarData.FrameHeight;
 
             // draw scrollbar body
-            UserInterface.DrawUtils.DrawSurface(spriteBatch, texture, _destRect, new Vector2(0f, FrameHeight), 1, FillColor);
+            UserInterface.Active.DrawUtils.DrawSurface(spriteBatch, texture, _destRect, new Vector2(0f, FrameHeight), 1, FillColor);
 
             // calc frame actual height and scaling factor (this is needed to calc frame width in pixels)
             Vector2 frameSizeTexture = new Vector2(texture.Width, texture.Height * FrameHeight);
@@ -116,7 +116,7 @@ namespace GeonBit.UI.Entities
             // now draw mark
             float markY = _destRect.Y + _frameActualHeight + _markHeight * 0.5f + (_destRect.Height - _frameActualHeight * 2 - _markHeight) * (GetValueAsPercent());
             Rectangle markDest = new Rectangle(_destRect.X, (int)System.Math.Round(markY) - _markHeight / 2, markWidth, _markHeight);
-            UserInterface.DrawUtils.DrawImage(spriteBatch, markTexture, markDest, FillColor);
+            UserInterface.Active.DrawUtils.DrawImage(spriteBatch, markTexture, markDest, FillColor);
         }
 
         /// <summary>
@@ -128,9 +128,9 @@ namespace GeonBit.UI.Entities
         {
             // if the active entity is self or parent, listen to mousewheel
             if (_isInteractable && 
-                (UserInterface.ActiveEntity == this || 
-                UserInterface.ActiveEntity == _parent || 
-                (UserInterface.ActiveEntity != null && UserInterface.ActiveEntity.IsDeepChildOf(_parent))))
+                (UserInterface.Active.ActiveEntity == this || 
+                UserInterface.Active.ActiveEntity == _parent || 
+                (UserInterface.Active.ActiveEntity != null && UserInterface.Active.ActiveEntity.IsDeepChildOf(_parent))))
             {
                 if (input.MouseWheelChange != 0)
                 {

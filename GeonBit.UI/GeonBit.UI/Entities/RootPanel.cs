@@ -39,8 +39,8 @@ namespace GeonBit.UI.Entities
         /// <returns>Rectangle in the size of the whole screen.</returns>
         override public Rectangle CalcDestRect()
         {
-            int width = UserInterface.ScreenWidth;
-            int height = UserInterface.ScreenHeight;
+            int width = UserInterface.Active.ScreenWidth;
+            int height = UserInterface.Active.ScreenHeight;
             return new Rectangle(0, 0, width, height);
         }
 

@@ -38,7 +38,7 @@ namespace GeonBit.UI.Entities
             // set size based on space count
             _size.X = 0f;
             _size.Y = spacesCount != 0 ? 
-                SpaceSize * UserInterface.GlobalScale * System.Math.Max(spacesCount, 0) : -1;
+                SpaceSize * UserInterface.Active.GlobalScale * System.Math.Max(spacesCount, 0) : -1;
 
             // default padding and spacing zero
             SpaceAfter = SpaceBefore = Padding = Vector2.Zero;

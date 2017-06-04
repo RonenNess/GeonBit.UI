@@ -248,7 +248,7 @@ namespace GeonBit.UI.Entities
             float frameWidth = data.FrameWidth;
 
             // draw slider body
-            UserInterface.DrawUtils.DrawSurface(spriteBatch, texture, _destRect, new Vector2(frameWidth, 0f), 1, FillColor);
+            UserInterface.Active.DrawUtils.DrawSurface(spriteBatch, texture, _destRect, new Vector2(frameWidth, 0f), 1, FillColor);
 
             // calc frame actual height and scaling factor (this is needed to calc frame width in pixels)
             Vector2 frameSizeTexture = new Vector2(texture.Width * frameWidth, texture.Height);
@@ -265,7 +265,7 @@ namespace GeonBit.UI.Entities
             // now draw mark
             float markX = _destRect.X + _frameActualWidth + _markWidth * 0.5f + (_destRect.Width - _frameActualWidth * 2 - _markWidth) * GetValueAsPercent();
             Rectangle markDest = new Rectangle((int)System.Math.Round(markX) - _markWidth / 2, _destRect.Y, _markWidth, markHeight);
-            UserInterface.DrawUtils.DrawImage(spriteBatch, markTexture, markDest, FillColor);
+            UserInterface.Active.DrawUtils.DrawImage(spriteBatch, markTexture, markDest, FillColor);
 
             // call base draw function
             base.DrawEntity(spriteBatch);

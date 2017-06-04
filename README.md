@@ -54,7 +54,7 @@ For example, the following code:
 ```cs
 // create a panel and position in center of screen
 Panel panel = new Panel(new Vector2(400, 400), PanelSkin.Default, Anchor.Center);
-UserInterface.AddEntity(panel);
+UserInterface.Active.AddEntity(panel);
 
 // add title and text
 panel.AddChild(new Header("Example Panel"));
@@ -172,8 +172,8 @@ Once successfully integrated and project compiles, you can start using GeonBit.U
 GeonBit.UI is built to be called from the MonoGame ```Game``` class in to strategic places - ```Update()``` and ```Draw()```:
 
 1. Init the ```UserInterface``` manager in your ```Initialize()``` function.
-2. Update the ```UserInterface``` manager every frame by calling ```UserInterface.Update()``` in your game ```Update()``` function.
-3. Draw the UI every frame by calling ```UserInterface.Draw()``` in your game ```Draw()``` function.
+2. Update the ```UserInterface``` manager every frame by calling ```UserInterface.Active.Update()``` in your game ```Update()``` function.
+3. Draw the UI every frame by calling ```UserInterface.Active.Draw()``` in your game ```Draw()``` function.
 
 For example, take a look at the following ```Game``` class implementation:
 
@@ -229,7 +229,7 @@ namespace GeonBit.UI.Example
         protected override void Update(GameTime gameTime)
         {
             // GeonBit.UIL update UI manager
-            UserInterface.Update(gameTime);
+            UserInterface.Active.Update(gameTime);
             
             // tbd add your own update() stuff here..
 
@@ -245,7 +245,7 @@ namespace GeonBit.UI.Example
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // GeonBit.UI: draw UI using the spriteBatch you created above
-            UserInterface.Draw(spriteBatch);
+            UserInterface.Active.Draw(spriteBatch);
 
             // call base draw function
             base.Draw(gameTime);
@@ -304,7 +304,9 @@ For that reason, whenever you mix Auto Anchors with static Anchors always place 
 # UserInterface
 
 As you noticed before, we use the ```UserInterface``` to Update, Draw, and Initialize GeonBit.UI.
-The ```UserInterface``` is a static class that manage and run the UI system. 
+The ```UserInterface``` is the most top-level class in GeonBit.UI that manage and run the UI system, and at every given time there's only one active ```UserInterface```, which can be accessed via ```UserInterface.Active```. 
+
+When you call the static initializer ```UserInterface.Initialize()```, it also creates a default UserInterface and set it as Active. However, you can later create your own ```UserInterface``` managers and swap between them (simply by setting the Active interface).
 
 This is the main class you use from your ```Game```'s Update(), Draw() and Initialize() functions.
 
@@ -322,7 +324,7 @@ Find() locate and return UI entities by their ```Identifier``` field. For exampl
 
 ```cs
 // search for a button named "myButton" recrusively.
-Button btn = UserInterface.Root.Find<Button>("myButton", true);
+Button btn = UserInterface.Active.Root.Find<Button>("myButton", true);
 ```
 
 Will search the entire UI tree recursively and return the first ```Button``` entity that has the ```Identifier``` of 'myButton' (or null, if no such entity is found).
@@ -631,7 +633,7 @@ To create a new panel and add it to the screen, use the following syntax:
 // create a panel with default skin and anchor, at the size of 500x500, and add to UI manager.
 // panels default anchor is the center of the screen, so this will create a panel in the center.
 Panel panel = new Panel(new Vector2(500, 500));
-UserInterface.AddEntity(panel);
+UserInterface.Active.AddEntity(panel);
 ```
 
 Or to create with different skin and advance parameters:
@@ -640,12 +642,12 @@ Or to create with different skin and advance parameters:
 // create a panel at the top-left corner of with 10x10 offset from it, with 'Golden' panel skin.
 // to see more skins check out the PanelSkin enum options or look at the panel examples in the example project.
 Panel panel = new Panel(size: new Vector2(500, 500), skin: PanelSkin.Golden, anchor: Anchor.TopLeft, offset: new Vector2(10, 10));
-UserInterface.AddEntity(panel);
+UserInterface.Active.AddEntity(panel);
 ```
 
 If you want a panel without frame, just use ```PanelSkin.None```.
 
-Note that ```UserInterface.AddEntity()``` accept any type of entity, but from now on in all of our examples we'll be adding entities to a panel, and not directly to the manager.
+Note that ```UserInterface.Active.AddEntity()``` accept any type of entity, but from now on in all of our examples we'll be adding entities to a panel, and not directly to the manager.
 
 ### PanelOverflowBehavior
 
@@ -1498,10 +1500,10 @@ Contain general data about the theme - name, author, extra info, credits, etc. T
 Sometimes you want to draw the UI on a render target rather than directly on the screen. To do so, you can set the ```UseRenderTarget``` flag:
 
 ```cs
-UserInterface.UseRenderTarget = true;
+UserInterface.Active.UseRenderTarget = true;
 ```
 
-Once ```UseRenderTarget``` is set, all the UI drawings will be on a special render target that you can access via ```UserInterface.RenderTarget```.
+Once ```UseRenderTarget``` is set, all the UI drawings will be on a special render target that you can access via ```UserInterface.Active.RenderTarget```.
 
 When using RenderTargets you need to slightly change your Draw() function, instead of drawing GeonBit.UI *last*, you need to draw it *first* and then draw the RenderTarget last:
 
@@ -1513,16 +1515,16 @@ When using RenderTargets you need to slightly change your Draw() function, inste
 protected override void Draw(GameTime gameTime)
 {
     // draw ui
-    UserInterface.Draw(spriteBatch);
+    UserInterface.Active.Draw(spriteBatch);
 
     // clear buffer
     GraphicsDevice.Clear(Color.CornflowerBlue);
     
     // do your game renderings...
 
-    // use `UserInterface.RenderTarget` here.
-    // in this example we call DrawMainRenderTarget(), which will draw the UserInterface.RenderTarget on the currently set target (or backbuffer if non is set)
-    UserInterface.DrawMainRenderTarget(spriteBatch);
+    // use `UserInterface.Active.RenderTarget` here.
+    // in this example we call DrawMainRenderTarget(), which will draw the UserInterface.Active.RenderTarget on the currently set target (or backbuffer if non is set)
+    UserInterface.Active.DrawMainRenderTarget(spriteBatch);
 
     // call base draw function
     base.Draw(gameTime);
@@ -1541,6 +1543,7 @@ It has lots of useful functionality.
 
 This part describe steps needed when upgrading breaking versions.
 
+
 ## 1x -> 2x
 
 When upgrading from 1x version to 2x version, follow these steps:
@@ -1552,6 +1555,13 @@ When upgrading from 1x version to 2x version, follow these steps:
 5. If you used ```DrawUtils``` note that its no longer a static class, its now an instance under ```UserInterface```.
 6. To prevent blurriness, Paragraphs base size changed from ```1.175f``` to ```1f```. Its better this way, but if you want to keep texts at the same size, set ```Paragraph.BaseSize = 1.175f```.
 7. ```UserInterface.SCALE``` was renamed to ```UserInterface.GlobalScale```.
+
+
+## 2.0.2.1 -> 2.1.0.0
+
+When upgrading from 2.0.2.1 version to 2.1.0.0 version, the ```UserInterface``` class turns from static to an instance class, with ```UserInterface.Active``` always pointing at the currently active interface. 
+
+This means that everywhere you accessed ```UserInterface``` you should now access ```UserInterface.Active```.
 
 
 # Final Words
@@ -1673,6 +1683,11 @@ Bug fixes and improvements to API.
 - Added ```Clear()``` to UserInterface.
 - Provided public getter for the root panel.
 - Fixed DropDown and auto-anchoring while inside tabs panel.
+
+### 2.1.0.0
+
+- Added multicolor paragraphs and label to progress bars (Thanks MrCapitalG!).
+- Made the ```UserInterface``` no longer a static class, instead there's ```UserInterface.Active``` that holds the currently active interface. This is useful to switch between UI layouts completely.
 
 ## Credits
 

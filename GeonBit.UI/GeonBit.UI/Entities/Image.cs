@@ -76,12 +76,12 @@ namespace GeonBit.UI.Entities
             {
                 // panel mode
                 case ImageDrawMode.Panel:
-                    UserInterface.DrawUtils.DrawSurface(spriteBatch, Texture, _destRect, FrameWidth, Scale, FillColor);
+                    UserInterface.Active.DrawUtils.DrawSurface(spriteBatch, Texture, _destRect, FrameWidth, Scale, FillColor);
                     break;
 
                 // stretch mode
                 case ImageDrawMode.Stretch:
-                    UserInterface.DrawUtils.DrawImage(spriteBatch, Texture, _destRect, FillColor, Scale, SourceRectangle);
+                    UserInterface.Active.DrawUtils.DrawImage(spriteBatch, Texture, _destRect, FillColor, Scale, SourceRectangle);
                     break;
             }
 

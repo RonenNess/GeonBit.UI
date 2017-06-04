@@ -65,8 +65,16 @@ namespace GeonBit.UI
     /// Main GeonBit.UI class that manage and draw all the UI entities.
     /// This is the main manager you use to update, draw, and add entities to.
     /// </summary>
-    public static class UserInterface
+    public class UserInterface
     {
+        /// <summary>Current GeonBit.UI version identifier.</summary>
+        public const string VERSION = "2.1.0.0";
+
+        /// <summary>
+        /// The currently active user interface instance.
+        /// </summary>
+        public static UserInterface Active = null;
+
         // input manager
         static internal InputHelper _input;
 
@@ -74,16 +82,16 @@ namespace GeonBit.UI
         static ContentManager _content;
 
         // the main render target we render everything on
-        static RenderTarget2D _renderTarget = null;
+        RenderTarget2D _renderTarget = null;
 
         // are we currently in use-render-target mode
-        static private bool _useRenderTarget = false;
+        private bool _useRenderTarget = false;
 
         /// <summary>
         /// If true, will draw the UI on a render target before drawing on screen.
         /// This mode is required for some of the features.
         /// </summary>
-        static public bool UseRenderTarget
+        public bool UseRenderTarget
         {
             get { return _useRenderTarget; }
             set { _useRenderTarget = value; _renderTarget = null; }
@@ -92,117 +100,108 @@ namespace GeonBit.UI
         /// <summary>
         /// Get the main render target all the UI draws on.
         /// </summary>
-        public static RenderTarget2D RenderTarget
+        public RenderTarget2D RenderTarget
         {
             get { return _renderTarget; }
         }
 
-        /// <summary>Current GeonBit.UI version identifier.</summary>
-        public const string VERSION = "2.0.2.1";
-
-        // root panel that covers the entire screen and everything is added to it
-        static RootPanel _root;
-
         /// <summary>
         /// Get the root entity.
         /// </summary>
-        public static RootPanel Root
-        {
-            get { return _root; }
-        }
+        public RootPanel Root { get; private set; }
 
         // the entity currently being dragged
-        static Entity _dragTarget;
+        Entity _dragTarget;
 
         // current global scale
-        static private float _scale = 1f;
+        private float _scale = 1f;
 
         /// <summary>Scale the entire UI and all the entities in it. This is useful for smaller device screens.</summary>
-        static public float GlobalScale
+        public float GlobalScale
         {
             get { return _scale; }
-            set { _scale = value; _root.MarkAsDirty(); }
+            set { _scale = value; Root.MarkAsDirty(); }
         }
 
         /// <summary>Cursor rendering size.</summary>
-        static public float CursorScale = 1f;
+        public float CursorScale = 1f;
 
         /// <summary>Screen width.</summary>
-        static public int ScreenWidth = 0;
+        public int ScreenWidth = 0;
 
         /// <summary>Screen height.</summary>
-        static public int ScreenHeight = 0;
+        public int ScreenHeight = 0;
 
         /// <summary>Draw utils helper. Contain general drawing functionality and handle effects replacement.</summary>
-        static public DrawUtils DrawUtils = null;
+        public DrawUtils DrawUtils = null;
 
         /// <summary>Current active entity, eg last entity user interacted with.</summary>
-        static public Entity ActiveEntity = null;
+        public Entity ActiveEntity = null;
 
         /// <summary>The current target entity, eg what cursor points on. Can be null if cursor don't point on any entity.</summary>
-        static public Entity TargetEntity { get; private set; }
+        public Entity TargetEntity { get; private set; }
 
         /// <summary>Callback to execute when mouse button is pressed over an entity (called once when button is pressed).</summary>
-        static public EventCallback OnMouseDown = null;
+        public EventCallback OnMouseDown = null;
 
         /// <summary>Callback to execute when mouse button is released over an entity (called once when button is released).</summary>
-        static public EventCallback OnMouseReleased = null;
+        public EventCallback OnMouseReleased = null;
 
         /// <summary>Callback to execute every frame while mouse button is pressed over an entity.</summary>
-        static public EventCallback WhileMouseDown = null;
+        public EventCallback WhileMouseDown = null;
 
         /// <summary>Callback to execute every frame while mouse is hovering over an entity.</summary>
-        static public EventCallback WhileMouseHover = null;
+        public EventCallback WhileMouseHover = null;
 
         /// <summary>Callback to execute when user clicks on an entity (eg release mouse over it).</summary>
-        static public EventCallback OnClick = null;
+        public EventCallback OnClick = null;
 
         /// <summary>Callback to execute when any entity value changes (relevant only for entities with value).</summary>
-        static public EventCallback OnValueChange = null;
+        public EventCallback OnValueChange = null;
 
         /// <summary>Callback to execute when mouse start hovering over an entity (eg enters its region).</summary>
-        static public EventCallback OnMouseEnter = null;
+        public EventCallback OnMouseEnter = null;
 
         /// <summary>Callback to execute when mouse stop hovering over an entity (eg leaves its region).</summary>
-        static public EventCallback OnMouseLeave = null;
+        public EventCallback OnMouseLeave = null;
 
         /// <summary>Callback to execute when mouse wheel scrolls and an entity is the active entity.</summary>
-        static public EventCallback OnMouseWheelScroll = null;
+        public EventCallback OnMouseWheelScroll = null;
 
         /// <summary>Called when entity starts getting dragged (only if draggable).</summary>
-        static public EventCallback OnStartDrag = null;
+        public EventCallback OnStartDrag = null;
 
         /// <summary>Called when entity stop getting dragged (only if draggable).</summary>
-        static public EventCallback OnStopDrag = null;
+        public EventCallback OnStopDrag = null;
 
         /// <summary>Called every frame while entity is being dragged.</summary>
-        static public EventCallback WhileDragging = null;
+        public EventCallback WhileDragging = null;
 
         /// <summary>Callback to execute every frame before entity update.</summary>
-        static public EventCallback BeforeUpdate = null;
+        public EventCallback BeforeUpdate = null;
 
         /// <summary>Callback to execute every frame after entity update.</summary>
-        static public EventCallback AfterUpdate = null;
+        public EventCallback AfterUpdate = null;
 
         /// <summary>Callback to execute every frame before entity is rendered.</summary>
-        static public EventCallback BeforeDraw = null;
+        public EventCallback BeforeDraw = null;
 
         /// <summary>Callback to execute every frame after entity is rendered.</summary>
-        static public EventCallback AfterDraw = null;
+        public EventCallback AfterDraw = null;
 
         /// <summary>Callback to execute every time the visibility property of an entity change.</summary>
-        static public EventCallback OnVisiblityChange = null;
+        public EventCallback OnVisiblityChange = null;
 
         /// <summary>Callback to execute every time a new entity is spawned (note: spawn = first time Update() is called on this entity).</summary>
-        static public EventCallback OnEntitySpawn = null;
+        public EventCallback OnEntitySpawn = null;
 
         // cursor draw settings
-        static Texture2D _cursorTexture = null;
-        static int _cursorWidth = 32;
-        static Point _cursorOffset = Point.Zero;
+        Texture2D _cursorTexture = null;
+        int _cursorWidth = 32;
+        Point _cursorOffset = Point.Zero;
 
         /// <summary>Weather or not to draw the cursor.</summary>
-        static public bool ShowCursor = true;
+        public bool ShowCursor = true;
 
         /// <summary>
         /// Initialize UI manager (mostly load resources and set some defaults).
@@ -211,23 +210,14 @@ namespace GeonBit.UI
         /// <param name="theme">Which UI theme to use (see options in Content/GeonBit.UI/themes/). This affect the appearance of all textures and effects.</param>
         static public void Initialize(ContentManager contentManager, string theme = "hd")
         {
-            // create draw utils
-            DrawUtils = new DrawUtils();
-
             // store the content manager
             _content = contentManager;
 
-            // create input helper
-            _input = new InputHelper();
-
-            // create the root panel
-            _root = new RootPanel();
-
-            // load textures etc
+            // init resources (textures etc)
             Resources.LoadContent(_content, theme);
 
-            // set default cursor
-            SetCursor(CursorType.Default);
+            // create a default active user interface
+            Active = new UserInterface();
         }
 
         /// <summary>
@@ -241,10 +231,34 @@ namespace GeonBit.UI
         }
 
         /// <summary>
+        /// Create the user interface instance.
+        /// </summary>
+        public UserInterface()
+        { 
+            // sanity test
+            if (_content == null)
+            {
+                throw new System.Exception("Cannot create a UserInterface before calling UserInterface.Initialize()!");
+            }
+
+            // create draw utils
+            DrawUtils = new DrawUtils();
+
+            // create input helper
+            _input = new InputHelper();
+
+            // create the root panel
+            Root = new RootPanel();
+
+            // set default cursor
+            SetCursor(CursorType.Default);
+        }
+
+        /// <summary>
         /// Set cursor style.
         /// </summary>
         /// <param name="type">What type of cursor to show.</param>
-        static public void SetCursor(CursorType type)
+        public void SetCursor(CursorType type)
         {
             int typeI = (int)type;
             DataTypes.CursorTextureData data = Resources.CursorsData[typeI];
@@ -257,7 +271,7 @@ namespace GeonBit.UI
         /// <param name="texture">Texture to use for cursor.</param>
         /// <param name="drawWidth">Width, in pixels to draw the cursor. Height will be calculated automatically to fit texture propotions.</param>
         /// <param name="offset">Cursor offset from mouse position (if not provided will draw cursor with top-left corner on mouse position).</param>
-        static public void SetCursor(Texture2D texture, int drawWidth = 32, Point? offset = null)
+        public void SetCursor(Texture2D texture, int drawWidth = 32, Point? offset = null)
         {
             _cursorTexture = texture;
             _cursorWidth = drawWidth;
@@ -268,7 +282,7 @@ namespace GeonBit.UI
         /// Draw the cursor.
         /// </summary>
         /// <param name="spriteBatch">SpriteBatch to draw the cursor.</param>
-        static private void DrawCursor(SpriteBatch spriteBatch)
+        private void DrawCursor(SpriteBatch spriteBatch)
         {
             // start drawing for cursor
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
@@ -292,33 +306,33 @@ namespace GeonBit.UI
         /// Add an entity to screen.
         /// </summary>
         /// <param name="entity">Entity to add.</param>
-        static public void AddEntity(Entity entity)
+        public void AddEntity(Entity entity)
         {
-            _root.AddChild(entity);
+            Root.AddChild(entity);
         }
 
         /// <summary>
         /// Remove an entity from screen.
         /// </summary>
         /// <param name="entity">Entity to remove.</param>
-        static public void RemoveEntity(Entity entity)
+        public void RemoveEntity(Entity entity)
         {
-            _root.RemoveChild(entity);
+            Root.RemoveChild(entity);
         }
 
         /// <summary>
         /// Remove all entities from screen.
         /// </summary>
-        static public void Clear()
+        public void Clear()
         {
-            _root.ClearChildren();
+            Root.ClearChildren();
         }
 
         /// <summary>
         /// Update the UI manager. This function should be called from your Game 'Update()' function, as early as possible (eg before you update your game state).
         /// </summary>
         /// <param name="gameTime">Current game time.</param>
-        static public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             // update input manager
             _input.Update(gameTime);
@@ -331,7 +345,7 @@ namespace GeonBit.UI
             // update root panel
             Entity target = null;
             bool wasEventHandled = false;
-            _root.Update(_input, ref target, ref _dragTarget, ref wasEventHandled);
+            Root.Update(_input, ref target, ref _dragTarget, ref wasEventHandled);
 
             // set active entity
             if (_input.MouseButtonDown(MouseButton.Left))
@@ -340,7 +354,7 @@ namespace GeonBit.UI
             }
 
             // default active entity is root panel
-            ActiveEntity = ActiveEntity ?? _root;
+            ActiveEntity = ActiveEntity ?? Root;
 
             // set current target entity
             TargetEntity = target;
@@ -352,7 +366,7 @@ namespace GeonBit.UI
         /// If UseRenderTarget is false, this function should be called LAST in your draw function.
         /// </summary>
         /// <param name="spriteBatch">SpriteBatch to draw on.</param>
-        static public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch)
         {
             int newScreenWidth = spriteBatch.GraphicsDevice.Viewport.Width;
             int newScreenHeight = spriteBatch.GraphicsDevice.Viewport.Height;
@@ -362,7 +376,7 @@ namespace GeonBit.UI
             {
                 ScreenWidth = newScreenWidth;
                 ScreenHeight = newScreenHeight;
-                _root.MarkAsDirty();
+                Root.MarkAsDirty();
             }
 
             // if using rendering targets
@@ -389,7 +403,7 @@ namespace GeonBit.UI
             }
 
             // draw root panel
-            _root.Draw(spriteBatch);
+            Root.Draw(spriteBatch);
 
             // draw cursor
             if (ShowCursor)
@@ -409,7 +423,7 @@ namespace GeonBit.UI
         /// This function only works if we are in UseRenderTarget mode.
         /// </summary>
         /// <param name="spriteBatch">Sprite batch to draw on.</param>
-        static public void DrawMainRenderTarget(SpriteBatch spriteBatch)
+        public void DrawMainRenderTarget(SpriteBatch spriteBatch)
         {
             // draw the main render target
             if (RenderTarget != null && !RenderTarget.IsDisposed)
