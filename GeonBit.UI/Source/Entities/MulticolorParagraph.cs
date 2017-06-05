@@ -15,7 +15,7 @@ using System.Text;
 
 namespace GeonBit.UI.Entities
 {
-    /// <summary>A simple class structure to hold color and default fill color instructions</summary>
+    /// <summary>Hold color instructions for MultiColor paragraphs.</summary>
     public class ColorInstruction
     {
         // should we use the paragraph original color?
@@ -104,7 +104,7 @@ namespace GeonBit.UI.Entities
     }
 
     /// <summary>
-    /// Paragraph is a renderable text. It can be multiline, wrap words, have outline, etc.
+    /// Multicolor Paragraph is a paragraph that supports in-text color tags that changes the fill color of the text.
     /// </summary>
     public class MulticolorParagraph : Paragraph
     {
