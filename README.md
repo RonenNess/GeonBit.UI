@@ -707,6 +707,10 @@ Default align-to-canter style property (when true will align text to center).
 
 ## MulticolorParagraph
 
+![Paragraph](assets/img/entity_multicolorparagraph.png "Multicolor Paragraph")
+
+Docs: [MulticolorParagraph Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_MulticolorParagraph.htm ).
+
 A paragraph that support color changes inside the text itself.
 To switch colors add the ```{{COLOR}}``` tag anywhere inside the text, with one of the following options as 'COLOR':
 
