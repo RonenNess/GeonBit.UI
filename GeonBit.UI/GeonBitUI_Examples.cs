@@ -564,7 +564,6 @@ In this example, we use a panel with scrollbars.
 
 Note that in order to use clipping and scrollbar with Panels you need to set the UserInterface.Active.UseRenderTarget flag to true.
 
-
 Here's a button, to test clicking while scolled:"));
                 panel.AddChild(new Button("a button."));
                 panel.PanelOverflowBehavior = PanelOverflowBehavior.VerticalScroll;

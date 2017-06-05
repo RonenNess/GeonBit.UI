@@ -5,8 +5,8 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("GeonBit.UI")]
-[assembly: AssemblyProduct("GeonBit.UI")]
+[assembly: AssemblyTitle("DataTypes")]
+[assembly: AssemblyProduct("DataTypes")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyCompany("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("a4c36271-d152-496c-83e8-56f82218a3cc")]
+[assembly: Guid("5f03c3b4-ac1b-4270-92df-0774a7fab839")]
 
 // Version information for an assembly consists of the following four values:
 //

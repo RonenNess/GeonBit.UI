@@ -7,7 +7,7 @@ The actual GeonBit.UI docs are located one folder up, this readme file is just t
 
 Contains GeonBit.UI resources (textures, effects, etc), and the Content pipeline manager.
 
-## GeonBit.UI
+## Source
 
 All the source code (cs files).
 
