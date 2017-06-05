@@ -10,7 +10,7 @@ Full API documentation available here: [Online docs](https://ronenness.github.io
 
 ## What's GeonBit
 
-**GeonBit** is a MonoGame-based game engine, designed to build 3d dungeon crawler and FPR (first person rogue) games.
+**GeonBit** is an Entity-Component-System based game engine, powered by MonoGame.
 
 ## What's GeonBit.UI
 
@@ -108,6 +108,8 @@ To see GeonBit.UI live before installing it in your project, you can open and ru
 Please note however that you might need to install some fonts first from ```GeonBit.UI/Content/Fonts/``` folder.
 
 # Install
+
+Note: GeonBit.UI require MonoGame 3.6 to run. For older MonoGame versions, please see [tag 2.1.0.0](https://github.com/RonenNess/GeonBit.UI/releases/tag/2.1.0.0).
 
 You can either install GeonBit.UI with NuGet or manually.
 
@@ -701,6 +703,37 @@ Default font style property (regular / bold / italic).
 #### AlignToCenter
 
 Default align-to-canter style property (when true will align text to center).
+
+
+## MulticolorParagraph
+
+A paragraph that support color changes inside the text itself.
+To switch colors add the ```{{COLOR}}``` tag anywhere inside the text, with one of the following options as 'COLOR':
+
+- RED
+- BLUE
+- GREEN
+- YELLOW
+- BROWN
+- BLACK
+- WHITE
+- CYAN
+- PINK
+- GRAY
+- MAGENTA
+- ORANGE
+- PURPLE
+- SILVER
+- GOLD
+- TEAL
+- NAVY
+
+Or, you can define your own custom color tags:
+
+```cs
+// adding {{SOME_COLOR}} will now use ColorVal as the paragraph fill color.
+ColorInstruction.AddCustomColor("SOME_COLOR", ColorVal);
+```
 
 
 ## Header
@@ -1563,6 +1596,11 @@ When upgrading from 2.0.2.1 version to 2.1.0.0 version, the ```UserInterface``` 
 
 This means that everywhere you accessed ```UserInterface``` you should now access ```UserInterface.Active```.
 
+## 2x -> 3x
+
+Changed binaries to be for MonoGame 3.6 (instead of 3.5).
+GeonBit.UI on MonoGame 3.5 is no longer supported. If you need older MG versions, please see release [2.1.0.0](https://github.com/RonenNess/GeonBit.UI/releases/tag/2.1.0.0).
+
 
 # Final Words
 
@@ -1689,6 +1727,12 @@ Bug fixes and improvements to API.
 - Added multicolor paragraphs and label to progress bars (Thanks MrCapitalG!).
 - Made the ```UserInterface``` no longer a static class, instead there's ```UserInterface.Active``` that holds the currently active interface. This is useful to switch between UI layouts completely.
 
+### 3.0.0.0
+
+Switched to MonoGame 3.6.
+For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/GeonBit.UI/releases/tag/2.1.0.0).
+
+
 ## Credits
 
 GeonBit.UI was written by Ronen Ness, but uses some free textures made by awesome people who share their work for free. 
@@ -1704,3 +1748,16 @@ In addition, I used some icons from the following sources:
 - http://opengameart.org/content/whispers-of-avalon-item-icons
 
 If you like GeonBit.UI, consider supporting these artists.
+
+### Contributors
+
+The following people contributed to the project via pull requests:
+
+#### Justin Gattuso (MrCapitalG)
+
+- Added MulticolorParagraph entity.
+
+#### Craig Johnston
+
+- Bug fixes in dragging entities and mouse down events.
+
