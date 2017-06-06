@@ -111,6 +111,28 @@ namespace GeonBit.UI.Entities
         /// <summary>Default styling for paragraphs. Note: loaded from UI theme xml file.</summary>
         new public static StyleSheet DefaultStyle = new StyleSheet();
 
+        // are color instructions currently enabled
+        bool _enableColorInstructions = true;
+
+        /// <summary>
+        /// If true, will enable color instructions (special codes that change fill color inside the text).
+        /// </summary>
+        public bool EnableColorInstructions
+        {
+            // get if color instructions are enabled
+            get
+            {
+                return _enableColorInstructions;
+            }
+
+            // set if color instructions are enabled and parse instructions if needed
+            set
+            {
+                _enableColorInstructions = value;
+                ParseColorInstructions();
+            }
+        }
+
         /// <summary>Get / Set the paragraph text.</summary>
         public override string Text
         {
@@ -153,7 +175,13 @@ namespace GeonBit.UI.Entities
         /// </summary>
         private void ParseColorInstructions()
         {
+            // clear previous color instructions
             _colorInstructions.Clear();
+
+            // if color instructions are disabled, stop here
+            if (!EnableColorInstructions) { return; }
+
+            // find and parse color instructions
             if (_text.Contains("{{"))
             {
                 int iLastLength = 0;
@@ -254,12 +282,10 @@ namespace GeonBit.UI.Entities
                     spriteBatch.DrawString(_currFont, cCharacter.ToString(), oCurrentPosition, oColor, 0, _fontOrigin, _actualScale, SpriteEffects.None, 0.5f);
                 }
             }
-            // if there are no color-changing instructions, just draw the text as-is
+            // if there are no color-changing instructions, just draw the paragraph as-is
             else
             {
-                // draw text itself
-                spriteBatch.DrawString(_currFont, _processedText, _position, FillColor,
-                    0, _fontOrigin, _actualScale, SpriteEffects.None, 0.5f);
+                base.DrawEntity(spriteBatch);
             }
         }
     }
