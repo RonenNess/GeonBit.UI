@@ -288,6 +288,17 @@ namespace GeonBit.UI.Entities
         /// <summary>Currently calculated internal destination rect (eg the region this entity children are positioned in).</summary>
         protected Rectangle _destRectInternal;
 
+        /// <summary>
+        /// Get internal destination rect.
+        /// </summary>
+        public Rectangle InternalDestRect
+        {
+            get
+            {
+                return _destRectInternal;
+            }
+        }
+
         // is this entity draggable?
         private bool _draggable = false;
 

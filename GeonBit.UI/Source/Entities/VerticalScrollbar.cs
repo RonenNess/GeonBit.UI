@@ -21,6 +21,11 @@ namespace GeonBit.UI.Entities
         float _frameActualHeight = 0f;
         int _markHeight = 20;
 
+        /// <summary>
+        /// If true, will adjust max value automatically based on entities in parent.
+        /// </summary>
+        public bool AdjustMaxAutomatically = false;
+
         /// <summary>Default scrollbar size for when no size is provided or when -1 is set for either width or height.</summary>
         new public static Vector2 DefaultSize = new Vector2(30f, 0f);
 
@@ -34,11 +39,15 @@ namespace GeonBit.UI.Entities
         /// <param name="max">Max scrollbar value.</param>
         /// <param name="anchor">Position anchor.</param>
         /// <param name="offset">Offset from anchor position.</param>
-        public VerticalScrollbar(uint min, uint max, Anchor anchor = Anchor.Auto, Vector2? offset = null) :
+        /// <param name="adjustMaxAutomatically">If true, the scrollbar will set its max value automatically based on entities in its parent.</param>
+        public VerticalScrollbar(uint min, uint max, Anchor anchor = Anchor.Auto, Vector2? offset = null, bool adjustMaxAutomatically = false) :
             base(0, 0, USE_DEFAULT_SIZE, SliderSkin.Default, anchor, offset)
         {
             // set this scrollbar to respond even when direct parent is locked
             DoEventsIfDirectParentIsLocked = true;
+
+            // set if need to adjust max automatically
+            AdjustMaxAutomatically = adjustMaxAutomatically;
 
             // update default style
             UpdateStyle(DefaultStyle);
@@ -93,6 +102,9 @@ namespace GeonBit.UI.Entities
         /// <param name="spriteBatch">Sprite batch to draw on.</param>
         override protected void DrawEntity(SpriteBatch spriteBatch)
         {
+            // if needed, recalc max
+            CalcAutoMaxValue();
+
             // get textures based on type
             Texture2D texture = Resources.VerticalScrollbarTexture;
             Texture2D markTexture = Resources.VerticalScrollbarMarkTexture;
@@ -127,14 +139,52 @@ namespace GeonBit.UI.Entities
         override protected void DoAfterUpdate(InputHelper input)
         {
             // if the active entity is self or parent, listen to mousewheel
-            if (_isInteractable && 
-                (UserInterface.Active.ActiveEntity == this || 
-                UserInterface.Active.ActiveEntity == _parent || 
+            if (_isInteractable &&
+                (UserInterface.Active.ActiveEntity == this ||
+                UserInterface.Active.ActiveEntity == _parent ||
                 (UserInterface.Active.ActiveEntity != null && UserInterface.Active.ActiveEntity.IsDeepChildOf(_parent))))
             {
                 if (input.MouseWheelChange != 0)
                 {
                     Value = _value - input.MouseWheelChange * GetStepSize();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Calculate max value based on siblings (note: only if AdjustMaxAutomatically is true)
+        /// </summary>
+        private void CalcAutoMaxValue()
+        { 
+            // if need to adjust max automatically
+            if (AdjustMaxAutomatically)
+            {
+                // get parent top
+                int newMax = 0;
+                int parentTop = Parent.InternalDestRect.Y;
+
+                // iterate parent children to get the most bottom child
+                foreach (var child in Parent.GetChildren())
+                {
+                    // skip self
+                    if (child == this) continue;
+
+                    // get current child bottom
+                    int bottom = child.GetActualDestRect().Bottom;
+
+                    // calc new max value
+                    int currNewMax = bottom - parentTop;
+                    newMax = System.Math.Max(newMax, currNewMax);
+                }
+
+                // remove parent size from result
+                newMax -= Parent.InternalDestRect.Height;
+                newMax = System.Math.Max(newMax, 0);
+
+                // set new max value
+                if (newMax != Max)
+                {
+                    Max = (uint)newMax;
                 }
             }
         }

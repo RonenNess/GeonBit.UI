@@ -567,7 +567,7 @@ Note that in order to use clipping and scrollbar with Panels you need to set the
 Here's a button, to test clicking while scolled:"));
                 panel.AddChild(new Button("a button."));
                 panel.PanelOverflowBehavior = PanelOverflowBehavior.VerticalScroll;
-                panel.Scrollbar.Max = 450;
+                panel.Scrollbar.AdjustMaxAutomatically = true;
                 panel.Scrollbar.StepsCount = 10;
             }
 
