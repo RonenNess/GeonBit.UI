@@ -1736,6 +1736,9 @@ Bug fixes and improvements to API.
 Switched to MonoGame 3.6.
 For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/GeonBit.UI/releases/tag/2.1.0.0).
 
+### 3.0.0.1
+
+- Added auto Max for vertical scrollbars.
 
 ## Credits
 
