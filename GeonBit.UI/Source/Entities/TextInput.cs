@@ -119,6 +119,13 @@ namespace GeonBit.UI.Entities
             // set word-wrap mode based on weather or not this text input is multiline
             TextParagraph.WrapWords = _multiLine;
             PlaceholderParagraph.WrapWords = _multiLine;
+
+            // if the default paragraph type is multicolor, disable it for input
+            MulticolorParagraph colorTextParagraph = TextParagraph as MulticolorParagraph;
+            if (colorTextParagraph != null)
+            {
+                colorTextParagraph.EnableColorInstructions = false;
+            }
         }
 
         /// <summary>
