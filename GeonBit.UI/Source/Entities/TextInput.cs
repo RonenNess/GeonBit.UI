@@ -98,12 +98,12 @@ namespace GeonBit.UI.Entities
             LimitBySize = !_multiLine;
 
             // create paragraph to show current value
-            TextParagraph = new Paragraph(string.Empty, _multiLine ? Anchor.TopLeft : Anchor.CenterLeft);
+            TextParagraph = UserInterface.DefaultParagraph(string.Empty, _multiLine ? Anchor.TopLeft : Anchor.CenterLeft);
             TextParagraph.UpdateStyle(DefaultParagraphStyle);
             AddChild(TextParagraph, true);
 
             // create the placeholder paragraph
-            PlaceholderParagraph = new Paragraph(string.Empty, _multiLine ? Anchor.TopLeft : Anchor.CenterLeft);
+            PlaceholderParagraph = UserInterface.DefaultParagraph(string.Empty, _multiLine ? Anchor.TopLeft : Anchor.CenterLeft);
             PlaceholderParagraph.UpdateStyle(DefaultPlaceholderStyle);
             AddChild(PlaceholderParagraph, true);
 

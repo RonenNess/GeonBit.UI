@@ -132,11 +132,13 @@ namespace GeonBit.UI.Entities
         /// <param name="anchor">Position anchor.</param>
         /// <param name="size">Paragraph size (note: not font size, but the region that will contain the paragraph).</param>
         /// <param name="offset">Offset from anchor position.</param>
-        public Paragraph(string text, Anchor anchor = Anchor.Auto, Vector2? size = null, Vector2? offset = null) :
+        /// <param name="scale">Optional font size.</param>
+        public Paragraph(string text, Anchor anchor = Anchor.Auto, Vector2? size = null, Vector2? offset = null, float? scale = null) :
             base(size, anchor, offset)
         {
             Text = text;
             UpdateStyle(DefaultStyle);
+            if (scale != null) { SetStyleProperty(StylePropertyIds.Scale, new StyleProperty((float)scale)); }
         }
 
 
@@ -146,7 +148,7 @@ namespace GeonBit.UI.Entities
         /// <param name="text">Paragraph text (accept new line characters).</param>
         /// <param name="anchor">Position anchor.</param>
         /// <param name="color">Text fill color.</param>
-        /// <param name="scale">Font size.</param>
+        /// <param name="scale">Optional font size.</param>
         /// <param name="size">Paragraph size (note: not font size, but the region that will contain the paragraph).</param>
         /// <param name="offset">Offset from anchor position.</param>
         public Paragraph(string text, Anchor anchor, Color color, float? scale = null, Vector2? size = null, Vector2? offset = null) :

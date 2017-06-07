@@ -285,7 +285,7 @@ namespace GeonBit.UI.Entities
             while (true)
             {
                 // create and add new paragraph
-                Paragraph paragraph = new Paragraph(".", Anchor.Auto, new Vector2(0, 40));
+                Paragraph paragraph = UserInterface.DefaultParagraph(".", Anchor.Auto, size: new Vector2(0, 40));
                 paragraph.PromiscuousClicksMode = true;
                 paragraph.WrapWords = false;
                 paragraph.UpdateStyle(DefaultParagraphStyle);

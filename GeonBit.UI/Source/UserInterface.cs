@@ -31,6 +31,18 @@ namespace GeonBit.UI
     public delegate void EventCallback(Entity entity);
 
     /// <summary>
+    /// Callback to generate default paragraph type for internal entities.
+    /// </summary>
+    /// <param name="text">Paragraph starting text.</param>
+    /// <param name="anchor">Paragraph anchor.</param>
+    /// <param name="color">Optional fill color.</param>
+    /// <param name="scale">Optional scale.</param>
+    /// <param name="size">Optional size.</param>
+    /// <param name="offset">Optional offset</param>
+    /// <returns></returns>
+    public delegate Paragraph DefaultParagraphGenerator(string text, Anchor anchor, Color? color = null, float? scale = null, Vector2? size = null, Vector2? offset = null);
+
+    /// <summary>
     /// Curser styles / types.
     /// </summary>
     public enum CursorType
@@ -86,6 +98,20 @@ namespace GeonBit.UI
 
         // are we currently in use-render-target mode
         private bool _useRenderTarget = false;
+
+        /// <summary>
+        /// Create a default paragraph instance.
+        /// GeonBit.UI entities use this method when need to create a paragraph, so you can override this to change which paragraph type the built-in
+        /// entities will use by-default (for example Buttons text, SelectList items, etc.).
+        /// </summary>
+        static public DefaultParagraphGenerator DefaultParagraph =
+            (string text, Anchor anchor, Color? color, float? scale, Vector2? size, Vector2? offset) => {
+                if (color != null)
+                {
+                    return new MulticolorParagraph(text, anchor, color.Value, scale, size, offset);
+                }
+                return new MulticolorParagraph(text, anchor, size, offset, scale);
+            };
 
         /// <summary>
         /// If true, will draw the UI on a render target before drawing on screen.

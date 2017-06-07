@@ -111,7 +111,7 @@ namespace GeonBit.UI.Entities
 
             // create the panel and paragraph used to show currently selected value (what's shown when drop-down is closed)
             _selectedTextPanel = new Panel(new Vector2(0, SelectedPanelHeight), skin, Anchor.TopLeft);
-            _selectedTextParagraph = new Paragraph(string.Empty, Anchor.CenterLeft);
+            _selectedTextParagraph = UserInterface.DefaultParagraph(string.Empty, Anchor.CenterLeft);
             _selectedTextParagraph.UseActualSizeForCollision = false;
             _selectedTextParagraph.UpdateStyle(SelectList.DefaultParagraphStyle);
             _selectedTextParagraph.UpdateStyle(DefaultParagraphStyle);

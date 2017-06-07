@@ -57,7 +57,7 @@ namespace GeonBit.UI.Entities
             UpdateStyle(DefaultStyle);
 
             // create and set checkbox paragraph
-            TextParagraph = new Paragraph(text, Anchor.CenterLeft);
+            TextParagraph = UserInterface.DefaultParagraph(text, Anchor.CenterLeft);
             TextParagraph.UpdateStyle(DefaultParagraphStyle);
             AddChild(TextParagraph, true);
 

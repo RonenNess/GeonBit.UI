@@ -85,7 +85,7 @@ namespace GeonBit.UI.Entities
             UpdateStyle(DefaultStyle);
 
             // create and set button paragraph
-            ButtonParagraph = new Paragraph(text, Anchor.Center);
+            ButtonParagraph = UserInterface.DefaultParagraph(text, Anchor.Center);
             ButtonParagraph.UpdateStyle(DefaultParagraphStyle);
             AddChild(ButtonParagraph, true);
         }
