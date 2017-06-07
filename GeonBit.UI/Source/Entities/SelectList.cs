@@ -35,8 +35,8 @@ namespace GeonBit.UI.Entities
         string _value = null;
         int _index = -1;
 
-        // store previous size so we'll know if size changed
-        Vector2 _prevSize = Vector2.Zero;
+        // store list last known internal size, so we'll know if size changed and we need to re-create the list
+        Point _prevSize = Point.Zero;
 
         // list of paragraphs used to show the values
         List<Paragraph> _paragraphs = new List<Paragraph>();
@@ -274,9 +274,6 @@ namespace GeonBit.UI.Entities
             // clear the _hadResizeWhileNotVisible flag
             _hadResizeWhileNotVisible = false;
 
-            // store current size
-            _prevSize = _size;
-
             // remove all children before re-creating them
             ClearChildren();
 
@@ -450,10 +447,13 @@ namespace GeonBit.UI.Entities
         override protected void DrawEntity(SpriteBatch spriteBatch)
         {
             // if size changed, update paragraphs list
-            if (_prevSize.Y != _size.Y || _hadResizeWhileNotVisible)
+            if ((_prevSize.Y != _destRectInternal.Size.Y) || _hadResizeWhileNotVisible)
             {
                 OnResize();
             }
+
+            // store last known size
+            _prevSize = _destRectInternal.Size;
 
             // call base draw function to draw the panel part
             base.DrawEntity(spriteBatch);
