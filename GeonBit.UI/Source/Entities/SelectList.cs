@@ -68,6 +68,12 @@ namespace GeonBit.UI.Entities
         /// <summary>Default styling for the select list itself. Note: loaded from UI theme xml file.</summary>
         new public static StyleSheet DefaultStyle = new StyleSheet();
 
+        /// <summary>
+        /// Optional dictionary of list indexes you want to lock.
+        /// Every item in this dictionary set to true will be locked and user won't be able to select it.
+        /// </summary>
+        public Dictionary<int, bool> LockedItems = new Dictionary<int, bool>();
+
         // list of values
         List<string> _list = new List<string>();
 
@@ -463,6 +469,11 @@ namespace GeonBit.UI.Entities
                     _paragraphs[i].Text = _list[item_index];
                     _paragraphs[i].Background = null;
                     _paragraphs[i].Visible = true;
+
+                    // set locked state
+                    bool isLocked = false;
+                    LockedItems.TryGetValue(item_index, out isLocked);
+                    _paragraphs[i].Locked = isLocked;
                 }
                 // if paragraph out of range (eg more paragraphs than list items), make this paragraph invisible.
                 else

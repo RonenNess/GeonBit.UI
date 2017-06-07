@@ -486,6 +486,36 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 panel.AddChild(list);
             }
 
+            // example: list as tables
+            {
+                // create panel and add to list of panels and manager
+                Panel panel = new Panel(new Vector2(620, 440));
+                panels.Add(panel);
+                UserInterface.Active.AddEntity(panel);
+
+                // list title
+                panel.AddChild(new Header("SelectList as a Table"));
+                panel.AddChild(new HorizontalLine());
+                panel.AddChild(new Paragraph("With few simple tricks you can also create lists that behave like a table:"));
+
+                // create the list
+                SelectList list = new SelectList(new Vector2(0, 260));
+
+                // lock and create title
+                list.LockedItems[0] = true;
+                list.AddItem(System.String.Format("{0}{1,-10} {2,-10} {3,-10}", "{{RED}}", "Name", "Class", "Level"));
+
+                // add items as formatted table
+                list.AddItem(System.String.Format("{0,-10} {1,-10} {2,-10}", "Joe", "Mage", "5"));
+                list.AddItem(System.String.Format("{0,-10} {1,-10} {2,-10}", "Ron", "Monk", "7"));
+                list.AddItem(System.String.Format("{0,-10} {1,-10} {2,-10}", "Alex", "Rogue", "3"));
+                list.AddItem(System.String.Format("{0,-10} {1,-10} {2,-10}", "Jim", "Paladin", "7"));
+                list.AddItem(System.String.Format("{0,-10} {1,-10} {2,-10}", "Abe", "Cleric", "8"));
+                list.AddItem(System.String.Format("{0,-10} {1,-10} {2,-10}", "James", "Warlock", "20"));
+                list.AddItem(System.String.Format("{0,-10} {1,-10} {2,-10}", "Bob", "Bard", "1"));
+                panel.AddChild(list);
+            }
+
             // example: lists skins
             {
                 // create panel and add to list of panels and manager
