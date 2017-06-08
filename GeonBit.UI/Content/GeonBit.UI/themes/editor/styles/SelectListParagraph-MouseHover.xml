@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:ns="Microsoft.Xna.Framework">
+  <Asset Type="GeonBit.UI.DataTypes.DefaultStyles">
+    <Scale Null="true" />
+    <FillColor>FF00FFFF</FillColor>
+    <OutlineColor Null="true" />
+    <OutlineWidth Null="true" />
+    <ForceAlignCenter Null="true" />
+    <FontStyle Null="true" />
+    <SelectedHighlightColor Null="true" />
+    <ShadowColor Null="true" />
+    <ShadowOffset Null="true" />
+    <Padding Null="true" />
+    <SpaceBefore Null="true" />
+    <SpaceAfter Null="true" />
+    <ShadowScale Null="true" />
+  </Asset>
+        
+</XnaContent>

@@ -71,6 +71,11 @@ namespace GeonBit.UI
         /// Old-school style theme with low-res textures.
         /// </summary>
         lowres,
+
+        /// <summary>
+        /// Clean, editor-like theme.
+        /// </summary>
+        editor,
     }
 
     /// <summary>
