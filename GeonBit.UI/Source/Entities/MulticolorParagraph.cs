@@ -272,7 +272,7 @@ namespace GeonBit.UI.Entities
                     if (cCharacter == '\n')
                     {
                         oCurrentPosition.X = _position.X - oCharacterSize.X;
-                        oCurrentPosition.Y += _currFont.LineSpacing;
+                        oCurrentPosition.Y += _currFont.LineSpacing * _actualScale;
                     }
                     else
                     {
