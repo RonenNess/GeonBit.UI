@@ -1503,7 +1503,11 @@ Will create a UI with a built-in theme called "lowres".
 
 A Theme in GeonBit.UI is the set of Textures, Effects, Fonts and StyleSheets, that define the entire look and feel of the UI system.
 
-GeonBit.UI comes with two built-in themes, which are essentially the same style but in low-res and high-res variations (called "lowres" and "hd" respectively, "hd" being the default theme used).
+GeonBit.UI comes with 3 built-in themes you can use out of the box (they are 100% free for any purpose):
+
+- *lowres*: Oldschool RPG style theme, with low resolution textures.
+- *hd*: Oldschool RPG style theme, with higher resolution textures.
+- *editor*: Clean, slick editor-style theme.
 
 ![Themes](assets/img/themes.png "Themes")
 
