@@ -229,8 +229,8 @@ namespace GeonBit.UI.Example
 
                 // add title and text
                 Image title = new Image(Content.Load<Texture2D>("example/GeonBitUI-sm"), new Vector2(400, 240), anchor: Anchor.TopCenter, offset: new Vector2(0, -20));
-                title.ShadowColor = Color.Black;
-                title.ShadowOffset = Vector2.One * -3;
+                title.ShadowColor = new Color(0, 0, 0, 128);
+                title.ShadowOffset = Vector2.One * -6;
                 panel.AddChild(title);
             panel.AddChild(new MulticolorParagraph(@"Welcome to {{RED}}GeonBit{{MAGENTA}}.UI{{DEFAULT}}!
 

@@ -1746,7 +1746,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Fixed bug with lists with height of 0.
 - Added option to lock specific items in SelectList.
 - Made the MulticolorParagraph the default paragraph type the built-in entities use, with an option to override this behavior via a paragraph generator function.
-- Fixed bug with MulticolorParagraph shadow and scaling.
+- Fixed bug with MulticolorParagraph shadow/outline and scaling.
 - Added new theme: editor.
 
 
