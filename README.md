@@ -10,7 +10,8 @@ Full API documentation available here: [Online docs](https://ronenness.github.io
 
 ## What's GeonBit
 
-**GeonBit** is an Entity-Component-System based game engine, powered by MonoGame.
+[GeonBit](https://github.com/RonenNess/GeonBit) is an Entity-Component-System based game engine, powered by MonoGame.
+
 
 ## What's GeonBit.UI
 
