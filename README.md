@@ -17,7 +17,7 @@ Full API documentation available here: [Online docs](https://ronenness.github.io
 
 **GeonBit.UI** is the UI / HUD system of the *GeonBit* engine, exported as an independent MonoGame extension under the MIT license.
 
-It provide all the basic UI elements required to make a game / editor UI, and comes with few built-in UI skins compatible for commerical projects.
+It provide all the basic UI elements required to make a game / editor UI, and comes with few built-in UI skins compatible for commercial projects.
 
 To see a GeonBit.UI demo, check out this YouTube video:
 
@@ -40,7 +40,7 @@ GeonBit.UI provide the following functionality:
 - Dropdown widgets with different skins.
 - Slider bars & Progress bars.
 - Text boxes for user text input - support multiline, word-wrap, scrollbars and skins.
-- PanelTabs to easily create multitabs panels.
+- PanelTabs to easily create multitab panels.
 - Stylesheets and themes, easily extendable.
 - Locked, disabled, shadow, and other basic UI effects and states.
 - Global scaling property to support different screen sizes.
@@ -86,7 +86,7 @@ So if your project require extensive text editing you might need to do some work
 
 #### Rely on mouse / touch input
 
-GeonBit.UI is built to work with mouse / touch screens. It is currently not designed for keyboad-only / joystick input (eg it doesn't support tab navigating etc.)
+GeonBit.UI is built to work with mouse / touch screens. It is currently not designed for keyboard-only / joystick input (e.g. it doesn't support tab navigating etc.)
 
 ## Git structure
 
@@ -96,7 +96,7 @@ In the repository root you will find the following files and folders:
 
 1. ```GeonBit.UI.sln```: a Visual Studio solution with GeonBit.UI source + example code.
 2. ```Documentation.chm```: full API documentation file (auto-generated).
-3. ```GeonBit.UI/```: folder containing all the source code and reousrces of GeonBit.UI.
+3. ```GeonBit.UI/```: folder containing all the source code and resources of GeonBit.UI.
 
 Inside the ```GeonBit.UI/``` folder you will find the following files and folders:
 
@@ -130,7 +130,7 @@ Now there are two things to update in the Content Manager:
 That's it! Just few things to remember:
 
 - If you don't have the default themes fonts installed, you need to install the fonts from ```GeonBit.UI/GeonBit.UI/Content/Fonts/```.
-- If you want to edit the default themes (textures, styles, etc), its recommended to *copy* the theme to a new folder and never change the original package files, since they will be overrided next time you update GeonBit.UI via NuGet.
+- If you want to edit the default themes (textures, styles, etc), its recommended to *copy* the theme to a new folder and never change the original package files, since they will be overridden next time you update GeonBit.UI via NuGet.
 - If your development environment is on Linux, there are few more steps to follow: [Installing on Linux](#extra-steps-for-linux).
 
 
@@ -162,8 +162,8 @@ If you ever choose to remove GeonBit.UI from your project, simply follow these s
 
 There are few more things to do if you use Linux:
 
-1. After installing the fonts from ```GeonBit.UI/GeonBit.UI/Content/Fonts/```, you also need to copy the font files into the folder where the spritefont files reside (eg ```Content/GeonBit.UI/themes/<team-name>/fonts/```).
-2. Since at this time MonoGame can't build effects on Linux, you need to use a pre-compiled effects. Take the built effects from ```Content/BuiltEffects/``` and put them instead of the ```.fx``` files of your theme (eg ```Content/GeonBit.UI/themes/<team-name>/effects/```). Also change their 'Build Action' from 'Build' to 'Copy'.
+1. After installing the fonts from ```GeonBit.UI/GeonBit.UI/Content/Fonts/```, you also need to copy the font files into the folder where the spritefont files reside (e.g. ```Content/GeonBit.UI/themes/<team-name>/fonts/```).
+2. Since at this time MonoGame can't build effects on Linux, you need to use a pre-compiled effects. Take the built effects from ```Content/BuiltEffects/``` and put them instead of the ```.fx``` files of your theme (e.g. ```Content/GeonBit.UI/themes/<team-name>/effects/```). Also change their 'Build Action' from 'Build' to 'Copy'.
 
 
 # Using GeonBit.UI
@@ -385,7 +385,7 @@ Most entities have a default size so you don't need to set it. However, there ar
 
 - Size of 0 means full parent size.
 - Size of -1 means default entity size (vary per entity).
-- Size between 0.0f and 1.0f (not inclusive) will be percents of parent size (eg 0.5f = 50% of parent size).
+- Size between 0.0f and 1.0f (not inclusive) will be percents of parent size (e.g. 0.5f = 50% of parent size).
 
 So if for example you set an entity size of (0, -1), it means the entity will have its default height with width of 100% of its parent width (minus the padding, which are explained next).
 
@@ -470,7 +470,7 @@ Styles will be covered extensively later.
 
 Get / set the current entity state (default / mouse hover / mouse down).
 
-Note that if you override the state it will just be overrided again the next ```Update()``` call.
+Note that if you override the state it will just be overridden again the next ```Update()``` call.
 
 ### FillColor
 
@@ -564,7 +564,7 @@ Scale the entity size, or in text-related entities change the font size.
 
 ### FillColor [color]
 
-Entity primary color. For things like images, panels etc. this propertly will act as a tint color effect.
+Entity primary color. For things like images, panels etc. this property will act as a tint color effect.
 
 ### OutlineColor [color]
 
@@ -626,7 +626,7 @@ The most basic entity in GeonBit.UI is the panel entity.
 
 A panel is just a container, either with a graphic frame or without any skin, that you place anywhere on the screen and add entities to it.
 
-While you don't have to use panels to place entities (eg you can just add entities directly to the UI manager), its a good practice to use them as a method to group together layout parts.
+While you don't have to use panels to place entities (e.g. you can just add entities directly to the UI manager), its a good practice to use them as a method to group together layout parts.
 
 ### Creating a panel
 
@@ -878,7 +878,7 @@ The label that appears on the CheckBox. This is just a paragraph instance that c
 
 #### Checked
 
-Set / get the value of the CheckBox, eg weather or not its currently marked as checked.
+Set / get the value of the CheckBox, e.g. weather or not its currently marked as checked.
 
 
 ## RadioButton
@@ -892,7 +892,7 @@ In other words, once you mark a Radio Button as checked, all its sibling Radio B
 
 Radio Buttons are useful for multiple choice questions where only one answer can be picked, for example if you ask the user to pick DirectX or OpenGL, UI language choice, etc.. 
 
-Its important to note that the Radio Button only affect its direct siblings under the same parent, meaning that if you want to have a multiple groups of Radio Buttons under the same panel you can just group them together in seperate skinless panels (skin set to ```None```).
+Its important to note that the Radio Button only affect its direct siblings under the same parent, meaning that if you want to have a multiple groups of Radio Buttons under the same panel you can just group them together in separate skinless panels (skin set to ```None```).
 
 To create a new Radio Button:
 
@@ -1619,11 +1619,11 @@ GeonBit.UI is distributed under the MIT license, and is 100% free to use for any
 
 ## Contact
 
-For bug report, questions or feature requests, please use the [github Issues](https://github.com/RonenNess/GeonBit.UI/issues/) section.
+For bug report, questions or feature requests, please use the [GitHub Issues](https://github.com/RonenNess/GeonBit.UI/issues/) section.
 
 For anything else, feel free to contact me directly at [ronenness@gmail.com](mailto:ronenness@gmail.com).
 
-## ChangeLog
+## Change Log
 
 ### 1.0.0
 
@@ -1659,7 +1659,7 @@ Improvements and new features.
 - Added button custom skins.
 - Added option to change panel and buttons skins after creation.
 - Added Identifier to all entities + Find() functionality to locate children by identifier and / or type.
-- Added support in size percents (eg size that is certain percent of its parent size).
+- Added support in size percents (e.g. size that is certain percent of its parent size).
 - Added BringToFront() helper function.
 - New entity: PanelTabs.
 - Made all entities support Outline styling by default.
