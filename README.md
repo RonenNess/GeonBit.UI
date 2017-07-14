@@ -17,7 +17,7 @@ Full API documentation available here: [Online docs](https://ronenness.github.io
 
 **GeonBit.UI** is the UI / HUD system of the *GeonBit* engine, exported as an independent MonoGame extension under the MIT license.
 
-It provide all the basic UI elements required to make a game / editor UI, and comes with few built-in UI skins compatible for commerical projects.
+It provide all the basic UI elements required to make a game / editor UI, and comes with few built-in UI skins compatible for commercial projects.
 
 To see a GeonBit.UI demo, check out this YouTube video:
 
@@ -40,7 +40,7 @@ GeonBit.UI provide the following functionality:
 - Dropdown widgets with different skins.
 - Slider bars & Progress bars.
 - Text boxes for user text input - support multiline, word-wrap, scrollbars and skins.
-- PanelTabs to easily create multitabs panels.
+- PanelTabs to easily create multitab panels.
 - Stylesheets and themes, easily extendable.
 - Locked, disabled, shadow, and other basic UI effects and states.
 - Global scaling property to support different screen sizes.
@@ -76,7 +76,7 @@ Before choosing GeonBit.UI, here are few caveats you should know about:
 
 #### Only tested on windows
 
-GeonBit.UI was developed and tested on 3 different machines, with windows 8 and 10. 
+GeonBit.UI was developed and tested on 3 different machines, with windows 8 and 10.
 Theoretically It should work on any platform supported by MonoGame, but it might require some tweaks for some devices.
 
 #### Text Input is pretty basic.
@@ -86,17 +86,17 @@ So if your project require extensive text editing you might need to do some work
 
 #### Rely on mouse / touch input
 
-GeonBit.UI is built to work with mouse / touch screens. It is currently not designed for keyboad-only / joystick input (eg it doesn't support tab navigating etc.)
+GeonBit.UI is built to work with mouse / touch screens. It is currently not designed for keyboard-only / joystick input (e.g. it doesn't support tab navigating etc.)
 
 ## Git structure
 
 ![repo folders](assets/img/geonbit_folders.png "repo folders")
 
-In the repository root you will find the following files and folders: 
+In the repository root you will find the following files and folders:
 
 1. ```GeonBit.UI.sln```: a Visual Studio solution with GeonBit.UI source + example code.
 2. ```Documentation.chm```: full API documentation file (auto-generated).
-3. ```GeonBit.UI/```: folder containing all the source code and reousrces of GeonBit.UI.
+3. ```GeonBit.UI/```: folder containing all the source code and resources of GeonBit.UI.
 
 Inside the ```GeonBit.UI/``` folder you will find the following files and folders:
 
@@ -105,7 +105,7 @@ Inside the ```GeonBit.UI/``` folder you will find the following files and folder
 3. ```Libs```: additional libs you need to compile with GeonBit.UI (currently there's only one).
 4. ```GeonBitUI_Examples.cs``` and ```program.cs```: GeonBit.UI demo app that demonstrate the different features and entities GeonBit.UI provides.
 
-To see GeonBit.UI live before installing it in your project, you can open and run the solution file. 
+To see GeonBit.UI live before installing it in your project, you can open and run the solution file.
 Please note however that you might need to install some fonts first from ```GeonBit.UI/Content/Fonts/``` folder.
 
 # Install
@@ -130,7 +130,7 @@ Now there are two things to update in the Content Manager:
 That's it! Just few things to remember:
 
 - If you don't have the default themes fonts installed, you need to install the fonts from ```GeonBit.UI/GeonBit.UI/Content/Fonts/```.
-- If you want to edit the default themes (textures, styles, etc), its recommended to *copy* the theme to a new folder and never change the original package files, since they will be overrided next time you update GeonBit.UI via NuGet.
+- If you want to edit the default themes (textures, styles, etc), its recommended to *copy* the theme to a new folder and never change the original package files, since they will be overridden next time you update GeonBit.UI via NuGet.
 - If your development environment is on Linux, there are few more steps to follow: [Installing on Linux](#extra-steps-for-linux).
 
 
@@ -162,8 +162,8 @@ If you ever choose to remove GeonBit.UI from your project, simply follow these s
 
 There are few more things to do if you use Linux:
 
-1. After installing the fonts from ```GeonBit.UI/GeonBit.UI/Content/Fonts/```, you also need to copy the font files into the folder where the spritefont files reside (eg ```Content/GeonBit.UI/themes/<team-name>/fonts/```).
-2. Since at this time MonoGame can't build effects on Linux, you need to use a pre-compiled effects. Take the built effects from ```Content/BuiltEffects/``` and put them instead of the ```.fx``` files of your theme (eg ```Content/GeonBit.UI/themes/<team-name>/effects/```). Also change their 'Build Action' from 'Build' to 'Copy'.
+1. After installing the fonts from ```GeonBit.UI/GeonBit.UI/Content/Fonts/```, you also need to copy the font files into the folder where the spritefont files reside (e.g. ```Content/GeonBit.UI/themes/<team-name>/fonts/```).
+2. Since at this time MonoGame can't build effects on Linux, you need to use a pre-compiled effects. Take the built effects from ```Content/BuiltEffects/``` and put them instead of the ```.fx``` files of your theme (e.g. ```Content/GeonBit.UI/themes/<team-name>/effects/```). Also change their 'Build Action' from 'Build' to 'Copy'.
 
 
 # Using GeonBit.UI
@@ -233,7 +233,7 @@ namespace GeonBit.UI.Example
         {
             // GeonBit.UIL update UI manager
             UserInterface.Active.Update(gameTime);
-            
+
             // tbd add your own update() stuff here..
 
             // call base update
@@ -257,7 +257,7 @@ namespace GeonBit.UI.Example
 }
 ```
 
-Executing the code above will result in an empty window with blueish background and the GeonBit.UI cursor rendered on it. 
+Executing the code above will result in an empty window with blueish background and the GeonBit.UI cursor rendered on it.
 It should look something like this:
 
 ![UI example2](assets/img/example2.jpg "example2")
@@ -280,12 +280,12 @@ In addition there are few special anchors that are used to place entities automa
 
 #### Anchors are relative to parent
 
-Note that when you place an entity using anchors, the anchor will refer to the entity direct parent, and not the entire screen. 
+Note that when you place an entity using anchors, the anchor will refer to the entity direct parent, and not the entire screen.
 So if, for example, you place a button with a top-left anchor inside a panel - the position of the button will be linked to the top-left corner of the panel, and not the absolute top-left corner of the screen.
 
 ### Auto Anchors
 
-Placing everything with anchors and offset can quickly become a tedious job, especially if you have lots of entities that you just want to place one after another. 
+Placing everything with anchors and offset can quickly become a tedious job, especially if you have lots of entities that you just want to place one after another.
 
 To fix that, GeonBit.UI introduce 3 dynamic anchor types: Auto, AutoInline, and AutoCenter.
 
@@ -298,8 +298,8 @@ Note that Auto anchors still support the offset property, which will be taken fr
 ### Mixing Anchors of different types
 
 Mixing auto anchors of different types works just as expected, but when you mix auto anchors with static anchors there's a special behavior you should know about;
- 
-An auto anchor always takes the position and size of its older sibling to know how to position itself. 
+
+An auto anchor always takes the position and size of its older sibling to know how to position itself.
 This means that if, for example, you place an auto anchored entity right after an entity with Bottom-left anchor, the Auto-Anchored entity will be placed below the first entity, meaning right below its bottom.
 
 For that reason, whenever you mix Auto Anchors with static Anchors always place the static anchors *last*.
@@ -307,7 +307,7 @@ For that reason, whenever you mix Auto Anchors with static Anchors always place 
 # UserInterface
 
 As you noticed before, we use the ```UserInterface``` to Update, Draw, and Initialize GeonBit.UI.
-The ```UserInterface``` is the most top-level class in GeonBit.UI that manage and run the UI system, and at every given time there's only one active ```UserInterface```, which can be accessed via ```UserInterface.Active```. 
+The ```UserInterface``` is the most top-level class in GeonBit.UI that manage and run the UI system, and at every given time there's only one active ```UserInterface```, which can be accessed via ```UserInterface.Active```.
 
 When you call the static initializer ```UserInterface.Initialize()```, it also creates a default UserInterface and set it as Active. However, you can later create your own ```UserInterface``` managers and swap between them (simply by setting the Active interface).
 
@@ -379,13 +379,13 @@ As explained before, these determine the position of the entity inside its paren
 
 ### Size
 
-The size of the entity in pixels. 
+The size of the entity in pixels.
 
 Most entities have a default size so you don't need to set it. However, there are three special values that are supported by the size property and you should know:
 
 - Size of 0 means full parent size.
 - Size of -1 means default entity size (vary per entity).
-- Size between 0.0f and 1.0f (not inclusive) will be percents of parent size (eg 0.5f = 50% of parent size).
+- Size between 0.0f and 1.0f (not inclusive) will be percents of parent size (e.g. 0.5f = 50% of parent size).
 
 So if for example you set an entity size of (0, -1), it means the entity will have its default height with width of 100% of its parent width (minus the padding, which are explained next).
 
@@ -393,7 +393,7 @@ So if for example you set an entity size of (0, -1), it means the entity will ha
 
 Padding (in pixels) to position child entities inside this entity.
 
-Padding property affect both position and size. 
+Padding property affect both position and size.
 So if, for example, you have an entity in the size of 100, 100 and padding of 20, 20, and you place inside it an entity with top-left Anchor and full size (size property of 0,0), the internal entity will actually start from top-left corner + 20,20, and its size will be 60,60 pixels (-20 from every side).
 
 ### Visible
@@ -420,7 +420,7 @@ Note: when entity is Draggable you can determine weather or not it is limited to
 
 ### Background
 
-An entity you can attach as a graphical background for this entity. 
+An entity you can attach as a graphical background for this entity.
 
 Unlike children entities, the Background entity will not invoke events etc. and will always be rendered *behind* this entity.
 
@@ -449,7 +449,7 @@ You can set callbacks to be called on different entity-related events. The avail
 - OnStopDrag: called when a user stop dragging this entity.
 - WhileDragging: called every frame while user is dragging this entity.
 
-All event callbacks receive one parameter, which is the ```Entity``` the event came from. 
+All event callbacks receive one parameter, which is the ```Entity``` the event came from.
 Note that you can either register an event callback on a specific entity to respond only to it, or register on the global ```UserInterface``` class to be called for any entity invoking the event.
 
 The global option can be useful for stuff like adding sound when user click on an entity, etc.
@@ -470,7 +470,7 @@ Styles will be covered extensively later.
 
 Get / set the current entity state (default / mouse hover / mouse down).
 
-Note that if you override the state it will just be overrided again the next ```Update()``` call.
+Note that if you override the state it will just be overridden again the next ```Update()``` call.
 
 ### FillColor
 
@@ -564,7 +564,7 @@ Scale the entity size, or in text-related entities change the font size.
 
 ### FillColor [color]
 
-Entity primary color. For things like images, panels etc. this propertly will act as a tint color effect.
+Entity primary color. For things like images, panels etc. this property will act as a tint color effect.
 
 ### OutlineColor [color]
 
@@ -626,7 +626,7 @@ The most basic entity in GeonBit.UI is the panel entity.
 
 A panel is just a container, either with a graphic frame or without any skin, that you place anywhere on the screen and add entities to it.
 
-While you don't have to use panels to place entities (eg you can just add entities directly to the UI manager), its a good practice to use them as a method to group together layout parts.
+While you don't have to use panels to place entities (e.g. you can just add entities directly to the UI manager), its a good practice to use them as a method to group together layout parts.
 
 ### Creating a panel
 
@@ -654,7 +654,7 @@ Note that ```UserInterface.Active.AddEntity()``` accept any type of entity, but 
 
 ### PanelOverflowBehavior
 
-By default, entities that exceed the panel boundaries will just be drawn outside of it. 
+By default, entities that exceed the panel boundaries will just be drawn outside of it.
 However, you can change that behavior by setting the ```PanelOverflowBehavior``` flag:
 
 - Overflow: default behavior.
@@ -803,7 +803,7 @@ Button button = new Button(text: "Button label", skin: ButtonSkin.Alternative, a
 To listen and respond to the button being clicked, use the ```OnClick``` event handler:
 
 ```cs
-button.OnClick = (Entity btn) => { 
+button.OnClick = (Entity btn) => {
 	// button was clicked, do something here!
 };
 ```
@@ -828,7 +828,7 @@ When button is in ```toggle mode```, set / get the button pressed mode.
 
 #### SetCustomSkin
 
-You can override the default theme button textures for a specific instance, by using the SetCustomSkin() function. 
+You can override the default theme button textures for a specific instance, by using the SetCustomSkin() function.
 This function get 3 textures (one texture for every button state), and an optional vector indicating frame width in texture file.
 
 #### Skin
@@ -863,7 +863,7 @@ CheckBox check = new CheckBox(text: "some question..", anchor: Anchor.Auto, offs
 To listen and respond to whenever the CheckBox value changes, use the ```OnValueChange``` event handler:
 
 ```cs
-check.OnValueChange = (Entity checkbox) => { 
+check.OnValueChange = (Entity checkbox) => {
 	// checkbox was changed, do something here!
 };
 ```
@@ -878,7 +878,7 @@ The label that appears on the CheckBox. This is just a paragraph instance that c
 
 #### Checked
 
-Set / get the value of the CheckBox, eg weather or not its currently marked as checked.
+Set / get the value of the CheckBox, e.g. weather or not its currently marked as checked.
 
 
 ## RadioButton
@@ -887,12 +887,12 @@ Set / get the value of the CheckBox, eg weather or not its currently marked as c
 
 Docs: [RadioButton Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_RadioButton.htm ).
 
-A Radio Button behaves just like a CheckBox, with the main difference that only one radio may be checked at a time. 
+A Radio Button behaves just like a CheckBox, with the main difference that only one radio may be checked at a time.
 In other words, once you mark a Radio Button as checked, all its sibling Radio Buttons will be unchecked automatically.
 
-Radio Buttons are useful for multiple choice questions where only one answer can be picked, for example if you ask the user to pick DirectX or OpenGL, UI language choice, etc.. 
+Radio Buttons are useful for multiple choice questions where only one answer can be picked, for example if you ask the user to pick DirectX or OpenGL, UI language choice, etc..
 
-Its important to note that the Radio Button only affect its direct siblings under the same parent, meaning that if you want to have a multiple groups of Radio Buttons under the same panel you can just group them together in seperate skinless panels (skin set to ```None```).
+Its important to note that the Radio Button only affect its direct siblings under the same parent, meaning that if you want to have a multiple groups of Radio Buttons under the same panel you can just group them together in separate skinless panels (skin set to ```None```).
 
 To create a new Radio Button:
 
@@ -913,7 +913,7 @@ RadioButton radio = new RadioButton(text: "Option 1", anchor: Anchor.Auto, offse
 Just like with CheckBox, to listen and respond to value changes in Radio Buttons use the ```OnValueChange``` event handler:
 
 ```cs
-radio.OnValueChange = (Entity entity) => { 
+radio.OnValueChange = (Entity entity) => {
 	// radio was changed, do something here!
 };
 ```
@@ -958,7 +958,7 @@ If the list length is too big for the SelectList physical size, a scrollbar will
 To listen and respond to when a user select an item from the list, use the ```OnValueChange``` event handler:
 
 ```cs
-list.OnValueChange = (Entity entity) => { 
+list.OnValueChange = (Entity entity) => {
 	// a user picked an item from the list
 };
 ```
@@ -993,14 +993,14 @@ Return if the list is currently empty.
 
 Get / set the currently selected value as string.
 
-- When no value is selected, null will be returned. 
+- When no value is selected, null will be returned.
 - To unselect you can set this property to null.
 
 #### SelectedIndex
 
 Get / set the currently selected index as int.
 
-- When no value is selected, -1 will be returned. 
+- When no value is selected, -1 will be returned.
 - To unselect you can set this property to -1.
 
 #### Unselect()
@@ -1053,7 +1053,7 @@ DropDown drop = new DropDown(size: new Vector2(0, 200), anchor: Anchor.Center, o
 To listen and respond to when a user select from the DropDown, use the ```OnValueChange``` event handler:
 
 ```cs
-dropdown.OnValueChange = (Entity entity) => { 
+dropdown.OnValueChange = (Entity entity) => {
 	// a user picked an item from the drop-down list
 };
 ```
@@ -1101,7 +1101,7 @@ Note that slider only support positive, round numbers. If you need fractions jus
 To listen and respond to when a user pick values from the slider, use the ```OnValueChange``` event handler:
 
 ```cs
-slider.OnValueChange = (Entity entity) => { 
+slider.OnValueChange = (Entity entity) => {
 	// a user picked value from the slider
 };
 ```
@@ -1112,7 +1112,7 @@ In addition to the basic API that every UI entity shares, ```Slider``` provide t
 
 #### Value
 
-Get / set the current slider value. 
+Get / set the current slider value.
 
 If you set an invalid value (outside of range), value will just clap to fit the range.
 
@@ -1156,7 +1156,7 @@ Unlike with Sliders, usually when using ProgressBars you don't want the user to 
 To listen and respond to when a user pick value from the ProgressBar, use the ```OnValueChange``` event handler:
 
 ```cs
-prog.OnValueChange = (Entity entity) => { 
+prog.OnValueChange = (Entity entity) => {
 	// a user picked value from the progress bar
 };
 ```
@@ -1192,7 +1192,7 @@ panel.AddChild(scrollbar);
 To listen and respond to when a user scroll with the scrollbar, use the ```OnValueChange``` event handler:
 
 ```cs
-scrollbar.OnValueChange = (Entity entity) => { 
+scrollbar.OnValueChange = (Entity entity) => {
 	// a user scrolled with the scrollbar
 };
 ```
@@ -1324,7 +1324,7 @@ If you override the ```Identifier```, ```OnValueChange``` callback or ```Attache
 To listen and respond to whenever user switch tabs, use the ```OnValueChange``` event handler:
 
 ```cs
-tabs.OnValueChange = (Entity panelTabs) => { 
+tabs.OnValueChange = (Entity panelTabs) => {
 	// the user switched tabs. to get the currently active tab use tabs.ActiveTab.
 };
 ```
@@ -1393,7 +1393,7 @@ Note that the TextInput is made of a panel with paragraphs on it, meaning you ca
 To create a TextInput with different skin and advance parameters:
 
 ```cs
-// 
+//
 // create multiline text input with size of 100,220, center anchor, and golden panel skin:
 TextInput multiText = new TextInput(multiline: true, size: new Vector2(100, 220), anchor: Anchor.Center, offset: Vector2.Zero, skin: PanelSkin.Golden);
 ```
@@ -1403,7 +1403,7 @@ TextInput multiText = new TextInput(multiline: true, size: new Vector2(100, 220)
 To listen and respond to when a user type text into the TextInput, use the ```OnValueChange``` event handler:
 
 ```cs
-textInput.OnValueChange = (Entity entity) => { 
+textInput.OnValueChange = (Entity entity) => {
 	// a user typed text into the text input
 };
 ```
@@ -1561,7 +1561,7 @@ protected override void Draw(GameTime gameTime)
 
     // clear buffer
     GraphicsDevice.Clear(Color.CornflowerBlue);
-    
+
     // do your game renderings...
 
     // use `UserInterface.Active.RenderTarget` here.
@@ -1577,7 +1577,7 @@ protected override void Draw(GameTime gameTime)
 # InputHelper
 
 ```InputHelper``` is a useful helper class, used internally, that wraps access to keyboard and mouse.
-If you find yourself writing logic such as storing previous ```MouseState``` or ```KeyboardState``` and comparing it to new states to detect stuff like key release, clicks, etc, you should take a look at this class. 
+If you find yourself writing logic such as storing previous ```MouseState``` or ```KeyboardState``` and comparing it to new states to detect stuff like key release, clicks, etc, you should take a look at this class.
 It has lots of useful functionality.
 
 
@@ -1601,7 +1601,7 @@ When upgrading from 1x version to 2x version, follow these steps:
 
 ## 2.0.2.1 -> 2.1.0.0
 
-When upgrading from 2.0.2.1 version to 2.1.0.0 version, the ```UserInterface``` class turns from static to an instance class, with ```UserInterface.Active``` always pointing at the currently active interface. 
+When upgrading from 2.0.2.1 version to 2.1.0.0 version, the ```UserInterface``` class turns from static to an instance class, with ```UserInterface.Active``` always pointing at the currently active interface.
 
 This means that everywhere you accessed ```UserInterface``` you should now access ```UserInterface.Active```.
 
@@ -1619,11 +1619,11 @@ GeonBit.UI is distributed under the MIT license, and is 100% free to use for any
 
 ## Contact
 
-For bug report, questions or feature requests, please use the [github Issues](https://github.com/RonenNess/GeonBit.UI/issues/) section.
+For bug report, questions or feature requests, please use the [GitHub Issues](https://github.com/RonenNess/GeonBit.UI/issues/) section.
 
 For anything else, feel free to contact me directly at [ronenness@gmail.com](mailto:ronenness@gmail.com).
 
-## ChangeLog
+## Change Log
 
 ### 1.0.0
 
@@ -1659,7 +1659,7 @@ Improvements and new features.
 - Added button custom skins.
 - Added option to change panel and buttons skins after creation.
 - Added Identifier to all entities + Find() functionality to locate children by identifier and / or type.
-- Added support in size percents (eg size that is certain percent of its parent size).
+- Added support in size percents (e.g. size that is certain percent of its parent size).
 - Added BringToFront() helper function.
 - New entity: PanelTabs.
 - Made all entities support Outline styling by default.
@@ -1753,7 +1753,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 
 ## Credits
 
-GeonBit.UI was written by Ronen Ness, but uses some free textures made by awesome people who share their work for free. 
+GeonBit.UI was written by Ronen Ness, but uses some free textures made by awesome people who share their work for free.
 Most of the graphics are by Michele Bucelli ("Buch"), from this OpenGameArt entry: http://opengameart.org/content/golden-ui.
 
 In addition, I used some icons from the following sources:
