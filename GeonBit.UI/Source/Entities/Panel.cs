@@ -260,6 +260,7 @@ namespace GeonBit.UI.Entities
                     // create scrollbar
                     _scrollbar = new VerticalScrollbar(0, 0, Anchor.TopRight);
                     _scrollbar.Padding = Vector2.Zero;
+                    _scrollbar.AdjustMaxAutomatically = true;
                     AddChild(_scrollbar);
                 }
             }
