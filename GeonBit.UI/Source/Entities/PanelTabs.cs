@@ -63,11 +63,20 @@ namespace GeonBit.UI.Entities
         /// <summary>A special internal panel to hold all the panels.</summary>
         private Panel _panelsPanel;
 
-        /// <summary>Internal panel that contains everything.</summary>
-        private Panel _internalPanel;
+        /// <summary>Internal panel that contains everything: panels + buttons.</summary>
+        private Panel _internalRoot;
 
         /// <summary>Currently active tab.</summary>
         TabData _activeTab = null;
+
+        /// <summary>
+        /// Optional panel skin to set as tabs background.
+        /// </summary>
+        public PanelSkin BackgroundSkin
+        {
+            get { return _panelsPanel.Skin; }
+            set { _panelsPanel.Skin = value; }
+        }
 
         /// <summary>
         /// Create the panel tabs.
@@ -80,20 +89,31 @@ namespace GeonBit.UI.Entities
             // remove self padding
             Padding = Vector2.Zero;
 
-            // create the internal panel that contains everything
-            _internalPanel = new Panel(Vector2.Zero, PanelSkin.None, Anchor.Center);
-            _internalPanel.Padding = Vector2.Zero;
-            AddChild(_internalPanel);
+            // create the internal panel that contains everything - buttons + panels
+            _internalRoot = new Panel(Vector2.Zero, PanelSkin.None, Anchor.TopCenter);
+            _internalRoot.SpaceBefore = _internalRoot.SpaceAfter = _internalRoot.Padding = Vector2.Zero;
+            AddChild(_internalRoot);
 
             // create the panel to hold the tab buttons
             _buttonsPanel = new Panel(Vector2.Zero, PanelSkin.None, Anchor.TopCenter);
             _buttonsPanel.SpaceBefore = _buttonsPanel.SpaceAfter = _buttonsPanel.Padding = Vector2.Zero;
-            _internalPanel.AddChild(_buttonsPanel);
+            _internalRoot.AddChild(_buttonsPanel);
 
             // create the panel to hold the tab panels
             _panelsPanel = new Panel(Vector2.Zero, PanelSkin.None, Anchor.TopCenter, new Vector2(0, 0));
             _panelsPanel.SpaceBefore = _panelsPanel.SpaceAfter = _panelsPanel.Padding = Vector2.Zero;
-            _internalPanel.AddChild(_panelsPanel);
+            _internalRoot.AddChild(_panelsPanel);
+        }
+
+        /// <summary>
+        /// Get the height of the buttons row.
+        /// </summary>
+        /// <param name="withGlobalScale">If true, will include global scale in return value. If false, will calculate without it.</param>
+        /// <returns>Height of button row.</returns>
+        private float GetButtonsHeight(bool withGlobalScale)
+        {
+            if (_tabs.Count == 0) return 0;
+            return (_tabs[0].button.GetActualDestRect().Height / (withGlobalScale ? 1f : UserInterface.Active.GlobalScale));
         }
 
         /// <summary>
@@ -103,14 +123,15 @@ namespace GeonBit.UI.Entities
         override protected void DrawEntity(SpriteBatch spriteBatch)
         {
             // negate parent's padding
-            _internalPanel.Padding = -Parent.Padding;
+            _internalRoot.Padding = -Parent.Padding;
 
             // recalculate the size of the panel containing the internal panels
-            if (_tabs.Count > 0)
-            {
-                float buttonsHeight = _tabs[0].button.GetActualDestRect().Height / UserInterface.Active.GlobalScale;
-                _buttonsPanel.SetOffset(new Vector2(0, -buttonsHeight));
-            }
+            float buttonsHeight = GetButtonsHeight(false);
+            _panelsPanel.SetOffset(new Vector2(0, buttonsHeight));
+
+            // adjust size
+            var parentSize = GetActualDestRect().Size;
+            _internalRoot.Size = new Vector2(parentSize.X, parentSize.Y - GetButtonsHeight(true)) / UserInterface.Active.GlobalScale;
 
             // call base draw function
             base.DrawEntity(spriteBatch);
@@ -142,36 +163,6 @@ namespace GeonBit.UI.Entities
 
             // tab not found?
             throw new System.Exception("Tab not found!");
-        }
-
-        /// <summary>
-        /// Calculate and return the destination rectangle, eg the space this entity is rendered on.
-        /// </summary>
-        /// <returns>Destination rectangle.</returns>
-        override public Rectangle CalcDestRect()
-        {
-            // call base calculate dest rect
-            Rectangle ret = base.CalcDestRect();
-
-            // make sure the panel tabs are not out of screen boundaries
-            if (_tabs.Count > 0)
-            {
-                // get first button
-                Button btn = _tabs[0].button;
-
-                // calculate button dest rect
-                Rectangle buttonRect = btn.GetActualDestRect();
-
-                // make sure there's enough room for panel buttons
-                if (ret.Y < buttonRect.Height)
-                {
-                    ret.Y += buttonRect.Height;
-                }
-            }
-
-            // return updated rectangle
-            _destRect = ret;
-            return ret;
         }
 
         /// <summary>
