@@ -688,12 +688,13 @@ Related to the cleric is the paladin, who is typically a Lawful Good[citation ne
             // example: panel tabs
             {
                 // create panel and add to list of panels and manager
-                Panel panel = new Panel(new Vector2(540, 440));
+                Panel panel = new Panel(new Vector2(540, 440), skin: PanelSkin.None);
                 panels.Add(panel);
                 UserInterface.Active.AddEntity(panel);
 
                 // create panel tabs
                 PanelTabs tabs = new PanelTabs();
+                tabs.BackgroundSkin = PanelSkin.Default;
                 panel.AddChild(tabs);
                 
                 // add first panel
