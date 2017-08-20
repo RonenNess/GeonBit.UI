@@ -1750,6 +1750,14 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Fixed bug with MulticolorParagraph shadow/outline and scaling.
 - Added new theme: editor.
 
+### 3.0.1.1
+
+- Removed redundant exception that caused warning on some compilers.
+- Made vertical scrollbar adjust max automatically by default.
+- Fixed vertical scrollbar with global scale.
+- Refactored panel tabs - fixed bugs and made cleaner code (note: this slightly change their behavior).
+- Optimized getting sorted children list - less garbage and sorting per frame.
+- Refactored panels with scrollbar implementation - fixed bugs and made cleaner code.
 
 ## Credits
 
