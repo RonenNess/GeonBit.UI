@@ -376,7 +376,7 @@ namespace GeonBit.UI
             // update root panel
             Entity target = null;
             bool wasEventHandled = false;
-            Root.Update(_input, ref target, ref _dragTarget, ref wasEventHandled);
+            Root.Update(_input, ref target, ref _dragTarget, ref wasEventHandled, Point.Zero);
 
             // set active entity
             if (_input.MouseButtonDown(MouseButton.Left))
