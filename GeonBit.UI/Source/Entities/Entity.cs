@@ -117,6 +117,12 @@ namespace GeonBit.UI.Entities
         // list of child elements
         private List<Entity> _children = new List<Entity>();
 
+        // list of sorted children
+        private List<Entity> _sortedChildren;
+
+        // do we need to update sorted children list?
+        internal bool _needToSortChildren = true;
+
         /// <summary>
         /// A special size used value to use when you want to get the entity default size.
         /// </summary>
@@ -177,10 +183,15 @@ namespace GeonBit.UI.Entities
         private StyleSheet _style = new StyleSheet();
 
         /// <summary>
+        /// Get overflow scrollbar value.
+        /// </summary>
+        protected virtual Point OverflowScrollVal { get { return Point.Zero; } }
+
+        /// <summary>
         /// Every time we update destination rect and internal destination rect view the update function, we increase this counter.
         /// This is so our children will know we did an update and they need to update too.
         /// </summary>
-        private uint _destRectVersion = 0;
+        internal uint _destRectVersion = 0;
 
         /// <summary>
         /// The last known version we have of the parent dest rect version.
@@ -366,9 +377,6 @@ namespace GeonBit.UI.Entities
                     // if not found climb up to parent
                     type = type.BaseType;
                 }
-
-                // should never get here
-                throw new System.Exception("Internal error in getting default size.");
             }
         }
 
@@ -827,15 +835,22 @@ namespace GeonBit.UI.Entities
         /// <returns>List of children sorted by priority.</returns>
         protected List<Entity> GetSortedChildren()
         {
-            // create list to sort and return
-            List<Entity> ret = new List<Entity>(_children);
+            // if need to sort children, rebuild the sorted list
+            if (_needToSortChildren)
+            {
+                // create list to sort and return
+                _sortedChildren = new List<Entity>(_children);
 
-            // get children in a sorted list
-            ret.Sort((x, y) =>
-                x.Priority.CompareTo(y.Priority));
+                // get children in a sorted list
+                _sortedChildren.Sort((x, y) =>
+                    x.Priority.CompareTo(y.Priority));
+
+                // no longer need to sort
+                _needToSortChildren = false;
+            }
 
             // return the sorted list
-            return ret;
+            return _sortedChildren;
         }
 
         /// <summary>
@@ -1105,6 +1120,9 @@ namespace GeonBit.UI.Entities
                 throw new System.Exception("Child element to add already got a parent!");
             }
 
+            // need to sort children
+            _needToSortChildren = true;
+
             // set inherit parent mode
             child.InheritParentState = inheritParentState;
 
@@ -1157,6 +1175,9 @@ namespace GeonBit.UI.Entities
                 throw new System.Exception("Child element to remove does not belong to this entity!");
             }
 
+            // need to sort children
+            _needToSortChildren = true;
+
             // set parent to null and remove
             child._parent = null;
             child._indexInParent = -1;
@@ -1196,7 +1217,7 @@ namespace GeonBit.UI.Entities
         /// Calculate and return the internal destination rectangle (note: this relay on the dest rect having a valid value first).
         /// </summary>
         /// <returns>Internal destination rectangle.</returns>
-        public Rectangle CalcInternalRect()
+        virtual public Rectangle CalcInternalRect()
         {
             // calculate the internal destination rect, eg after padding
             Vector2 padding = _scaledPadding;
@@ -1671,13 +1692,14 @@ namespace GeonBit.UI.Entities
         /// <param name="targetEntity">The deepest child entity with highest priority that we point on and can be interacted with.</param>
         /// <param name="dragTargetEntity">The deepest child dragable entity with highest priority that we point on and can be drag if mouse down.</param>
         /// <param name="wasEventHandled">Set to true if current event was already handled by a deeper child.</param>
-        virtual protected void UpdateChildren(InputHelper input, ref Entity targetEntity, ref Entity dragTargetEntity, ref bool wasEventHandled)
+        /// <param name="scrollVal">Combined scrolling value (panels with scrollbar etc) of all parents.</param>
+        virtual protected void UpdateChildren(InputHelper input, ref Entity targetEntity, ref Entity dragTargetEntity, ref bool wasEventHandled, Point scrollVal)
         {
             // update all children (note: we go in reverse order so that entities on front will receive events before entites on back.
             List<Entity> childrenSorted = GetSortedChildren();
             for (int i = childrenSorted.Count - 1; i >= 0; i--)
             {
-                childrenSorted[i].Update(input, ref targetEntity, ref dragTargetEntity, ref wasEventHandled);
+                childrenSorted[i].Update(input, ref targetEntity, ref dragTargetEntity, ref wasEventHandled, scrollVal);
             }
         }
 
@@ -1688,7 +1710,8 @@ namespace GeonBit.UI.Entities
         /// <param name="targetEntity">The deepest child entity with highest priority that we point on and can be interacted with.</param>
         /// <param name="dragTargetEntity">The deepest child dragable entity with highest priority that we point on and can be drag if mouse down.</param>
         /// <param name="wasEventHandled">Set to true if current event was already handled by a deeper child.</param>
-        virtual public void Update(InputHelper input, ref Entity targetEntity, ref Entity dragTargetEntity, ref bool wasEventHandled)
+        /// <param name="scrollVal">Combined scrolling value (panels with scrollbar etc) of all parents.</param>
+        virtual public void Update(InputHelper input, ref Entity targetEntity, ref Entity dragTargetEntity, ref bool wasEventHandled, Point scrollVal)
         {
             // check if should invoke the spawn effect
             if (_isFirstUpdate)
@@ -1707,6 +1730,16 @@ namespace GeonBit.UI.Entities
                 return;
             }
 
+            // get mouse position
+            Vector2 mousePos = input.MousePosition;
+
+            // apply scrolling
+            mousePos.X += scrollVal.X;
+            mousePos.Y += scrollVal.Y;
+
+            // add out scroll value to combined scroll val
+            scrollVal += OverflowScrollVal;
+
             // get if disabled
             _isCurrentlyDisabled = IsDisabled();
 
@@ -1721,7 +1754,7 @@ namespace GeonBit.UI.Entities
                     {
                         if (_children[i].DoEventsIfDirectParentIsLocked)
                         {
-                            _children[i].Update(input, ref targetEntity, ref dragTargetEntity, ref wasEventHandled);
+                            _children[i].Update(input, ref targetEntity, ref dragTargetEntity, ref wasEventHandled, scrollVal);
                         }
                     }
                 }
@@ -1751,7 +1784,7 @@ namespace GeonBit.UI.Entities
             // if click-through is true, update children and stop here
             if (ClickThrough)
             {
-                UpdateChildren(input, ref targetEntity, ref dragTargetEntity, ref wasEventHandled);
+                UpdateChildren(input, ref targetEntity, ref dragTargetEntity, ref wasEventHandled, scrollVal);
                 return;
             }
 
@@ -1764,9 +1797,6 @@ namespace GeonBit.UI.Entities
 
             // do before update event
             DoBeforeUpdate(input);
-
-            // get mouse position
-            Vector2 mousePos = input.MousePosition;
 
             // store previous state
             EntityState prevState = _entityState;
@@ -1819,7 +1849,7 @@ namespace GeonBit.UI.Entities
             // STEP 2: NOW WE CALL ALL CHILDREN'S UPDATE
 
             // update all children
-            UpdateChildren(input, ref targetEntity, ref dragTargetEntity, ref wasEventHandled);
+            UpdateChildren(input, ref targetEntity, ref dragTargetEntity, ref wasEventHandled, scrollVal);
 
             // check dragging after children so that the most nested entity gets priority
             if ((_draggable || IsNaturallyInteractable()) && dragTargetEntity == null && _isMouseOver && input.MouseButtonPressed(MouseButton.Left))

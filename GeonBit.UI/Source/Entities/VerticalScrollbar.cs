@@ -177,8 +177,8 @@ namespace GeonBit.UI.Entities
                     newMax = System.Math.Max(newMax, currNewMax);
                 }
 
-                // remove parent size from result
-                newMax -= Parent.InternalDestRect.Height;
+                // remove parent size from result (the -4 is to give extra pixels down)
+                newMax -= Parent.InternalDestRect.Height - 4;
                 newMax = System.Math.Max(newMax, 0);
 
                 // set new max value

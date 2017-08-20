@@ -108,6 +108,11 @@ namespace GeonBit.UI.Entities
         protected RenderTarget2D _renderTarget = null;
 
         /// <summary>
+        /// Get overflow scrollbar value.
+        /// </summary>
+        protected override Point OverflowScrollVal { get { return _scrollbar == null ? Point.Zero : new Point(0, _scrollbar.Value); } }
+
+        /// <summary>
         /// Store the original destination rectangle if changing due to render target.
         /// </summary>
         private Rectangle _originalInternalDestRect;
@@ -136,6 +141,17 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Get the rectangle used for target texture for this panel.
+        /// </summary>
+        /// <returns>Destination rect for target texture.</returns>
+        private Rectangle GetRenderTargetRect()
+        {
+            Rectangle ret = _destRectInternal;
+            ret.Width += GetScrollbarWidth() * 2;
+            return ret;
+        }
+
+        /// <summary>
         /// Called before drawing child entities of this entity.
         /// </summary>
         /// <param name="spriteBatch">SpriteBatch used to draw entities.</param>
@@ -149,13 +165,14 @@ namespace GeonBit.UI.Entities
             }
 
             // create the render target for this panel
+            Rectangle targetRect = GetRenderTargetRect();
             if (_renderTarget == null || 
-                _renderTarget.Width != _destRectInternal.Width || 
-                _renderTarget.Height != _destRectInternal.Height)
+                _renderTarget.Width != targetRect.Width || 
+                _renderTarget.Height != targetRect.Height)
             {
                 if (_renderTarget != null) { _renderTarget.Dispose(); }
                 _renderTarget = new RenderTarget2D(spriteBatch.GraphicsDevice,
-                    _destRectInternal.Width, _destRectInternal.Height, false,
+                    targetRect.Width, targetRect.Height, false,
                     spriteBatch.GraphicsDevice.PresentationParameters.BackBufferFormat,
                     spriteBatch.GraphicsDevice.PresentationParameters.DepthStencilFormat, 0,
                     RenderTargetUsage.PreserveContents);
@@ -182,7 +199,9 @@ namespace GeonBit.UI.Entities
                 _destRectInternal.Y -= _scrollbar.Value;
 
                 // update scrollbar position
-                _scrollbar.SetOffset(new Vector2(-_scrollbar.GetActualDestRect().Width, -_destRectInternal.Y));
+                _scrollbar.SetAnchor(Anchor.CenterLeft);
+                _scrollbar.SetOffset(new Vector2(_destRectInternal.Width + 5, -_destRectInternal.Y) 
+                    / GeonBit.UI.UserInterface.Active.GlobalScale);
                 if (_scrollbar.Parent != null)
                 {
                     _scrollbar.BringToFront();
@@ -190,14 +209,31 @@ namespace GeonBit.UI.Entities
                 else
                 {
                     AddChild(_scrollbar);
-                }
-
-                // adjust internal rect width
-                _destRectInternal.Width -= _scrollbar.GetActualDestRect().Width;
+                }           
             }
 
             // to make sure the dest rect will not be recalculated while drawing children
             ClearDirtyFlag(true);
+        }
+
+        /// <summary>
+        /// Calculate and return the internal destination rectangle (note: this relay on the dest rect having a valid value first).
+        /// </summary>
+        /// <returns>Internal destination rectangle.</returns>
+        override public Rectangle CalcInternalRect()
+        {
+            base.CalcInternalRect();
+            _destRectInternal.Width -= GetScrollbarWidth();
+            return _destRectInternal;
+        }
+
+        /// <summary>
+        /// Get scrollbar width in pixels.
+        /// </summary>
+        /// <returns>Scrollbar width, or 0 if have no scrollbar.</returns>
+        private int GetScrollbarWidth()
+        {
+            return _scrollbar != null ? _scrollbar.GetActualDestRect().Width : 0;
         }
 
         /// <summary>
@@ -212,28 +248,19 @@ namespace GeonBit.UI.Entities
                 return;
             }
 
+            // return dest rect back to normal
+            _destRectInternal = _originalInternalDestRect;
+            _destRectVersion++;
+
             // if this panel got a render target
             if (_renderTarget != null)
             {
                 // unbind the render target
                 UserInterface.Active.DrawUtils.PopRenderTarget();
-
-                // fix children's dest rect for the update loop
-                foreach (Entity child in GetChildren())
-                {
-                    if (child != _scrollbar)
-                    {
-                        child._destRect.X += _originalInternalDestRect.X;
-                        child._destRect.Y += _originalInternalDestRect.Y;
-                    }
-                }
-
-                // restore internal dest rect
-                _destRectInternal = _originalInternalDestRect;
-
+                
                 // draw the render target itself
                 UserInterface.Active.DrawUtils.StartDraw(spriteBatch, IsDisabled());
-                spriteBatch.Draw(_renderTarget, _destRectInternal, Color.White);
+                spriteBatch.Draw(_renderTarget, GetRenderTargetRect(), Color.White);
                 UserInterface.Active.DrawUtils.EndDraw(spriteBatch);
 
                 // fix scrollbar positioning etc
@@ -258,9 +285,15 @@ namespace GeonBit.UI.Entities
                 if (_scrollbar == null)
                 {
                     // create scrollbar
-                    _scrollbar = new VerticalScrollbar(0, 0, Anchor.TopRight);
-                    _scrollbar.Padding = Vector2.Zero;
+                    _scrollbar = new VerticalScrollbar(0, 0, Anchor.TopRight)
+                    {
+                        Padding = Vector2.Zero,
+                        AdjustMaxAutomatically = true,
+                        Identifier = "scrollbar"
+                    };
+                    bool prev_needToSortChildren = _needToSortChildren;
                     AddChild(_scrollbar);
+                    _needToSortChildren = prev_needToSortChildren;
                 }
             }
         }
@@ -294,21 +327,39 @@ namespace GeonBit.UI.Entities
         /// <param name="targetEntity">The deepest child entity with highest priority that we point on and can be interacted with.</param>
         /// <param name="dragTargetEntity">The deepest child dragable entity with highest priority that we point on and can be drag if mouse down.</param>
         /// <param name="wasEventHandled">Set to true if current event was already handled by a deeper child.</param>
-        override protected void UpdateChildren(InputHelper input, ref Entity targetEntity, ref Entity dragTargetEntity, ref bool wasEventHandled)
+        /// <param name="scrollVal">Combined scrolling value (panels with scrollbar etc) of all parents.</param>
+        override protected void UpdateChildren(InputHelper input, ref Entity targetEntity, ref Entity dragTargetEntity, ref bool wasEventHandled, Point scrollVal)
         {
             // if not in overflow mode and mouse not on this panel boundaries, skip calling children
+            bool skipChildren = false;
             if (_overflowMode != PanelOverflowBehavior.Overflow)
             {
                 Vector2 mousePos = input.MousePosition;
                 if (mousePos.X < _destRectInternal.Left || mousePos.X > _destRectInternal.Right ||
                     mousePos.Y < _destRectInternal.Top || mousePos.Y > _destRectInternal.Bottom)
                 {
-                    return;
+                    skipChildren = true;
                 }
             }
 
+            // before updating children, disable scrollbar
+            if (_scrollbar != null)
+            {
+                _scrollbar.Disabled = true;
+            }
+
             // call base update children function
-            base.UpdateChildren(input, ref targetEntity, ref dragTargetEntity, ref wasEventHandled);
+            if (!skipChildren)
+            {
+                base.UpdateChildren(input, ref targetEntity, ref dragTargetEntity, ref wasEventHandled, scrollVal);
+            }
+
+            // re-enable scrollbar and update it
+            if (_scrollbar != null)
+            {
+                _scrollbar.Disabled = false;
+                _scrollbar.Update(input, ref targetEntity, ref dragTargetEntity, ref wasEventHandled, scrollVal - OverflowScrollVal);
+            }
         }
     }
 }

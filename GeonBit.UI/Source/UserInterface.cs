@@ -85,7 +85,7 @@ namespace GeonBit.UI
     public class UserInterface
     {
         /// <summary>Current GeonBit.UI version identifier.</summary>
-        public const string VERSION = "3.0.0.1";
+        public const string VERSION = "3.0.1.1";
 
         /// <summary>
         /// The currently active user interface instance.
@@ -376,7 +376,7 @@ namespace GeonBit.UI
             // update root panel
             Entity target = null;
             bool wasEventHandled = false;
-            Root.Update(_input, ref target, ref _dragTarget, ref wasEventHandled);
+            Root.Update(_input, ref target, ref _dragTarget, ref wasEventHandled, Point.Zero);
 
             // set active entity
             if (_input.MouseButtonDown(MouseButton.Left))
