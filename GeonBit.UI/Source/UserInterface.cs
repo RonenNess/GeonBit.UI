@@ -141,6 +141,16 @@ namespace GeonBit.UI
         /// </summary>
         public RootPanel Root { get; private set; }
 
+        /// <summary>
+        /// Blend state to use when rendering UI.
+        /// </summary>
+        public BlendState BlendState = BlendState.AlphaBlend;
+
+        /// <summary>
+        /// Sampler state to use when rendering UI.
+        /// </summary>
+        public SamplerState SamplerState = SamplerState.PointClamp;
+
         // the entity currently being dragged
         Entity _dragTarget;
 
@@ -316,7 +326,7 @@ namespace GeonBit.UI
         private void DrawCursor(SpriteBatch spriteBatch)
         {
             // start drawing for cursor
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState, SamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise);
 
             // calculate cursor size
             float cursorSize = CursorScale * GlobalScale * ((float)_cursorWidth / (float)_cursorTexture.Width);

@@ -89,6 +89,18 @@ namespace GeonBit.UI
         }
 
         /// <summary>
+        /// Set default color value and fix alpha in given color.
+        /// </summary>
+        /// <param name="color">Color to process.</param>
+        /// <returns>Color if provided or default color, with alpha applied.</returns>
+        protected virtual Color FixColor(Color? color)
+        {
+            color = color ?? Color.White;
+            color = color.Value * ((float)color.Value.A / 255.0f);
+            return color.Value;
+        }
+
+        /// <summary>
         /// Draw a simple image with texture and destination rectangle.
         /// This function will stretch the texture to fit the destination rect.
         /// </summary>
@@ -101,7 +113,7 @@ namespace GeonBit.UI
         public virtual void DrawImage(SpriteBatch spriteBatch, Texture2D texture, Rectangle destination, Color? color = null, float scale = 1f, Rectangle? sourceRect = null)
         {
             // default color
-            color = color ?? Color.White;
+            color = FixColor(color);
 
             // get source rectangle
             Rectangle src = sourceRect ?? new Rectangle(0, 0, texture.Width, texture.Height);
@@ -127,8 +139,8 @@ namespace GeonBit.UI
         public virtual void DrawSurface(SpriteBatch spriteBatch, Texture2D texture, Rectangle destination, Vector2 textureFrameWidth, float scale = 1f, Color? color = null, float frameScale = 1f)
         {
             // default color
-            color = color ?? Color.White;
-            
+            color = FixColor(color);
+
             // if frame width Y is 0, use DrawSurfaceHorizontal()
             if (textureFrameWidth.Y == 0)
             {
@@ -361,7 +373,7 @@ namespace GeonBit.UI
         public virtual void DrawSurfaceHorizontal(SpriteBatch spriteBatch, Texture2D texture, Rectangle destination, float frameWidth, Color? color = null, float frameScale = 1f)
         {
             // default color
-            color = color ?? Color.White;
+            color = FixColor(color);
 
             // calc frame size in texture file (Src) and in destination render rect (Dest)
             float ScaleXfac = (float)destination.Height / (float)texture.Height;
@@ -444,7 +456,7 @@ namespace GeonBit.UI
         public virtual void DrawSurfaceVertical(SpriteBatch spriteBatch, Texture2D texture, Rectangle destination, float frameWidth, Color? color = null, float frameScale = 1f)
         {
             // default color
-            color = color ?? Color.White;
+            color = FixColor(color);
 
             // calc frame size in texture file (Src) and in destination render rect (Dest)
             float ScaleYfac = (float)destination.Width / (float)texture.Width;
@@ -523,7 +535,7 @@ namespace GeonBit.UI
         public virtual void StartDraw(SpriteBatch spriteBatch, bool isDisabled)
         {
             // start drawing
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp,
+            spriteBatch.Begin(SpriteSortMode.Deferred, UserInterface.Active.BlendState, UserInterface.Active.SamplerState,
                 DepthStencilState.None, RasterizerState.CullCounterClockwise,
                 isDisabled ? Resources.DisabledEffect : null);
 
@@ -538,7 +550,7 @@ namespace GeonBit.UI
         public virtual void StartDrawSilhouette(SpriteBatch spriteBatch)
         {
             // start drawing silhouette
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp,
+            spriteBatch.Begin(SpriteSortMode.Deferred, UserInterface.Active.BlendState, UserInterface.Active.SamplerState,
                 DepthStencilState.None, RasterizerState.CullCounterClockwise, Resources.SilhouetteEffect);
 
             // update drawing target
