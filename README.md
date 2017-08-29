@@ -389,6 +389,8 @@ Most entities have a default size so you don't need to set it. However, there ar
 
 So if for example you set an entity size of (0, -1), it means the entity will have its default height with width of 100% of its parent width (minus the padding, which are explained next).
 
+Note: Entities may behave unexpectedly and won't render correctly if set to a size too small for them.
+
 ### Padding
 
 Padding (in pixels) to position child entities inside this entity.
