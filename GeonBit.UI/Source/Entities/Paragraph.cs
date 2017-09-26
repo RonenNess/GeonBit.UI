@@ -431,10 +431,10 @@ namespace GeonBit.UI.Entities
             }
 
             // set actual height
-            _actualDestRect.X = (int)_position.X;
-            _actualDestRect.Y = (int)_position.Y;
-            _actualDestRect.Width = (int)((_fontOrigin.X + size.X) * _actualScale);
-            _actualDestRect.Height = (int)((_fontOrigin.Y + size.Y) * _actualScale);
+            _actualDestRect.X = (int)_position.X - (int)(_fontOrigin.X * _actualScale);
+            _actualDestRect.Y = (int)_position.Y - (int)(_fontOrigin.Y * _actualScale);
+            _actualDestRect.Width = (int)((size.X) * _actualScale);
+            _actualDestRect.Height = (int)((size.Y) * _actualScale);
         }
 
         /// <summary>
