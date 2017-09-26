@@ -64,6 +64,7 @@ namespace GeonBit.UI.Entities
 
             // the caption is just a label centered on the progress bar itself
             Caption = new Label(string.Empty, Anchor.Center);
+            Caption.ClickThrough = true;
             AddChild(Caption);
         }
 
