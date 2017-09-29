@@ -1768,6 +1768,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Changed progressbar label to be click-through by default, to make sure the progressbar can be dragged if not locked.
 - Fixed paragraphs that are not left-aligned click and mouse-over detection.
 - Fixed combobox and radio buttons label positioning with global scaling.
+- Fixed mouse position on first frame of a new User Interface.
 
 ## Credits
 

@@ -101,6 +101,9 @@ namespace GeonBit.UI
             // init mouse states
             _newMouseState = _oldMouseState;
             _newMousePos = new Vector2(_newMouseState.X, _newMouseState.Y);
+
+            // call first update to get starting positions
+            Update(new GameTime());
         }
 
         /// <summary>
