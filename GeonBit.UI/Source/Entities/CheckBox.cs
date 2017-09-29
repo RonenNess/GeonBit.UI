@@ -59,6 +59,7 @@ namespace GeonBit.UI.Entities
             // create and set checkbox paragraph
             TextParagraph = UserInterface.DefaultParagraph(text, Anchor.CenterLeft);
             TextParagraph.UpdateStyle(DefaultParagraphStyle);
+            TextParagraph.SetOffset(new Vector2(25, 0));
             AddChild(TextParagraph, true);
 
             // checkboxes are promiscuous by default.
@@ -109,9 +110,6 @@ namespace GeonBit.UI.Entities
 
             // calculate actual size
             Vector2 actualSize = CHECKBOX_SIZE * UserInterface.Active.GlobalScale;
-
-            // update internal dest rect to adjust text position
-            _destRectInternal.X += (int)(actualSize.X * 0.75f);
 
             // dest rect
             Rectangle dest = new Rectangle(_destRect.X,
