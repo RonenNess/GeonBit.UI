@@ -1761,6 +1761,14 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Optimized getting sorted children list - less garbage and sorting per frame.
 - Refactored panels with scrollbar implementation - fixed bugs and made cleaner code.
 
+## 3.0.1.2
+
+- Fixed opacity bug.
+- Added finer control over blending mode and sampler state.
+- Changed progressbar label to be click-through by default, to make sure the progressbar can be dragged if not locked.
+- Fixed paragraphs that are not left-aligned click and mouse-over detection.
+- Fixed combobox and radio buttons label positioning with global scaling.
+
 ## Credits
 
 GeonBit.UI was written by Ronen Ness, but uses some free textures made by awesome people who share their work for free.
