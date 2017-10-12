@@ -223,7 +223,7 @@ namespace GeonBit.UI.Entities
             if (outlineWidth > 0)
             {
                 // get outline color
-                Color outlineColor = OutlineColor;
+                Color outlineColor = UserInterface.Active.DrawUtils.FixColorOpacity(OutlineColor);
 
                 // for not-too-thick outline we render just two corners
                 if (outlineWidth <= MaxOutlineWidthToOptimize)
@@ -280,7 +280,9 @@ namespace GeonBit.UI.Entities
                         oCurrentPosition.X += oCharacterSize.X;
                     }
 
-                    spriteBatch.DrawString(_currFont, cCharacter.ToString(), oCurrentPosition, oColor, 0, _fontOrigin, _actualScale, SpriteEffects.None, 0.5f);
+                    // fix color opacity and draw
+                    Color fillCol = UserInterface.Active.DrawUtils.FixColorOpacity(oColor);
+                    spriteBatch.DrawString(_currFont, cCharacter.ToString(), oCurrentPosition, fillCol, 0, _fontOrigin, _actualScale, SpriteEffects.None, 0.5f);
                 }
             }
             // if there are no color-changing instructions, just draw the paragraph as-is

@@ -458,7 +458,7 @@ namespace GeonBit.UI.Entities
             if (outlineWidth > 0)
             {
                 // get outline color
-                Color outlineColor = OutlineColor;
+                Color outlineColor = UserInterface.Active.DrawUtils.FixColorOpacity(OutlineColor);
 
                 // for not-too-thick outline we render just two corners
                 if (outlineWidth <= MaxOutlineWidthToOptimize)
@@ -482,8 +482,11 @@ namespace GeonBit.UI.Entities
                 }
             }
 
+            // get fill color
+            Color fillCol = UserInterface.Active.DrawUtils.FixColorOpacity(FillColor);
+
             // draw text itself
-            spriteBatch.DrawString(_currFont, _processedText, _position, FillColor,
+            spriteBatch.DrawString(_currFont, _processedText, _position, fillCol,
                 0, _fontOrigin, _actualScale, SpriteEffects.None, 0.5f);
 
             // call base draw function

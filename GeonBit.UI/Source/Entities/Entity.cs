@@ -632,6 +632,23 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Entity outline color opacity - this is just a sugarcoat to access the default outline color alpha style property.
+        /// </summary>
+        public byte OutlineOpacity
+        {
+            set
+            {
+                Color col = OutlineColor;
+                col.A = value;
+                SetStyleProperty(StylePropertyIds.OutlineColor, new StyleProperty(col), markAsDirty: false);
+            }
+            get
+            {
+                return OutlineColor.A;
+            }
+        }
+
+        /// <summary>
         /// Entity padding - this is just a sugarcoat to access the default padding style property.
         /// </summary>
         public Vector2 Padding
