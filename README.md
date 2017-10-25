@@ -1770,6 +1770,12 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Fixed combobox and radio buttons label positioning with global scaling.
 - Fixed mouse position on first frame of a new User Interface.
 
+## 3.0.1.3
+
+- Added outline opacity property.
+- Added some text validators.
+- Improved existing text validators efficiency + added support in spaces / no spaces. 
+
 ## Credits
 
 GeonBit.UI was written by Ronen Ness, but uses some free textures made by awesome people who share their work for free.

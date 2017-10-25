@@ -1034,14 +1034,16 @@ Click on 'Next' to see the character creation demo."));
                     // first name
                     TextInput firstName = new TextInput(false, new Vector2(0.4f, -1), anchor: Anchor.Auto);
                     firstName.PlaceholderText = "Name";
-                    firstName.Validators.Add(new TextValidatorEnglishCharsOnly());
+                    firstName.Validators.Add(new TextValidatorEnglishCharsOnly(true));
+                    firstName.Validators.Add(new OnlySingleSpaces());
                     firstName.Validators.Add(new TextValidatorMakeTitle());
                     entitiesGroup.AddChild(firstName);
 
                     // last name
                     TextInput lastName = new TextInput(false, new Vector2(0.4f, -1), anchor: Anchor.AutoInline);
                     lastName.PlaceholderText = "Surname";
-                    lastName.Validators.Add(new TextValidatorEnglishCharsOnly());
+                    lastName.Validators.Add(new TextValidatorEnglishCharsOnly(true));
+                    lastName.Validators.Add(new OnlySingleSpaces());
                     lastName.Validators.Add(new TextValidatorMakeTitle());
                     entitiesGroup.AddChild(lastName);
 
