@@ -1434,6 +1434,12 @@ If true, will limit input-length to fit in TextInput physical size. This propert
 
 List of input validators / post-processors, to add special rules and limitations on this text input. For example, if you want English-only text, or numeric input only, etc.
 
+For example, the following will attach slug validator to a text input:
+
+```cs
+textInput.Validators.Add(new GeonBit.UI.Entities.TextValidators.SlugValidator());
+```
+
 To learn more about validators, see the docs: [TextValidators]( https://ronenness.github.io/GeonBit.UI-docs/html/N_GeonBit_UI_Entities_TextValidators.htm ).
 
 #### PlaceholderText
@@ -1775,6 +1781,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Added outline opacity property.
 - Added some text validators.
 - Improved existing text validators efficiency + added support in spaces / no spaces. 
+- Added utility to generate message boxes.
 
 ## Credits
 

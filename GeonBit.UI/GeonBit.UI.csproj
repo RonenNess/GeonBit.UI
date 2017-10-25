@@ -78,6 +78,7 @@
     <Compile Include="Source\InputHelper.cs" />
     <Compile Include="Source\Resources.cs" />
     <Compile Include="Source\UserInterface.cs" />
+    <Compile Include="Source\Utils\MessageBox.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

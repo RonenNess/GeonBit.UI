@@ -734,6 +734,58 @@ Maybe something interesting in tab3?"));
                     }
                 }
 
+                // example: messages
+                {
+                    // create panel and add to list of panels and manager
+                    Panel panel = new Panel(new Vector2(450, 560));
+                    panels.Add(panel);
+                    UserInterface.Active.AddEntity(panel);
+
+                    // add title and text
+                    panel.AddChild(new Header("Message Box"));
+                    panel.AddChild(new HorizontalLine());
+                    panel.AddChild(new Paragraph("GeonBit.UI comes with a utility to create simple message boxes:"));
+
+                    // button to create simple message box
+                    {
+                        var btn = new Button("Show Simple Message", ButtonSkin.Default);
+                        btn.OnClick += (Entities.Entity entity) =>
+                        {
+                            Utils.MessageBox.ShowMsgBox("Hello World!", "This is a simple message box. It doesn't say much, really.");
+                        };
+                        panel.AddChild(btn);
+                    }
+
+                    // button to create message box with custombuttons
+                    panel.AddChild(new Paragraph("Or you can create custom message and buttons:"));
+                    {
+                        var btn = new Button("Show Custom Message", ButtonSkin.Default);
+                        btn.OnClick += (Entities.Entity entity) =>
+                        {
+                            Utils.MessageBox.ShowMsgBox("Custom Message!", "In this message there are two custom buttons.\n\nYou can set different actions per button. For example, click on 'Surprise' and see what happens!", new Utils.MessageBox.MsgBoxOption[] {
+                                new Utils.MessageBox.MsgBoxOption("Close", () => { return true; }),
+                                new Utils.MessageBox.MsgBoxOption("Surprise", () => { Utils.MessageBox.ShowMsgBox("Files Removed Successfully", "Win32 was successfully removed from this computer. Please restart to complete OS destruction.\n\n(Just kidding!)"); return true; })
+                                });
+                        };
+                        panel.AddChild(btn);
+                    }
+
+                    // button to create message with extras
+                    panel.AddChild(new Paragraph("And you can also add extra entities to the message box:"));
+                    {
+                        var btn = new Button("Message With Extras", ButtonSkin.Default);
+                        btn.OnClick += (Entities.Entity entity) =>
+                        {
+                            var textInput = new TextInput(false);
+                            textInput.PlaceholderText = "Enter your name";
+                            Utils.MessageBox.ShowMsgBox("Message With Extra!", "In this message box we attached an extra entity from outside (a simple text input).\n\nPretty neat, huh?", new Utils.MessageBox.MsgBoxOption[] {
+                                new Utils.MessageBox.MsgBoxOption("Close", () => { return true; }),
+                                }, new Entity[] { textInput });
+                        };
+                        panel.AddChild(btn);
+                    }
+                }
+
                 // example: disabled
                 {
                     // create panel and add to list of panels and manager
