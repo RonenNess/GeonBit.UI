@@ -12,6 +12,14 @@ using Microsoft.Xna.Framework;
 namespace GeonBit.UI.Utils
 {
     /// <summary>
+    /// GeonBit.UI.Utils contain different utilities and helper classes to use GeonBit.UI.
+    /// </summary>
+    [System.Runtime.CompilerServices.CompilerGenerated]
+    class NamespaceDoc
+    {
+    }
+
+    /// <summary>
     /// Helper class to generate message boxes and prompts.
     /// </summary>
     public static class MessageBox
