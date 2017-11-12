@@ -1783,6 +1783,12 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Improved existing text validators efficiency + added support in spaces / no spaces. 
 - Added utility to generate message boxes.
 
+## 3.0.1.4
+
+- Added silent exceptions mode.
+- Added custom exceptions for different cases.
+- Renamed DropDown.cs file.
+
 ## Credits
 
 GeonBit.UI was written by Ronen Ness, but uses some free textures made by awesome people who share their work for free.

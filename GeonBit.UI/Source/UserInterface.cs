@@ -85,7 +85,7 @@ namespace GeonBit.UI
     public class UserInterface
     {
         /// <summary>Current GeonBit.UI version identifier.</summary>
-        public const string VERSION = "3.0.1.3";
+        public const string VERSION = "3.0.1.4";
 
         /// <summary>
         /// The currently active user interface instance.
