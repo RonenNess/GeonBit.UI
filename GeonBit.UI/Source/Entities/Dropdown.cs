@@ -205,7 +205,10 @@ namespace GeonBit.UI.Entities
         {
 
             // get if the list is visible
-            get {return _selectList.Visible;}
+            get
+            {
+                return _selectList.Visible;
+            }
 
             // show / hide the list
             set
