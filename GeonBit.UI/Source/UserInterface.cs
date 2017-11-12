@@ -242,6 +242,9 @@ namespace GeonBit.UI
         /// <summary>Callback to execute every time a new entity is spawned (note: spawn = first time Update() is called on this entity).</summary>
         public EventCallback OnEntitySpawn = null;
 
+        /// <summary>Callback to execute every time an entity focus changes.</summary>
+        public EventCallback OnFocusChange = null;
+
         // cursor draw settings
         Texture2D _cursorTexture = null;
         int _cursorWidth = 32;

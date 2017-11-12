@@ -37,6 +37,11 @@ namespace GeonBit.UI.Entities
         // scrollbar to use if text height exceed the input box size
         VerticalScrollbar _scrollbar;
 
+        /// <summary>
+        /// If provided, will automatically put this value whenever the user leave the input box and its empty.
+        /// </summary>
+        public string ValueWhenEmpty = null;
+
         // current caret animation step
         float _caretAnim = 0f;
 
@@ -494,6 +499,21 @@ namespace GeonBit.UI.Entities
 
             // call base do-before-update
             base.DoBeforeUpdate(input);
+        }
+
+        /// <summary>
+        /// Called every time this entity is focused / unfocused.
+        /// </summary>
+        override protected void DoOnFocusChange()
+        {
+            // call base on focus change
+            base.DoOnFocusChange();
+            
+            // check if need to set default value
+            if (ValueWhenEmpty != null && Value.Length == 0)
+            {
+                Value = ValueWhenEmpty;
+            }
         }
     }
 }

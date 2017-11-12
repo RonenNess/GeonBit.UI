@@ -283,6 +283,9 @@ namespace GeonBit.UI.Entities
         /// <summary>Callback to execute every time the visibility of this entity changes (also invokes when parent becomes invisible / visible again).</summary>
         public EventCallback OnVisiblityChange = null;
 
+        /// <summary>Callback to execute every time this entity focus / unfocus.</summary>
+        public EventCallback OnFocusChange = null;
+
         /// <summary>Is mouse currently pointing on this entity.</summary>
         protected bool _isMouseOver = false;
 
@@ -301,8 +304,28 @@ namespace GeonBit.UI.Entities
         /// <summary>Current entity state.</summary>
         protected EntityState _entityState = EntityState.Default;
 
+        // is this entity currently focused?
+        bool _isFocused = false;
+
         /// <summary>Does this entity or one of its children currently focused?</summary>
-        public bool IsFocused = false;
+        public bool IsFocused
+        {
+            // get if focused
+            get
+            {
+                return _isFocused;
+            }
+
+            // set if focused
+            set
+            {
+                if (_isFocused != value)
+                {
+                    _isFocused = value;
+                    DoOnFocusChange();
+                }
+            }
+        }
 
         /// <summary>Currently calculated destination rect (eg the region this entity is drawn on).</summary>
         internal Rectangle _destRect;
@@ -1659,6 +1682,15 @@ namespace GeonBit.UI.Entities
         {
             BeforeUpdate?.Invoke(this);
             UserInterface.Active.BeforeUpdate?.Invoke(this);
+        }
+
+        /// <summary>
+        /// Called every time this entity is focused / unfocused.
+        /// </summary>
+        virtual protected void DoOnFocusChange()
+        {
+            OnFocusChange?.Invoke(this);
+            UserInterface.Active.OnFocusChange?.Invoke(this);
         }
 
         /// <summary>

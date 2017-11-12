@@ -172,6 +172,7 @@ namespace GeonBit.UI.Example
             UserInterface.Active.OnMouseWheelScroll = (Entity entity) => { eventsLog.AddItem("Scroll: " + entity.GetType().Name); eventsLog.scrollToEnd(); };
             UserInterface.Active.OnStartDrag = (Entity entity) => { eventsLog.AddItem("StartDrag: " + entity.GetType().Name); eventsLog.scrollToEnd(); };
             UserInterface.Active.OnStopDrag = (Entity entity) => { eventsLog.AddItem("StopDrag: " + entity.GetType().Name); eventsLog.scrollToEnd(); };
+            UserInterface.Active.OnFocusChange = (Entity entity) => { eventsLog.AddItem("FocusChange: " + entity.GetType().Name); eventsLog.scrollToEnd(); };
             UserInterface.Active.OnValueChange = (Entity entity) => { if (entity.Parent == eventsLog) { return; } eventsLog.AddItem("ValueChanged: " + entity.GetType().Name); eventsLog.scrollToEnd(); };
 
             // clear the current events after every frame they were drawn
@@ -1110,6 +1111,7 @@ Click on 'Next' to see the character creation demo."));
                     TextInput age = new TextInput(false, new Vector2(0.2f, -1), anchor: Anchor.AutoInline);
                     age.Validators.Add(new TextValidatorNumbersOnly(false, 0, 80));
                     age.Value = "20";
+                    age.ValueWhenEmpty = "20";
                     entitiesGroup.AddChild(age);
                 }
 

@@ -1793,6 +1793,9 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Better sliders and scrollbars behavior when changing max value.
 - Fixed scrollbars to move one step when clicking on edge.
 - Fixed sliders and scrollbars default steps count value.
+- Fixed sliders and scrollbars when inside a panel with scrollbar.
+- Added focus changed event and callback.
+- Added default empty value property to text inputs.
 
 ## Credits
 
