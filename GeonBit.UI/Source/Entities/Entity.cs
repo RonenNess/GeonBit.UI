@@ -1669,6 +1669,9 @@ namespace GeonBit.UI.Entities
         /// <returns>True if point is in entity's boundaries (destination rectangle)</returns>
         virtual public bool IsInsideEntity(Vector2 point)
         {
+            // adjust scrolling
+            point += _lastScrollVal.ToVector2();
+
             // get rectangle for the test
             Rectangle rect = UseActualSizeForCollision ? GetActualDestRect() : _destRect;
 
@@ -1770,11 +1773,7 @@ namespace GeonBit.UI.Entities
             // get mouse position
             Vector2 mousePos = input.MousePosition;
 
-            // apply scrolling
-            mousePos.X += scrollVal.X;
-            mousePos.Y += scrollVal.Y;
-
-            // add out scroll value to combined scroll val
+            // add our own scroll value to the combined scroll val before updating children
             scrollVal += OverflowScrollVal;
 
             // get if disabled

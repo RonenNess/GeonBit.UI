@@ -243,26 +243,37 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
-        /// Get actual destination rect for positioning, which is the size of the DropDown entity when list is closed.
+        /// Test if a given point is inside entity's boundaries.
         /// </summary>
-        /// <returns>Actual destination rect when DropDown list is closed.</returns>
-        override public Rectangle GetActualDestRect()
+        /// <remarks>This function result is affected by the 'UseActualSizeForCollision' flag.</remarks>
+        /// <param name="point">Point to test.</param>
+        /// <returns>True if point is in entity's boundaries (destination rectangle)</returns>
+        override public bool IsInsideEntity(Vector2 point)
         {
-            // if list is currently visible, return the full size
+            // adjust scrolling
+            point += _lastScrollVal.ToVector2();
+
+            // get destination rect based on weather the dropdown is opened or closed
+            Rectangle rect;
+
+            // if list is currently visible, use the full size
             if (ListVisible)
             {
                 _selectList.UpdateDestinationRectsIfDirty();
-                Rectangle ret = _selectList.GetActualDestRect();
-                ret.Height += SelectedPanelHeight;
-                ret.Y -= SelectedPanelHeight;
-                return ret;
+                rect = _selectList.GetActualDestRect();
+                rect.Height += SelectedPanelHeight;
+                rect.Y -= SelectedPanelHeight;
             }
-            // if list is not currently visible, return the header size
+            // if list is not currently visible, use the header size
             else
             {
                 _selectedTextPanel.UpdateDestinationRectsIfDirty();
-                return _selectedTextPanel.GetActualDestRect();
+                rect = _selectedTextPanel.GetActualDestRect();
             }
+
+            // now test detection
+            return (point.X >= rect.Left && point.X <= rect.Right &&
+                    point.Y >= rect.Top && point.Y <= rect.Bottom);
         }
 
         /// <summary>
@@ -317,7 +328,7 @@ namespace GeonBit.UI.Entities
             if (ListVisible)
             {
                 // check if mouse down and not inside list
-                var mousePosition = input.MousePosition + new Vector2(_lastScrollVal.X, _lastScrollVal.Y);
+                var mousePosition = input.MousePosition;
                 if (input.AnyMouseButtonDown() && !IsInsideEntity(mousePosition))
                 {
                     if (!IsInsideEntity(mousePosition))

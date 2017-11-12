@@ -603,6 +603,18 @@ Note that in order to use clipping and scrollbar with Panels you need to set the
 
 Here's a button, to test clicking while scolled:"));
                     panel.AddChild(new Button("a button."));
+                    panel.AddChild(new Paragraph(@"And here's a dropdown:"));
+                    var dropdown = new DropDown(new Vector2(0, 200));
+                    dropdown.AddItem("Option1");
+                    dropdown.AddItem("Option2");
+                    dropdown.AddItem("Option3");
+                    panel.AddChild(dropdown);
+                    panel.AddChild(new Paragraph(@"And a list:"));
+                    var list = new SelectList(new Vector2(0, 200));
+                    list.AddItem("Option1");
+                    list.AddItem("Option2");
+                    list.AddItem("Option3");
+                    panel.AddChild(list);
                     panel.PanelOverflowBehavior = PanelOverflowBehavior.VerticalScroll;
                     panel.Scrollbar.AdjustMaxAutomatically = true;
                     panel.Scrollbar.StepsCount = 10;

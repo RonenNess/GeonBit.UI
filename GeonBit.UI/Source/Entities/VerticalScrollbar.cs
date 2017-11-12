@@ -104,7 +104,9 @@ namespace GeonBit.UI.Entities
         {
             // if needed, recalc max (but not if currently interacting with this object).
             if (UserInterface.Active.ActiveEntity != this)
+            {
                 CalcAutoMaxValue();
+            }
 
             // get textures based on type
             Texture2D texture = Resources.VerticalScrollbarTexture;
@@ -169,6 +171,9 @@ namespace GeonBit.UI.Entities
                 {
                     // skip self
                     if (child == this) continue;
+
+                    // skip internals
+                    if (child._hideFromFind) continue;
 
                     // get current child bottom
                     int bottom = child.GetActualDestRect().Bottom;
