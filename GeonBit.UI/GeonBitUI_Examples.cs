@@ -617,7 +617,6 @@ Here's a button, to test clicking while scolled:"));
                     panel.AddChild(list);
                     panel.PanelOverflowBehavior = PanelOverflowBehavior.VerticalScroll;
                     panel.Scrollbar.AdjustMaxAutomatically = true;
-                    panel.Scrollbar.StepsCount = 10;
                     panel.Identifier = "panel_with_scrollbar";
                 }
 

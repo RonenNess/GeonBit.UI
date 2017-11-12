@@ -39,8 +39,8 @@ namespace GeonBit.UI.Entities
         /// <summary>Max slider value.</summary>
         protected uint _max;
 
-        /// <summary>How many steps (ticks) in range.</summary>
-        protected uint _stepsCount = 10;
+        /// <summary>How many steps (ticks) are in range.</summary>
+        protected uint _stepsCount = 0;
 
         /// <summary>Current value.</summary>
         protected int _value;
@@ -76,11 +76,8 @@ namespace GeonBit.UI.Entities
             Min = min;
             Max = max;
 
-            // make sure steps count is valid
-            if (_stepsCount > Max - Min)
-            {
-                _stepsCount = Max - Min;
-            }
+            // set default steps count
+            _stepsCount = Max - Min;
 
             // set starting value to center
             _value = (int)(Min + (Max - Min) / 2);

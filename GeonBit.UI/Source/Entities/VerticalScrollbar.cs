@@ -58,21 +58,21 @@ namespace GeonBit.UI.Entities
         /// The Scrollbar entity override this function to handle sliding mark up and down, instead of left-right.
         /// </summary>
         /// <param name="input">Input helper instance.</param>
-        override protected void DoOnMouseDown(InputHelper input)
+        override protected void DoOnMouseReleased(InputHelper input)
         {
-            // if mouse x is on the 0 side set to min
+            // if mouse is on the min side, decrease by 1
             if (input.MousePosition.Y <= _destRect.Y + _frameActualHeight)
             {
                 Value = _value - GetStepSize();
             }
-            // else if mouse x is on the max side, set to max
+            // else if mouse is on the max side, increase by 1
             else if (input.MousePosition.Y >= _destRect.Bottom - _frameActualHeight)
             {
                 Value = _value + GetStepSize();
             }
 
             // call base function
-            base.DoOnMouseDown(input);
+            base.DoOnMouseReleased(input);
         }
 
         /// <summary>
@@ -192,6 +192,9 @@ namespace GeonBit.UI.Entities
                 {
                     Max = (uint)newMax;
                 }
+
+                // set steps count
+                StepsCount = (Max - Min) / 80;
             }
         }
 

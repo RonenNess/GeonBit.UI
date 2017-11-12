@@ -1790,6 +1790,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Renamed DropDown.cs file.
 - Fixed panel scrollbar update - so it won't be called during interaction, to prevent bugs while scrolling and size changes.
 - Fixed dropdown problems when inside scrolled panel.
+- Better sliders and scrollbars behavior when changing max value.
 
 ## Credits
 
