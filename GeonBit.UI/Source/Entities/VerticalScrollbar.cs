@@ -102,8 +102,9 @@ namespace GeonBit.UI.Entities
         /// <param name="spriteBatch">Sprite batch to draw on.</param>
         override protected void DrawEntity(SpriteBatch spriteBatch)
         {
-            // if needed, recalc max
-            CalcAutoMaxValue();
+            // if needed, recalc max (but not if currently interacting with this object).
+            if (UserInterface.Active.ActiveEntity != this)
+                CalcAutoMaxValue();
 
             // get textures based on type
             Texture2D texture = Resources.VerticalScrollbarTexture;
