@@ -147,6 +147,11 @@ namespace GeonBit.UI.Entities
         public string Identifier = string.Empty;
 
         /// <summary>
+        /// Last known scroll value, when entities are inside scrollable panels.
+        /// </summary>
+        protected Point _lastScrollVal = Point.Zero;
+
+        /// <summary>
         /// If this boolean is true, events will just "go through" this entity to its children or entities behind it.
         /// This bool comes to solve conditions where you have two panels without skin that hide each other but you want
         /// users to be able to click on the bottom panel through the upper panel, provided it doesn't hit any of the first
@@ -1742,6 +1747,9 @@ namespace GeonBit.UI.Entities
         /// <param name="scrollVal">Combined scrolling value (panels with scrollbar etc) of all parents.</param>
         virtual public void Update(InputHelper input, ref Entity targetEntity, ref Entity dragTargetEntity, ref bool wasEventHandled, Point scrollVal)
         {
+            // set last scroll var
+            _lastScrollVal = scrollVal;
+
             // check if should invoke the spawn effect
             if (_isFirstUpdate)
             {

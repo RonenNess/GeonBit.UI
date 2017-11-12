@@ -317,10 +317,13 @@ namespace GeonBit.UI.Entities
             if (ListVisible)
             {
                 // check if mouse down and not inside list
-                if (input.AnyMouseButtonDown() && !IsInsideEntity(input.MousePosition))
+                var mousePosition = input.MousePosition + new Vector2(_lastScrollVal.X, _lastScrollVal.Y);
+                if (input.AnyMouseButtonDown() && !IsInsideEntity(mousePosition))
                 {
-                    if (!IsInsideEntity(input.MousePosition))
-                    ListVisible = false;
+                    if (!IsInsideEntity(mousePosition))
+                    {
+                        ListVisible = false;
+                    }
                 }
             }
 
