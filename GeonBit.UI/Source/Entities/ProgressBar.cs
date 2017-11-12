@@ -60,11 +60,13 @@ namespace GeonBit.UI.Entities
             Padding = Vector2.Zero;
             ProgressFill = new Image(Resources.ProgressBarFillTexture, Vector2.Zero, ImageDrawMode.Stretch, Anchor.CenterLeft);
             ProgressFill.UpdateStyle(DefaultFillStyle);
+            ProgressFill._hideFromFind = true;
             AddChild(ProgressFill, true);
 
             // the caption is just a label centered on the progress bar itself
             Caption = new Label(string.Empty, Anchor.Center);
             Caption.ClickThrough = true;
+            Caption._hideFromFind = true;
             AddChild(Caption);
         }
 

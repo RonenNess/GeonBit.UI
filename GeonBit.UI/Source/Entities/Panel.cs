@@ -289,7 +289,8 @@ namespace GeonBit.UI.Entities
                     {
                         Padding = Vector2.Zero,
                         AdjustMaxAutomatically = true,
-                        Identifier = "scrollbar"
+                        Identifier = "scrollbar",
+                        _hideFromFind = true
                     };
                     bool prev_needToSortChildren = _needToSortChildren;
                     AddChild(_scrollbar);

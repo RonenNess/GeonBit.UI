@@ -103,6 +103,11 @@ namespace GeonBit.UI.Entities
             _panelsPanel = new Panel(Vector2.Zero, PanelSkin.None, Anchor.TopCenter, new Vector2(0, 0));
             _panelsPanel.SpaceBefore = _panelsPanel.SpaceAfter = _panelsPanel.Padding = Vector2.Zero;
             _internalRoot.AddChild(_panelsPanel);
+
+            // make internal stuff hidden
+            _panelsPanel._hideFromFind = true;
+            _buttonsPanel._hideFromFind = true;
+            _internalRoot._hideFromFind = true;
         }
 
         /// <summary>

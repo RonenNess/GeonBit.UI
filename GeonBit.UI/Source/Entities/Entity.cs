@@ -124,6 +124,12 @@ namespace GeonBit.UI.Entities
         internal bool _needToSortChildren = true;
 
         /// <summary>
+        /// If true, will not show this entity when searching.
+        /// Used for internal entities.
+        /// </summary>
+        internal bool _hideFromFind = false;
+
+        /// <summary>
         /// A special size used value to use when you want to get the entity default size.
         /// </summary>
         public static readonly Vector2 USE_DEFAULT_SIZE = new Vector2(-1, -1);
@@ -531,6 +537,10 @@ namespace GeonBit.UI.Entities
             // iterate children
             foreach (Entity child in _children)
             {
+                // skip hidden entities
+                if (child._hideFromFind)
+                    continue;
+
                 // check if identifier and type matches - if so, return it
                 if (child.Identifier == identifier && child.GetType() == typeof(T))
                 {

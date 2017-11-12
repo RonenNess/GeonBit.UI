@@ -102,6 +102,7 @@ namespace GeonBit.UI.Entities
             _scrollbar = new VerticalScrollbar(0, 10, Anchor.CenterRight, offset: new Vector2(-8, 0));
             _scrollbar.Value = 0;
             _scrollbar.Visible = false;
+            _scrollbar._hideFromFind = true;
             AddChild(_scrollbar, false);
         }
 
