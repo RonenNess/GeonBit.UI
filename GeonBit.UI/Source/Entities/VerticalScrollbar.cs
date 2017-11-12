@@ -60,13 +60,17 @@ namespace GeonBit.UI.Entities
         /// <param name="input">Input helper instance.</param>
         override protected void DoOnMouseReleased(InputHelper input)
         {
+            // get mouse position and apply scroll value
+            var mousePos = input.MousePosition;
+            mousePos += _lastScrollVal.ToVector2();
+
             // if mouse is on the min side, decrease by 1
-            if (input.MousePosition.Y <= _destRect.Y + _frameActualHeight)
+            if (mousePos.Y <= _destRect.Y + _frameActualHeight)
             {
                 Value = _value - GetStepSize();
             }
             // else if mouse is on the max side, increase by 1
-            else if (input.MousePosition.Y >= _destRect.Bottom - _frameActualHeight)
+            else if (mousePos.Y >= _destRect.Bottom - _frameActualHeight)
             {
                 Value = _value + GetStepSize();
             }
@@ -82,11 +86,15 @@ namespace GeonBit.UI.Entities
         /// <param name="input">Input helper instance.</param>
         override protected void DoWhileMouseDown(InputHelper input)
         {
+            // get mouse position and apply scroll value
+            var mousePos = input.MousePosition;
+            mousePos += _lastScrollVal.ToVector2();
+
             // if in the middle calculate value based on mouse position
-            if ((input.MousePosition.Y >= _destRect.Y + _frameActualHeight * 0.5) && 
-               (input.MousePosition.Y <= _destRect.Bottom - _frameActualHeight * 0.5))
+            if ((mousePos.Y >= _destRect.Y + _frameActualHeight * 0.5) && 
+               (mousePos.Y <= _destRect.Bottom - _frameActualHeight * 0.5))
             {
-                float relativePos = (input.MousePosition.Y - _destRect.Y - _frameActualHeight * 0.5f - _markHeight * 0.5f);
+                float relativePos = (mousePos.Y - _destRect.Y - _frameActualHeight * 0.5f - _markHeight * 0.5f);
                 float internalHeight = (_destRect.Height - _frameActualHeight) - _markHeight * 0.5f;
                 float relativeVal = (relativePos / internalHeight);
                 Value = (int)System.Math.Round(Min + relativeVal * (Max - Min));

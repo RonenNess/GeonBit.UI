@@ -217,20 +217,24 @@ namespace GeonBit.UI.Entities
         /// <param name="input">Input helper instance.</param>
         override protected void DoWhileMouseDown(InputHelper input)
         {
+            // get mouse position and apply scroll value
+            var mousePos = input.MousePosition;
+            mousePos += _lastScrollVal.ToVector2();
+
             // if mouse x is on the 0 side set to min
-            if (input.MousePosition.X <= _destRect.X + _frameActualWidth)
+            if (mousePos.X <= _destRect.X + _frameActualWidth)
             {
                 Value = (int)Min;
             }
             // else if mouse x is on the max side, set to max
-            else if (input.MousePosition.X >= _destRect.Right - _frameActualWidth)
+            else if (mousePos.X >= _destRect.Right - _frameActualWidth)
             {
                 Value = (int)Max;
             }
             // if in the middle calculate value based on mouse position
             else
             {
-                float val = ((input.MousePosition.X - _destRect.X - _frameActualWidth + _markWidth / 2) / (_destRect.Width - _frameActualWidth * 2));
+                float val = ((mousePos.X - _destRect.X - _frameActualWidth + _markWidth / 2) / (_destRect.Width - _frameActualWidth * 2));
                 Value = (int)(Min + val * (Max - Min));
             }
 
