@@ -171,8 +171,25 @@ namespace GeonBit.UI.Entities
         /// </summary>
         public uint Max
         {
-            get { return _max; }
-            set { if (_max != value) { _max = value; Value = Value; } }
+            // get max value
+            get
+            {
+                return _max;
+            }
+
+            // set max value
+            set
+            {
+                // only if changed
+                if (_max != value)
+                {
+                    // set value
+                    _max = value;
+
+                    // if value is bigger than max, cap it
+                    if (Value > Max) Value = (int)Max;
+                }
+            }
         }
 
         /// <summary>
