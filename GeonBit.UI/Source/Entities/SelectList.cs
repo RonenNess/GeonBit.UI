@@ -401,7 +401,7 @@ namespace GeonBit.UI.Entities
             {
                 _value = null;
                 if (UserInterface.Active.SilentSoftErrors) return;
-                throw new KeyNotFoundException("Value to set not found in list!");
+                throw new Exceptions.NotFoundException("Value to set not found in list!");
             }
 
             // set value
@@ -431,7 +431,7 @@ namespace GeonBit.UI.Entities
             if (index >= -1 && index >= _list.Count)
             {
                 if (UserInterface.Active.SilentSoftErrors) return;
-                throw new KeyNotFoundException("Invalid list index to select!");
+                throw new Exceptions.NotFoundException("Invalid list index to select!");
             }
 
             // pick based on index

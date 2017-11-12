@@ -86,7 +86,7 @@ namespace GeonBit.UI.Entities
             if (!_colors.TryGetValue(sColor, out outColor))
             {
                 if (UserInterface.Active.SilentSoftErrors) return Color.White;
-                throw new System.Exception("Unknown color code '" + sColor + "'.");
+                throw new Exceptions.InvalidValueException("Unknown color code '" + sColor + "'.");
             }
             return outColor;
         }

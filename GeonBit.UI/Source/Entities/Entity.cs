@@ -495,7 +495,7 @@ namespace GeonBit.UI.Entities
             set {
                 if (value != null && value._parent != null)
                 {
-                    throw new System.Exception("Cannot set background entity that have a parent!");
+                    throw new Exceptions.InvalidStateException("Cannot set background entity that have a parent!");
                 }
                 _background = value;
             }
@@ -1135,7 +1135,7 @@ namespace GeonBit.UI.Entities
             if (child._parent != null)
             {
                 if (UserInterface.Active.SilentSoftErrors) return;
-                throw new System.Exception("Child element to add already got a parent!");
+                throw new Exceptions.InvalidStateException("Child element to add already got a parent!");
             }
 
             // need to sort children
@@ -1191,7 +1191,7 @@ namespace GeonBit.UI.Entities
             if (child._parent != this)
             {
                 if (UserInterface.Active.SilentSoftErrors) return;
-                throw new System.Exception("Child element to remove does not belong to this entity!");
+                throw new Exceptions.InvalidStateException("Child element to remove does not belong to this entity!");
             }
 
             // need to sort children

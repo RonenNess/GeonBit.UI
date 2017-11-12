@@ -285,7 +285,7 @@ namespace GeonBit.UI
             // sanity test
             if (_content == null)
             {
-                throw new System.Exception("Cannot create a UserInterface before calling UserInterface.Initialize()!");
+                throw new Exceptions.InvalidStateException("Cannot create a UserInterface before calling UserInterface.Initialize()!");
             }
 
             // create draw utils

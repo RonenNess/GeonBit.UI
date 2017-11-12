@@ -32,7 +32,7 @@ namespace GeonBit.UI
             // sanity check - make sure we are in use-render-target mode
             if (!UserInterface.Active.UseRenderTarget)
             {
-                throw new System.Exception("UserInterface.Active.UseRenderTarget must be 'true' to use render-target features!");
+                throw new Exceptions.InvalidStateException("UserInterface.Active.UseRenderTarget must be 'true' to use render-target features!");
             }
 
             // add render target
