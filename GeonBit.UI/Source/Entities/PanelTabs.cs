@@ -162,6 +162,7 @@ namespace GeonBit.UI.Entities
             }
 
             // tab not found?
+            if (UserInterface.Active.SilentSoftErrors) return;
             throw new System.Exception("Tab not found!");
         }
 

@@ -1134,6 +1134,7 @@ namespace GeonBit.UI.Entities
             // make sure don't already have a parent
             if (child._parent != null)
             {
+                if (UserInterface.Active.SilentSoftErrors) return;
                 throw new System.Exception("Child element to add already got a parent!");
             }
 
@@ -1189,6 +1190,7 @@ namespace GeonBit.UI.Entities
             // make sure don't already have a parent
             if (child._parent != this)
             {
+                if (UserInterface.Active.SilentSoftErrors) return;
                 throw new System.Exception("Child element to remove does not belong to this entity!");
             }
 

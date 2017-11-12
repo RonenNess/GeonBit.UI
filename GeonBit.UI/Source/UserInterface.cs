@@ -105,6 +105,12 @@ namespace GeonBit.UI
         private bool _useRenderTarget = false;
 
         /// <summary>
+        /// If true, GeonBit.UI will not raise exceptions on sanity checks, validations, and errors which are not critical.
+        /// For example, trying to select a value that doesn't exist from a list would do nothing instead of throwing exception.
+        /// </summary>
+        public bool SilentSoftErrors = false;
+
+        /// <summary>
         /// Create a default paragraph instance.
         /// GeonBit.UI entities use this method when need to create a paragraph, so you can override this to change which paragraph type the built-in
         /// entities will use by-default (for example Buttons text, SelectList items, etc.).
