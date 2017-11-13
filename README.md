@@ -1797,6 +1797,12 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Added focus changed event and callback.
 - Added default empty value property to text inputs.
 
+## 3.0.2.0
+
+- Changed textures to load lazily and only if used (instead of just loading everything during init).
+- Added tooltip text support.
+- Changed the BeforeDraw callback to run before drawing background entity.
+
 ## Credits
 
 GeonBit.UI was written by Ronen Ness, but uses some free textures made by awesome people who share their work for free.
