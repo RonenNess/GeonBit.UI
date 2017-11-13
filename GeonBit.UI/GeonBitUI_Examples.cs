@@ -670,6 +670,29 @@ Here's a button, to test clicking while scolled:"));
                     panel.AddChild(textMulti);
                 }
 
+                // example: tooltip text
+                {
+                    // create panel and add to list of panels and manager
+                    Panel panel = new Panel(new Vector2(450, 550));
+                    panels.Add(panel);
+                    UserInterface.Active.AddEntity(panel);
+
+                    // text input example
+                    panel.AddChild(new Header("Tooltip Text"));
+                    panel.AddChild(new HorizontalLine());
+
+                    // add entity with tooltip text
+                    panel.AddChild(new Paragraph(@"You can attach tooltip text to entities.
+This text will be shown when the user points on the entity for few seconds. 
+
+For example, try to point on this button:"));
+                    var btn = new Button("Button With Tooltip");
+                    btn.ToolTipText = @"This is the button tooltip text!
+And yes, it can be multiline.";
+                    panel.AddChild(btn);
+                    panel.AddChild(new Paragraph(@"Note that you can override the function that generates tooltip text entities if you want to create your own custom style."));
+                }
+
                 // example: locked text input
                 {
                     // create panel and add to list of panels and manager

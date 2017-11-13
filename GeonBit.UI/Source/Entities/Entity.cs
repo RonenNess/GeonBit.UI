@@ -286,6 +286,11 @@ namespace GeonBit.UI.Entities
         /// <summary>Callback to execute every time this entity focus / unfocus.</summary>
         public EventCallback OnFocusChange = null;
 
+        /// <summary>
+        /// Optional tooltip text to show if the user points on this entity for long enough.
+        /// </summary>
+        public string ToolTipText;
+
         /// <summary>Is mouse currently pointing on this entity.</summary>
         protected bool _isMouseOver = false;
 
@@ -953,6 +958,9 @@ namespace GeonBit.UI.Entities
             // update if disabled
             _isCurrentlyDisabled = IsDisabled();
 
+            // do before draw event
+            OnBeforeDraw(spriteBatch);
+
             // draw background
             if (Background != null)
             {
@@ -961,9 +969,6 @@ namespace GeonBit.UI.Entities
                 _background.Draw(spriteBatch);
                 _background._parent = null;
             }
-
-            // do before draw event
-            OnBeforeDraw(spriteBatch);
 
             // calc desination rects (if needed)
             UpdateDestinationRectsIfDirty();

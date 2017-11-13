@@ -31,6 +31,13 @@ namespace GeonBit.UI
     public delegate void EventCallback(Entity entity);
 
     /// <summary>
+    /// A function used to generate tooltip entity.
+    /// Used when the user points on an entity with a tooltip text and show present it.
+    /// </summary>
+    /// <param name="entity">The entity instance the tooltip came from.</param>
+    public delegate Entity GenerateTooltipFunc(Entity entity);
+
+    /// <summary>
     /// Callback to generate default paragraph type for internal entities.
     /// </summary>
     /// <param name="text">Paragraph starting text.</param>
@@ -85,7 +92,7 @@ namespace GeonBit.UI
     public class UserInterface
     {
         /// <summary>Current GeonBit.UI version identifier.</summary>
-        public const string VERSION = "3.0.1.4";
+        public const string VERSION = "3.0.2.0";
 
         /// <summary>
         /// The currently active user interface instance.
@@ -245,13 +252,33 @@ namespace GeonBit.UI
         /// <summary>Callback to execute every time an entity focus changes.</summary>
         public EventCallback OnFocusChange = null;
 
-        // cursor draw settings
+        // cursor texture.
         Texture2D _cursorTexture = null;
+        
+        // cursor width.
         int _cursorWidth = 32;
+
+        // cursor offset from mouse actual position.
         Point _cursorOffset = Point.Zero;
+
+        // time until we show tooltip text.
+        private float _timeUntilTooltip = 0f;
+
+        // the current tooltip entity.
+        Entity _tooltipEntity;
+
+        /// <summary>
+        /// How long to wait before showing tooltip texts.
+        /// </summary>
+        public static float TimeToShowTooltipText = 2f;
 
         /// <summary>Weather or not to draw the cursor.</summary>
         public bool ShowCursor = true;
+
+        /// <summary>
+        /// The function used to generate tooltip text on entities.
+        /// </summary>
+        public GenerateTooltipFunc GenerateTooltipFunc = DefaultGenerateTooltipFunc;
 
         /// <summary>
         /// Initialize UI manager (mostly load resources and set some defaults).
@@ -268,6 +295,41 @@ namespace GeonBit.UI
 
             // create a default active user interface
             Active = new UserInterface();
+        }
+
+        /// <summary>
+        /// Default function we use to generate tooltip text entities.
+        /// </summary>
+        /// <param name="source">Source entity.</param>
+        /// <returns>Entity to use for tooltip text.</returns>
+        static private Entity DefaultGenerateTooltipFunc(Entity source)
+        {
+            // no tooltip text? return null
+            if (source.ToolTipText == null) return null;
+
+            // create tooltip paragraph
+            var tooltip = new Paragraph(source.ToolTipText, size: new Vector2(500, -1));
+            tooltip.AlignToCenter = true;
+
+            // create background for tooltip text
+            var background = new ColoredRectangle(new Vector2(1, 1), Anchor.TopCenter);
+            tooltip.Background = background;
+            background.FillColor = Color.Black;
+
+            // add callback to update tooltip position and background
+            tooltip.BeforeDraw += (Entity ent) =>
+            {
+                var destRect = tooltip.GetActualDestRect();
+                var position = _input.MousePosition + new Vector2(-destRect.Width / 2, -destRect.Height - 20);
+                tooltip.SetPosition(Anchor.TopLeft, _input.MousePosition + new Vector2(-destRect.Width / 2, -destRect.Height - 20));
+                tooltip.Background.SetOffset(new Vector2(-2, -5 - tooltip.GetCharacterActualSize().Y));
+            };
+            tooltip.CalcTextActualRectWithWrap();
+            tooltip.Background.Size = tooltip.GetActualDestRect().Size.ToVector2();
+            tooltip.BeforeDraw(tooltip);
+
+            // return tooltip object
+            return tooltip;
         }
 
         /// <summary>
@@ -402,11 +464,48 @@ namespace GeonBit.UI
                 ActiveEntity = target;
             }
 
+            // update tooltip
+            UpdateTooltipText(gameTime, target);
+
             // default active entity is root panel
             ActiveEntity = ActiveEntity ?? Root;
 
             // set current target entity
             TargetEntity = target;
+        }
+
+        /// <summary>
+        /// Update tooltip text related stuff.
+        /// </summary>
+        /// <param name="gameTime">Current game time.</param>
+        /// <param name="target">Current target entity.</param>
+        private void UpdateTooltipText(GameTime gameTime, Entity target)
+        {
+            // if target entity changed, zero time to show tooltip text
+            if (TargetEntity != target || target == null)
+            {
+                _timeUntilTooltip = 0f;
+                if (_tooltipEntity != null && _tooltipEntity.Parent != null)
+                {
+                    _tooltipEntity.RemoveFromParent();
+                    _tooltipEntity = null;
+                }
+            }
+
+            // check if we need to create a tooltip text
+            if (_tooltipEntity == null)
+            {
+                _timeUntilTooltip += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (_timeUntilTooltip > TimeToShowTooltipText)
+                {
+                    _tooltipEntity = GenerateTooltipFunc(TargetEntity);
+                    if (_tooltipEntity != null)
+                    {
+                        _tooltipEntity.Locked = true;
+                        AddEntity(_tooltipEntity);
+                    }
+                }
+            }
         }
 
         /// <summary>
