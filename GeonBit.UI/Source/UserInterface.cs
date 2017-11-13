@@ -309,23 +309,16 @@ namespace GeonBit.UI
 
             // create tooltip paragraph
             var tooltip = new Paragraph(source.ToolTipText, size: new Vector2(500, -1));
-            tooltip.AlignToCenter = true;
+            tooltip.BackgroundColor = Color.Black;
 
-            // create background for tooltip text
-            var background = new ColoredRectangle(new Vector2(1, 1), Anchor.TopCenter);
-            tooltip.Background = background;
-            background.FillColor = Color.Black;
-
-            // add callback to update tooltip position and background
+            // add callback to update tooltip position
             tooltip.BeforeDraw += (Entity ent) =>
             {
                 var destRect = tooltip.GetActualDestRect();
                 var position = _input.MousePosition + new Vector2(-destRect.Width / 2, -destRect.Height - 20);
-                tooltip.SetPosition(Anchor.TopLeft, _input.MousePosition + new Vector2(-destRect.Width / 2, -destRect.Height - 20));
-                tooltip.Background.SetOffset(new Vector2(-2, -5 - tooltip.GetCharacterActualSize().Y));
+                tooltip.SetPosition(Anchor.TopLeft, position / UserInterface.Active.GlobalScale);
             };
             tooltip.CalcTextActualRectWithWrap();
-            tooltip.Background.Size = tooltip.GetActualDestRect().Size.ToVector2();
             tooltip.BeforeDraw(tooltip);
 
             // return tooltip object
