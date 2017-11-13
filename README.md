@@ -21,7 +21,7 @@ It provide all the basic UI elements required to make a game / editor UI, and co
 
 To see a GeonBit.UI demo, check out this YouTube video:
 
-[![GeonBit.UI Demo](http://img.youtube.com/vi/c7Q-FfKOosA/0.jpg)](http://www.youtube.com/watch?v=c7Q-FfKOosA "GeonBit.UI Demo")
+[![GeonBit.UI Demo](http://img.youtube.com/vi/sSs_RqgUaBA/0.jpg)](http://www.youtube.com/watch?v=sSs_RqgUaBA "GeonBit.UI Demo")
 
 ## Key Features
 
