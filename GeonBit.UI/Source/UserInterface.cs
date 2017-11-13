@@ -410,9 +410,9 @@ namespace GeonBit.UI
         /// Add an entity to screen.
         /// </summary>
         /// <param name="entity">Entity to add.</param>
-        public void AddEntity(Entity entity)
+        public Entity AddEntity(Entity entity)
         {
-            Root.AddChild(entity);
+            return Root.AddChild(entity);
         }
 
         /// <summary>

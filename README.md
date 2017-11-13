@@ -1804,6 +1804,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Changed the BeforeDraw callback to run before drawing background entity.
 - Added background color property to paragraphs.
 - Improved the way lists and dropdown works + fixed selection color.
+- Adding entity functions now return the newly added entity.
 
 ## Credits
 
