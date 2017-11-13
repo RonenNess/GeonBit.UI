@@ -41,6 +41,8 @@ GeonBit.UI provide the following functionality:
 - Slider bars & Progress bars.
 - Text boxes for user text input - support multiline, word-wrap, scrollbars and skins.
 - PanelTabs to easily create multitab panels.
+- Tooltip text.
+- Message Boxes.
 - Stylesheets and themes, easily extendable.
 - Locked, disabled, shadow, and other basic UI effects and states.
 - Global scaling property to support different screen sizes.
@@ -1800,7 +1802,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 ## 3.0.2.0
 
 - Changed textures to load lazily and only if used (instead of just loading everything during init).
-- Added tooltip text support.
+- Added tooltip text.
 - Changed the BeforeDraw callback to run before drawing background entity.
 - Added background color property to paragraphs.
 - Improved the way lists and dropdown works + fixed selection color.
