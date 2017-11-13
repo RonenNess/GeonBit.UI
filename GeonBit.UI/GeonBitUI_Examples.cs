@@ -230,7 +230,7 @@ namespace GeonBit.UI.Example
                 // example: welcome message
                 {
                     // create panel and add to list of panels and manager
-                    Panel panel = new Panel(new Vector2(500, 580));
+                    Panel panel = new Panel(new Vector2(500, 620));
                     panels.Add(panel);
                     UserInterface.Active.AddEntity(panel);
 
@@ -246,12 +246,13 @@ It provide a simple yet extensive UI for MonoGame based projects.
 
 To start the demo, please click the 'Next' button on the top navbar.");
                     panel.AddChild(welcomeText);
+                    panel.AddChild(new Paragraph("V" + UserInterface.VERSION, Anchor.BottomRight)).FillColor = Color.Yellow;
                 }
 
                 // example: featues list
                 {
                     // create panel and add to list of panels and manager
-                    Panel panel = new Panel(new Vector2(500, 570));
+                    Panel panel = new Panel(new Vector2(500, 590));
                     panels.Add(panel);
                     UserInterface.Active.AddEntity(panel);
 
@@ -273,6 +274,7 @@ To start the demo, please click the 'Next' button on the top navbar.");
 - Panel Tabs
 - Sliders & Progressbars
 - Text input
+- Tooltip Text
 - And more...
 "));
                 }
@@ -471,7 +473,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 // example: lists
                 {
                     // create panel and add to list of panels and manager
-                    Panel panel = new Panel(new Vector2(450, 440));
+                    Panel panel = new Panel(new Vector2(450, 460));
                     panels.Add(panel);
                     UserInterface.Active.AddEntity(panel);
 
@@ -480,7 +482,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                     panel.AddChild(new HorizontalLine());
                     panel.AddChild(new Paragraph("SelectLists let you pick a value from a list of items:"));
 
-                    SelectList list = new SelectList(new Vector2(0, 260));
+                    SelectList list = new SelectList(new Vector2(0, 280));
                     list.AddItem("Warrior");
                     list.AddItem("Mage");
                     list.AddItem("Ranger");
@@ -497,7 +499,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 // example: list as tables
                 {
                     // create panel and add to list of panels and manager
-                    Panel panel = new Panel(new Vector2(620, 440));
+                    Panel panel = new Panel(new Vector2(620, 460));
                     panels.Add(panel);
                     UserInterface.Active.AddEntity(panel);
 
@@ -507,7 +509,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                     panel.AddChild(new Paragraph("With few simple tricks you can also create lists that behave like a table:"));
 
                     // create the list
-                    SelectList list = new SelectList(new Vector2(0, 260));
+                    SelectList list = new SelectList(new Vector2(0, 280));
 
                     // lock and create title
                     list.LockedItems[0] = true;
@@ -527,7 +529,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 // example: lists skins
                 {
                     // create panel and add to list of panels and manager
-                    Panel panel = new Panel(new Vector2(450, 440));
+                    Panel panel = new Panel(new Vector2(450, 460));
                     panels.Add(panel);
                     UserInterface.Active.AddEntity(panel);
 
@@ -536,7 +538,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                     panel.AddChild(new HorizontalLine());
                     panel.AddChild(new Paragraph("Just like panels, SelectList can use alternative skins:"));
 
-                    SelectList list = new SelectList(new Vector2(0, 260), skin: PanelSkin.Golden);
+                    SelectList list = new SelectList(new Vector2(0, 280), skin: PanelSkin.Golden);
                     list.AddItem("Warrior");
                     list.AddItem("Mage");
                     list.AddItem("Ranger");
@@ -562,7 +564,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                     panel.AddChild(new HorizontalLine());
 
                     panel.AddChild(new Paragraph("DropDown is just like a list, but take less space since it hide the list when not used:"));
-                    DropDown drop = new DropDown(new Vector2(0, 240));
+                    DropDown drop = new DropDown(new Vector2(0, 250));
                     drop.AddItem("Warrior");
                     drop.AddItem("Mage");
                     drop.AddItem("Ranger");
@@ -605,11 +607,11 @@ Note that in order to use clipping and scrollbar with Panels you need to set the
 Here's a button, to test clicking while scolled:"));
                     panel.AddChild(new Button("a button."));
                     panel.AddChild(new Paragraph(@"And here's a dropdown:"));
-                    var dropdown = new DropDown(new Vector2(0, 200));
+                    var dropdown = new DropDown(new Vector2(0, 220));
                     for (int i = 1; i < 10; ++i) dropdown.AddItem("Option" + i.ToString());
                     panel.AddChild(dropdown);
                     panel.AddChild(new Paragraph(@"And a list:"));
-                    var list = new SelectList(new Vector2(0, 200));
+                    var list = new SelectList(new Vector2(0, 220));
                     for (int i = 1; i < 10; ++i) list.AddItem("Option" + i.ToString());
                     panel.AddChild(list);
                     panel.PanelOverflowBehavior = PanelOverflowBehavior.VerticalScroll;

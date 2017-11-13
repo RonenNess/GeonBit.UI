@@ -289,14 +289,17 @@ namespace GeonBit.UI.Entities
             while (true)
             {
                 // create and add new paragraph
-                Paragraph paragraph = UserInterface.DefaultParagraph(".", Anchor.Auto, size: new Vector2(0, 40));
+                Paragraph paragraph = UserInterface.DefaultParagraph(".", Anchor.Auto);
                 paragraph.PromiscuousClicksMode = true;
                 paragraph.WrapWords = false;
                 paragraph.UpdateStyle(DefaultParagraphStyle);
                 paragraph.Scale = paragraph.Scale * ItemsScale;
-                paragraph.SpaceAfter = paragraph.SpaceAfter + new Vector2(0, ExtraSpaceBetweenLines);
+                paragraph.SpaceAfter = paragraph.SpaceAfter + new Vector2(0, ExtraSpaceBetweenLines - 3);
                 paragraph.AttachedData = new ParagraphData(this, i++);
                 paragraph.UseActualSizeForCollision = false;
+                paragraph.Size = new Vector2(0, paragraph.GetCharacterActualSize().Y + ExtraSpaceBetweenLines);
+                paragraph.BackgroundColorPadding = new Point((int)Padding.X, 5);
+                paragraph.BackgroundColorUseBoxSize = true;
                 AddChild(paragraph);
                 _paragraphs.Add(paragraph);
                 OnCreatedListParagraph(paragraph);
@@ -470,7 +473,7 @@ namespace GeonBit.UI.Entities
                 {
                     // set paragraph text, make visible, and remove background.
                     _paragraphs[i].Text = _list[item_index];
-                    _paragraphs[i].Background = null;
+                    _paragraphs[i].BackgroundColor.A = 0;
                     _paragraphs[i].Visible = true;
 
                     // set locked state
@@ -496,13 +499,8 @@ namespace GeonBit.UI.Entities
                     // add background to selected paragraph
                     Paragraph paragraph = _paragraphs[i];
                     Rectangle destRect = paragraph.GetActualDestRect();
-                    Vector2 size = new Vector2(0, destRect.Height * 1.35f / UserInterface.Active.GlobalScale);
                     paragraph.State = EntityState.MouseDown;
-                    paragraph.Padding = new Vector2(-Padding.X, 0);
-                    paragraph.CalcDestRect();
-                    paragraph.CalcInternalRect();
-                    ColoredRectangle selectMark = new ColoredRectangle(GetActiveStyle("SelectedHighlightColor").asColor, size, Anchor.TopCenter, new Vector2(0, -4));
-                    paragraph.Background = selectMark;
+                    paragraph.BackgroundColor = GetActiveStyle("SelectedHighlightColor").asColor;
                 }
             }
         }

@@ -46,6 +46,21 @@ namespace GeonBit.UI.Entities
         /// </summary>
         protected string _text = string.Empty;
 
+        /// <summary>
+        /// Optional background color for text.
+        /// </summary>
+        public Color BackgroundColor = Color.Transparent;
+
+        /// <summary>
+        /// Extra padding for background color.
+        /// </summary>
+        public Point BackgroundColorPadding = new Point(10, 10);
+
+        /// <summary>
+        /// If true and have background color, will use the paragraph box size for it instead of the text actual size.
+        /// </summary>
+        public bool BackgroundColorUseBoxSize = false;
+
         /// <summary>Get / Set the paragraph text.</summary>
         public virtual string Text
         {
@@ -451,6 +466,24 @@ namespace GeonBit.UI.Entities
         /// <param name="spriteBatch">Sprite batch to draw on.</param>
         override protected void DrawEntity(SpriteBatch spriteBatch)
         {
+            // draw background color
+            if (BackgroundColor.A > 0)
+            {
+                // get background color
+                Color backColor = UserInterface.Active.DrawUtils.FixColorOpacity(BackgroundColor);
+
+                // get destination rect to draw it
+                var rect = BackgroundColorUseBoxSize ? _destRect : _actualDestRect;
+                var padding = new Point(
+                    (int)(BackgroundColorPadding.X * UserInterface.Active.GlobalScale),
+                    (int)(BackgroundColorPadding.Y * UserInterface.Active.GlobalScale));
+                rect.Location -= BackgroundColorPadding;
+                rect.Size += BackgroundColorPadding + BackgroundColorPadding;
+
+                // draw background color
+                spriteBatch.Draw(Resources.WhiteTexture, rect, backColor);
+            }
+
             // get outline width
             int outlineWidth = OutlineWidth;
 

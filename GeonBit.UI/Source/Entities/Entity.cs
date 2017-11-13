@@ -1172,12 +1172,13 @@ namespace GeonBit.UI.Entities
         /// <param name="child">Entity to add as child.</param>
         /// <param name="inheritParentState">If true, this entity will inherit the parent's state (set InheritParentState property).</param>
         /// <param name="index">If provided, will be the index in the children array to push the new entity.</param>
-        public void AddChild(Entity child, bool inheritParentState = false, int index = -1)
+        /// <returns>The newly added entity.</returns>
+        public Entity AddChild(Entity child, bool inheritParentState = false, int index = -1)
         {
             // make sure don't already have a parent
             if (child._parent != null)
             {
-                if (UserInterface.Active.SilentSoftErrors) return;
+                if (UserInterface.Active.SilentSoftErrors) return child;
                 throw new Exceptions.InvalidStateException("Child element to add already got a parent!");
             }
 
@@ -1212,6 +1213,7 @@ namespace GeonBit.UI.Entities
             // mark child as dirty
             child.MarkAsDirty();
             MarkAsDirty();
+            return child;
         }
 
         /// <summary>
@@ -1283,7 +1285,7 @@ namespace GeonBit.UI.Entities
         {
             // calculate the internal destination rect, eg after padding
             Vector2 padding = _scaledPadding;
-            _destRectInternal = new Rectangle(_destRect.Location, _destRect.Size);
+            _destRectInternal = GetActualDestRect();
             _destRectInternal.X += (int)padding.X;
             _destRectInternal.Y += (int)padding.Y;
             _destRectInternal.Width -= (int)padding.X * 2;
