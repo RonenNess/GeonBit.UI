@@ -18,6 +18,138 @@ using GeonBit.UI.DataTypes;
 
 namespace GeonBit.UI
 {
+    /// <summary>
+    /// A class to get texture with index and constant path part.
+    /// Used internally.
+    /// </summary>
+    public class TexturesGetter<TEnum> where TEnum : IConvertible
+    {
+        // textures we already loaded
+        Texture2D[] _loadedTextures;
+
+        /// <summary>
+        /// Get texture for enum state.
+        /// This is for textures that don't have different states, like mouse hover, down, or default.
+        /// </summary>
+        /// <param name="i">Texture enum identifier.</param>
+        /// <returns>Loaded texture.</returns>
+        public Texture2D this[TEnum i]
+        {
+            // get texture for a given type
+            get
+            {
+                int indx = GetIndex(i);
+                if (_loadedTextures[indx] == null)
+                {
+                    var path = Resources._root + _basepath + EnumToString(i) + _suffix;
+                    _loadedTextures[indx] = Resources._content.Load<Texture2D>(path);
+                }
+                return _loadedTextures[indx];
+            }
+
+            // force-override texture for a given type
+            set
+            {
+                int indx = GetIndex(i);
+                _loadedTextures[indx] = value;
+            }
+        }
+
+        /// <summary>
+        /// Get texture for enum state and entity state.
+        /// This is for textures that don't have different states, like mouse hover, down, or default.
+        /// </summary>
+        /// <param name="i">Texture enum identifier.</param>
+        /// <param name="s">Entity state to get texture for.</param>
+        /// <returns>Loaded texture.</returns>
+        public Texture2D this[TEnum i, EntityState s]
+        {
+            // get texture for a given type and state
+            get
+            {
+                int indx = GetIndex(i, s);
+                if (_loadedTextures[indx] == null)
+                {
+                    var path = Resources._root + _basepath + EnumToString(i) + _suffix + StateEnumToString(s);
+                    _loadedTextures[indx] = Resources._content.Load<Texture2D>(path);
+                }
+                return _loadedTextures[indx];
+            }
+
+            // force-override texture for a given type and state
+            set
+            {
+                int indx = GetIndex(i, s);
+                _loadedTextures[indx] = value;
+            }
+        }
+
+        /// <summary>
+        /// Get index from enum type with optional state.
+        /// </summary>
+        private int GetIndex(TEnum i, EntityState? s = null)
+        {
+            if (s != null)
+                return (int)(object)i + (_typesCount * (int)s);
+            return (int)(object)i;
+        }
+
+        /// <summary>
+        /// Convert enum to its string for filename.
+        /// </summary>
+        private string EnumToString(TEnum e)
+        {
+            if (typeof(TEnum) == typeof(EntityState))
+            {
+                return StateEnumToString((EntityState)(object)e);
+            }
+            return e.ToString().ToLower();
+        }
+
+        /// <summary>
+        /// Convert entity state enum to string.
+        /// </summary>
+        private string StateEnumToString(EntityState e)
+        {
+            switch (e)
+            {
+                case EntityState.MouseDown:
+                    return "_down";
+                case EntityState.MouseHover:
+                    return "_hover";
+                case EntityState.Default:
+                    return string.Empty;
+            }
+            return null;
+        }
+
+        // base path of textures to load (index will be appended to them).
+        string _basepath;
+
+        // suffix to add to the end of texture path
+        string _suffix;
+
+        // do we use states like down / hover / default for these textures?
+        bool _usesStates;
+
+        // textures types count
+        int _typesCount;
+
+        /// <summary>
+        /// Create the texture getter with base path.
+        /// </summary>
+        /// <param name="path">Resource path, under geonbit.ui content.</param>
+        /// <param name="suffix">Suffix to add to the texture path after the enum part.</param>
+        /// <param name="usesStates">If true, it means these textures may also use entit states, eg mouse hover / down / default.</param>
+        public TexturesGetter(string path, string suffix = null, bool usesStates = true)
+        {
+            _basepath = path;
+            _suffix = suffix ?? string.Empty;
+            _usesStates = usesStates;
+            _typesCount = Enum.GetValues(typeof(TEnum)).Length;
+            _loadedTextures = new Texture2D[usesStates ? _typesCount * 3 : _typesCount];
+        }
+    }
 
     /// <summary>
     /// A static class to init and store all UI resources (textures, effects, fonts, etc.)
@@ -25,73 +157,73 @@ namespace GeonBit.UI
     public static class Resources
     {
         /// <summary>Just a plain white texture, used internally.</summary>
-        public static Texture2D WhiteTexture;
+        public static Texture2D WhiteTexture { get { return _content.Load<Texture2D>(_root + "textures/white_texture"); } }
 
         /// <summary>Cursor textures.</summary>
-        public static Texture2D[] Cursors;
+        public static TexturesGetter<CursorType> Cursors = new TexturesGetter<CursorType>("textures/cursor_");
 
         /// <summary>Metadata about cursor textures.</summary>
         public static CursorTextureData[] CursorsData;
 
         /// <summary>All panel skin textures.</summary>
-        public static Texture2D[] PanelTextures;
+        public static TexturesGetter<PanelSkin> PanelTextures = new TexturesGetter<PanelSkin>("textures/panel_");
 
         /// <summary>Metadata about panel textures.</summary>
         public static TextureData[] PanelData;
 
-        /// <summary>Button textures (texture array is for [skin,state]).</summary>
-        public static Texture2D[,] ButtonTextures;
+        /// <summary>Button textures (accessed as [skin, state]).</summary>
+        public static TexturesGetter<ButtonSkin> ButtonTextures = new TexturesGetter<ButtonSkin>("textures/button_");
 
         /// <summary>Metadata about button textures.</summary>
         public static TextureData[] ButtonData;
 
         /// <summary>CheckBox textures.</summary>
-        public static Texture2D[] CheckBoxTextures;
+        public static TexturesGetter<EntityState> CheckBoxTextures = new TexturesGetter<EntityState>("textures/checkbox");
 
         /// <summary>Radio button textures.</summary>
-        public static Texture2D[] RadioTextures;
+        public static TexturesGetter<EntityState> RadioTextures = new TexturesGetter<EntityState>("textures/radio");
 
         /// <summary>ProgressBar texture.</summary>
-        public static Texture2D ProgressBarTexture;
+        public static Texture2D ProgressBarTexture { get { return _content.Load<Texture2D>(_root + "textures/progressbar"); } }
 
         /// <summary>Metadata about progressbar texture.</summary>
         public static TextureData ProgressBarData;
 
         /// <summary>ProgressBar fill texture.</summary>
-        public static Texture2D ProgressBarFillTexture;
+        public static Texture2D ProgressBarFillTexture { get { return _content.Load<Texture2D>(_root + "textures/progressbar_fill"); } }
 
         /// <summary>HorizontalLine texture.</summary>
-        public static Texture2D HorizontalLineTexture;
+        public static Texture2D HorizontalLineTexture { get { return _content.Load<Texture2D>(_root + "textures/horizontal_line"); } }
 
         /// <summary>Sliders base textures.</summary>
-        public static Texture2D[] SliderTextures;
+        public static TexturesGetter<SliderSkin> SliderTextures = new TexturesGetter<SliderSkin>("textures/slider_");
 
         /// <summary>Sliders mark textures (the sliding piece that shows current value).</summary>
-        public static Texture2D[] SliderMarkTextures;
+        public static TexturesGetter<SliderSkin> SliderMarkTextures = new TexturesGetter<SliderSkin>("textures/slider_", "_mark");
 
         /// <summary>Metadata about slider textures.</summary>
         public static TextureData[] SliderData;
 
         /// <summary>All icon textures.</summary>
-        public static Texture2D[] IconTextures;
+        public static TexturesGetter<IconType> IconTextures = new TexturesGetter<IconType>("textures/icons/");
 
         /// <summary>Icons inventory background texture.</summary>
-        public static Texture2D IconBackgroundTexture;
+        public static Texture2D IconBackgroundTexture { get { return _content.Load<Texture2D>(_root + "textures/icons/background"); } }
 
         /// <summary>Vertical scrollbar base texture.</summary>
-        public static Texture2D VerticalScrollbarTexture;
+        public static Texture2D VerticalScrollbarTexture { get { return _content.Load<Texture2D>(_root + "textures/scrollbar"); } }
 
         /// <summary>Vertical scrollbar mark texture.</summary>
-        public static Texture2D VerticalScrollbarMarkTexture;
+        public static Texture2D VerticalScrollbarMarkTexture { get { return _content.Load<Texture2D>(_root + "textures/scrollbar_mark"); } }
 
         /// <summary>Metadata about scrollbar texture.</summary>
         public static TextureData VerticalScrollbarData;
 
         /// <summary>Arrow-down texture (used in dropdown).</summary>
-        public static Texture2D ArrowDown;
+        public static Texture2D ArrowDown { get { return _content.Load<Texture2D>(_root + "textures/arrow_down"); } }
 
         /// <summary>Arrow-up texture (used in dropdown).</summary>
-        public static Texture2D ArrowUp;
+        public static Texture2D ArrowUp { get { return _content.Load<Texture2D>(_root + "textures/arrow_up"); } }
 
         /// <summary>Default font types.</summary>
         public static SpriteFont[] Fonts;
@@ -102,6 +234,12 @@ namespace GeonBit.UI
         /// <summary>An effect to draw just a silhouette of the texture.</summary>
         public static Effect SilhouetteEffect;
 
+        /// <summary>Store the content manager instance</summary>
+        internal static ContentManager _content;
+
+        /// <summary>Root for geonbit.ui content</summary>
+        internal static string _root;
+
         /// <summary>
         /// Load all GeonBit.UI resources.
         /// </summary>
@@ -109,35 +247,19 @@ namespace GeonBit.UI
         /// <param name="theme">Which theme to load resources from.</param>
         static public void LoadContent(ContentManager content, string theme = "default")
         {
-            // set resources root path
-            string root = "GeonBit.UI/themes/" + theme + "/";
+            // set resources root path and store content manager
+            _root = "GeonBit.UI/themes/" + theme + "/";
+            _content = content;
 
-            // load cursor textures
-            // note: in order not to break old themes etc if the new cursor style is not found, we load the default cursor
-            // in the old themes style.
-            Cursors = new Texture2D[Enum.GetValues(typeof(CursorType)).Length];
+            // load cursors metadata
             CursorsData = new CursorTextureData[Enum.GetValues(typeof(CursorType)).Length];
             foreach (CursorType cursor in Enum.GetValues(typeof(CursorType)))
             {
-                int cursorI = (int)cursor;
-                try
-                {
-                    string cursorName = cursor.ToString().ToLower();
-                    Cursors[cursorI] = content.Load<Texture2D>(root + "textures/cursor_" + cursorName);
-                    CursorsData[cursorI] = content.Load<CursorTextureData>(root + "textures/cursor_" + cursorName + "_md");
-                }
-                catch (ContentLoadException)
-                {
-                    Cursors[cursorI] = content.Load<Texture2D>(root + "textures/cursor");
-                    CursorsData[cursorI] = new CursorTextureData();
-                }
+                string cursorName = cursor.ToString().ToLower();
+                CursorsData[(int)cursor] = content.Load<CursorTextureData>(_root + "textures/cursor_" + cursorName + "_md");
             }
 
-            // load white texture for rectangle
-            WhiteTexture = content.Load<Texture2D>(root + "textures/white_texture");
-
-            // panel textures
-            PanelTextures = new Texture2D[Enum.GetValues(typeof(PanelSkin)).Length];
+            // load panels
             PanelData = new TextureData[Enum.GetValues(typeof(PanelSkin)).Length];
             foreach (PanelSkin skin in Enum.GetValues(typeof(PanelSkin)))
             {
@@ -147,135 +269,75 @@ namespace GeonBit.UI
                     continue;
                 }
 
-                // load panel texture and metadata
+                // load panels metadata
                 string skinName = skin.ToString().ToLower();
-                PanelTextures[(int)skin] = content.Load<Texture2D>(root + "textures/panel_" + skinName);
-                PanelData[(int)skin] = content.Load<TextureData>(root + "textures/panel_" + skinName + "_md");
+                PanelData[(int)skin] = content.Load<TextureData>(_root + "textures/panel_" + skinName + "_md");
             }
 
-            // load arrow down texture
-            ArrowDown = content.Load<Texture2D>(root + "textures/arrow_down");
+            // load scrollbar metadata
+            VerticalScrollbarData = content.Load<TextureData>(_root + "textures/scrollbar_md");
 
-            // load arrow up texture, but if doesn't exist use the same as arrow down
-            try
-            {
-                ArrowUp = content.Load<Texture2D>(root + "textures/arrow_up");
-            }
-            catch (ContentLoadException)
-            {
-                ArrowUp = ArrowDown;
-            }
-
-            // scrollbar texture
-            VerticalScrollbarTexture = content.Load<Texture2D>(root + "textures/scrollbar");
-            VerticalScrollbarMarkTexture = content.Load<Texture2D>(root + "textures/scrollbar_mark");
-
-            // scrollbar metadata
-            VerticalScrollbarData = content.Load<TextureData>(root + "textures/scrollbar_md");
-
-            // slider textures
-            SliderTextures = new Texture2D[Enum.GetValues(typeof(SliderSkin)).Length];
-            SliderMarkTextures = new Texture2D[Enum.GetValues(typeof(SliderSkin)).Length];
+            // load slider metadata
             SliderData = new TextureData[Enum.GetValues(typeof(SliderSkin)).Length];
             foreach (SliderSkin skin in Enum.GetValues(typeof(SliderSkin)))
             {
-                // load slider textures
                 string skinName = skin.ToString().ToLower();
-                SliderTextures[(int)skin] = content.Load<Texture2D>(root + "textures/slider_" + skinName);
-                SliderMarkTextures[(int)skin] = content.Load<Texture2D>(root + "textures/slider_" + skinName + "_mark");
-
-                // load slider textures metadata
-                SliderData[(int)skin] = content.Load<TextureData>(root + "textures/slider_" + skinName + "_md");
+                SliderData[(int)skin] = content.Load<TextureData>(_root + "textures/slider_" + skinName + "_md");
             }
 
-            // horizontal line texture
-            HorizontalLineTexture = content.Load<Texture2D>(root + "textures/horizontal_line");
-
-            // font for paragraphs and text
+            // load fonts
             Fonts = new SpriteFont[Enum.GetValues(typeof(FontStyle)).Length];
             foreach (FontStyle style in Enum.GetValues(typeof(FontStyle)))
             {
-                Fonts[(int)style] = content.Load<SpriteFont>(root + "fonts/" + style.ToString());
+                Fonts[(int)style] = content.Load<SpriteFont>(_root + "fonts/" + style.ToString());
                 Fonts[(int)style].LineSpacing += 2;
             }
 
-            // get mouse states count
-            int mouseStatesOnEntityCount = Enum.GetValues(typeof(EntityState)).Length;
-
-            // init button textures
-            ButtonTextures = new Texture2D[Enum.GetValues(typeof(ButtonSkin)).Length, mouseStatesOnEntityCount];
+            // load buttons metadata
             ButtonData = new TextureData[Enum.GetValues(typeof(ButtonSkin)).Length];
             foreach (ButtonSkin skin in Enum.GetValues(typeof(ButtonSkin)))
             {
-                // load textures
                 string skinName = skin.ToString().ToLower();
-                ButtonTextures[(int)skin, (int)EntityState.Default] = content.Load<Texture2D>(root + "textures/button_" + skinName);
-                ButtonTextures[(int)skin, (int)EntityState.MouseDown] = content.Load<Texture2D>(root + "textures/button_" + skinName + "_down");
-                ButtonTextures[(int)skin, (int)EntityState.MouseHover] = content.Load<Texture2D>(root + "textures/button_" + skinName + "_hover");
-
-                // load metadata
-                ButtonData[(int)skin] = content.Load<TextureData>(root + "textures/button_" + skinName + "_md");
+                ButtonData[(int)skin] = content.Load<TextureData>(_root + "textures/button_" + skinName + "_md");
             }
-            
-            // checkbox textures
-            CheckBoxTextures = new Texture2D[mouseStatesOnEntityCount];
-            CheckBoxTextures[(int)EntityState.Default] = content.Load<Texture2D>(root + "textures/checkbox");
-            CheckBoxTextures[(int)EntityState.MouseDown] = content.Load<Texture2D>(root + "textures/checkbox_down");
-            CheckBoxTextures[(int)EntityState.MouseHover] = content.Load<Texture2D>(root + "textures/checkbox_hover");
 
-            // radio button textures
-            RadioTextures = new Texture2D[mouseStatesOnEntityCount];
-            RadioTextures[(int)EntityState.Default] = content.Load<Texture2D>(root + "textures/radio");
-            RadioTextures[(int)EntityState.MouseDown] = content.Load<Texture2D>(root + "textures/radio_down");
-            RadioTextures[(int)EntityState.MouseHover] = content.Load<Texture2D>(root + "textures/radio_hover");
-
-            // progress bar texture
-            ProgressBarTexture = content.Load<Texture2D>(root + "textures/progressbar");
-            ProgressBarFillTexture = content.Load<Texture2D>(root + "textures/progressbar_fill");
-            ProgressBarData = content.Load<TextureData>(root + "textures/progressbar_md");
-
-            // load icons
-            IconTextures = new Texture2D[Enum.GetValues(typeof(IconType)).Length];
-            foreach (IconType icon in Enum.GetValues(typeof(IconType)))
-            {
-                IconTextures[(int)(icon)] = content.Load<Texture2D>(root + "textures/icons/" + icon.ToString());
-            }
-            IconBackgroundTexture = content.Load<Texture2D>(root + "textures/icons/background");
+            // load progress bar metadata
+            ProgressBarData = content.Load<TextureData>(_root + "textures/progressbar_md");
 
             // load effects
-            DisabledEffect = content.Load<Effect>(root + "effects/disabled");
-            SilhouetteEffect = content.Load<Effect>(root + "effects/silhouette");
+            DisabledEffect = content.Load<Effect>(_root + "effects/disabled");
+            SilhouetteEffect = content.Load<Effect>(_root + "effects/silhouette");
 
             // load default styleSheets
-            LoadDefaultStyles(ref Entity.DefaultStyle, "Entity", root, content);
-            LoadDefaultStyles(ref Paragraph.DefaultStyle, "Paragraph", root, content);
-            LoadDefaultStyles(ref Button.DefaultStyle, "Button", root, content);
-            LoadDefaultStyles(ref Button.DefaultParagraphStyle, "ButtonParagraph", root, content);
-            LoadDefaultStyles(ref CheckBox.DefaultStyle, "CheckBox", root, content);
-            LoadDefaultStyles(ref CheckBox.DefaultParagraphStyle, "CheckBoxParagraph", root, content);
-            LoadDefaultStyles(ref ColoredRectangle.DefaultStyle, "ColoredRectangle", root, content);
-            LoadDefaultStyles(ref DropDown.DefaultStyle, "DropDown", root, content);
-            LoadDefaultStyles(ref DropDown.DefaultParagraphStyle, "DropDownParagraph", root, content);
-            LoadDefaultStyles(ref DropDown.DefaultSelectedParagraphStyle, "DropDownSelectedParagraph", root, content);
-            LoadDefaultStyles(ref Header.DefaultStyle, "Header", root, content);
-            LoadDefaultStyles(ref HorizontalLine.DefaultStyle, "HorizontalLine", root, content);
-            LoadDefaultStyles(ref Icon.DefaultStyle, "Icon", root, content);
-            LoadDefaultStyles(ref Image.DefaultStyle, "Image", root, content);
-            LoadDefaultStyles(ref Label.DefaultStyle, "Label", root, content);
-            LoadDefaultStyles(ref Panel.DefaultStyle, "Panel", root, content);
-            LoadDefaultStyles(ref ProgressBar.DefaultStyle, "ProgressBar", root, content);
-            LoadDefaultStyles(ref ProgressBar.DefaultFillStyle, "ProgressBarFill", root, content);
-            LoadDefaultStyles(ref RadioButton.DefaultStyle, "RadioButton", root, content);
-            LoadDefaultStyles(ref RadioButton.DefaultParagraphStyle, "RadioButtonParagraph", root, content);
-            LoadDefaultStyles(ref SelectList.DefaultStyle, "SelectList", root, content);
-            LoadDefaultStyles(ref SelectList.DefaultParagraphStyle, "SelectListParagraph", root, content);
-            LoadDefaultStyles(ref Slider.DefaultStyle, "Slider", root, content);
-            LoadDefaultStyles(ref TextInput.DefaultStyle, "TextInput", root, content);
-            LoadDefaultStyles(ref TextInput.DefaultParagraphStyle, "TextInputParagraph", root, content);
-            LoadDefaultStyles(ref TextInput.DefaultPlaceholderStyle, "TextInputPlaceholder", root, content);
-            LoadDefaultStyles(ref VerticalScrollbar.DefaultStyle, "VerticalScrollbar", root, content);
-            LoadDefaultStyles(ref PanelTabs.DefaultButtonStyle, "PanelTabsButton", root, content);
-            LoadDefaultStyles(ref PanelTabs.DefaultButtonParagraphStyle, "PanelTabsButtonParagraph", root, content);
+            LoadDefaultStyles(ref Entity.DefaultStyle, "Entity", _root, content);
+            LoadDefaultStyles(ref Paragraph.DefaultStyle, "Paragraph", _root, content);
+            LoadDefaultStyles(ref Button.DefaultStyle, "Button", _root, content);
+            LoadDefaultStyles(ref Button.DefaultParagraphStyle, "ButtonParagraph", _root, content);
+            LoadDefaultStyles(ref CheckBox.DefaultStyle, "CheckBox", _root, content);
+            LoadDefaultStyles(ref CheckBox.DefaultParagraphStyle, "CheckBoxParagraph", _root, content);
+            LoadDefaultStyles(ref ColoredRectangle.DefaultStyle, "ColoredRectangle", _root, content);
+            LoadDefaultStyles(ref DropDown.DefaultStyle, "DropDown", _root, content);
+            LoadDefaultStyles(ref DropDown.DefaultParagraphStyle, "DropDownParagraph", _root, content);
+            LoadDefaultStyles(ref DropDown.DefaultSelectedParagraphStyle, "DropDownSelectedParagraph", _root, content);
+            LoadDefaultStyles(ref Header.DefaultStyle, "Header", _root, content);
+            LoadDefaultStyles(ref HorizontalLine.DefaultStyle, "HorizontalLine", _root, content);
+            LoadDefaultStyles(ref Icon.DefaultStyle, "Icon", _root, content);
+            LoadDefaultStyles(ref Image.DefaultStyle, "Image", _root, content);
+            LoadDefaultStyles(ref Label.DefaultStyle, "Label", _root, content);
+            LoadDefaultStyles(ref Panel.DefaultStyle, "Panel", _root, content);
+            LoadDefaultStyles(ref ProgressBar.DefaultStyle, "ProgressBar", _root, content);
+            LoadDefaultStyles(ref ProgressBar.DefaultFillStyle, "ProgressBarFill", _root, content);
+            LoadDefaultStyles(ref RadioButton.DefaultStyle, "RadioButton", _root, content);
+            LoadDefaultStyles(ref RadioButton.DefaultParagraphStyle, "RadioButtonParagraph", _root, content);
+            LoadDefaultStyles(ref SelectList.DefaultStyle, "SelectList", _root, content);
+            LoadDefaultStyles(ref SelectList.DefaultParagraphStyle, "SelectListParagraph", _root, content);
+            LoadDefaultStyles(ref Slider.DefaultStyle, "Slider", _root, content);
+            LoadDefaultStyles(ref TextInput.DefaultStyle, "TextInput", _root, content);
+            LoadDefaultStyles(ref TextInput.DefaultParagraphStyle, "TextInputParagraph", _root, content);
+            LoadDefaultStyles(ref TextInput.DefaultPlaceholderStyle, "TextInputPlaceholder", _root, content);
+            LoadDefaultStyles(ref VerticalScrollbar.DefaultStyle, "VerticalScrollbar", _root, content);
+            LoadDefaultStyles(ref PanelTabs.DefaultButtonStyle, "PanelTabsButton", _root, content);
+            LoadDefaultStyles(ref PanelTabs.DefaultButtonParagraphStyle, "PanelTabsButtonParagraph", _root, content);
         }
 
         /// <summary>

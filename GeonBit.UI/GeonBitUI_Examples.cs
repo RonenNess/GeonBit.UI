@@ -85,7 +85,7 @@ namespace GeonBit.UI.Example
             int _ScreenHeight = graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Height;
             graphics.PreferredBackBufferWidth = (int)_ScreenWidth;
             graphics.PreferredBackBufferHeight = (int)_ScreenHeight;
-            graphics.IsFullScreen = true;
+            graphics.IsFullScreen = false;
             graphics.ApplyChanges();
             
             // init ui and examples

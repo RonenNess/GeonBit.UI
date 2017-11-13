@@ -308,7 +308,7 @@ namespace GeonBit.UI.Entities
             if (_skin != PanelSkin.None)
             {
                 // get texture based on skin
-                Texture2D texture = Resources.PanelTextures[(int)_skin];
+                Texture2D texture = Resources.PanelTextures[_skin];
                 TextureData data = Resources.PanelData[(int)_skin];
                 Vector2 frameSize = new Vector2(data.FrameWidth, data.FrameHeight);
 

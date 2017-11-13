@@ -310,9 +310,8 @@ namespace GeonBit.UI
         /// <param name="type">What type of cursor to show.</param>
         public void SetCursor(CursorType type)
         {
-            int typeI = (int)type;
-            DataTypes.CursorTextureData data = Resources.CursorsData[typeI];
-            SetCursor(Resources.Cursors[typeI], data.DrawWidth, new Point(data.OffsetX, data.OffsetY));
+            DataTypes.CursorTextureData data = Resources.CursorsData[(int)type];
+            SetCursor(Resources.Cursors[type], data.DrawWidth, new Point(data.OffsetX, data.OffsetY));
         }
 
         /// <summary>

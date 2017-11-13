@@ -162,7 +162,7 @@ namespace GeonBit.UI.Entities
             if (Checked) { state = EntityState.MouseDown; }
            
             // get texture based on skin and state
-            Texture2D texture = _customSkin == null ? Resources.ButtonTextures[(int)_skin, (int)state] : _customSkin[(int)state];
+            Texture2D texture = _customSkin == null ? Resources.ButtonTextures[_skin, state] : _customSkin[(int)state];
 
             // get frame width
             TextureData data = Resources.ButtonData[(int)_skin];

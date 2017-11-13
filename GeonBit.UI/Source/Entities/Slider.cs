@@ -258,8 +258,8 @@ namespace GeonBit.UI.Entities
         override protected void DrawEntity(SpriteBatch spriteBatch)
         {
             // get textures based on skin
-            Texture2D texture = Resources.SliderTextures[(int)_skin];
-            Texture2D markTexture = Resources.SliderMarkTextures[(int)_skin];
+            Texture2D texture = Resources.SliderTextures[_skin];
+            Texture2D markTexture = Resources.SliderMarkTextures[_skin];
 
             // get slider metadata
             DataTypes.TextureData data = Resources.SliderData[(int)_skin];

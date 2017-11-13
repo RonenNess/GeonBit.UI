@@ -162,7 +162,7 @@ namespace GeonBit.UI.Entities
             // set scale and basic properties
             Scale = scale;
             DrawBackground = background;
-            Texture = Resources.IconTextures[(int)icon];
+            Texture = Resources.IconTextures[icon];
 
             // set default background color
             SetStyleProperty("BackgroundColor", new StyleProperty(Color.White));

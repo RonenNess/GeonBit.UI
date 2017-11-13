@@ -63,7 +63,7 @@ namespace GeonBit.UI.Entities
         {
             EntityState state = _entityState;
             if (state != EntityState.MouseDown && (bool)Checked) { state = EntityState.MouseDown; }
-            return Resources.RadioTextures[(int)state];
+            return Resources.RadioTextures[state];
         }
 
         /// <summary>
