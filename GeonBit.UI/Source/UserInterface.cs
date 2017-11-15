@@ -317,8 +317,18 @@ namespace GeonBit.UI
             // add callback to update tooltip position
             tooltip.BeforeDraw += (Entity ent) =>
             {
+                // get dest rect and calculate tooltip position based on size and mouse position
                 var destRect = tooltip.GetActualDestRect();
                 var position = _input.MousePosition + new Vector2(-destRect.Width / 2, -destRect.Height - 20);
+
+                // make sure tooltip is not out of screen boundaries
+                var screenBounds = Active.Root.GetActualDestRect();
+                if (position.Y < screenBounds.Top) position.Y = screenBounds.Top;
+                if (position.Y > screenBounds.Bottom - destRect.Height) position.Y = screenBounds.Bottom - destRect.Height;
+                if (position.X < screenBounds.Left) position.X = screenBounds.Left;
+                if (position.X > screenBounds.Right - destRect.Width) position.X = screenBounds.Right - destRect.Width;
+
+                // update tooltip position
                 tooltip.SetPosition(Anchor.TopLeft, position / UserInterface.Active.GlobalScale);
             };
             tooltip.CalcTextActualRectWithWrap();
