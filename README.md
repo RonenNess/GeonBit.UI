@@ -1808,6 +1808,11 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Improved the way lists and dropdown works + fixed selection color.
 - Adding entity functions now return the newly added entity.
 
+## 3.0.2.1
+
+- Fixed bug with dropdown width when its size is relative (for example 0.5f).
+- Fixed tooltip text for complex entities like dropdown and lists.
+
 ## Credits
 
 GeonBit.UI was written by Ronen Ness, but uses some free textures made by awesome people who share their work for free.

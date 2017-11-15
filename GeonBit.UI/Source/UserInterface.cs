@@ -267,6 +267,9 @@ namespace GeonBit.UI
         // the current tooltip entity.
         Entity _tooltipEntity;
 
+        // current tooltip target entity (eg entity we point on with tooltip).
+        Entity _tooltipTargetEntity;
+
         /// <summary>
         /// How long to wait before showing tooltip texts.
         /// </summary>
@@ -474,10 +477,17 @@ namespace GeonBit.UI
         /// <param name="target">Current target entity.</param>
         private void UpdateTooltipText(GameTime gameTime, Entity target)
         {
+            // fix tooltip target to be an actual entity
+            while (target != null && target._hideFromFind)
+                target = target.Parent;
+
             // if target entity changed, zero time to show tooltip text
-            if (TargetEntity != target || target == null)
+            if (_tooltipTargetEntity != target || target == null)
             {
+                // zero time until showing tooltip text
                 _timeUntilTooltip = 0f;
+
+                // if we currently have a tooltip we show, remove it
                 if (_tooltipEntity != null && _tooltipEntity.Parent != null)
                 {
                     _tooltipEntity.RemoveFromParent();
@@ -485,16 +495,28 @@ namespace GeonBit.UI
                 }
             }
 
-            // check if we need to create a tooltip text
+            // set current tooltip target
+            _tooltipTargetEntity = target;
+
+            // if we currently not showing any tooltip entity
             if (_tooltipEntity == null)
             {
+                // decrease time until showing tooltip
                 _timeUntilTooltip += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+                // if its time to show tooltip text, create it.
+                // note: we create even if the target have no tooltip text, to allow our custom function to create default tooltip or generate based on entity type.
+                // if the entity should not show tooltip text, the function to generate it should just return null.
                 if (_timeUntilTooltip > TimeToShowTooltipText)
                 {
-                    _tooltipEntity = GenerateTooltipFunc(TargetEntity);
+                    // create tooltip text entity
+                    _tooltipEntity = GenerateTooltipFunc(_tooltipTargetEntity);
+
+                    // if got a result lock it and add to UI
                     if (_tooltipEntity != null)
                     {
                         _tooltipEntity.Locked = true;
+                        _tooltipEntity.ClickThrough = true;
                         AddEntity(_tooltipEntity);
                     }
                 }
