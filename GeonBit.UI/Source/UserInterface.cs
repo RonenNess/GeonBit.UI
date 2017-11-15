@@ -478,7 +478,7 @@ namespace GeonBit.UI
         private void UpdateTooltipText(GameTime gameTime, Entity target)
         {
             // fix tooltip target to be an actual entity
-            while (target != null && target._hideFromFind)
+            while (target != null && target._hiddenInternalEntity)
                 target = target.Parent;
 
             // if target entity changed, zero time to show tooltip text

@@ -117,12 +117,12 @@ namespace GeonBit.UI.Entities
             _selectedTextParagraph.UpdateStyle(DefaultParagraphStyle);
             _selectedTextParagraph.UpdateStyle(DefaultSelectedParagraphStyle);
             _selectedTextPanel.AddChild(_selectedTextParagraph, true);
-            _selectedTextPanel._hideFromFind = true;
+            _selectedTextPanel._hiddenInternalEntity = true;
 
             // create the arrow down icon
             _arrowDownImage = new Image(Resources.ArrowDown, new Vector2(ArrowSize, ArrowSize), ImageDrawMode.Stretch, Anchor.CenterRight, new Vector2(-10, 0));
             _selectedTextPanel.AddChild(_arrowDownImage, true);
-            _arrowDownImage._hideFromFind = true;
+            _arrowDownImage._hiddenInternalEntity = true;
 
             // create the list component
             _selectList = new SelectList(new Vector2(0f, size.Y), Anchor.TopCenter, Vector2.Zero, skin);
@@ -130,7 +130,7 @@ namespace GeonBit.UI.Entities
             // update list offset and space before
             _selectList.SetOffset(new Vector2(0, SelectedPanelHeight));
             _selectList.SpaceBefore = Vector2.Zero;
-            _selectList._hideFromFind = true;
+            _selectList._hiddenInternalEntity = true;
 
             // add the header and select list as children
             AddChild(_selectedTextPanel);

@@ -102,7 +102,7 @@ namespace GeonBit.UI.Entities
             _scrollbar = new VerticalScrollbar(0, 10, Anchor.CenterRight, offset: new Vector2(-8, 0));
             _scrollbar.Value = 0;
             _scrollbar.Visible = false;
-            _scrollbar._hideFromFind = true;
+            _scrollbar._hiddenInternalEntity = true;
             AddChild(_scrollbar, false);
         }
 
@@ -300,7 +300,7 @@ namespace GeonBit.UI.Entities
                 paragraph.Size = new Vector2(0, paragraph.GetCharacterActualSize().Y + ExtraSpaceBetweenLines);
                 paragraph.BackgroundColorPadding = new Point((int)Padding.X, 5);
                 paragraph.BackgroundColorUseBoxSize = true;
-                paragraph._hideFromFind = true;
+                paragraph._hiddenInternalEntity = true;
                 AddChild(paragraph);
                 _paragraphs.Add(paragraph);
                 OnCreatedListParagraph(paragraph);

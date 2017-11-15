@@ -105,9 +105,9 @@ namespace GeonBit.UI.Entities
             _internalRoot.AddChild(_panelsPanel);
 
             // make internal stuff hidden
-            _panelsPanel._hideFromFind = true;
-            _buttonsPanel._hideFromFind = true;
-            _internalRoot._hideFromFind = true;
+            _panelsPanel._hiddenInternalEntity = true;
+            _buttonsPanel._hiddenInternalEntity = true;
+            _internalRoot._hiddenInternalEntity = true;
         }
 
         /// <summary>

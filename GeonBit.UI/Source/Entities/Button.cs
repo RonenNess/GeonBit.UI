@@ -86,7 +86,7 @@ namespace GeonBit.UI.Entities
 
             // create and set button paragraph
             ButtonParagraph = UserInterface.DefaultParagraph(text, Anchor.Center);
-            ButtonParagraph._hideFromFind = true;
+            ButtonParagraph._hiddenInternalEntity = true;
             ButtonParagraph.UpdateStyle(DefaultParagraphStyle);
             AddChild(ButtonParagraph, true);
         }

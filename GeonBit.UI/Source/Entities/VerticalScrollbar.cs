@@ -181,7 +181,7 @@ namespace GeonBit.UI.Entities
                     if (child == this) continue;
 
                     // skip internals
-                    if (child._hideFromFind) continue;
+                    if (child._hiddenInternalEntity) continue;
 
                     // get current child bottom
                     int bottom = child.GetActualDestRect().Bottom;

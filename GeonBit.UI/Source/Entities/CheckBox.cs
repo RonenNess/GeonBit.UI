@@ -60,7 +60,7 @@ namespace GeonBit.UI.Entities
             TextParagraph = UserInterface.DefaultParagraph(text, Anchor.CenterLeft);
             TextParagraph.UpdateStyle(DefaultParagraphStyle);
             TextParagraph.SetOffset(new Vector2(25, 0));
-            TextParagraph._hideFromFind = true;
+            TextParagraph._hiddenInternalEntity = true;
             AddChild(TextParagraph, true);
 
             // checkboxes are promiscuous by default.

@@ -105,13 +105,13 @@ namespace GeonBit.UI.Entities
             // create paragraph to show current value
             TextParagraph = UserInterface.DefaultParagraph(string.Empty, _multiLine ? Anchor.TopLeft : Anchor.CenterLeft);
             TextParagraph.UpdateStyle(DefaultParagraphStyle);
-            TextParagraph._hideFromFind = true;
+            TextParagraph._hiddenInternalEntity = true;
             AddChild(TextParagraph, true);
 
             // create the placeholder paragraph
             PlaceholderParagraph = UserInterface.DefaultParagraph(string.Empty, _multiLine ? Anchor.TopLeft : Anchor.CenterLeft);
             PlaceholderParagraph.UpdateStyle(DefaultPlaceholderStyle);
-            PlaceholderParagraph._hideFromFind = true;
+            PlaceholderParagraph._hiddenInternalEntity = true;
             AddChild(PlaceholderParagraph, true);
 
             // create the scrollbar
@@ -120,7 +120,7 @@ namespace GeonBit.UI.Entities
                 _scrollbar = new VerticalScrollbar(0, 0, Anchor.CenterRight, offset: new Vector2(-8, 0));
                 _scrollbar.Value = 0;
                 _scrollbar.Visible = false;
-                _scrollbar._hideFromFind = true;
+                _scrollbar._hiddenInternalEntity = true;
                 AddChild(_scrollbar, false);
             }
 
