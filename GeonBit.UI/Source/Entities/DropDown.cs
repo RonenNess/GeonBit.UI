@@ -125,7 +125,7 @@ namespace GeonBit.UI.Entities
             _arrowDownImage._hideFromFind = true;
 
             // create the list component
-            _selectList = new SelectList(size, Anchor.TopCenter, Vector2.Zero, skin);
+            _selectList = new SelectList(new Vector2(0f, size.Y), Anchor.TopCenter, Vector2.Zero, skin);
 
             // update list offset and space before
             _selectList.SetOffset(new Vector2(0, SelectedPanelHeight));
