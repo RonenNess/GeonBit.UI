@@ -286,8 +286,8 @@ namespace GeonBit.UI.Entities
             // update destination rectangles
             _selectList.UpdateDestinationRects();
 
-            // scroll to selected
-            _selectList.ScrollToSelected();
+            // if turned visible, scroll to selected
+            if (_selectList.Visible) _selectList.ScrollToSelected();
 
             // mark self as dirty
             MarkAsDirty();
