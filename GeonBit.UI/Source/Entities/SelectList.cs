@@ -300,7 +300,8 @@ namespace GeonBit.UI.Entities
                 paragraph.WrapWords = false;
                 paragraph.UpdateStyle(DefaultParagraphStyle);
                 paragraph.Scale = paragraph.Scale * ItemsScale;
-                paragraph.SpaceAfter = paragraph.SpaceAfter + new Vector2(0, ExtraSpaceBetweenLines - 3);
+                paragraph.SpaceAfter = paragraph.SpaceAfter + new Vector2(0, ExtraSpaceBetweenLines - 2);
+                paragraph.ExtraMargin.Y = ExtraSpaceBetweenLines + 4;
                 paragraph.AttachedData = new ParagraphData(this, i++);
                 paragraph.UseActualSizeForCollision = false;
                 paragraph.Size = new Vector2(0, paragraph.GetCharacterActualSize().Y + ExtraSpaceBetweenLines);
@@ -309,8 +310,12 @@ namespace GeonBit.UI.Entities
                 paragraph._hiddenInternalEntity = true;
                 paragraph.PropagateEventsTo(this);
                 AddChild(paragraph);
-                _paragraphs.Add(paragraph);
+
+                // call the callback whenever a new paragraph is created
                 OnCreatedListParagraph(paragraph);
+
+                // add to paragraphs list
+                _paragraphs.Add(paragraph);
 
                 // add callback to selection
                 paragraph.OnClick += (Entity entity) =>

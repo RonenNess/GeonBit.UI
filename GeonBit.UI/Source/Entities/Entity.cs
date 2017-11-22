@@ -492,6 +492,13 @@ namespace GeonBit.UI.Entities
         protected Vector2 _scaledPadding { get { return Padding * UserInterface.Active.GlobalScale; } }
 
         /// <summary>
+        /// Adds extra space outside the dest rect for collision detection.
+        /// In other words, if extra margin is set to 10 and the user points with its mouse 5 pixels above this entity,
+        /// it would still think the user points on the entity.
+        /// </summary>
+        public Point ExtraMargin = Point.Zero;
+
+        /// <summary>
         /// Set / get visibility.
         /// </summary>
         public bool Visible
@@ -1740,8 +1747,8 @@ namespace GeonBit.UI.Entities
             Rectangle rect = UseActualSizeForCollision ? GetActualDestRect() : _destRect;
 
             // now test detection
-            return (point.X >= rect.Left && point.X <= rect.Right &&
-                    point.Y >= rect.Top && point.Y <= rect.Bottom);
+            return (point.X >= rect.Left - ExtraMargin.X && point.X <= rect.Right + ExtraMargin.X &&
+                    point.Y >= rect.Top - ExtraMargin.Y && point.Y <= rect.Bottom + ExtraMargin.Y);
         }
 
         /// <summary>
