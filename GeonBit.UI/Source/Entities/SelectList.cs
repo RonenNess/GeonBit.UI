@@ -78,6 +78,12 @@ namespace GeonBit.UI.Entities
         List<string> _list = new List<string>();
 
         /// <summary>
+        /// If true and user clicks on the item currently selected item, it will still invoke value change event as if 
+        /// a new value was selected.
+        /// </summary>
+        public bool AllowReselectValue = false;
+
+        /// <summary>
         /// If provided, will not be able to add any more of this number of items.
         /// </summary>
         public int MaxItems = 0;
@@ -301,12 +307,13 @@ namespace GeonBit.UI.Entities
                 paragraph.BackgroundColorPadding = new Point((int)Padding.X, 5);
                 paragraph.BackgroundColorUseBoxSize = true;
                 paragraph._hiddenInternalEntity = true;
+                paragraph.PropagateEventsTo(this);
                 AddChild(paragraph);
                 _paragraphs.Add(paragraph);
                 OnCreatedListParagraph(paragraph);
 
                 // add callback to selection
-                paragraph.OnClick = (Entity entity) =>
+                paragraph.OnClick += (Entity entity) =>
                 {
                     ParagraphData data = (ParagraphData)entity.AttachedData;
                     if (!data.list.LockSelection)
@@ -345,6 +352,28 @@ namespace GeonBit.UI.Entities
                 _scrollbar.Visible = false;
                 if (_scrollbar.Value > 0) { _scrollbar.Value = 0; }
             }
+        }
+
+        /// <summary>
+        /// Propagate all events trigger by this entity to a given other entity.
+        /// For example, if "OnClick" will be called on this entity, it will trigger OnClick on 'other' as well.
+        /// </summary>
+        /// <param name="other">Entity to propagate events to.</param>
+        public void PropagateEventsTo(SelectList other)
+        {
+            PropagateEventsTo((Entity)other);
+            OnListChange += (Entity entity) => { other.OnListChange?.Invoke(other); };
+        }
+
+        /// <summary>
+        /// Propagate all events trigger by this entity to a given other entity.
+        /// For example, if "OnClick" will be called on this entity, it will trigger OnClick on 'other' as well.
+        /// </summary>
+        /// <param name="other">Entity to propagate events to.</param>
+        public void PropagateEventsTo(DropDown other)
+        {
+            PropagateEventsTo((Entity)other);
+            OnListChange += (Entity entity) => { other.OnListChange?.Invoke(other); };
         }
 
         /// <summary>
@@ -389,7 +418,7 @@ namespace GeonBit.UI.Entities
         protected void Select(string value)
         {
             // value not changed? skip
-            if (value == _value) { return; }
+            if (!AllowReselectValue && value == _value) { return; }
 
             // special case - value is null
             if (value == null)
@@ -430,7 +459,7 @@ namespace GeonBit.UI.Entities
             }
 
             // index not changed? skip
-            if (index == _index) { return; }
+            if (!AllowReselectValue && index == _index) { return; }
 
             // make sure legal index
             if (index >= -1 && index >= _list.Count)

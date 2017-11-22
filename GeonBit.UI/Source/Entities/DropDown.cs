@@ -54,6 +54,16 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// If true and user clicks on the item currently selected item, it will still invoke value change event as if 
+        /// a new value was selected.
+        /// </summary>
+        public bool AllowReselectValue
+        {
+            get { return _selectList.AllowReselectValue; }
+            set { _selectList.AllowReselectValue = value; }
+        }
+
+        /// <summary>
         /// Get the drop-down list component.
         /// </summary>
         public SelectList SelectList
@@ -146,6 +156,12 @@ namespace GeonBit.UI.Entities
                 _selectedTextParagraph.Text = (SelectedValue ?? DefaultText);
             };
 
+            // on click, always hide the selectlist
+            _selectList.OnClick = (Entity entity) =>
+            {
+                ListVisible = false;
+            };
+
             // hide the list by default
             _selectList.Visible = false;
 
@@ -163,42 +179,10 @@ namespace GeonBit.UI.Entities
             _selectList.UpdateStyle(DefaultStyle);
 
             // make the list events trigger the dropdown events
-            _selectList.OnListChange += (Entity entity) => { OnListChange?.Invoke(this); };
-            _selectList.OnMouseDown += (Entity entity) => { OnMouseDown?.Invoke(this); };
-            _selectList.OnMouseReleased += (Entity entity) => { OnMouseReleased?.Invoke(this); };
-            _selectList.WhileMouseDown += (Entity entity) => { WhileMouseDown?.Invoke(this); };
-            _selectList.WhileMouseHover += (Entity entity) => { WhileMouseHover?.Invoke(this); };
-            _selectList.OnClick += (Entity entity) => { OnClick?.Invoke(this); };
-            _selectList.OnValueChange += (Entity entity) => { OnValueChange?.Invoke(this); };
-            _selectList.OnMouseEnter += (Entity entity) => { OnMouseEnter?.Invoke(this); };
-            _selectList.OnMouseLeave += (Entity entity) => { OnMouseLeave?.Invoke(this); };
-            _selectList.OnMouseWheelScroll += (Entity entity) => { OnMouseWheelScroll?.Invoke(this); };
-            _selectList.OnStartDrag += (Entity entity) => { OnStartDrag?.Invoke(this); };
-            _selectList.OnStopDrag += (Entity entity) => { OnStopDrag?.Invoke(this); };
-            _selectList.WhileDragging += (Entity entity) => { WhileDragging?.Invoke(this); };
-            _selectList.BeforeDraw += (Entity entity) => { BeforeDraw?.Invoke(this); };
-            _selectList.AfterDraw += (Entity entity) => { AfterDraw?.Invoke(this); };
-            _selectList.BeforeUpdate += (Entity entity) => { BeforeUpdate?.Invoke(this); };
-            _selectList.AfterUpdate += (Entity entity) => { AfterUpdate?.Invoke(this); };
+            _selectList.PropagateEventsTo(this);
 
             // make the selected value panel trigger the dropdown events
-            _selectedTextPanel.OnMouseDown += (Entity entity) => { OnMouseDown?.Invoke(this); };
-            _selectedTextPanel.OnMouseReleased += (Entity entity) => { OnMouseReleased?.Invoke(this); };
-            _selectedTextPanel.WhileMouseDown += (Entity entity) => { WhileMouseDown?.Invoke(this); };
-            _selectedTextPanel.WhileMouseHover += (Entity entity) => { WhileMouseHover?.Invoke(this); };
-            _selectedTextPanel.OnClick += (Entity entity) => { OnClick?.Invoke(this); };
-            _selectedTextPanel.OnValueChange += (Entity entity) => { OnValueChange?.Invoke(this); };
-            _selectedTextPanel.OnMouseEnter += (Entity entity) => { OnMouseEnter?.Invoke(this); };
-            _selectedTextPanel.OnMouseLeave += (Entity entity) => { OnMouseLeave?.Invoke(this); };
-            _selectedTextPanel.OnMouseWheelScroll += (Entity entity) => { OnMouseWheelScroll?.Invoke(this); };
-            _selectedTextPanel.OnStartDrag += (Entity entity) => { OnStartDrag?.Invoke(this); };
-            _selectedTextPanel.OnStopDrag += (Entity entity) => { OnStopDrag?.Invoke(this); };
-            _selectedTextPanel.WhileDragging += (Entity entity) => { WhileDragging?.Invoke(this); };
-            _selectedTextPanel.BeforeDraw += (Entity entity) => { BeforeDraw?.Invoke(this); };
-            _selectedTextPanel.AfterDraw += (Entity entity) => { AfterDraw?.Invoke(this); };
-            _selectedTextPanel.BeforeUpdate += (Entity entity) => { BeforeUpdate?.Invoke(this); };
-            _selectedTextPanel.AfterUpdate += (Entity entity) => { AfterUpdate?.Invoke(this); };
-
+            _selectedTextPanel.PropagateEventsTo(this);
         }
 
         /// <summary>

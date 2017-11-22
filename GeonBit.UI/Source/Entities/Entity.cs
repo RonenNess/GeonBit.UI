@@ -1494,6 +1494,31 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Propagate all events trigger by this entity to a given other entity.
+        /// For example, if "OnClick" will be called on this entity, it will trigger OnClick on 'other' as well.
+        /// </summary>
+        /// <param name="other">Entity to propagate events to.</param>
+        public virtual void PropagateEventsTo(Entity other)
+        {
+            OnMouseDown += (Entity entity) => { other.OnMouseDown?.Invoke(other); };
+            OnMouseReleased += (Entity entity) => { other.OnMouseReleased?.Invoke(other); };
+            WhileMouseDown += (Entity entity) => { other.WhileMouseDown?.Invoke(other); };
+            WhileMouseHover += (Entity entity) => { other.WhileMouseHover?.Invoke(other); };
+            OnClick += (Entity entity) => { other.OnClick?.Invoke(other); };
+            OnValueChange += (Entity entity) => { other.OnValueChange?.Invoke(other); };
+            OnMouseEnter += (Entity entity) => { other.OnMouseEnter?.Invoke(other); };
+            OnMouseLeave += (Entity entity) => { other.OnMouseLeave?.Invoke(other); };
+            OnMouseWheelScroll += (Entity entity) => { other.OnMouseWheelScroll?.Invoke(other); };
+            OnStartDrag += (Entity entity) => { other.OnStartDrag?.Invoke(other); };
+            OnStopDrag += (Entity entity) => { other.OnStopDrag?.Invoke(other); };
+            WhileDragging += (Entity entity) => { other.WhileDragging?.Invoke(other); };
+            BeforeDraw += (Entity entity) => { other.BeforeDraw?.Invoke(other); };
+            AfterDraw += (Entity entity) => { other.AfterDraw?.Invoke(other); };
+            BeforeUpdate += (Entity entity) => { other.BeforeUpdate?.Invoke(other); };
+            AfterUpdate += (Entity entity) => { other.AfterUpdate?.Invoke(other); };
+        }
+
+        /// <summary>
         /// Return the relative offset, in pixels, from parent top-left corner.
         /// </summary>
         /// <remarks>
