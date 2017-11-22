@@ -1813,6 +1813,9 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Fixed bug with dropdown width when its size is relative (for example 0.5f).
 - Fixed tooltip text for complex entities like dropdown and lists.
 - Fixed default tooltip text to never leave screen boundaries.
+- Added AllowReselectValue mode to lists and dropdown entities.
+- Fixed propagating events in lists and dropdown + added base function for that.
+- Changed so that selecting the same value in a dropdown would still close it.
 
 ## Credits
 
