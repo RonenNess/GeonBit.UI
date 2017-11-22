@@ -1816,6 +1816,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Added AllowReselectValue mode to lists and dropdown entities.
 - Fixed propagating events in lists and dropdown + added base function for that.
 - Changed so that selecting the same value in a dropdown would still close it.
+- Added msg boxes counter to msg boxes utility + a getter to check if there's anything opened.
 
 ## Credits
 
