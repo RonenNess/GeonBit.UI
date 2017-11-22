@@ -40,6 +40,22 @@ namespace GeonBit.UI.Utils
         public static Color BackgroundFaderColor = new Color(0, 0, 0, 100);
 
         /// <summary>
+        /// Count currently opened message boxes.
+        /// </summary>
+        public static int OpenedMsgBoxesCount
+        {
+            get; private set;
+        } = 0;
+
+        /// <summary>
+        /// Get if there's a message box currently opened.
+        /// </summary>
+        public static bool IsMsgBoxOpened
+        {
+            get { return OpenedMsgBoxesCount > 0; }
+        }
+
+        /// <summary>
         /// A button / option for a message box.
         /// </summary>
         public class MsgBoxOption
@@ -85,6 +101,9 @@ namespace GeonBit.UI.Utils
             panel.AddChild(new Entities.HorizontalLine());
             panel.AddChild(new Entities.Paragraph(text));
 
+            // add to opened boxes counter
+            OpenedMsgBoxesCount++;
+
             // add rectangle to hide and lock background
             Entities.ColoredRectangle fader = null;
             if (BackgroundFaderColor.A != 0)
@@ -105,23 +124,37 @@ namespace GeonBit.UI.Utils
                 }
             }
 
-            // add bottom buttons
+            // add bottom buttons panel
             var buttonsPanel = new Entities.Panel(new Vector2(0, 70), Entities.PanelSkin.None, Entities.Anchor.BottomCenter);
             buttonsPanel.Padding = Vector2.Zero;
             panel.AddChild(buttonsPanel);
+
+            // add all option buttons
             var btnSize = new Vector2(options.Length == 1 ? 0f : (1f / options.Length), 60);
             foreach (var option in options)
             {
+                // add button entity
                 var button = new Entities.Button(option.Title, anchor: Entities.Anchor.AutoInline, size: btnSize);
+
+                // set click event
                 button.OnClick += (Entities.Entity ent) =>
                 {
+                    // if need to close message box after clicking this button, close it:
                     if (option.Callback == null || option.Callback())
                     {
+                        // remove fader and msg box panel
                         if (fader != null) { fader.RemoveFromParent(); }
                         panel.RemoveFromParent();
+
+                        // decrease msg boxes count
+                        OpenedMsgBoxesCount--;
+
+                        // call on-done callback
                         onDone?.Invoke();
                     }
                 };
+
+                // add button to buttons panel
                 buttonsPanel.AddChild(button);
             }
 
