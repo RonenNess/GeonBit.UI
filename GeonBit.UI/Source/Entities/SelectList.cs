@@ -301,7 +301,7 @@ namespace GeonBit.UI.Entities
                 paragraph.UpdateStyle(DefaultParagraphStyle);
                 paragraph.Scale = paragraph.Scale * ItemsScale;
                 paragraph.SpaceAfter = paragraph.SpaceAfter + new Vector2(0, ExtraSpaceBetweenLines - 2);
-                paragraph.ExtraMargin.Y = ExtraSpaceBetweenLines + 4;
+                paragraph.ExtraMargin.Y = ExtraSpaceBetweenLines / 2 + 3;
                 paragraph.AttachedData = new ParagraphData(this, i++);
                 paragraph.UseActualSizeForCollision = false;
                 paragraph.Size = new Vector2(0, paragraph.GetCharacterActualSize().Y + ExtraSpaceBetweenLines);
