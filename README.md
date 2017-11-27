@@ -1819,6 +1819,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Added msg boxes counter to msg boxes utility + a getter to check if there's anything opened.
 - Added extra margin property to allow better control on entities selection. 
 - Fixed the annoying selection gap in lists and dropdown (clicking right between the lines).
+- Fixed disposing render targets properly + adding the IDisposable API to UserInterface and Panels. 
 
 ## Credits
 
