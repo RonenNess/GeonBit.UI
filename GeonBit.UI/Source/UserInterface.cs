@@ -89,7 +89,7 @@ namespace GeonBit.UI
     /// Main GeonBit.UI class that manage and draw all the UI entities.
     /// This is the main manager you use to update, draw, and add entities to.
     /// </summary>
-    public class UserInterface
+    public class UserInterface : System.IDisposable
     {
         /// <summary>Current GeonBit.UI version identifier.</summary>
         public const string VERSION = "3.0.2.0";
@@ -138,7 +138,7 @@ namespace GeonBit.UI
         public bool UseRenderTarget
         {
             get { return _useRenderTarget; }
-            set { _useRenderTarget = value; _renderTarget = null; }
+            set { _useRenderTarget = value; DisposeRenderTarget(); }
         }
 
         /// <summary>
@@ -298,6 +298,22 @@ namespace GeonBit.UI
 
             // create a default active user interface
             Active = new UserInterface();
+        }
+
+        /// <summary>
+        /// Dispose unmanaged resources of this user interface.
+        /// </summary>
+        public void Dispose()
+        {
+            DisposeRenderTarget();
+        }
+
+        /// <summary>
+        /// UserInterface destructor.
+        /// </summary>
+        ~UserInterface()
+        {
+            Dispose();
         }
 
         /// <summary>
@@ -534,6 +550,18 @@ namespace GeonBit.UI
         }
 
         /// <summary>
+        /// Dispose the render target (only if use) and set it to null.
+        /// </summary>
+        private void DisposeRenderTarget()
+        {
+            if (_renderTarget != null)
+            {
+                _renderTarget.Dispose();
+                _renderTarget = null;
+            }
+        }
+
+        /// <summary>
         /// Draw the UI. This function should be called from your Game 'Draw()' function.
         /// Note: if UseRenderTarget is true, this function should be called FIRST in your draw function.
         /// If UseRenderTarget is false, this function should be called LAST in your draw function.
@@ -560,7 +588,8 @@ namespace GeonBit.UI
                     _renderTarget.Width != ScreenWidth ||
                     _renderTarget.Height != ScreenHeight)
                 {
-                    if (_renderTarget != null) { _renderTarget.Dispose(); }
+                    // recreate render target
+                    DisposeRenderTarget();
                     _renderTarget = new RenderTarget2D(spriteBatch.GraphicsDevice,
                         ScreenWidth, ScreenHeight, false,
                         spriteBatch.GraphicsDevice.PresentationParameters.BackBufferFormat,

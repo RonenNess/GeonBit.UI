@@ -72,7 +72,7 @@ namespace GeonBit.UI.Entities
     /// A graphical panel or form you can create and add entities to.
     /// Used to group together entities with common logic.
     /// </summary>
-    public class Panel : Entity
+    public class Panel : Entity, System.IDisposable
     {
         // panel style
         PanelSkin _skin;
@@ -132,6 +132,22 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Panel destructor.
+        /// </summary>
+        ~Panel()
+        {
+            Dispose();
+        }
+
+        /// <summary>
+        /// Dispose unmanaged resources related to this panel (render target).
+        /// </summary>
+        public void Dispose()
+        {
+            DisposeRenderTarget();
+        }
+
+        /// <summary>
         /// Set / get current panel skin.
         /// </summary>
         public PanelSkin Skin
@@ -160,7 +176,7 @@ namespace GeonBit.UI.Entities
             // if overflow mode is simply overflow, do nothing.
             if (_overflowMode == PanelOverflowBehavior.Overflow)
             {
-                _renderTarget = null;
+                DisposeRenderTarget();
                 return;
             }
 
@@ -170,7 +186,8 @@ namespace GeonBit.UI.Entities
                 _renderTarget.Width != targetRect.Width || 
                 _renderTarget.Height != targetRect.Height)
             {
-                if (_renderTarget != null) { _renderTarget.Dispose(); }
+                // recreate render target
+                DisposeRenderTarget();
                 _renderTarget = new RenderTarget2D(spriteBatch.GraphicsDevice,
                     targetRect.Width, targetRect.Height, false,
                     spriteBatch.GraphicsDevice.PresentationParameters.BackBufferFormat,
@@ -318,6 +335,18 @@ namespace GeonBit.UI.Entities
 
             // call base draw function
             base.DrawEntity(spriteBatch);
+        }
+
+        /// <summary>
+        /// Dispose the render target (only if use) and set it to null.
+        /// </summary>
+        private void DisposeRenderTarget()
+        {
+            if (_renderTarget != null)
+            {
+                _renderTarget.Dispose();
+                _renderTarget = null;
+            }
         }
 
         /// <summary>
