@@ -1824,6 +1824,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 ## 3.0.2.2
 
 - Fixed list selection highlight with global scaling bug.
+- Added auto clipping for items that are too long in lists and dropdown. This behavior can controlled by list properties.
 
 ## Credits
 
