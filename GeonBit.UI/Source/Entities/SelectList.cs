@@ -56,6 +56,16 @@ namespace GeonBit.UI.Entities
         /// <summary>Special callback to execute when list size changes.</summary>
         public EventCallback OnListChange = null;
 
+        /// <summary>
+        /// If true and an item in the list is too long for its width, the list will cut its value to fit width.
+        /// </summary>
+        public bool ClipTextIfOverflow = true;
+
+        /// <summary>
+        /// String to append when clipping items width.
+        /// </summary>
+        public string AddWhenClipping = "..";
+
         /// <summary>When set to true, users cannot change the currently selected value.
         /// Note: unlike the basic entity "Locked" that prevent all input from entity and its children,
         /// this method of locking will still allow users to scroll through the list, thus making it useable
@@ -502,25 +512,53 @@ namespace GeonBit.UI.Entities
             // update paragraphs list values
             for (int i = 0; i < _paragraphs.Count; ++i)
             {
-                // if paragraph is within items range:
+                // get item index
                 int item_index = i + (int)_scrollbar.Value;
+
+                // get current paragraph
+                var par = _paragraphs[i];
+
+                // if we got an item to show for this paragraph index:
                 if (item_index < _list.Count)
                 {
                     // set paragraph text, make visible, and remove background.
-                    _paragraphs[i].Text = _list[item_index];
-                    _paragraphs[i].BackgroundColor.A = 0;
-                    _paragraphs[i].Visible = true;
+                    par.Text = _list[item_index];
+                    par.BackgroundColor.A = 0;
+                    par.Visible = true;
+
+                    // check if we need to trim size
+                    if (ClipTextIfOverflow)
+                    {
+                        // get width we need to clip and if we need to clip at all
+                        var charWidth = par.GetCharacterActualSize().X;
+                        var toClip = (charWidth * par.Text.Length) - _destRectInternal.Width;
+                        if (toClip > 0)
+                        {
+                            // calc how many chars we need to remove
+                            var charsToClip = (int)System.Math.Ceiling(toClip / charWidth) + AddWhenClipping.Length + 1;
+
+                            // remove them from text
+                            if (charsToClip < par.Text.Length)
+                            {
+                                par.Text = par.Text.Substring(0, par.Text.Length - charsToClip) + AddWhenClipping;
+                            }
+                            else
+                            {
+                                par.Text = AddWhenClipping;
+                            }
+                        }
+                    }
 
                     // set locked state
                     bool isLocked = false;
                     LockedItems.TryGetValue(item_index, out isLocked);
-                    _paragraphs[i].Locked = isLocked;
+                    par.Locked = isLocked;
                 }
                 // if paragraph out of range (eg more paragraphs than list items), make this paragraph invisible.
                 else
                 {
-                    _paragraphs[i].Visible = false;
-                    _paragraphs[i].Text = string.Empty;
+                    par.Visible = false;
+                    par.Text = string.Empty;
                 }
             }
 
