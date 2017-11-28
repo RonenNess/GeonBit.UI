@@ -474,11 +474,17 @@ namespace GeonBit.UI.Entities
 
                 // get destination rect to draw it
                 var rect = BackgroundColorUseBoxSize ? _destRect : _actualDestRect;
+
+                // fix height for box background and scaling
+                if (BackgroundColorUseBoxSize)
+                    rect.Height = (int)(rect.Height / UserInterface.Active.GlobalScale);
+
+                // add padding
                 var padding = new Point(
                     (int)(BackgroundColorPadding.X * UserInterface.Active.GlobalScale),
                     (int)(BackgroundColorPadding.Y * UserInterface.Active.GlobalScale));
-                rect.Location -= BackgroundColorPadding;
-                rect.Size += BackgroundColorPadding + BackgroundColorPadding;
+                rect.Location -= padding;
+                rect.Size += padding + padding;
 
                 // draw background color
                 spriteBatch.Draw(Resources.WhiteTexture, rect, backColor);

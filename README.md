@@ -1821,6 +1821,10 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Fixed the annoying selection gap in lists and dropdown (clicking right between the lines).
 - Fixed disposing render targets properly + adding the IDisposable API to UserInterface and Panels. 
 
+## 3.0.2.2
+
+- Fixed list selection highlight with global scaling bug.
+
 ## Credits
 
 GeonBit.UI was written by Ronen Ness, but uses some free textures made by awesome people who share their work for free.
