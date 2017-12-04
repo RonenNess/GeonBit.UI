@@ -23,7 +23,14 @@ namespace GeonBit.UI.Entities
     public class DropDown : Entity
     {
         /// <summary>Default text to show when no value is selected from the list.</summary>
-        public string DefaultText = "Click to Select";
+        public string DefaultText
+        {
+            get { return _placeholderText; }
+            set { _placeholderText = value;  if (SelectedIndex == -1) _selectedTextParagraph.Text = _placeholderText; }
+        }
+
+        // text used as placeholder when nothing is selected.
+        private string _placeholderText = "Click to Select";
 
         /// <summary>Default style for the dropdown itself. Note: loaded from UI theme xml file.</summary>
         new public static StyleSheet DefaultStyle = new StyleSheet();
@@ -96,6 +103,11 @@ namespace GeonBit.UI.Entities
         public static int SelectedPanelHeight = 67;
 
         /// <summary>
+        /// If true, will auto-set the internal list height based on number of options.
+        /// </summary>
+        public bool AutoSetListHeight = false;
+
+        /// <summary>
         /// Size of the arrow to show on the side of the Selected Text Panel.
         /// </summary>
         public static int ArrowSize = 30;
@@ -110,7 +122,9 @@ namespace GeonBit.UI.Entities
         /// <param name="anchor">Position anchor.</param>
         /// <param name="offset">Offset from anchor position.</param>
         /// <param name="skin">Panel skin to use for this DropDown list and header.</param>
-        public DropDown(Vector2 size, Anchor anchor = Anchor.Auto, Vector2? offset = null, PanelSkin skin = PanelSkin.ListBackground) :
+        /// <param name="listSkin">An optional skin to use for the dropdown list only (if you want a different skin for the list).</param>
+        /// <param name="showArrow">If true, will show an up/down arrow next to the dropdown text.</param>
+        public DropDown(Vector2 size, Anchor anchor = Anchor.Auto, Vector2? offset = null, PanelSkin skin = PanelSkin.ListBackground, PanelSkin? listSkin = null, bool showArrow = true) :
             base(size, anchor, offset)
         {
             // default padding of self is 0
@@ -133,9 +147,10 @@ namespace GeonBit.UI.Entities
             _arrowDownImage = new Image(Resources.ArrowDown, new Vector2(ArrowSize, ArrowSize), ImageDrawMode.Stretch, Anchor.CenterRight, new Vector2(-10, 0));
             _selectedTextPanel.AddChild(_arrowDownImage, true);
             _arrowDownImage._hiddenInternalEntity = true;
+            _arrowDownImage.Visible = showArrow;
 
             // create the list component
-            _selectList = new SelectList(new Vector2(0f, size.Y), Anchor.TopCenter, Vector2.Zero, skin);
+            _selectList = new SelectList(new Vector2(0f, size.Y), Anchor.TopCenter, Vector2.Zero, listSkin ?? skin);
 
             // update list offset and space before
             _selectList.SetOffset(new Vector2(0, SelectedPanelHeight));
@@ -291,6 +306,12 @@ namespace GeonBit.UI.Entities
 
             // mark self as dirty
             MarkAsDirty();
+
+            // do auto-height
+            if (AutoSetListHeight)
+            {
+                _selectList.MatchHeightToList();
+            }
         }        
 
         /// <summary>

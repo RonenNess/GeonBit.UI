@@ -819,6 +819,39 @@ Maybe something interesting in tab3?"));
                     }
                 }
 
+                // example: file menu
+                {
+                    // create panel and add to list of panels and manager
+                    Panel panel = new Panel(new Vector2(750, 660));
+                    panels.Add(panel);
+                    UserInterface.Active.AddEntity(panel);
+
+                    // add title and text
+                    panel.AddChild(new Header("File Menu"));
+                    panel.AddChild(new HorizontalLine());
+                    panel.AddChild(new Paragraph("GeonBit.UI comes with a utility to generate a classic file menu:"));
+
+                    var layout = new Utils.SimpleFileMenu.MenuLayout();
+                    layout.AddMenu("File", 260);
+                    layout.AddItemToMenu("File", "New", () => { Utils.MessageBox.ShowMsgBox("Something New!", "Lets make something new."); });
+                    layout.AddItemToMenu("File", "Save", () => { Utils.MessageBox.ShowMsgBox("Something Saved!", "Your thing was saved successfully."); });
+                    layout.AddItemToMenu("File", "Load", () => { Utils.MessageBox.ShowMsgBox("Something Loaded!", "Your thing was loaded successfully."); });
+                    layout.AddItemToMenu("File", "Exit", () => { Utils.MessageBox.ShowMsgBox("Not Yet", "We still have much to see."); });
+                    layout.AddMenu("Display", 260);
+                    layout.AddItemToMenu("Display", "Zoom In", () => { UserInterface.Active.GlobalScale += 0.1f; });
+                    layout.AddItemToMenu("Display", "Zoom Out", () => { UserInterface.Active.GlobalScale -= 0.1f; });
+                    layout.AddItemToMenu("Display", "Reset Zoom", () => { UserInterface.Active.GlobalScale = 1f; });
+                    var fileMenu = Utils.SimpleFileMenu.Create(layout);
+                    fileMenu.SetAnchor(Anchor.Auto);
+                    panel.AddChild(fileMenu);
+                    panel.AddChild(new LineSpace(24));
+
+                    panel.AddChild(new Paragraph("Usually this menu should cover the top of the screen and not be inside another panel. Note that like most entities in GeonBit.UI, you can also set its skin:"));
+                    fileMenu = Utils.SimpleFileMenu.Create(layout, PanelSkin.Fancy);
+                    fileMenu.SetAnchor(Anchor.Auto);
+                    panel.AddChild(fileMenu);
+                }
+
                 // example: disabled
                 {
                     // create panel and add to list of panels and manager

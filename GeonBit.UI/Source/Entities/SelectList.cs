@@ -233,6 +233,17 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Calculate the height of the select list to match the height of all the items in it.
+        /// </summary>
+        public void MatchHeightToList()
+        {
+            if (_list.Count == 0) return;
+            if (_paragraphs.Count == 0) OnResize();
+            var height = _list.Count * (_paragraphs[0].GetCharacterActualSize().Y / UserInterface.Active.GlobalScale + _paragraphs[0].SpaceAfter.Y) + Padding.Y * 2;
+            Size = new Vector2(Size.X, height);
+        }
+
+        /// <summary>
         /// Move scrollbar to currently selected item.
         /// </summary>
         public void ScrollToSelected()
