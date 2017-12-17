@@ -280,12 +280,15 @@ namespace GeonBit.UI.Entities
                 UserInterface.Active.DrawUtils.EndDraw(spriteBatch);
 
                 // fix scrollbar positioning etc
-                _destRectInternal.Y -= _scrollbar.Value;
-                _destRectInternal.Width -= _scrollbar.GetActualDestRect().Width;
-                _scrollbar.UpdateDestinationRects();
+                if (_scrollbar != null)
+                {
+                    _destRectInternal.Y -= _scrollbar.Value;
+                    _destRectInternal.Width -= _scrollbar.GetActualDestRect().Width;
+                    _scrollbar.UpdateDestinationRects();
 
-                // set destination rect back to normal
-                _destRectInternal = _originalInternalDestRect;
+                    // set destination rect back to normal
+                    _destRectInternal = _originalInternalDestRect;
+                }
             }
         }
 

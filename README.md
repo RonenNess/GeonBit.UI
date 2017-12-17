@@ -1829,6 +1829,10 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Fixed bug with dropdown default text not updating when set without selecting value.
 - Added utility to create simple file menu.
 
+# 3.0.2.3
+
+- Fixed exception in panels with clipping overflow behavior.
+
 ## Credits
 
 GeonBit.UI was written by Ronen Ness, but uses some free textures made by awesome people who share their work for free.
