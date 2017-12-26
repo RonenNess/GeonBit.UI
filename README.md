@@ -1832,6 +1832,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 # 3.0.2.3
 
 - Fixed exception in panels with clipping overflow behavior.
+- Added an option to hide text input characters with a chosen character (for example for password input field).
 
 ## Credits
 

@@ -651,7 +651,7 @@ Here's a button, to test clicking while scolled:"));
                 // example: text input
                 {
                     // create panel and add to list of panels and manager
-                    Panel panel = new Panel(new Vector2(450, 550));
+                    Panel panel = new Panel(new Vector2(450, 700));
                     panels.Add(panel);
                     UserInterface.Active.AddEntity(panel);
 
@@ -670,6 +670,22 @@ Here's a button, to test clicking while scolled:"));
                     TextInput textMulti = new TextInput(true, new Vector2(0, 220), skin: PanelSkin.Golden);
                     textMulti.PlaceholderText = @"Insert multiline text..";
                     panel.AddChild(textMulti);
+
+                    // with hidden password chars
+                    panel.AddChild(new Paragraph("Hidden text input:"));
+                    TextInput hiddenText = new TextInput(false);
+                    hiddenText.PlaceholderText = "Enter password..";
+                    hiddenText.HideInputWithChar = '*';
+                    panel.AddChild(hiddenText);
+                    var hideCheckbox = new CheckBox("Hide password", isChecked: true);
+                    hideCheckbox.OnValueChange += (Entity ent) =>
+                    {
+                        if (hideCheckbox.Checked)
+                            hiddenText.HideInputWithChar = '*';
+                        else
+                            hiddenText.HideInputWithChar = null;
+                    };
+                    panel.AddChild(hideCheckbox);
                 }
 
                 // example: tooltip text

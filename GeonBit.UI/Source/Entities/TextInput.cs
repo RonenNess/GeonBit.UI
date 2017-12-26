@@ -54,6 +54,12 @@ namespace GeonBit.UI.Entities
         /// <summary>If true, will limit max input length to fit textbox size.</summary>
         public bool LimitBySize = false;
 
+        /// <summary>
+        /// If provided, hide input and replace it with the given character.
+        /// This is useful for stuff like password input field.
+        /// </summary>
+        public char? HideInputWithChar;
+
         /// <summary>Default styling for the text input itself. Note: loaded from UI theme xml file.</summary>
         new public static StyleSheet DefaultStyle = new StyleSheet();
 
@@ -247,9 +253,20 @@ namespace GeonBit.UI.Entities
         /// <returns>Processed text that will actually be displayed on screen.</returns>
         protected string PrepareInputTextForDisplay(bool usePlaceholder, bool showCaret)
         {
-            // set main paragraph text and add caret mark if needed
+            // set caret char
             string caretShow = showCaret ? ((int)_caretAnim % 2 == 0) ? "|" : " " : string.Empty;
-            TextParagraph.Text = _value.Insert(_caret >= 0 ? _caret : _value.Length, caretShow);
+
+            // set main text when hidden with password char
+            if (HideInputWithChar != null)
+            {
+                var hiddenVal = new string(HideInputWithChar.Value, _value.Length);
+                TextParagraph.Text = hiddenVal.Insert(_caret >= 0 ? _caret : hiddenVal.Length, caretShow);
+            }
+            // set main text for regular text input
+            else
+            {
+                TextParagraph.Text = _value.Insert(_caret >= 0 ? _caret : _value.Length, caretShow);
+            }
 
             // update placeholder text
             PlaceholderParagraph.Text = _placeholderText;
@@ -405,7 +422,6 @@ namespace GeonBit.UI.Entities
             if (LimitBySize)
             {
                 // prepare display
-                TextParagraph.Text = newVal;
                 PrepareInputTextForDisplay(false, false);
 
                 // get main paragraph actual size
