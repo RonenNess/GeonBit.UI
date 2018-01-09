@@ -1769,7 +1769,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Optimized getting sorted children list - less garbage and sorting per frame.
 - Refactored panels with scrollbar implementation - fixed bugs and made cleaner code.
 
-## 3.0.1.2
+### 3.0.1.2
 
 - Fixed opacity bug.
 - Added finer control over blending mode and sampler state.
@@ -1778,14 +1778,14 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Fixed combobox and radio buttons label positioning with global scaling.
 - Fixed mouse position on first frame of a new User Interface.
 
-## 3.0.1.3
+### 3.0.1.3
 
 - Added outline opacity property.
 - Added some text validators.
 - Improved existing text validators efficiency + added support in spaces / no spaces. 
 - Added utility to generate message boxes.
 
-## 3.0.1.4
+### 3.0.1.4
 
 - Added silent exceptions mode.
 - Added custom exceptions for different cases.
@@ -1799,7 +1799,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Added focus changed event and callback.
 - Added default empty value property to text inputs.
 
-## 3.0.2.0
+### 3.0.2.0
 
 - Changed textures to load lazily and only if used (instead of just loading everything during init).
 - Added tooltip text.
@@ -1808,7 +1808,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Improved the way lists and dropdown works + fixed selection color.
 - Adding entity functions now return the newly added entity.
 
-## 3.0.2.1
+### 3.0.2.1
 
 - Fixed bug with dropdown width when its size is relative (for example 0.5f).
 - Fixed tooltip text for complex entities like dropdown and lists.
@@ -1821,7 +1821,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Fixed the annoying selection gap in lists and dropdown (clicking right between the lines).
 - Fixed disposing render targets properly + adding the IDisposable API to UserInterface and Panels. 
 
-## 3.0.2.2
+### 3.0.2.2
 
 - Fixed list selection highlight with global scaling bug.
 - Added auto clipping for items that are too long in lists and dropdown. This behavior can controlled by list properties.
@@ -1829,10 +1829,17 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Fixed bug with dropdown default text not updating when set without selecting value.
 - Added utility to create simple file menu.
 
-# 3.0.2.3
+### 3.0.2.3
 
 - Fixed exception in panels with hidden overflow behavior.
 - Added an option to hide text input characters with a chosen character (for example for password input field).
+
+### 3.1.0.1
+
+- Removed the 'input' param from all the internal functions.
+- Added support in transformation matrix.
+- Added support in drawing cursor outside rendering targets.
+- Fixed a bug that re-creates input managers for no reason whenever creating new UserInterface(). 
 
 ## Credits
 
