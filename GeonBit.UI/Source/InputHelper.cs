@@ -192,7 +192,9 @@ namespace GeonBit.UI
         {
             var newMousePos = _newMousePos;
             if (transform != null)
-                return Vector2.Transform(newMousePos, transform.Value);
+            {
+                return Vector2.Transform(newMousePos, transform.Value) - new Vector2(transform.Value.Translation.X, transform.Value.Translation.Y);
+            }
             return newMousePos;
         }
 

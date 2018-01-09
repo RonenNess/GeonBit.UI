@@ -77,6 +77,9 @@ namespace GeonBit.UI.Example
             UserInterface.Initialize(Content, BuiltinThemes.hd);
             UserInterface.Active.UseRenderTarget = true;
 
+            // draw cursor outside the render target
+            UserInterface.Active.IncludeCursorInRenderTarget = false;
+
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -191,7 +194,26 @@ namespace GeonBit.UI.Example
             {
                 eventsPanel.Visible = !eventsPanel.Visible;
             };
+            infoBtn.ToolTipText = "Show events log.";
             UserInterface.Active.AddEntity(infoBtn);
+
+            // add button to apply transformations
+            Button transBtn = new Button("Transform UI", anchor: Anchor.BottomLeft, size: new Vector2(320, -1), offset: new Vector2(140 + 280, 0));
+            transBtn.OnClick = (Entity entity) =>
+            {
+                if (UserInterface.Active.RenderTargetTransformMatrix == null)
+                {
+                    UserInterface.Active.RenderTargetTransformMatrix = Matrix.CreateScale(0.6f) * 
+                        Matrix.CreateRotationZ(0.05f) * 
+                        Matrix.CreateTranslation(new Vector3(150, 150, 0));
+                }
+                else
+                {
+                    UserInterface.Active.RenderTargetTransformMatrix = null;
+                }
+            };
+            transBtn.ToolTipText = "Apply transform matrix on the entire UI.";
+            UserInterface.Active.AddEntity(transBtn);
 
             // zoom in / out factor
             float zoominFactor = 0.05f;
