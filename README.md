@@ -46,6 +46,7 @@ GeonBit.UI provide the following functionality:
 - Stylesheets and themes, easily extendable.
 - Locked, disabled, shadow, and other basic UI effects and states.
 - Global scaling property to support different screen sizes.
+- Apply transformation matrix.
 - And much more...
 
 ## Simple example
@@ -335,6 +336,26 @@ Button btn = UserInterface.Active.Root.Find<Button>("myButton", true);
 Will search the entire UI tree recursively and return the first ```Button``` entity that has the ```Identifier``` of 'myButton' (or null, if no such entity is found).
 
 Note that Find() is implemented in a naive way and not very efficient, since its not assumed to be called very often.
+
+## GlobalScale
+
+Allow you to scale up / down the entire UI. Useful to adjust to different screen sizes.
+
+## SilentSoftErrors
+
+If true, will not throw non-critical errors (For example selecting a non existing value in a list).
+
+## UseRenderTarget
+
+Enable / disable the usage of render targets internally. Explained in details later.
+
+### RenderTargetTransformMatrix
+
+When using render targets, this is an optional transformation matrix you can apply on UI.
+
+### IncludeCursorInRenderTarget
+
+When using render targets, this determine if the cursor will be inside the render target (and also affected by ```RenderTargetTransformMatrix```) or outside, and be in screen space.
 
 ## SetCursor()
 
