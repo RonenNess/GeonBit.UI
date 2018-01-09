@@ -189,7 +189,7 @@ namespace GeonBit.UI.Entities
         public Vector2 GetCharacterActualSize()
         {
             SpriteFont font = GetCurrFont();
-            float scale = Scale * BaseSize * UserInterface.Active.GlobalScale;
+            float scale = Scale * BaseSize * GlobalScale;
             return font.MeasureString(" ") * scale;
         }
 
@@ -366,7 +366,7 @@ namespace GeonBit.UI.Entities
             }
 
             // calc actual scale
-            float actualScale = Scale * BaseSize * UserInterface.Active.GlobalScale;
+            float actualScale = Scale * BaseSize * GlobalScale;
             if (actualScale != _actualScale)
             {
                 _actualScale = actualScale;
@@ -477,12 +477,12 @@ namespace GeonBit.UI.Entities
 
                 // fix height for box background and scaling
                 if (BackgroundColorUseBoxSize)
-                    rect.Height = (int)(rect.Height / UserInterface.Active.GlobalScale);
+                    rect.Height = (int)(rect.Height / GlobalScale);
 
                 // add padding
                 var padding = new Point(
-                    (int)(BackgroundColorPadding.X * UserInterface.Active.GlobalScale),
-                    (int)(BackgroundColorPadding.Y * UserInterface.Active.GlobalScale));
+                    (int)(BackgroundColorPadding.X * GlobalScale),
+                    (int)(BackgroundColorPadding.Y * GlobalScale));
                 rect.Location -= padding;
                 rect.Size += padding + padding;
 

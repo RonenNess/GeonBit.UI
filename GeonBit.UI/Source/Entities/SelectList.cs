@@ -239,7 +239,7 @@ namespace GeonBit.UI.Entities
         {
             if (_list.Count == 0) return;
             if (_paragraphs.Count == 0) OnResize();
-            var height = _list.Count * (_paragraphs[0].GetCharacterActualSize().Y / UserInterface.Active.GlobalScale + _paragraphs[0].SpaceAfter.Y) + Padding.Y * 2;
+            var height = _list.Count * (_paragraphs[0].GetCharacterActualSize().Y / GlobalScale + _paragraphs[0].SpaceAfter.Y) + Padding.Y * 2;
             Size = new Vector2(Size.X, height);
         }
 

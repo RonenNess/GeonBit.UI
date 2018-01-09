@@ -110,7 +110,7 @@ namespace GeonBit.UI.Entities
             Texture2D texture = GetTexture();
 
             // calculate actual size
-            Vector2 actualSize = CHECKBOX_SIZE * UserInterface.Active.GlobalScale;
+            Vector2 actualSize = CHECKBOX_SIZE * GlobalScale;
 
             // dest rect
             Rectangle dest = new Rectangle(_destRect.X,
@@ -133,14 +133,13 @@ namespace GeonBit.UI.Entities
         /// Handle mouse click event. 
         /// CheckBox entity override this function to handle value toggle.
         /// </summary>
-        /// <param name="input">Input helper instance.</param>
-        override protected void DoOnClick(InputHelper input)
+        override protected void DoOnClick()
         {
             // toggle value
             Checked = !_value;
 
             // call base handler
-            base.DoOnClick(input);
+            base.DoOnClick();
         }
     }
 }

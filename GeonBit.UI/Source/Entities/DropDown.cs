@@ -326,15 +326,14 @@ namespace GeonBit.UI.Entities
         /// Called every frame after update.
         /// DropDown entity override this function to close the list if necessary and to remove the selected item panel from self.
         /// </summary>
-        /// <param name="input">Input helper instance.</param>
-        override protected void DoAfterUpdate(InputHelper input)
+        override protected void DoAfterUpdate()
         {
             // if list currently visible we want to check if we need to close it
             if (ListVisible)
             {
                 // check if mouse down and not inside list
-                var mousePosition = input.MousePosition;
-                if (input.AnyMouseButtonDown() && !IsInsideEntity(mousePosition))
+                var mousePosition = GetMousePos();
+                if (Input.AnyMouseButtonDown() && !IsInsideEntity(mousePosition))
                 {
                     if (!IsInsideEntity(mousePosition))
                     {
@@ -344,7 +343,7 @@ namespace GeonBit.UI.Entities
             }
 
             // call base do-before-update
-            base.DoAfterUpdate(input);
+            base.DoAfterUpdate();
         }
 
         /// <summary>

@@ -184,6 +184,19 @@ namespace GeonBit.UI
         }
 
         /// <summary>
+        /// Calculate and return current cursor position transformed by a matrix.
+        /// </summary>
+        /// <param name="transform">Matrix to transform cursor position by.</param>
+        /// <returns>Cursor position with optional transform applied.</returns>
+        public Vector2 TransformCursorPos(Matrix? transform)
+        {
+            var newMousePos = _newMousePos;
+            if (transform != null)
+                return Vector2.Transform(newMousePos, transform.Value);
+            return newMousePos;
+        }
+
+        /// <summary>
         /// Called every time a keyboard key is pressed (called once on the frame key was pressed).
         /// </summary>
         /// <param name="key">Key code that is being pressed on this frame.</param>

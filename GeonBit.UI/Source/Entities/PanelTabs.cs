@@ -118,7 +118,7 @@ namespace GeonBit.UI.Entities
         private float GetButtonsHeight(bool withGlobalScale)
         {
             if (_tabs.Count == 0) return 0;
-            return (_tabs[0].button.GetActualDestRect().Height / (withGlobalScale ? 1f : UserInterface.Active.GlobalScale));
+            return (_tabs[0].button.GetActualDestRect().Height / (withGlobalScale ? 1f : GlobalScale));
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace GeonBit.UI.Entities
 
             // adjust size
             var parentSize = GetActualDestRect().Size;
-            _internalRoot.Size = new Vector2(parentSize.X, parentSize.Y - GetButtonsHeight(true)) / UserInterface.Active.GlobalScale;
+            _internalRoot.Size = new Vector2(parentSize.X, parentSize.Y - GetButtonsHeight(true)) / GlobalScale;
 
             // call base draw function
             base.DrawEntity(spriteBatch);

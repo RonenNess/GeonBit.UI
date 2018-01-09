@@ -57,12 +57,10 @@ namespace GeonBit.UI.Entities
         /// Handle mouse down event.
         /// The Scrollbar entity override this function to handle sliding mark up and down, instead of left-right.
         /// </summary>
-        /// <param name="input">Input helper instance.</param>
-        override protected void DoOnMouseReleased(InputHelper input)
+        override protected void DoOnMouseReleased()
         {
             // get mouse position and apply scroll value
-            var mousePos = input.MousePosition;
-            mousePos += _lastScrollVal.ToVector2();
+            var mousePos = GetMousePos(_lastScrollVal.ToVector2());
 
             // if mouse is on the min side, decrease by 1
             if (mousePos.Y <= _destRect.Y + _frameActualHeight)
@@ -76,19 +74,17 @@ namespace GeonBit.UI.Entities
             }
 
             // call base function
-            base.DoOnMouseReleased(input);
+            base.DoOnMouseReleased();
         }
 
         /// <summary>
         /// Handle while mouse is down event.
         /// The Scrollbar entity override this function to handle sliding mark up and down, instead of left-right.
         /// </summary>
-        /// <param name="input">Input helper instance.</param>
-        override protected void DoWhileMouseDown(InputHelper input)
+        override protected void DoWhileMouseDown()
         {
             // get mouse position and apply scroll value
-            var mousePos = input.MousePosition;
-            mousePos += _lastScrollVal.ToVector2();
+            var mousePos = GetMousePos(_lastScrollVal.ToVector2());
 
             // if in the middle calculate value based on mouse position
             if ((mousePos.Y >= _destRect.Y + _frameActualHeight * 0.5) && 
@@ -146,8 +142,7 @@ namespace GeonBit.UI.Entities
         /// Called every frame after update.
         /// Scrollbar override this function to handle wheel scroll while pointing on parent entity - we still want to capture that.
         /// </summary>
-        /// <param name="input">Input helper instance.</param>
-        override protected void DoAfterUpdate(InputHelper input)
+        override protected void DoAfterUpdate()
         {
             // if the active entity is self or parent, listen to mousewheel
             if (_isInteractable &&
@@ -155,9 +150,9 @@ namespace GeonBit.UI.Entities
                 UserInterface.Active.ActiveEntity == _parent ||
                 (UserInterface.Active.ActiveEntity != null && UserInterface.Active.ActiveEntity.IsDeepChildOf(_parent))))
             {
-                if (input.MouseWheelChange != 0)
+                if (Input.MouseWheelChange != 0)
                 {
-                    Value = _value - input.MouseWheelChange * GetStepSize();
+                    Value = _value - Input.MouseWheelChange * GetStepSize();
                 }
             }
         }
@@ -210,10 +205,9 @@ namespace GeonBit.UI.Entities
         /// Handle when mouse wheel scroll and this entity is the active entity.
         /// Note: Scrollbar entity override this function to change scrollbar value based on wheel scroll, which is inverted.
         /// </summary>
-        /// <param name="input">Input helper instance.</param>
-        override protected void DoOnMouseWheelScroll(InputHelper input)
+        override protected void DoOnMouseWheelScroll()
         {
-            Value = _value - input.MouseWheelChange * GetStepSize();
+            Value = _value - Input.MouseWheelChange * GetStepSize();
         }
     }
 }

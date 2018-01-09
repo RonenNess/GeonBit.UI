@@ -420,6 +420,32 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Get current mouse position.
+        /// </summary>
+        /// <param name="addVector">Optional vector to add to cursor position.</param>
+        /// <returns>Mouse position.</returns>
+        protected Vector2 GetMousePos(Vector2? addVector = null)
+        {
+            return UserInterface.Active.GetTransformedCursorPos(addVector);
+        }
+
+        /// <summary>
+        /// Get input helper from active user interface.
+        /// </summary>
+        protected InputHelper Input
+        {
+            get { return UserInterface._input; }
+        }
+
+        /// <summary>
+        /// Get the active user interface global scale.
+        /// </summary>
+        protected float GlobalScale
+        {
+            get { return UserInterface.Active.GlobalScale; }
+        }
+
+        /// <summary>
         /// Call this function when the first update occures.
         /// </summary>
         protected virtual void DoOnFirstUpdate()
@@ -477,19 +503,19 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>Get extra space after with current UI scale applied. </summary>
-        protected Vector2 _scaledSpaceAfter { get { return SpaceAfter * UserInterface.Active.GlobalScale; } }
+        protected Vector2 _scaledSpaceAfter { get { return SpaceAfter * GlobalScale; } }
 
         /// <summary>Get extra space before with current UI scale applied. </summary>
-        protected Vector2 _scaledSpaceBefore { get { return SpaceBefore * UserInterface.Active.GlobalScale; } }
+        protected Vector2 _scaledSpaceBefore { get { return SpaceBefore * GlobalScale; } }
 
         /// <summary>Get size with current UI scale applied. </summary>
-        protected Vector2 _scaledSize { get { return _size * UserInterface.Active.GlobalScale; } }
+        protected Vector2 _scaledSize { get { return _size * GlobalScale; } }
 
         /// <summary>Get offset with current UI scale applied. </summary>
-        protected Vector2 _scaledOffset { get { return _offset * UserInterface.Active.GlobalScale; } }
+        protected Vector2 _scaledOffset { get { return _offset * GlobalScale; } }
 
         /// <summary>Get offset with current UI scale applied. </summary>
-        protected Vector2 _scaledPadding { get { return Padding * UserInterface.Active.GlobalScale; } }
+        protected Vector2 _scaledPadding { get { return Padding * GlobalScale; } }
 
         /// <summary>
         /// Adds extra space outside the dest rect for collision detection.
@@ -1577,8 +1603,7 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Handle mouse down event.
         /// </summary>
-        /// <param name="input">Input helper instance.</param>
-        virtual protected void DoOnMouseDown(InputHelper input)
+        virtual protected void DoOnMouseDown()
         {
             OnMouseDown?.Invoke(this);
             UserInterface.Active.OnMouseDown?.Invoke(this);
@@ -1587,8 +1612,7 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Handle mouse up event.
         /// </summary>
-        /// <param name="input">Input helper instance.</param>
-        virtual protected void DoOnMouseReleased(InputHelper input)
+        virtual protected void DoOnMouseReleased()
         {
             OnMouseReleased?.Invoke(this);
             UserInterface.Active.OnMouseReleased?.Invoke(this);
@@ -1597,8 +1621,7 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Handle mouse click event.
         /// </summary>
-        /// <param name="input">Input helper instance.</param>
-        virtual protected void DoOnClick(InputHelper input)
+        virtual protected void DoOnClick()
         {
             OnClick?.Invoke(this);
             UserInterface.Active.OnClick?.Invoke(this);
@@ -1607,8 +1630,7 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Handle mouse down event, called every frame while down.
         /// </summary>
-        /// <param name="input">Input helper instance.</param>
-        virtual protected void DoWhileMouseDown(InputHelper input)
+        virtual protected void DoWhileMouseDown()
         {
             WhileMouseDown?.Invoke(this);
             UserInterface.Active.WhileMouseDown?.Invoke(this);
@@ -1617,8 +1639,7 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Handle mouse hover event, called every frame while hover.
         /// </summary>
-        /// <param name="input">Input helper instance.</param>
-        virtual protected void DoWhileMouseHover(InputHelper input)
+        virtual protected void DoWhileMouseHover()
         {
             WhileMouseHover?.Invoke(this);
             UserInterface.Active.WhileMouseHover?.Invoke(this);
@@ -1636,8 +1657,7 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Handle mouse enter event.
         /// </summary>
-        /// <param name="input">Input helper instance.</param>
-        virtual protected void DoOnMouseEnter(InputHelper input)
+        virtual protected void DoOnMouseEnter()
         {
             OnMouseEnter?.Invoke(this);
             UserInterface.Active.OnMouseEnter?.Invoke(this);
@@ -1646,8 +1666,7 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Handle mouse leave event.
         /// </summary>
-        /// <param name="input">Input helper instance.</param>
-        virtual protected void DoOnMouseLeave(InputHelper input)
+        virtual protected void DoOnMouseLeave()
         {
             OnMouseLeave?.Invoke(this);
             UserInterface.Active.OnMouseLeave?.Invoke(this);
@@ -1656,8 +1675,7 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Handle start dragging event.
         /// </summary>
-        /// <param name="input">Input helper instance.</param>
-        virtual protected void DoOnStartDrag(InputHelper input)
+        virtual protected void DoOnStartDrag()
         {
             OnStartDrag?.Invoke(this);
             UserInterface.Active.OnStartDrag?.Invoke(this);
@@ -1666,8 +1684,7 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Handle end dragging event.
         /// </summary>
-        /// <param name="input">Input helper instance.</param>
-        virtual protected void DoOnStopDrag(InputHelper input)
+        virtual protected void DoOnStopDrag()
         {
             OnStopDrag?.Invoke(this);
             UserInterface.Active.OnStopDrag?.Invoke(this);
@@ -1676,8 +1693,7 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Handle the while-dragging event.
         /// </summary>
-        /// <param name="input">Input helper instance.</param>
-        virtual protected void DoWhileDragging(InputHelper input)
+        virtual protected void DoWhileDragging()
         {
             WhileDragging?.Invoke(this);
             UserInterface.Active.WhileDragging?.Invoke(this);
@@ -1686,8 +1702,7 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Handle when mouse wheel scroll and this entity is the active entity.
         /// </summary>
-        /// <param name="input">Input helper instance.</param>
-        virtual protected void DoOnMouseWheelScroll(InputHelper input)
+        virtual protected void DoOnMouseWheelScroll()
         {
             OnMouseWheelScroll?.Invoke(this);
             UserInterface.Active.OnMouseWheelScroll?.Invoke(this);
@@ -1696,8 +1711,7 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Called every frame after update.
         /// </summary>
-        /// <param name="input">Input helper instance.</param>
-        virtual protected void DoAfterUpdate(InputHelper input)
+        virtual protected void DoAfterUpdate()
         {
             AfterUpdate?.Invoke(this);
             UserInterface.Active.AfterUpdate?.Invoke(this);
@@ -1716,8 +1730,7 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Called every frame before update.
         /// </summary>
-        /// <param name="input">Input helper instance.</param>
-        virtual protected void DoBeforeUpdate(InputHelper input)
+        virtual protected void DoBeforeUpdate()
         {
             BeforeUpdate?.Invoke(this);
             UserInterface.Active.BeforeUpdate?.Invoke(this);
@@ -1796,30 +1809,28 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Called every frame to update the children of this entity.
         /// </summary>
-        /// <param name="input">Input helper.</param>
         /// <param name="targetEntity">The deepest child entity with highest priority that we point on and can be interacted with.</param>
         /// <param name="dragTargetEntity">The deepest child dragable entity with highest priority that we point on and can be drag if mouse down.</param>
         /// <param name="wasEventHandled">Set to true if current event was already handled by a deeper child.</param>
         /// <param name="scrollVal">Combined scrolling value (panels with scrollbar etc) of all parents.</param>
-        virtual protected void UpdateChildren(InputHelper input, ref Entity targetEntity, ref Entity dragTargetEntity, ref bool wasEventHandled, Point scrollVal)
+        virtual protected void UpdateChildren(ref Entity targetEntity, ref Entity dragTargetEntity, ref bool wasEventHandled, Point scrollVal)
         {
             // update all children (note: we go in reverse order so that entities on front will receive events before entites on back.
             List<Entity> childrenSorted = GetSortedChildren();
             for (int i = childrenSorted.Count - 1; i >= 0; i--)
             {
-                childrenSorted[i].Update(input, ref targetEntity, ref dragTargetEntity, ref wasEventHandled, scrollVal);
+                childrenSorted[i].Update(ref targetEntity, ref dragTargetEntity, ref wasEventHandled, scrollVal);
             }
         }
 
         /// <summary>
         /// Called every frame to update entity state and call events.
         /// </summary>
-        /// <param name="input">Input helper.</param>
         /// <param name="targetEntity">The deepest child entity with highest priority that we point on and can be interacted with.</param>
         /// <param name="dragTargetEntity">The deepest child dragable entity with highest priority that we point on and can be drag if mouse down.</param>
         /// <param name="wasEventHandled">Set to true if current event was already handled by a deeper child.</param>
         /// <param name="scrollVal">Combined scrolling value (panels with scrollbar etc) of all parents.</param>
-        virtual public void Update(InputHelper input, ref Entity targetEntity, ref Entity dragTargetEntity, ref bool wasEventHandled, Point scrollVal)
+        virtual public void Update(ref Entity targetEntity, ref Entity dragTargetEntity, ref bool wasEventHandled, Point scrollVal)
         {
             // set last scroll var
             _lastScrollVal = scrollVal;
@@ -1842,7 +1853,7 @@ namespace GeonBit.UI.Entities
             }
 
             // get mouse position
-            Vector2 mousePos = input.MousePosition;
+            Vector2 mousePos = GetMousePos();
 
             // add our own scroll value to the combined scroll val before updating children
             scrollVal += OverflowScrollVal;
@@ -1861,7 +1872,7 @@ namespace GeonBit.UI.Entities
                     {
                         if (_children[i].DoEventsIfDirectParentIsLocked)
                         {
-                            _children[i].Update(input, ref targetEntity, ref dragTargetEntity, ref wasEventHandled, scrollVal);
+                            _children[i].Update(ref targetEntity, ref dragTargetEntity, ref wasEventHandled, scrollVal);
                         }
                     }
                 }
@@ -1872,13 +1883,13 @@ namespace GeonBit.UI.Entities
                     // if mouse was over, trigger mouse leave event
                     if (_entityState == EntityState.MouseHover)
                     {
-                        DoOnMouseLeave(input);
+                        DoOnMouseLeave();
                     }
                     // if mouse was down, trigger mouse up and leave events
                     else if (_entityState == EntityState.MouseDown)
                     {
-                        DoOnMouseReleased(input);
-                        DoOnMouseLeave(input);
+                        DoOnMouseReleased();
+                        DoOnMouseLeave();
                     }
                 }
 
@@ -1891,7 +1902,7 @@ namespace GeonBit.UI.Entities
             // if click-through is true, update children and stop here
             if (ClickThrough)
             {
-                UpdateChildren(input, ref targetEntity, ref dragTargetEntity, ref wasEventHandled, scrollVal);
+                UpdateChildren(ref targetEntity, ref dragTargetEntity, ref wasEventHandled, scrollVal);
                 return;
             }
 
@@ -1903,7 +1914,7 @@ namespace GeonBit.UI.Entities
             _isInteractable = true;
 
             // do before update event
-            DoBeforeUpdate(input);
+            DoBeforeUpdate();
 
             // store previous state
             EntityState prevState = _entityState;
@@ -1936,19 +1947,19 @@ namespace GeonBit.UI.Entities
                         _isMouseOver = true;
 
                         // update mouse state
-                        _entityState = (IsFocused || PromiscuousClicksMode || input.MouseButtonPressed()) && 
-                            input.MouseButtonDown() ? EntityState.MouseDown : EntityState.MouseHover;
+                        _entityState = (IsFocused || PromiscuousClicksMode || Input.MouseButtonPressed()) &&
+                            Input.MouseButtonDown() ? EntityState.MouseDown : EntityState.MouseHover;
                     }
                 }
 
                 // set if focused
-                if (input.MouseButtonPressed())
+                if (Input.MouseButtonPressed())
                 {
                     IsFocused = _isMouseOver;
                 }
             }
             // if currently other entity is targeted and mouse clicked, set focused to false
-            else if (input.MouseButtonClick())
+            else if (Input.MouseButtonClick())
             {
                 IsFocused = false;
             }
@@ -1956,10 +1967,10 @@ namespace GeonBit.UI.Entities
             // STEP 2: NOW WE CALL ALL CHILDREN'S UPDATE
 
             // update all children
-            UpdateChildren(input, ref targetEntity, ref dragTargetEntity, ref wasEventHandled, scrollVal);
+            UpdateChildren(ref targetEntity, ref dragTargetEntity, ref wasEventHandled, scrollVal);
 
             // check dragging after children so that the most nested entity gets priority
-            if ((_draggable || IsNaturallyInteractable()) && dragTargetEntity == null && _isMouseOver && input.MouseButtonPressed(MouseButton.Left))
+            if ((_draggable || IsNaturallyInteractable()) && dragTargetEntity == null && _isMouseOver && Input.MouseButtonPressed(MouseButton.Left))
             {
                 dragTargetEntity = this;
             }
@@ -1975,36 +1986,36 @@ namespace GeonBit.UI.Entities
                 // call the while-mouse-down handler
                 if (_entityState == EntityState.MouseDown)
                 {
-                    DoWhileMouseDown(input);
+                    DoWhileMouseDown();
                 }
                 else
                 {
-                    DoWhileMouseHover(input);
+                    DoWhileMouseHover();
                 }
 
                 // set mouse enter / mouse leave
                 if (_isMouseOver && !prevMouseOver)
                 {
-                    DoOnMouseEnter(input);
+                    DoOnMouseEnter();
                 }
 
                 // generate events
                 if (prevState != _entityState)
                 {
                     // mouse down
-                    if (input.MouseButtonPressed())
+                    if (Input.MouseButtonPressed())
                     {
-                        DoOnMouseDown(input);
+                        DoOnMouseDown();
                     }
                     // mouse up
-                    if (input.MouseButtonReleased())
+                    if (Input.MouseButtonReleased())
                     {
-                        DoOnMouseReleased(input);
+                        DoOnMouseReleased();
                     }
                     // mouse click
-                    if (input.MouseButtonClick())
+                    if (Input.MouseButtonClick())
                     {
-                        DoOnClick(input);
+                        DoOnClick();
                     }
                 }
             }
@@ -2017,15 +2028,15 @@ namespace GeonBit.UI.Entities
             // mouse leave events
             if (!_isMouseOver && prevMouseOver)
             {
-                DoOnMouseLeave(input);
+                DoOnMouseLeave();
             }
 
             // handle mouse wheel scroll over this entity
             if (targetEntity == this || UserInterface.Active.ActiveEntity == this)
             {
-                if (input.MouseWheelChange != 0)
+                if (Input.MouseWheelChange != 0)
                 {
-                    DoOnMouseWheelScroll(input);
+                    DoOnMouseWheelScroll();
                 }
             }
 
@@ -2035,7 +2046,7 @@ namespace GeonBit.UI.Entities
             if (_draggable && (dragTargetEntity == this) && IsFocused)
             {
                 // check if we need to start dragging the entity that was not dragged before
-                if (!_isBeingDragged && input.MousePositionDiff.Length() != 0)
+                if (!_isBeingDragged && Input.MousePositionDiff.Length() != 0)
                 {
                     // remove self from parent and add again. this trick is to keep the dragged entity always on-top
                     Entity parent = _parent;
@@ -2044,22 +2055,22 @@ namespace GeonBit.UI.Entities
 
                     // set dragging mode = true, and call the do-start-dragging event
                     _isBeingDragged = true;
-                    DoOnStartDrag(input);
+                    DoOnStartDrag();
                 }
 
                 // if being dragged..
                 if (_isBeingDragged)
                 {
                     // update drag offset and call the dragging event
-                    _dragOffset += input.MousePositionDiff;
-                    DoWhileDragging(input);
+                    _dragOffset += Input.MousePositionDiff;
+                    DoWhileDragging();
                 }
             }
             // if not currently dragged but was dragged last frane, call the end dragging event
             else if (_isBeingDragged)
             {
                 _isBeingDragged = false;
-                DoOnStopDrag(input);
+                DoOnStopDrag();
                 MarkAsDirty();
             }
 
@@ -2070,7 +2081,7 @@ namespace GeonBit.UI.Entities
             }
 
             // do after-update events
-            DoAfterUpdate(input);
+            DoAfterUpdate();
         }
     }
 }

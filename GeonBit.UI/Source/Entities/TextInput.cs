@@ -283,18 +283,17 @@ namespace GeonBit.UI.Entities
         /// Handle mouse click event.
         /// TextInput override this function to handle picking caret position.
         /// </summary>
-        /// <param name="input">Input helper instance.</param>
-        override protected void DoOnClick(InputHelper input)
+        override protected void DoOnClick()
         {
             // first call base DoOnClick
-            base.DoOnClick(input);
+            base.DoOnClick();
 
             // check if hit paragraph
             if (_value.Length > 0)
             {
                 // get relative position
                 Vector2 actualParagraphPos = new Vector2(_destRectInternal.Location.X, _destRectInternal.Location.Y);
-                Vector2 relativeOffset = input.MousePosition - actualParagraphPos;
+                Vector2 relativeOffset = GetMousePos(-actualParagraphPos);
 
                 // calc caret position
                 Vector2 charSize = TextParagraph.GetCharacterActualSize();
@@ -361,7 +360,7 @@ namespace GeonBit.UI.Entities
                 {
                     // fix paragraph width to leave room for the scrollbar
                     float prevWidth = currParagraph.Size.X;
-                    currParagraph.Size = new Vector2(_destRectInternal.Width / UserInterface.Active.GlobalScale - 20, 0);
+                    currParagraph.Size = new Vector2(_destRectInternal.Width / GlobalScale - 20, 0);
                     if (currParagraph.Size.X != prevWidth)
                     {
                         // update size and re-calculate lines in text
@@ -468,11 +467,10 @@ namespace GeonBit.UI.Entities
         /// Called every frame before update.
         /// TextInput implement this function to get keyboard input and also to animate caret timer.
         /// </summary>
-        /// <param name="input">Input helper instance.</param>
-        override protected void DoBeforeUpdate(InputHelper input)
+        override protected void DoBeforeUpdate()
         {
             // animate caret
-            _caretAnim += (float)input.CurrGameTime.ElapsedGameTime.TotalSeconds * CaretBlinkingSpeed;
+            _caretAnim += (float)Input.CurrGameTime.ElapsedGameTime.TotalSeconds * CaretBlinkingSpeed;
 
             // if focused, and got character input in this frame..
             if (IsFocused)
@@ -485,7 +483,7 @@ namespace GeonBit.UI.Entities
 
                 // store old string and update based on user input
                 string oldVal = _value;
-                _value = input.GetTextInput(_value, ref pos);
+                _value = Input.GetTextInput(_value, ref pos);
 
                 // update caret position
                 _caret = pos;
@@ -514,7 +512,7 @@ namespace GeonBit.UI.Entities
             }
 
             // call base do-before-update
-            base.DoBeforeUpdate(input);
+            base.DoBeforeUpdate();
         }
 
         /// <summary>

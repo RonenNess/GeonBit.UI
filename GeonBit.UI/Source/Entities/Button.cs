@@ -138,8 +138,7 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Handle click events. In button we override this so we can toggle button when in Toggle mode.
         /// </summary>
-        /// <param name="input">Input helper instance.</param>
-        override protected void DoOnClick(InputHelper input)
+        override protected void DoOnClick()
         {
             // toggle value
             if (ToggleMode)
@@ -148,7 +147,7 @@ namespace GeonBit.UI.Entities
             }
 
             // call base handler
-            base.DoOnClick(input);
+            base.DoOnClick();
         }
 
         /// <summary>

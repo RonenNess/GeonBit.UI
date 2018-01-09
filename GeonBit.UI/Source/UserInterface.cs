@@ -92,7 +92,7 @@ namespace GeonBit.UI
     public class UserInterface : System.IDisposable
     {
         /// <summary>Current GeonBit.UI version identifier.</summary>
-        public const string VERSION = "3.0.2.3";
+        public const string VERSION = "3.1.0.1";
 
         /// <summary>
         /// The currently active user interface instance.
@@ -279,6 +279,17 @@ namespace GeonBit.UI
         public bool ShowCursor = true;
 
         /// <summary>
+        /// Optional transformation matrix to apply when drawing with render targets.
+        /// </summary>
+        public Matrix? RenderTargetTransformMatrix = null;
+
+        /// <summary>
+        /// If using render targets, should the curser be rendered inside of it?
+        /// If false, cursor will draw outside the render target, when presenting it.
+        /// </summary>
+        public bool IncludeCursorInRenderTarget = true;
+
+        /// <summary>
         /// The function used to generate tooltip text on entities.
         /// </summary>
         public GenerateTooltipFunc GenerateTooltipFunc = DefaultGenerateTooltipFunc;
@@ -335,7 +346,7 @@ namespace GeonBit.UI
             {
                 // get dest rect and calculate tooltip position based on size and mouse position
                 var destRect = tooltip.GetActualDestRect();
-                var position = _input.MousePosition + new Vector2(-destRect.Width / 2, -destRect.Height - 20);
+                var position = UserInterface.Active.GetTransformedCursorPos(new Vector2(-destRect.Width / 2, -destRect.Height - 20));
 
                 // make sure tooltip is not out of screen boundaries
                 var screenBounds = Active.Root.GetActualDestRect();
@@ -345,7 +356,7 @@ namespace GeonBit.UI
                 if (position.X > screenBounds.Right - destRect.Width) position.X = screenBounds.Right - destRect.Width;
 
                 // update tooltip position
-                tooltip.SetPosition(Anchor.TopLeft, position / UserInterface.Active.GlobalScale);
+                tooltip.SetPosition(Anchor.TopLeft, position / Active.GlobalScale);
             };
             tooltip.CalcTextActualRectWithWrap();
             tooltip.BeforeDraw(tooltip);
@@ -379,7 +390,8 @@ namespace GeonBit.UI
             DrawUtils = new DrawUtils();
 
             // create input helper
-            _input = new InputHelper();
+            if (_input == null)
+                _input = new InputHelper();
 
             // create the root panel
             Root = new RootPanel();
@@ -415,7 +427,7 @@ namespace GeonBit.UI
         /// Draw the cursor.
         /// </summary>
         /// <param name="spriteBatch">SpriteBatch to draw the cursor.</param>
-        private void DrawCursor(SpriteBatch spriteBatch)
+        public void DrawCursor(SpriteBatch spriteBatch)
         {
             // start drawing for cursor
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState, SamplerState, DepthStencilState.None, RasterizerState.CullCounterClockwise);
@@ -478,7 +490,7 @@ namespace GeonBit.UI
             // update root panel
             Entity target = null;
             bool wasEventHandled = false;
-            Root.Update(_input, ref target, ref _dragTarget, ref wasEventHandled, Point.Zero);
+            Root.Update(ref target, ref _dragTarget, ref wasEventHandled, Point.Zero);
 
             // set active entity
             if (_input.MouseButtonDown(MouseButton.Left))
@@ -607,8 +619,8 @@ namespace GeonBit.UI
             // draw root panel
             Root.Draw(spriteBatch);
 
-            // draw cursor
-            if (ShowCursor)
+            // draw cursor (unless using render targets and should draw cursor outside of it)
+            if (ShowCursor && (IncludeCursorInRenderTarget || !UseRenderTarget))
             {
                 DrawCursor(spriteBatch);
             }
@@ -630,10 +642,39 @@ namespace GeonBit.UI
             // draw the main render target
             if (RenderTarget != null && !RenderTarget.IsDisposed)
             {
-                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+                // draw render target
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, transformMatrix: RenderTargetTransformMatrix);
                 spriteBatch.Draw(RenderTarget, new Rectangle(0, 0, ScreenWidth, ScreenHeight), Color.White);
                 spriteBatch.End();
             }
+
+            // draw cursor
+            if (!IncludeCursorInRenderTarget)
+            {
+                DrawCursor(spriteBatch);
+            }
+        }
+
+        /// <summary>
+        /// Get transformed cursoer position for collision detection.
+        /// If have transform matrix and curser is included in render target, will transform cursor position too.
+        /// If don't use transform matrix or drawing cursor outside, will not transform cursor position.
+        /// </summary>
+        /// <returns>Transformed cursor position.</returns>
+        public Vector2 GetTransformedCursorPos(Vector2? addVector)
+        {
+            // default add vector
+            addVector = addVector ?? Vector2.Zero;
+
+            // return transformed cursor position
+            if (UseRenderTarget && RenderTargetTransformMatrix != null && !IncludeCursorInRenderTarget)
+            {
+                var matrix = Matrix.Invert(RenderTargetTransformMatrix.Value);
+                return _input.TransformCursorPos(matrix) + Vector2.Transform(addVector.Value, matrix);
+            }
+
+            // return raw cursor pos
+            return _input.MousePosition + addVector.Value;
         }
     }
 }

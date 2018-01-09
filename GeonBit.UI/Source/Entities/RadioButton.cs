@@ -106,11 +106,10 @@ namespace GeonBit.UI.Entities
         /// Handle mouse click event. 
         /// Radio buttons entity override this function to handle value toggle.
         /// </summary>
-        /// <param name="input">Input helper instance.</param>
-        override protected void DoOnClick(InputHelper input)
+        override protected void DoOnClick()
         {
             // call base handler
-            base.DoOnClick(input);
+            base.DoOnClick();
 
             // if cannot be unchecked, make sure its checked
             if (!CanUncheck)

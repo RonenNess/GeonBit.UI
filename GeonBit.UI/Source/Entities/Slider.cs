@@ -214,11 +214,10 @@ namespace GeonBit.UI.Entities
         /// Called every frame while mouse button is down over this entity.
         /// The slider entity override this function to handle slider value change (eg slider mark dragging).
         /// </summary>
-        /// <param name="input">Input helper instance.</param>
-        override protected void DoWhileMouseDown(InputHelper input)
+        override protected void DoWhileMouseDown()
         {
             // get mouse position and apply scroll value
-            var mousePos = input.MousePosition;
+            var mousePos = GetMousePos();
             mousePos += _lastScrollVal.ToVector2();
 
             // if mouse x is on the 0 side set to min
@@ -239,7 +238,7 @@ namespace GeonBit.UI.Entities
             }
 
             // call base handler
-            base.DoWhileMouseDown(input);
+            base.DoWhileMouseDown();
         }
 
         /// <summary>
@@ -293,10 +292,9 @@ namespace GeonBit.UI.Entities
         /// Handle when mouse wheel scroll and this entity is the active entity.
         /// Note: Slider entity override this function to change slider value based on wheel scroll.
         /// </summary>
-        /// <param name="input">Input helper instance.</param>
-        override protected void DoOnMouseWheelScroll(InputHelper input)
+        override protected void DoOnMouseWheelScroll()
         {
-            Value = _value + input.MouseWheelChange * GetStepSize();
+            Value = _value + Input.MouseWheelChange * GetStepSize();
         }
     }
 }
