@@ -1556,6 +1556,8 @@ Contain required effects for the UI theme.
 
 Contain the SpriteFonts to use for paragraphs and texts. The fonts you use must be installed on your system when compiling them.
 
+Note: GeonBit.UI is built to use [monospace fonts](https://en.wikipedia.org/wiki/Monospaced_font). Using fonts that are not monospace may results in unexpected behavior and broken entities.
+
 ### styles/
 
 XML files with default styling for all entities. There are 3 files per entity type, for default state, mouse hover, and mouse down. To see values example and extra info, check out ```example.xml```.
