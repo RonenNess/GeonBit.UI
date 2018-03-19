@@ -104,10 +104,10 @@ namespace GeonBit.UI.Entities
         /// <returns>Color of texture at the given texture coords.</returns>
         public Color GetColorAt(Point textureCoords)
         {
-            Color[] data = new Color[1];
+            Color[] data = new Color[Texture.Width * Texture.Height];
             var index = textureCoords.X + (textureCoords.Y * Texture.Width);
-            Texture.GetData(data, index, 1);
-            return data[0];
+            Texture.GetData<Color>(data);
+            return data[index];
         }
 
         /// <summary>
