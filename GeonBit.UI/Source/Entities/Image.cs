@@ -66,6 +66,63 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Convert a given position to texture coords of this image.
+        /// </summary>
+        /// <param name="pos">Position to convert.</param>
+        /// <returns>Texture coords from position.</returns>
+        public Point GetTextureCoordsAt(Vector2 pos)
+        {
+            // draw mode must be stretch for it to work
+            if (DrawMode != ImageDrawMode.Stretch)
+            {
+                throw new Exceptions.InvalidStateException("Cannot get texture coords on image that is not in stretched mode!");
+            }
+
+            // make sure in boundaries
+            if (!IsInsideEntity(pos))
+            {
+                throw new Exceptions.InvalidValueException("Position to get coords for must be inside entity boundaries!");
+            }
+
+            // get actual dest rect
+            CalcDestRect();
+            var rect = GetActualDestRect();
+
+            // calc uv
+            Vector2 relativePos = new Vector2(rect.Right - pos.X, rect.Bottom - pos.Y);
+            Vector2 uv = new Vector2(1f - relativePos.X / rect.Width, 1f - relativePos.Y / rect.Height);
+
+            // convert to final texture coords
+            Point textCoords = new Point((int)(uv.X * Texture.Width), (int)(uv.Y * Texture.Height));
+            return textCoords;
+        }
+
+        /// <summary>
+        /// Get texture color at a given coordinates.
+        /// </summary>
+        /// <param name="textureCoords">Texture coords to get color for.</param>
+        /// <returns>Color of texture at the given texture coords.</returns>
+        public Color GetColorAt(Point textureCoords)
+        {
+            Color[] data = new Color[1];
+            var index = textureCoords.X + (textureCoords.Y * Texture.Width);
+            Texture.GetData(data, index, 1);
+            return data[0];
+        }
+
+        /// <summary>
+        /// Set texture color at a given coordinates.
+        /// Note: this will affect all entities using this texture.
+        /// </summary>
+        /// <param name="textureCoords">Texture coords to set color for.</param>
+        /// <param name="color">New color to set.</param>
+        public void SetTextureColorAt(Point textureCoords, Color color)
+        {
+            Color[] data = new Color[] { color };
+            Texture.SetData(0, new Rectangle(textureCoords.X, textureCoords.Y, 1, 1), data, 0, 1);
+        }
+
+        /// <summary>
         /// Draw the entity.
         /// </summary>
         /// <param name="spriteBatch">Sprite batch to draw on.</param>
