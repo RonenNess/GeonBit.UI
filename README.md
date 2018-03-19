@@ -1864,6 +1864,11 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Added support in drawing cursor outside rendering targets.
 - Fixed a bug that re-creates input managers for no reason whenever creating new UserInterface(). 
 
+### 3.1.0.2
+
+- Added functions to get / set pixels of image texture.
+- Added function to get texture coords from position.
+
 ## Credits
 
 GeonBit.UI was written by Ronen Ness, but uses some free textures made by awesome people who share their work for free.
