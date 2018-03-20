@@ -1870,6 +1870,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Added functions to get / set pixels of image texture.
 - Added function to get texture coords from position.
 - Added MouseHoverOrDown event.
+- Added font override property to all paragraph types.
 
 ## Credits
 

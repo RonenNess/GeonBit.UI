@@ -57,6 +57,11 @@ namespace GeonBit.UI.Entities
         public Point BackgroundColorPadding = new Point(10, 10);
 
         /// <summary>
+        /// An optional font you can set to override the default fonts.
+        /// </summary>
+        public SpriteFont FontOverride = null;
+
+        /// <summary>
         /// If true and have background color, will use the paragraph box size for it instead of the text actual size.
         /// </summary>
         public bool BackgroundColorUseBoxSize = false;
@@ -336,7 +341,7 @@ namespace GeonBit.UI.Entities
         /// <returns>Current font.</returns>
         protected SpriteFont GetCurrFont()
         {
-            return Resources.Fonts[(int)TextStyle];
+            return FontOverride ?? Resources.Fonts[(int)TextStyle];
         }
 
         /// <summary>
