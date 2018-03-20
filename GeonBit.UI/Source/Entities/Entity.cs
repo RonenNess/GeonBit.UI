@@ -241,8 +241,11 @@ namespace GeonBit.UI.Entities
         /// <summary>Callback to execute every frame while mouse button is pressed over the entity.</summary>
         public EventCallback WhileMouseDown = null;
 
-        /// <summary>Callback to execute every frame while mouse is hovering over the entity.</summary>
+        /// <summary>Callback to execute every frame while mouse is hovering over the entity (not called while mouse button is down).</summary>
         public EventCallback WhileMouseHover = null;
+
+        /// <summary>Callback to execute every frame while mouse is hovering over the entity, even if mouse is down.</summary>
+        public EventCallback WhileMouseHoverOrDown = null;
 
         /// <summary>Callback to execute when user clicks on this entity (eg release mouse over it).</summary>
         public EventCallback OnClick = null;
@@ -1537,6 +1540,7 @@ namespace GeonBit.UI.Entities
             OnMouseReleased += (Entity entity) => { other.OnMouseReleased?.Invoke(other); };
             WhileMouseDown += (Entity entity) => { other.WhileMouseDown?.Invoke(other); };
             WhileMouseHover += (Entity entity) => { other.WhileMouseHover?.Invoke(other); };
+            WhileMouseHoverOrDown += (Entity entity) => { other.WhileMouseHoverOrDown?.Invoke(other); };
             OnClick += (Entity entity) => { other.OnClick?.Invoke(other); };
             OnValueChange += (Entity entity) => { other.OnValueChange?.Invoke(other); };
             OnMouseEnter += (Entity entity) => { other.OnMouseEnter?.Invoke(other); };
@@ -1643,6 +1647,15 @@ namespace GeonBit.UI.Entities
         {
             WhileMouseHover?.Invoke(this);
             UserInterface.Active.WhileMouseHover?.Invoke(this);
+        }
+
+        /// <summary>
+        /// Handle mouse hover or down event, called every frame while hover.
+        /// </summary>
+        virtual protected void DoWhileMouseHoverOrDown()
+        {
+            WhileMouseHoverOrDown?.Invoke(this);
+            UserInterface.Active.WhileMouseHoverOrDown?.Invoke(this);
         }
 
         /// <summary>
@@ -1992,6 +2005,9 @@ namespace GeonBit.UI.Entities
                 {
                     DoWhileMouseHover();
                 }
+
+                // call the while-mouse-hover-or-down handler
+                DoWhileMouseHoverOrDown();
 
                 // set mouse enter / mouse leave
                 if (_isMouseOver && !prevMouseOver)

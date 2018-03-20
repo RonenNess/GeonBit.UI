@@ -460,7 +460,8 @@ You can set callbacks to be called on different entity-related events. The avail
 - OnMouseDown: called when the mouse left button is pressed on this entity (on the moment of pressing).
 - OnMouseUp: called when mouse left button is released on this entity (on the moment of releasing).
 - WhileMouseDown: called every frame while mouse left button is down over this entity.
-- WhileMouseHover: called every frame while mouse hovers over this entity.
+- WhileMouseHover: called every frame while mouse hovers over this entity and mouse button is released.
+- WhileMouseHoverOrDown: called every frame while mouse hovers over this entity, even if mouse button is down.
 - OnClick: called when mouse left button is released on this entity.
 - OnValueChange: called when the value of this entity change (relevant for entities with value only).
 - OnVisiblityChange: called when the 'Visible' property of this entity changes.
@@ -1868,6 +1869,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 
 - Added functions to get / set pixels of image texture.
 - Added function to get texture coords from position.
+- Added MouseHoverOrDown event.
 
 ## Credits
 

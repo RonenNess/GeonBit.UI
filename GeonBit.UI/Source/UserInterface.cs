@@ -92,7 +92,7 @@ namespace GeonBit.UI
     public class UserInterface : System.IDisposable
     {
         /// <summary>Current GeonBit.UI version identifier.</summary>
-        public const string VERSION = "3.1.0.1";
+        public const string VERSION = "3.1.0.2";
 
         /// <summary>
         /// The currently active user interface instance.
@@ -204,8 +204,11 @@ namespace GeonBit.UI
         /// <summary>Callback to execute every frame while mouse button is pressed over an entity.</summary>
         public EventCallback WhileMouseDown = null;
 
-        /// <summary>Callback to execute every frame while mouse is hovering over an entity.</summary>
+        /// <summary>Callback to execute every frame while mouse is hovering over an entity, unless mouse button is down.</summary>
         public EventCallback WhileMouseHover = null;
+
+        /// <summary>Callback to execute every frame while mouse is hovering over an entity, even if mouse button is down.</summary>
+        public EventCallback WhileMouseHoverOrDown = null;
 
         /// <summary>Callback to execute when user clicks on an entity (eg release mouse over it).</summary>
         public EventCallback OnClick = null;
