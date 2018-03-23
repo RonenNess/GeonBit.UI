@@ -402,7 +402,7 @@ As explained before, these determine the position of the entity inside its paren
 
 ### Size
 
-The size of the entity in pixels.
+The size of the entity in pixels or percents.
 
 Most entities have a default size so you don't need to set it. However, there are three special values that are supported by the size property and you should know:
 
@@ -413,6 +413,14 @@ Most entities have a default size so you don't need to set it. However, there ar
 So if for example you set an entity size of (0, -1), it means the entity will have its default height with width of 100% of its parent width (minus the padding, which are explained next).
 
 Note: Entities may behave unexpectedly and won't render correctly if set to a size too small for them.
+
+### MinSize / MaxSize
+
+When you define an entity size in percents, sometimes you want to limit the actual size in pixels.
+For example, you might want an entity to take 50% of its parent width, but never exceed 500 pixels. For that purpose, you can use the MaxSize property.
+
+Just like with Size property, MinSize / MaxSize can also be in percents. 
+For example, you can define an entity to be 500 pixels, but use MinSize to make sure it always take at least 50% of its parent width.
 
 ### Padding
 
