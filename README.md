@@ -1871,6 +1871,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Added function to get texture coords from position.
 - Added MouseHoverOrDown event.
 - Added font override property to all paragraph types.
+- Added MinSize and MaxSize property to entities.
 
 ## Credits
 

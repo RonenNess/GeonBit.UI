@@ -198,6 +198,26 @@ namespace GeonBit.UI.Entities
         /// </summary>
         protected virtual Point OverflowScrollVal { get { return Point.Zero; } }
 
+        // optional min size.
+        private Vector2? _minSize;
+
+        // optional max size.
+        private Vector2? _maxSize;
+
+        /// <summary>
+        /// If defined, will limit the minimum size of this entity when calculating size.
+        /// This is especially useful for entities with size that depends on their parent entity size, for example
+        /// if you define an entity to take 20% of its parent space but can't be less than 200 pixels width.
+        /// </summary>
+        public Vector2? MinSize { get { return _minSize; } set { _minSize = value;  MarkAsDirty(); } }
+
+        /// <summary>
+        /// If defined, will limit the maximum size of this entity when calculating size.
+        /// This is especially useful for entities with size that depends on their parent entity size, for example
+        /// if you define an entity to take 20% of its parent space but can't be more than 200 pixels width.
+        /// </summary>
+        public Vector2? MaxSize { get { return _maxSize; } set { _maxSize = value; MarkAsDirty(); } }
+
         /// <summary>
         /// Every time we update destination rect and internal destination rect view the update function, we increase this counter.
         /// This is so our children will know we did an update and they need to update too.
@@ -220,7 +240,7 @@ namespace GeonBit.UI.Entities
         /// </summary>
         public bool UseActualSizeForCollision = true;
 
-        /// <summary>Entity size (in pixels). Value of 0 will take parent's full size.</summary>
+        /// <summary>Entity size (in pixels). Value of 0 will take parent's full size. -1 will take defaults.</summary>
         protected Vector2 _size;
 
         /// <summary>Offset, in pixels, from the anchor position.</summary>
@@ -1330,6 +1350,29 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Takes a size value in vector, that can be in percents or units, and convert it to absolute
+        /// size in pixels. For example, if given size is 0.5f this will calculate it to be half its parent
+        /// size, as it should be.
+        /// </summary>
+        /// <param name="size">Size to calculate.</param>
+        /// <returns>Actual size in pixels.</returns>
+        protected Point CalcActualSizeInPixels(Vector2 size)
+        {
+            // simple case: if size is not in percents, just return as-is
+            if (size.X > 1f && size.Y > 1f)
+                return size.ToPoint();
+
+            // get parent internal destination rectangle
+            _parent.UpdateDestinationRectsIfDirty();
+            Rectangle parentDest = _parent._destRectInternal;
+
+            // calc and return size
+            return new Point(
+                (size.X == 0f ? parentDest.Width : (size.X > 0f && size.X < 1f ? (int)(parentDest.Width * size.X) : (int)size.X)),
+                (size.Y == 0f ? parentDest.Height : (size.Y > 0f && size.Y < 1f ? (int)(parentDest.Height * size.Y) : (int)size.Y)));
+        }
+
+        /// <summary>
         /// Calculate and return the destination rectangle, eg the space this entity is rendered on.
         /// </summary>
         /// <returns>Destination rectangle.</returns>
@@ -1353,10 +1396,28 @@ namespace GeonBit.UI.Entities
             // 0.0 - 1.0: takes percent of parent size.
             // > 1.0: size in pixels.
             Vector2 size = _scaledSize;
-            ret.Width  = (size.X == 0f ? parentDest.Width  : (size.X > 0f && size.X < 1f ? (int)(parentDest.Width  * _size.X) : (int)size.X));
-            ret.Height = (size.Y == 0f ? parentDest.Height : (size.Y > 0f && size.Y < 1f ? (int)(parentDest.Height * _size.Y) : (int)size.Y));
+            Point sizeInPixels = CalcActualSizeInPixels(size);
 
-            // make sure valid size
+            // apply min size
+            if (MinSize != null)
+            {
+                Point minInPixels = CalcActualSizeInPixels(MinSize.Value);
+                sizeInPixels.X = System.Math.Max(minInPixels.X, sizeInPixels.X);
+                sizeInPixels.Y = System.Math.Max(minInPixels.Y, sizeInPixels.Y);
+            }
+            // apply max size
+            if (MaxSize != null)
+            {
+                Point maxInPixels = CalcActualSizeInPixels(MaxSize.Value);
+                sizeInPixels.X = System.Math.Min(maxInPixels.X, sizeInPixels.X);
+                sizeInPixels.Y = System.Math.Min(maxInPixels.Y, sizeInPixels.Y);
+            }
+
+            // set return rect size
+            ret.Width = sizeInPixels.X;
+            ret.Height = sizeInPixels.Y;
+
+            // make sure its a legal size
             if (ret.Width < 1) { ret.Width = 1; }
             if (ret.Height < 1) { ret.Height = 1; }
 
