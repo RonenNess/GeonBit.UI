@@ -123,6 +123,30 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Calculate width automatically based on height, to maintain texture's original ratio.
+        /// For example if you have a texture of 400x200 pixels (eg 2:1 ratio) and its height in pixels is currently
+        /// 100 units, calling this function will update this image width to be 100 x 2 = 200.
+        /// </summary>
+        public void CalcAutoWidth()
+        {
+            UpdateDestinationRectsIfDirty();
+            var width = ((float)_destRect.Height / (float)Texture.Height) * Texture.Width;
+            Size = new Vector2(width, _size.Y);
+        }
+
+        /// <summary>
+        /// Calculate height automatically based on width, to maintain texture's original ratio.
+        /// For example if you have a texture of 400x200 pixels (eg 2:1 ratio) and its width in pixels is currently
+        /// 100 units, calling this function will update this image height to be 100 / 2 = 50.
+        /// </summary>
+        public void CalcAutoHeight()
+        {
+            UpdateDestinationRectsIfDirty();
+            var height = ((float)_destRect.Width / (float)Texture.Width) * Texture.Height;
+            Size = new Vector2(_size.X, height);
+        }
+
+        /// <summary>
         /// Draw the entity.
         /// </summary>
         /// <param name="spriteBatch">Sprite batch to draw on.</param>

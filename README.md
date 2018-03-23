@@ -1287,6 +1287,10 @@ Image texture to draw.
 
 Image source rectangle.
 
+#### CalcAutoWidth() / CalcAutoHeight()
+
+Helper functions to calculate image's width and height automatically based on texture ratio.
+For example, calling CalcAutoWidth() will calculate image width based on its current height, to keep the result propotional to the texture.
 
 ## Icon
 
@@ -1880,6 +1884,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Added MouseHoverOrDown event.
 - Added font override property to all paragraph types.
 - Added MinSize and MaxSize property to entities.
+- Added CalcAutoWidth() / CalcAutoHeight() to Image entity.
 
 ## Credits
 
