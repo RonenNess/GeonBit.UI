@@ -1885,6 +1885,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Added font override property to all paragraph types.
 - Added MinSize and MaxSize property to entities.
 - Added CalcAutoWidth() / CalcAutoHeight() to Image entity.
+- Added set of callbacks for right mouse buttons.
 
 ## Credits
 

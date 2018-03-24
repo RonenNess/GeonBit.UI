@@ -255,11 +255,17 @@ namespace GeonBit.UI.Entities
         /// <summary>Callback to execute when mouse button is pressed over this entity (called once when button is pressed).</summary>
         public EventCallback OnMouseDown = null;
 
+        /// <summary>Callback to execute when right mouse button is pressed over this entity (called once when button is pressed).</summary>
+        public EventCallback OnRightMouseDown = null;
+
         /// <summary>Callback to execute when mouse button is released over this entity (called once when button is released).</summary>
         public EventCallback OnMouseReleased = null;
 
         /// <summary>Callback to execute every frame while mouse button is pressed over the entity.</summary>
         public EventCallback WhileMouseDown = null;
+
+        /// <summary>Callback to execute every frame while right mouse button is pressed over the entity.</summary>
+        public EventCallback WhileRightMouseDown = null;
 
         /// <summary>Callback to execute every frame while mouse is hovering over the entity (not called while mouse button is down).</summary>
         public EventCallback WhileMouseHover = null;
@@ -269,6 +275,9 @@ namespace GeonBit.UI.Entities
 
         /// <summary>Callback to execute when user clicks on this entity (eg release mouse over it).</summary>
         public EventCallback OnClick = null;
+
+        /// <summary>Callback to execute when user clicks on this entity with right mouse button (eg release mouse over it).</summary>
+        public EventCallback OnRightClick = null;
 
         /// <summary>Callback to execute when entity value changes (relevant only for entities with value).</summary>
         public EventCallback OnValueChange = null;
@@ -1598,10 +1607,13 @@ namespace GeonBit.UI.Entities
         public virtual void PropagateEventsTo(Entity other)
         {
             OnMouseDown += (Entity entity) => { other.OnMouseDown?.Invoke(other); };
+            OnRightMouseDown += (Entity entity) => { other.OnRightMouseDown?.Invoke(other); };
             OnMouseReleased += (Entity entity) => { other.OnMouseReleased?.Invoke(other); };
             WhileMouseDown += (Entity entity) => { other.WhileMouseDown?.Invoke(other); };
+            WhileRightMouseDown += (Entity entity) => { other.WhileRightMouseDown?.Invoke(other); };
             WhileMouseHover += (Entity entity) => { other.WhileMouseHover?.Invoke(other); };
             WhileMouseHoverOrDown += (Entity entity) => { other.WhileMouseHoverOrDown?.Invoke(other); };
+            OnRightClick += (Entity entity) => { other.OnRightClick?.Invoke(other); };
             OnClick += (Entity entity) => { other.OnClick?.Invoke(other); };
             OnValueChange += (Entity entity) => { other.OnValueChange?.Invoke(other); };
             OnMouseEnter += (Entity entity) => { other.OnMouseEnter?.Invoke(other); };
@@ -1715,8 +1727,28 @@ namespace GeonBit.UI.Entities
         /// </summary>
         virtual protected void DoWhileMouseHoverOrDown()
         {
+            // invoke callback and global callback
             WhileMouseHoverOrDown?.Invoke(this);
             UserInterface.Active.WhileMouseHoverOrDown?.Invoke(this);
+
+            // do right mouse click event
+            if (Input.MouseButtonClick(MouseButton.Right))
+            {
+                OnRightClick?.Invoke(this);
+                UserInterface.Active.OnRightClick?.Invoke(this);
+            }
+            // do right mouse down event
+            else if (Input.MouseButtonPressed(MouseButton.Right))
+            {
+                OnRightMouseDown?.Invoke(this);
+                UserInterface.Active.OnRightMouseDown?.Invoke(this);
+            }
+            // do while right mouse down even
+            else if (Input.MouseButtonDown(MouseButton.Right))
+            {
+                WhileRightMouseDown?.Invoke(this);
+                UserInterface.Active.WhileRightMouseDown?.Invoke(this);
+            }
         }
 
         /// <summary>

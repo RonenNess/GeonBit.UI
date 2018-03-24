@@ -198,11 +198,17 @@ namespace GeonBit.UI
         /// <summary>Callback to execute when mouse button is pressed over an entity (called once when button is pressed).</summary>
         public EventCallback OnMouseDown = null;
 
+        /// <summary>Callback to execute when right mouse button is pressed over an entity (called once when button is pressed).</summary>
+        public EventCallback OnRightMouseDown = null;
+
         /// <summary>Callback to execute when mouse button is released over an entity (called once when button is released).</summary>
         public EventCallback OnMouseReleased = null;
 
         /// <summary>Callback to execute every frame while mouse button is pressed over an entity.</summary>
         public EventCallback WhileMouseDown = null;
+
+        /// <summary>Callback to execute every frame while right mouse button is pressed over an entity.</summary>
+        public EventCallback WhileRightMouseDown = null;
 
         /// <summary>Callback to execute every frame while mouse is hovering over an entity, unless mouse button is down.</summary>
         public EventCallback WhileMouseHover = null;
@@ -212,6 +218,9 @@ namespace GeonBit.UI
 
         /// <summary>Callback to execute when user clicks on an entity (eg release mouse over it).</summary>
         public EventCallback OnClick = null;
+
+        /// <summary>Callback to execute when user clicks on an entity with right mouse button (eg release mouse over it).</summary>
+        public EventCallback OnRightClick = null;
 
         /// <summary>Callback to execute when any entity value changes (relevant only for entities with value).</summary>
         public EventCallback OnValueChange = null;
