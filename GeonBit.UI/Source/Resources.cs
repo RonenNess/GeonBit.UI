@@ -99,10 +99,19 @@ namespace GeonBit.UI
         /// </summary>
         private string EnumToString(TEnum e)
         {
+            // entity state enum
             if (typeof(TEnum) == typeof(EntityState))
             {
                 return StateEnumToString((EntityState)(object)e);
             }
+
+            // icon type enum
+            if (typeof(TEnum) == typeof(IconType))
+            {
+                return e.ToString();
+            }
+
+            // all other type of enums
             return e.ToString().ToLower();
         }
 

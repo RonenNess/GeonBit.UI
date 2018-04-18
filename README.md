@@ -1887,6 +1887,10 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Added CalcAutoWidth() / CalcAutoHeight() to Image entity.
 - Added set of callbacks for right mouse buttons.
 
+### 3.1.0.3
+
+- Fixed bug with icon enum to icon filename on linux.
+
 ## Credits
 
 GeonBit.UI was written by Ronen Ness, but uses some free textures made by awesome people who share their work for free.
