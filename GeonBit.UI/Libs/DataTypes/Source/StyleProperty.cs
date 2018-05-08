@@ -12,19 +12,19 @@ namespace GeonBit.UI.DataTypes
     /// This class acts like a Union, eg we don't use all the fields.
     /// This is a waste of some memory, but we need it to be able to serialize / desrialize to XMLs.
     /// </summary>
-    public class StyleProperty
+    public struct StyleProperty
     {
         /// <summary>Color value.</summary>
-        private Color? _color = null;
+        private Color? _color;
 
         /// <summary>Vector value.</summary>
-        private Vector2? _vector = null;
+        private Vector2? _vector;
 
         /// <summary>Float value.</summary>
-        private float _float = 0.0f;
+        private float _float;
 
         /// <summary>bool value.</summary>
-        private bool _bool = false;
+        private bool _bool;
 
         /// <summary>helper function to get / set color value.</summary>
         [ContentSerializerAttribute(Optional = true)]
@@ -47,19 +47,15 @@ namespace GeonBit.UI.DataTypes
         public bool asBool { get { return _bool; } set { _bool = value; } }
 
         /// <summary>
-        /// Init without any value.
-        /// </summary>
-        public StyleProperty()
-        {
-        }
-
-        /// <summary>
         /// Init with float value.
         /// </summary>
         /// <param name="value">Value to set.</param>
         public StyleProperty(float value)
         {
             _float = value;
+            _color = null;
+            _bool = false;
+            _vector = null;
         }
 
         /// <summary>
@@ -69,6 +65,9 @@ namespace GeonBit.UI.DataTypes
         public StyleProperty(Vector2 value)
         {
             _vector = value;
+            _color = null;
+            _bool = false;
+            _float = 0;
         }
 
         /// <summary>
@@ -78,6 +77,9 @@ namespace GeonBit.UI.DataTypes
         public StyleProperty(Color value)
         {
             _color = value;
+            _vector = null;
+            _bool = false;
+            _float = 0;
         }
 
         /// <summary>
@@ -87,6 +89,9 @@ namespace GeonBit.UI.DataTypes
         public StyleProperty(bool value)
         {
             _bool = value;
+            _vector = null;
+            _color = null;
+            _float = 0;
         }
     }
 }

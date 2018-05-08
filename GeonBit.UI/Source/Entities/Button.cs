@@ -154,7 +154,8 @@ namespace GeonBit.UI.Entities
         /// Draw the entity.
         /// </summary>
         /// <param name="spriteBatch">Sprite batch to draw on.</param>
-        override protected void DrawEntity(SpriteBatch spriteBatch)
+        /// <param name="phase">The phase we are currently drawing.</param>
+        override protected void DrawEntity(SpriteBatch spriteBatch, DrawPhase phase)
         {
             // get mouse state for graphics
             EntityState state = _entityState;
@@ -180,7 +181,7 @@ namespace GeonBit.UI.Entities
             }
 
             // call base draw function
-            base.DrawEntity(spriteBatch);
+            base.DrawEntity(spriteBatch, phase);
         }
     }
 }

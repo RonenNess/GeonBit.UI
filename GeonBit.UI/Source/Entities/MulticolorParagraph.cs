@@ -215,7 +215,8 @@ namespace GeonBit.UI.Entities
         /// Draw the entity.
         /// </summary>
         /// <param name="spriteBatch">Sprite batch to draw on.</param>
-        override protected void DrawEntity(SpriteBatch spriteBatch)
+        /// <param name="phase">The phase we are currently drawing.</param>
+        override protected void DrawEntity(SpriteBatch spriteBatch, DrawPhase phase)
         {
             // get outline width
             int outlineWidth = OutlineWidth;
@@ -289,7 +290,7 @@ namespace GeonBit.UI.Entities
             // if there are no color-changing instructions, just draw the paragraph as-is
             else
             {
-                base.DrawEntity(spriteBatch);
+                base.DrawEntity(spriteBatch, phase);
             }
         }
     }

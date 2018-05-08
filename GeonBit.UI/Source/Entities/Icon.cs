@@ -181,19 +181,39 @@ namespace GeonBit.UI.Entities
         /// Draw the entity.
         /// </summary>
         /// <param name="spriteBatch">Sprite batch to draw on.</param>
-        override protected void DrawEntity(SpriteBatch spriteBatch)
+        /// <param name="phase">The phase we are currently drawing.</param>
+        override protected void DrawEntity(SpriteBatch spriteBatch, DrawPhase phase)
         {
             // draw background
             if (DrawBackground)
             {
+                // get background color based on phase
+                Color backColor = Color.White;
+                switch (phase)
+                {
+                    case DrawPhase.Base:
+                        backColor = GetActiveStyle("BackgroundColor").asColor;
+                        break;
+
+                    case DrawPhase.Outline:
+                        backColor = OutlineColor;
+                        break;
+
+                    case DrawPhase.Shadow:
+                        backColor = ShadowColor;
+                        break;
+                }
+
                 // get background dest rect
                 Rectangle dest = _destRect;
                 dest.X -= BackgroundSize / 2; dest.Y -= BackgroundSize / 2; dest.Width += BackgroundSize; dest.Height += BackgroundSize;
-                UserInterface.Active.DrawUtils.DrawImage(spriteBatch, Resources.IconBackgroundTexture, dest, GetActiveStyle("BackgroundColor").asColor);
+
+                // draw background
+                UserInterface.Active.DrawUtils.DrawImage(spriteBatch, Resources.IconBackgroundTexture, dest, backColor);
             }
 
             // now draw the image itself
-            base.DrawEntity(spriteBatch);
+            base.DrawEntity(spriteBatch, phase);
         }
     }
 }

@@ -1891,6 +1891,12 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 
 - Fixed bug with icon enum to icon filename on linux.
 
+### 3.1.0.4
+
+- Changed StyleProperty from class to struct, to generate less garbage.
+- Added "drawing phase" param to entity draw, so we'll know what part we are drawing at this call.
+- Fixed bug with icons background shadow / outline color and opacity.
+
 ## Credits
 
 GeonBit.UI was written by Ronen Ness, but uses some free textures made by awesome people who share their work for free.

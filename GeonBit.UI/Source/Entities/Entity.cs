@@ -29,6 +29,27 @@ namespace GeonBit.UI.Entities
     }
 
     /// <summary>
+    /// Different draw phases of the entity.
+    /// </summary>
+    public enum DrawPhase
+    {
+        /// <summary>
+        /// Drawing the entity itself.
+        /// </summary>
+        Base,
+
+        /// <summary>
+        /// Drawing entity outline.
+        /// </summary>
+        Outline,
+
+        /// <summary>
+        /// Drawing entity's shadow.
+        /// </summary>
+        Shadow,
+    }
+
+    /// <summary>
     /// Static strings with all common style property names, to reduce string creations.
     /// </summary>
     internal static class StylePropertyIds
@@ -1046,7 +1067,7 @@ namespace GeonBit.UI.Entities
 
             // draw the entity itself
             UserInterface.Active.DrawUtils.StartDraw(spriteBatch, _isCurrentlyDisabled);
-            DrawEntity(spriteBatch);
+            DrawEntity(spriteBatch, DrawPhase.Base);
             UserInterface.Active.DrawUtils.EndDraw(spriteBatch);
 
             // do stuff before drawing children
@@ -1126,7 +1147,7 @@ namespace GeonBit.UI.Entities
 
             // draw with shadow effect
             UserInterface.Active.DrawUtils.StartDrawSilhouette(spriteBatch);
-            DrawEntity(spriteBatch);
+            DrawEntity(spriteBatch, DrawPhase.Shadow);
             UserInterface.Active.DrawUtils.EndDraw(spriteBatch);
 
             // return position and colors back to what they were
@@ -1177,13 +1198,13 @@ namespace GeonBit.UI.Entities
             // draw the entity outline
             UserInterface.Active.DrawUtils.StartDrawSilhouette(spriteBatch);
             _destRect.Location = originalDest.Location + new Point(-outlineWidth, 0);
-            DrawEntity(spriteBatch);
+            DrawEntity(spriteBatch, DrawPhase.Outline);
             _destRect.Location = originalDest.Location + new Point(0, -outlineWidth);
-            DrawEntity(spriteBatch);
+            DrawEntity(spriteBatch, DrawPhase.Outline);
             _destRect.Location = originalDest.Location + new Point(outlineWidth, 0);
-            DrawEntity(spriteBatch);
+            DrawEntity(spriteBatch, DrawPhase.Outline);
             _destRect.Location = originalDest.Location + new Point(0, outlineWidth);
-            DrawEntity(spriteBatch);
+            DrawEntity(spriteBatch, DrawPhase.Outline);
             UserInterface.Active.DrawUtils.EndDraw(spriteBatch);
 
             // turn back to previous fill color
@@ -1199,7 +1220,8 @@ namespace GeonBit.UI.Entities
         /// Implemented by inheriting entity types.
         /// </summary>
         /// <param name="spriteBatch">SpriteBatch to draw on.</param>
-        virtual protected void DrawEntity(SpriteBatch spriteBatch)
+        /// <param name="phase">The phase we are currently drawing.</param>
+        virtual protected void DrawEntity(SpriteBatch spriteBatch, DrawPhase phase)
         {
         }
 

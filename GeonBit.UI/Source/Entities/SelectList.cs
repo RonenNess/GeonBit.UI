@@ -506,7 +506,8 @@ namespace GeonBit.UI.Entities
         /// Draw the entity.
         /// </summary>
         /// <param name="spriteBatch">Sprite batch to draw on.</param>
-        override protected void DrawEntity(SpriteBatch spriteBatch)
+        /// <param name="phase">The phase we are currently drawing.</param>
+        override protected void DrawEntity(SpriteBatch spriteBatch, DrawPhase phase)
         {
             // if size changed, update paragraphs list
             if ((_prevSize.Y != _destRectInternal.Size.Y) || _hadResizeWhileNotVisible)
@@ -518,7 +519,7 @@ namespace GeonBit.UI.Entities
             _prevSize = _destRectInternal.Size;
 
             // call base draw function to draw the panel part
-            base.DrawEntity(spriteBatch);
+            base.DrawEntity(spriteBatch, phase);
 
             // update paragraphs list values
             for (int i = 0; i < _paragraphs.Count; ++i)

@@ -50,10 +50,10 @@ namespace GeonBit.UI.Entities
         {
             // try to get for current state
             StyleProperty ret;
-            TryGetValue(GetPropertyFullId(property, state), out ret);
+            bool gotVal = TryGetValue(GetPropertyFullId(property, state), out ret);
 
             // if not found, try default
-            if (ret == null && state != EntityState.Default && fallbackToDefault)
+            if (!gotVal && state != EntityState.Default && fallbackToDefault)
             {
                 return GetStyleProperty(property, EntityState.Default);
             }
