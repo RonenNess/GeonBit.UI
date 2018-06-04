@@ -111,10 +111,10 @@ namespace GeonBit.UI.Entities.TextValidators
         System.Text.RegularExpressions.Regex _regex;
 
         // regex for english only with spaces
-        static System.Text.RegularExpressions.Regex _slugNoSpaces = new System.Text.RegularExpressions.Regex(@"^[a-zA-Z|]+$");
+        static readonly System.Text.RegularExpressions.Regex _slugNoSpaces = new System.Text.RegularExpressions.Regex(@"^[a-zA-Z|]+$");
 
         // regex for english only without spaces
-        static System.Text.RegularExpressions.Regex _slugWithSpaces = new System.Text.RegularExpressions.Regex(@"^[a-zA-Z|\ ]+$");
+        static readonly System.Text.RegularExpressions.Regex _slugWithSpaces = new System.Text.RegularExpressions.Regex(@"^[a-zA-Z|\ ]+$");
 
         /// <summary>
         /// Create the validator.
@@ -146,10 +146,10 @@ namespace GeonBit.UI.Entities.TextValidators
         System.Text.RegularExpressions.Regex _regex;
 
         // regex for slug with spaces
-        static System.Text.RegularExpressions.Regex _slugNoSpaces = new System.Text.RegularExpressions.Regex(@"^[a-zA-Z\-_]+$");
+        static readonly System.Text.RegularExpressions.Regex _slugNoSpaces = new System.Text.RegularExpressions.Regex(@"^[a-zA-Z\-_0-9]+$");
 
         // regex for slug without spaces
-        static System.Text.RegularExpressions.Regex _slugWithSpaces = new System.Text.RegularExpressions.Regex(@"^[a-zA-Z\-_\ ]+$");
+        static readonly System.Text.RegularExpressions.Regex _slugWithSpaces = new System.Text.RegularExpressions.Regex(@"^[a-zA-Z\-_\ 0-9]+$");
 
         /// <summary>
         /// Create the slug validator.

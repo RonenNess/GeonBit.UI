@@ -1896,6 +1896,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Changed StyleProperty from class to struct, to generate less garbage.
 - Added "drawing phase" param to entity draw, so we'll know what part we are drawing at this call.
 - Fixed bug with icons background shadow / outline color and opacity.
+- Fixed slug validator to allow numbers.
 
 ## Credits
 
