@@ -282,7 +282,7 @@ namespace GeonBit.UI.Entities
         /// </summary>
         override public int Priority
         {
-            get { return 100 - _indexInParent; }
+            get { return 100 - _indexInParent + PriorityBonus; }
         }
 
         /// <summary>

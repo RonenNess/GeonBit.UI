@@ -161,6 +161,11 @@ namespace GeonBit.UI.Entities
         /// <summary>Index inside parent.</summary>
         protected int _indexInParent;
 
+        /// <summary>
+        /// Optional extra drawing priority, to bring certain objects before others.
+        /// </summary>
+        public int PriorityBonus = 0;
+
         /// <summary>Is the entity currently interactable.</summary>
         protected bool _isInteractable = false;
 
@@ -591,7 +596,7 @@ namespace GeonBit.UI.Entities
         /// </summary>
         public virtual int Priority
         {
-            get { return _indexInParent; }
+            get { return _indexInParent + PriorityBonus; }
         }
 
         /// <summary>
@@ -1070,6 +1075,19 @@ namespace GeonBit.UI.Entities
             DrawEntity(spriteBatch, DrawPhase.Base);
             UserInterface.Active.DrawUtils.EndDraw(spriteBatch);
 
+            // draw all child entities
+            DrawChildren(spriteBatch);
+
+            // do after draw event
+            OnAfterDraw(spriteBatch);
+        }
+
+        /// <summary>
+        /// Draw all children.
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        protected virtual void DrawChildren(SpriteBatch spriteBatch)
+        {
             // do stuff before drawing children
             BeforeDrawChildren(spriteBatch);
 
@@ -1084,9 +1102,6 @@ namespace GeonBit.UI.Entities
 
             // do stuff after drawing children
             AfterDrawChildren(spriteBatch);
-
-            // do after draw event
-            OnAfterDraw(spriteBatch);
         }
 
         /// <summary>
