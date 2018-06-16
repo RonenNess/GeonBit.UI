@@ -130,7 +130,7 @@ namespace GeonBit.UI.Entities
                 AddChild(_scrollbar, false);
             }
 
-            // set word-wrap mode based on weather or not this text input is multiline
+            // set word-wrap mode based on whether or not this text input is multiline
             TextParagraph.WrapWords = _multiLine;
             PlaceholderParagraph.WrapWords = _multiLine;
 

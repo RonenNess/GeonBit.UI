@@ -252,7 +252,7 @@ namespace GeonBit.UI.Entities
             // adjust scrolling
             point += _lastScrollVal.ToVector2();
 
-            // get destination rect based on weather the dropdown is opened or closed
+            // get destination rect based on whether the dropdown is opened or closed
             Rectangle rect;
 
             // if list is currently visible, use the full size

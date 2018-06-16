@@ -1924,7 +1924,7 @@ namespace GeonBit.UI.Entities
         public bool IsMouseDown { get { return _entityState == EntityState.MouseDown; } }
 
         /// <summary>
-        /// Return if the mouse is currently over this entity (regardless of weather or not mouse button is down).
+        /// Return if the mouse is currently over this entity (regardless of whether or not mouse button is down).
         /// </summary>
         public bool IsMouseOver { get { return _isMouseOver; } }
 

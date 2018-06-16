@@ -287,7 +287,7 @@ namespace GeonBit.UI
         /// </summary>
         public static float TimeToShowTooltipText = 2f;
 
-        /// <summary>Weather or not to draw the cursor.</summary>
+        /// <summary>Whether or not to draw the cursor.</summary>
         public bool ShowCursor = true;
 
         /// <summary>

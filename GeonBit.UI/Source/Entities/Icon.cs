@@ -154,7 +154,7 @@ namespace GeonBit.UI.Entities
         /// <param name="icon">A pre-defined icon to draw.</param>
         /// <param name="anchor">Position anchor.</param>
         /// <param name="scale">Icon default scale.</param>
-        /// <param name="background">Weather or not to show icon inventory-like background.</param>
+        /// <param name="background">Whether or not to show icon inventory-like background.</param>
         /// <param name="offset">Offset from anchor position.</param>
         public Icon(IconType icon, Anchor anchor = Anchor.Auto, float scale = 1.0f, bool background = false, Vector2? offset = null) :
             base(null, USE_DEFAULT_SIZE, ImageDrawMode.Stretch, anchor, offset)
