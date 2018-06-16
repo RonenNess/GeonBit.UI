@@ -1898,6 +1898,11 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Fixed bug with icons background shadow / outline color and opacity.
 - Fixed slug validator to allow numbers.
 
+### 3.1.0.5 [not released yet]
+
+- Added PriorityBonus to entities.
+- Separated drawing children into a virtual function so users will be able to override it.
+
 ## Credits
 
 GeonBit.UI was written by Ronen Ness, but uses some free textures made by awesome people who share their work for free.
