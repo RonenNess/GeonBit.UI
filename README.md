@@ -422,6 +422,14 @@ For example, you might want an entity to take 50% of its parent width, but never
 Just like with Size property, MinSize / MaxSize can also be in percents. 
 For example, you can define an entity to be 500 pixels, but use MinSize to make sure it always take at least 50% of its parent width.
 
+### PriorityBonus
+
+Add priority in drawing / update queue.
+
+Normally, when you put two entities on the same spot, the secondly added entity would be rendered (and updated) above the lower-index entity. This properly allow you to affect this behavior, by giving bonus to some of the entities.
+
+This is useful if you have panels that might overlap and you want to control which panel will be drawn on top of which.
+
 ### Padding
 
 Padding (in pixels) to position child entities inside this entity.
