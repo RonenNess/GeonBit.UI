@@ -1298,7 +1298,7 @@ Image source rectangle.
 #### CalcAutoWidth() / CalcAutoHeight()
 
 Helper functions to calculate image's width and height automatically based on texture ratio.
-For example, calling CalcAutoWidth() will calculate image width based on its current height, to keep the result propotional to the texture.
+For example, calling CalcAutoWidth() will calculate image width based on its current height, to keep the result proportional to the texture.
 
 ## Icon
 
@@ -1517,7 +1517,7 @@ Reset caret position to the end of the TextInput.
 
 Docs: [HorizontalLine Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_HorizontalLine.htm ).
 
-A HorizontalLine is just an eye candy to seperate between different sections of the same panel, or to emphasize headers.
+A HorizontalLine is just an eye candy to separate between different sections of the same panel, or to emphasize headers.
 
 To create a new HorizontalLine:
 

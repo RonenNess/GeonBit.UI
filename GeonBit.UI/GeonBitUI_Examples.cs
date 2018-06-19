@@ -8,7 +8,7 @@
 // To learn more about GeonBit.UI, you can visit the git repo:
 // https://github.com/RonenNess/GeonBit.UI
 //
-// Or exaplore the different README files scattered in the solution directory. 
+// Or explore the different README files scattered in the solution directory. 
 //
 // Author: Ronen Ness.
 // Since: 2016.
@@ -273,7 +273,7 @@ To start the demo, please click the 'Next' button on the top navbar.");
                     panel.AddChild(new Paragraph("V" + UserInterface.VERSION, Anchor.BottomRight)).FillColor = Color.Yellow;
                 }
 
-                // example: featues list
+                // example: features list
                 {
                     // create panel and add to list of panels and manager
                     Panel panel = new Panel(new Vector2(500, 590));
@@ -628,7 +628,7 @@ In this example, we use a panel with scrollbars.
 
 Note that in order to use clipping and scrollbar with Panels you need to set the UserInterface.Active.UseRenderTarget flag to true.
 
-Here's a button, to test clicking while scolled:"));
+Here's a button, to test clicking while scrolled:"));
                     panel.AddChild(new Button("a button."));
                     panel.AddChild(new Paragraph(@"And here's a dropdown:"));
                     var dropdown = new DropDown(new Vector2(0, 220));
@@ -1231,7 +1231,7 @@ If you liked GeonBit.UI feel free to star the repo on GitHub. :)"));
                 }
 
                 // init panels and buttons
-                UpdateAfterExapmleChange();
+                UpdateAfterExampleChange();
 
             }
 
@@ -1248,7 +1248,7 @@ If you liked GeonBit.UI feel free to star the repo on GitHub. :)"));
         public void NextExample()
         {
             currExample++;
-            UpdateAfterExapmleChange();
+            UpdateAfterExampleChange();
         }
 
         /// <summary>
@@ -1257,7 +1257,7 @@ If you liked GeonBit.UI feel free to star the repo on GitHub. :)"));
         public void PreviousExample()
         {
             currExample--;
-            UpdateAfterExapmleChange();
+            UpdateAfterExampleChange();
         }
 
         /// <summary>
@@ -1265,7 +1265,7 @@ If you liked GeonBit.UI feel free to star the repo on GitHub. :)"));
         /// except for the currently active example + disable prev / next buttons if
         /// needed (if first or last example).
         /// </summary>
-        protected void UpdateAfterExapmleChange()
+        protected void UpdateAfterExampleChange()
         {
             // hide all panels and show current example panel
             foreach (Panel panel in panels)
