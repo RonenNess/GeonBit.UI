@@ -1910,6 +1910,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 
 - Added PriorityBonus to entities.
 - Separated drawing children into a virtual function so users will be able to override it.
+- Changed Disabled property to Enabled (but Disabled is still supported just deprecated).
 
 ## Credits
 

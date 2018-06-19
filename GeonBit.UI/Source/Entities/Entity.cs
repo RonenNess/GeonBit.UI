@@ -352,8 +352,16 @@ namespace GeonBit.UI.Entities
         /// <summary>Is mouse currently pointing on this entity.</summary>
         protected bool _isMouseOver = false;
 
-        /// <summary>If true, this entity and its children will be drawn in greyscale effect and will not respond to events.</summary>
-        public bool Disabled = false;
+        /// <summary>Is the entity currently enabled? If false, will not be interactive and be rendered with a greyscale effect.</summary>
+        public bool Enabled = true;
+
+        /// <summary>Disable entities - will be removed in future versions!</summary>
+        [System.Obsolete("'Disabled' is deprecated, please use 'Enabled' instead.")]
+        public bool Disabled
+        {
+            get { return !Enabled; }
+            set { Enabled = !value; }
+        }
 
         /// <summary>If true, this entity and its children will not respond to events (but will be drawn normally, unlike when disabled).</summary>
         public bool Locked = false;
@@ -856,7 +864,7 @@ namespace GeonBit.UI.Entities
             Entity parent = this;
             while (parent != null)
             {
-                if (parent.Disabled) { return true; }
+                if (!parent.Enabled) { return true; }
                 parent = parent._parent;
             }
 

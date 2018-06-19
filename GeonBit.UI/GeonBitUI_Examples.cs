@@ -896,7 +896,7 @@ Maybe something interesting in tab3?"));
                 {
                     // create panel and add to list of panels and manager
                     Panel panel = new Panel(new Vector2(480, 580));
-                    panel.Disabled = true;
+                    panel.Enabled = false;
                     panels.Add(panel);
                     UserInterface.Active.AddEntity(panel);
 
@@ -1275,8 +1275,8 @@ If you liked GeonBit.UI feel free to star the repo on GitHub. :)"));
             panels[currExample].Visible = true;
 
             // disable / enable next and previous buttons
-            nextExampleButton.Disabled = currExample == panels.Count-1;
-            previousExampleButton.Disabled = currExample == 0;
+            nextExampleButton.Enabled = currExample != panels.Count - 1;
+            previousExampleButton.Enabled = currExample != 0;
         }
 
         /// <summary>

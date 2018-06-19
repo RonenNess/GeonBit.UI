@@ -377,7 +377,7 @@ namespace GeonBit.UI.Entities
             // before updating children, disable scrollbar
             if (_scrollbar != null)
             {
-                _scrollbar.Disabled = true;
+                _scrollbar.Enabled = false;
             }
 
             // call base update children function
@@ -389,7 +389,7 @@ namespace GeonBit.UI.Entities
             // re-enable scrollbar and update it
             if (_scrollbar != null)
             {
-                _scrollbar.Disabled = false;
+                _scrollbar.Enabled = true;
                 _scrollbar.Update(ref targetEntity, ref dragTargetEntity, ref wasEventHandled, scrollVal - OverflowScrollVal);
             }
         }

@@ -33,7 +33,9 @@ namespace GeonBit.UI.Entities
             base(Vector2.One, Anchor.Auto, Vector2.Zero)
         {
             // by default locked so it won't do events
-            Locked = Disabled = true;
+            Locked = true;
+            Enabled = false;
+            ClickThrough = true;
 
             // set size based on space count
             _size.X = 0f;
