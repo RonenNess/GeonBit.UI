@@ -336,10 +336,7 @@ namespace GeonBit.UI.Entities
                 var mousePosition = GetMousePos();
                 if (Input.AnyMouseButtonDown() && !IsInsideEntity(mousePosition))
                 {
-                    if (!IsInsideEntity(mousePosition))
-                    {
-                        ListVisible = false;
-                    }
+                    ListVisible = false;
                 }
             }
 
