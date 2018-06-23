@@ -2134,16 +2134,6 @@ namespace GeonBit.UI.Entities
                 // handled events
                 wasEventHandled = true;
 
-                // call the while-mouse-down handler
-                if (_entityState == EntityState.MouseDown)
-                {
-                    DoWhileMouseDown();
-                }
-                else
-                {
-                    DoWhileMouseHover();
-                }
-
                 // call the while-mouse-hover-or-down handler
                 DoWhileMouseHoverOrDown();
 
@@ -2171,6 +2161,16 @@ namespace GeonBit.UI.Entities
                     {
                         DoOnClick();
                     }
+                }
+
+                // call the while-mouse-down / while-mouse-hover events
+                if (_entityState == EntityState.MouseDown)
+                {
+                    DoWhileMouseDown();
+                }
+                else
+                {
+                    DoWhileMouseHover();
                 }
             }
             // if not current target, clear entity state
