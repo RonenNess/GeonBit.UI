@@ -461,6 +461,21 @@ namespace GeonBit.UI.Entities
             _actualDestRect.Y = (int)_position.Y - (int)(_fontOrigin.Y * _actualScale);
             _actualDestRect.Width = (int)((size.X) * _actualScale);
             _actualDestRect.Height = (int)((size.Y) * _actualScale);
+
+            // apply min size
+            if (MinSize != null)
+            {
+                Point minInPixels = CalcActualSizeInPixels(MinSize.Value);
+                _actualDestRect.Width = System.Math.Max(minInPixels.X, _actualDestRect.Width);
+                _actualDestRect.Height = System.Math.Max(minInPixels.Y, _actualDestRect.Height);
+            }
+            // apply max size
+            if (MaxSize != null)
+            {
+                Point maxInPixels = CalcActualSizeInPixels(MaxSize.Value);
+                _actualDestRect.Width = System.Math.Min(maxInPixels.X, _actualDestRect.Width);
+                _actualDestRect.Height = System.Math.Min(maxInPixels.Y, _actualDestRect.Height);
+            }
         }
 
         /// <summary>
