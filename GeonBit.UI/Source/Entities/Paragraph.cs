@@ -61,6 +61,9 @@ namespace GeonBit.UI.Entities
         /// </summary>
         public SpriteFont FontOverride = null;
 
+        // the size of a single space character with current font.
+        private Vector2 SingleSpaceSize;
+
         /// <summary>
         /// If true and have background color, will use the paragraph box size for it instead of the text actual size.
         /// </summary>
@@ -195,7 +198,7 @@ namespace GeonBit.UI.Entities
         {
             SpriteFont font = GetCurrFont();
             float scale = Scale * BaseSize * GlobalScale;
-            return font.MeasureString(" ") * scale;
+            return SingleSpaceSize * scale;
         }
 
         /// <summary>
@@ -240,16 +243,19 @@ namespace GeonBit.UI.Entities
             int currWidth = 0;
             for (int i = 0; i < words.Count; ++i)
             {
+                // is it last word?
+                bool lastWord = (i == words.Count - 1);
+
                 // get current word and its width
                 string word = words[i];
-                int wordWidth = (int)(font.MeasureString(word + ' ').X * fontSize);
+                int wordWidth = (int)((font.MeasureString(word).X + SingleSpaceSize.X) * fontSize);
 
                 // special case: word itself is longer than line width
                 if (BreakWordsIfMust && wordWidth >= maxLineWidth && word.Length >= 4)
                 {
                     // find breaking position
                     int breakPos = 0;
-                    int currWordWidth = (int)(font.MeasureString(" ").X * fontSize);
+                    int currWordWidth = (int)(SingleSpaceSize.X * fontSize);
                     foreach (char c in word)
                     {
                         currWordWidth += (int)(font.MeasureString(c.ToString()).X * fontSize);
@@ -283,19 +289,19 @@ namespace GeonBit.UI.Entities
                 {
                     ret.Append('\n');
                     ret.Append(word);
-                    ret.Append(' ');
+                    if (!lastWord) ret.Append(' ');
                     currWidth = wordWidth;
                 }
                 // if didn't overflow just add the word as-is
                 else
                 {
                     ret.Append(word);
-                    ret.Append(' ');
+                    if (!lastWord) ret.Append(' ');
                 }
             }
 
             // remove the extra space that was appended to the end during the process and return wrapped text.
-            ret = ret.Remove(ret.Length - 1, 1);
+            //ret = ret.Remove(ret.Length - 1, 1);
 
             // special case - if last word was just the size of the line, it will add a useless trailing \n and create double line breaks.
             // remove that extra line break.
@@ -368,6 +374,7 @@ namespace GeonBit.UI.Entities
             {
                 MarkAsDirty();
                 _currFont = font;
+                SingleSpaceSize = _currFont.MeasureString(" ");
             }
 
             // calc actual scale
@@ -383,7 +390,6 @@ namespace GeonBit.UI.Entities
             if (WrapWords)
             {
                 newProcessedText = WrapText(font, newProcessedText, _destRect.Width, _actualScale);
-                newProcessedText = newProcessedText.TrimEnd(' ');
             }
 
             // if processed text changed
