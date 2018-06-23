@@ -1634,6 +1634,8 @@ protected override void Draw(GameTime gameTime)
 If you find yourself writing logic such as storing previous ```MouseState``` or ```KeyboardState``` and comparing it to new states to detect stuff like key release, clicks, etc, you should take a look at this class.
 It has lots of useful functionality.
 
+```InputHelper``` requires an Update() call every frame from your game Update() loop.
+
 
 # Migration
 
