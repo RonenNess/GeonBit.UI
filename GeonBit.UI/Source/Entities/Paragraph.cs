@@ -58,11 +58,12 @@ namespace GeonBit.UI.Entities
 
         /// <summary>
         /// An optional font you can set to override the default fonts.
+        /// NOTE! Only monospace fonts are supported!
         /// </summary>
         public SpriteFont FontOverride = null;
 
         // the size of a single space character with current font.
-        private Vector2 SingleSpaceSize;
+        private Vector2 SingleCharacterSize;
 
         /// <summary>
         /// If true and have background color, will use the paragraph box size for it instead of the text actual size.
@@ -198,7 +199,7 @@ namespace GeonBit.UI.Entities
         {
             SpriteFont font = GetCurrFont();
             float scale = Scale * BaseSize * GlobalScale;
-            return SingleSpaceSize * scale;
+            return SingleCharacterSize * scale;
         }
 
         /// <summary>
@@ -248,14 +249,14 @@ namespace GeonBit.UI.Entities
 
                 // get current word and its width
                 string word = words[i];
-                int wordWidth = (int)((font.MeasureString(word).X + SingleSpaceSize.X) * fontSize);
+                int wordWidth = (int)((font.MeasureString(word).X + SingleCharacterSize.X) * fontSize);
 
                 // special case: word itself is longer than line width
                 if (BreakWordsIfMust && wordWidth >= maxLineWidth && word.Length >= 4)
                 {
                     // find breaking position
                     int breakPos = 0;
-                    int currWordWidth = (int)(SingleSpaceSize.X * fontSize);
+                    int currWordWidth = (int)(SingleCharacterSize.X * fontSize);
                     foreach (char c in word)
                     {
                         currWordWidth += (int)(font.MeasureString(c.ToString()).X * fontSize);
@@ -372,9 +373,16 @@ namespace GeonBit.UI.Entities
             SpriteFont font = GetCurrFont();
             if (font != _currFont)
             {
+                // mark as dirty so we'll recalculate positions and line breaks
                 MarkAsDirty();
+
+                // set font and get single character size
                 _currFont = font;
-                SingleSpaceSize = _currFont.MeasureString(" ");
+                SingleCharacterSize = _currFont.MeasureString(" ");
+
+                // sanity test
+                if ((SingleCharacterSize.X * 2) != _currFont.MeasureString("!.").X)
+                    throw new Exceptions.InvalidValueException("Cannot use non-monospace fonts!");
             }
 
             // calc actual scale
