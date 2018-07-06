@@ -48,10 +48,12 @@ namespace GeonBit.UI.Entities
         /// <summary>Text to show when there's no input. Note that this text will be drawn with PlaceholderParagraph, and not TextParagraph.</summary>
         string _placeholderText = string.Empty;
 
-        /// <summary>Set to any number to limit input by characters count.</summary>
+        /// <summary>Set to any number to limit input by characters count.
+        /// Note: this will only take effect when user insert input, if you set value programmatically it will be ignored.</summary>
         public int CharactersLimit = 0;
 
-        /// <summary>If true, will limit max input length to fit textbox size.</summary>
+        /// <summary>If true, will limit max input length to fit textbox size.
+        /// Note: this will only take effect when user insert input, if you set value programmatically it will be ignored.</summary>
         public bool LimitBySize = false;
 
         /// <summary>
