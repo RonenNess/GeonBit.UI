@@ -163,6 +163,7 @@ namespace GeonBit.UI.Entities
             Text = text;
             UpdateStyle(DefaultStyle);
             if (scale != null) { SetStyleProperty(StylePropertyIds.Scale, new StyleProperty((float)scale)); }
+            UpdateFontPropertiesIfNeeded();
         }
 
 
@@ -180,6 +181,7 @@ namespace GeonBit.UI.Entities
         {
             SetStyleProperty(StylePropertyIds.FillColor, new StyleProperty(color));
             if (scale != null) { SetStyleProperty(StylePropertyIds.Scale, new StyleProperty((float)scale)); }
+            UpdateFontPropertiesIfNeeded();
         }
 
         /// <summary>
@@ -365,11 +367,10 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
-        /// Calculate the paragraph actual destination rect with word-wrap and other factors taken into consideration.
+        /// Update font-related properties, if needed.
         /// </summary>
-        public void CalcTextActualRectWithWrap()
+        private void UpdateFontPropertiesIfNeeded()
         {
-            // get font
             SpriteFont font = GetCurrFont();
             if (font != _currFont)
             {
@@ -384,6 +385,15 @@ namespace GeonBit.UI.Entities
                 if ((SingleCharacterSize.X * 2) != _currFont.MeasureString("!.").X)
                     throw new Exceptions.InvalidValueException("Cannot use non-monospace fonts!");
             }
+        }
+
+        /// <summary>
+        /// Calculate the paragraph actual destination rect with word-wrap and other factors taken into consideration.
+        /// </summary>
+        public void CalcTextActualRectWithWrap()
+        {
+            // update font properties
+            UpdateFontPropertiesIfNeeded();
 
             // calc actual scale
             float actualScale = Scale * BaseSize * GlobalScale;
@@ -397,7 +407,7 @@ namespace GeonBit.UI.Entities
             string newProcessedText = Text;
             if (WrapWords)
             {
-                newProcessedText = WrapText(font, newProcessedText, _destRect.Width, _actualScale);
+                newProcessedText = WrapText(_currFont, newProcessedText, _destRect.Width, _actualScale);
             }
 
             // if processed text changed
@@ -412,7 +422,7 @@ namespace GeonBit.UI.Entities
             // so we just update _size every frame and the text alignemtn (left, right, center..) fix itself by the destination rect.
             _fontOrigin = Vector2.Zero;
             _position = new Vector2(_destRect.X, _destRect.Y);
-            Vector2 size = font.MeasureString(_processedText);
+            Vector2 size = _currFont.MeasureString(_processedText);
 
             // set position and origin based on anchor.
             // note: no top-left here because thats the default set above.
