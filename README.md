@@ -1912,11 +1912,14 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 
 - Added PriorityBonus to entities.
 - Separated drawing children into a virtual function so users will be able to override it.
-- Changed Disabled property to Enabled (but Disabled is still supported just deprecated).
+- Replaced 'Disabled' property with 'Enabled' (but Disabled is still supported just deprecated).
 - Fixed text entities to allow using spaces as placeholders with auto anchoring.
 - Made text entities slightly more efficient in performance and memory when changing value / calculating size.
 - Fixed Min/Max size with paragraphs and text entities.
 - Changed order of MouseDown / WhileMouseDown and MouseEnter / WhileMouseHover events.
+- Fixed dropdown not to close if dragging scrollbar outside boundaries.
+- Added some helper functions to Input Helper.
+- Added exception when trying to use non mono-space font, which is not supported.
 
 ## Credits
 
