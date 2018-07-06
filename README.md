@@ -1908,7 +1908,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Fixed bug with icons background shadow / outline color and opacity.
 - Fixed slug validator to allow numbers.
 
-### 3.1.0.5 [not released yet]
+### 3.1.0.5
 
 - Added PriorityBonus to entities.
 - Separated drawing children into a virtual function so users will be able to override it.
