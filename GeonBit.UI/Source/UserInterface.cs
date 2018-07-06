@@ -92,7 +92,7 @@ namespace GeonBit.UI
     public class UserInterface : System.IDisposable
     {
         /// <summary>Current GeonBit.UI version identifier.</summary>
-        public const string VERSION = "3.1.0.5";
+        public const string VERSION = "3.1.0.6";
 
         /// <summary>
         /// The currently active user interface instance.
@@ -661,7 +661,7 @@ namespace GeonBit.UI
             }
 
             // draw cursor
-            if (!IncludeCursorInRenderTarget)
+            if (ShowCursor && !IncludeCursorInRenderTarget)
             {
                 DrawCursor(spriteBatch);
             }

@@ -1921,6 +1921,10 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Added some helper functions to Input Helper.
 - Added exception when trying to use non mono-space font, which is not supported.
 
+### 3.1.0.6
+
+- Fixed show-cursor property when using render targets.
+
 ## Credits
 
 GeonBit.UI was written by Ronen Ness, but uses some free textures made by awesome people who share their work for free.
