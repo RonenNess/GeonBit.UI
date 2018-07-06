@@ -503,6 +503,17 @@ namespace GeonBit.UI
         }
 
         /// <summary>
+        /// Return if any of mouse buttons is down.
+        /// </summary>
+        /// <returns>True if any mouse button is currently down.</returns>
+        public bool AnyMouseButtonDown()
+        {
+            return MouseButtonDown(MouseButton.Left) ||
+                MouseButtonDown(MouseButton.Right) ||
+                MouseButtonDown(MouseButton.Middle);
+        }
+
+        /// <summary>
         /// Check if a given mouse button was released in current frame.
         /// </summary>
         /// <param name="button">Mouse button to check.</param>
@@ -510,6 +521,17 @@ namespace GeonBit.UI
         public bool MouseButtonReleased(MouseButton button = MouseButton.Left)
         {
             return GetMouseButtonState(button) == ButtonState.Released && GetMousePreviousButtonState(button) == ButtonState.Pressed;
+        }
+
+        /// <summary>
+        /// Return if any mouse button was released this frame.
+        /// </summary>
+        /// <returns>True if any mouse button was released.</returns>
+        public bool AnyMouseButtonReleased()
+        {
+            return MouseButtonReleased(MouseButton.Left) ||
+                MouseButtonReleased(MouseButton.Right) ||
+                MouseButtonReleased(MouseButton.Middle);
         }
 
         /// <summary>
@@ -523,14 +545,14 @@ namespace GeonBit.UI
         }
 
         /// <summary>
-        /// Return if any of mouse buttons is down.
+        /// Return if any mouse button was pressed in current frame.
         /// </summary>
-        /// <returns>True if any mouse button is currently down.</returns>
-        public bool AnyMouseButtonDown()
+        /// <returns>True if any mouse button was pressed in current frame..</returns>
+        public bool AnyMouseButtonPressed()
         {
-            return  _newMouseState.LeftButton == ButtonState.Pressed || 
-                    _newMouseState.RightButton == ButtonState.Pressed || 
-                    _newMouseState.MiddleButton == ButtonState.Pressed;
+            return MouseButtonPressed(MouseButton.Left) ||
+                MouseButtonPressed(MouseButton.Right) ||
+                MouseButtonPressed(MouseButton.Middle);
         }
 
         /// <summary>
@@ -541,6 +563,18 @@ namespace GeonBit.UI
         public bool MouseButtonClick(MouseButton button = MouseButton.Left)
         {
             return GetMouseButtonState(button) == ButtonState.Released && GetMousePreviousButtonState(button) == ButtonState.Pressed;
+        }
+
+        /// <summary>
+        /// Return if any of mouse buttons was clicked this frame.
+        /// </summary>
+        /// <returns>True if any mouse button was clicked.</returns>
+        public bool AnyMouseButtonClicked()
+        {
+            return 
+                MouseButtonClick(MouseButton.Left) ||
+                MouseButtonClick(MouseButton.Right) ||
+                MouseButtonClick(MouseButton.Middle);
         }
 
         /// <summary>
