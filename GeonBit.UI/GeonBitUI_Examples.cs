@@ -780,7 +780,7 @@ Related to the cleric is the paladin, who is typically a Lawful Good[citation ne
 
                     // add first panel
                     {
-                        PanelTabs.TabData tab = tabs.AddTab("Tab 1");
+                        TabData tab = tabs.AddTab("Tab 1");
                         tab.panel.AddChild(new Header("PanelTabs"));
                         tab.panel.AddChild(new HorizontalLine());
                         tab.panel.AddChild(new Paragraph(@"PanelTab creates a group of internal panels with toggle buttons to switch between them.
@@ -790,7 +790,7 @@ Choose a tab in the buttons above for more info..."));
 
                     // add second panel
                     {
-                        PanelTabs.TabData tab = tabs.AddTab("Tab 2");
+                        TabData tab = tabs.AddTab("Tab 2");
                         tab.panel.AddChild(new Header("Tab 2"));
                         tab.panel.AddChild(new HorizontalLine());
                         tab.panel.AddChild(new Paragraph(@"Awesome, you got to tab2!
@@ -800,7 +800,7 @@ Maybe something interesting in tab3?"));
 
                     // add third panel
                     {
-                        PanelTabs.TabData tab = tabs.AddTab("Tab 3");
+                        TabData tab = tabs.AddTab("Tab 3");
                         tab.panel.AddChild(new Header("Nope."));
                         tab.panel.AddChild(new HorizontalLine());
                         tab.panel.AddChild(new Paragraph("Nothing to see here."));
@@ -847,7 +847,7 @@ Maybe something interesting in tab3?"));
                     panel.AddChild(new Paragraph("And you can also add extra entities to the message box:"));
                     {
                         var btn = new Button("Message With Extras", ButtonSkin.Default);
-                        btn.OnClick += (Entities.Entity entity) =>
+                        btn.OnClick += (Entity entity) =>
                         {
                             var textInput = new TextInput(false);
                             textInput.PlaceholderText = "Enter your name";
@@ -1237,6 +1237,9 @@ If you liked GeonBit.UI feel free to star the repo on GitHub. :)"));
 
             // once done init, clear events log
             eventsLog.ClearItems();
+
+            // test serializing ui
+            UserInterface.Active.Serialize("test_serialize.xml");
 
             // call base initialize
             base.Initialize();
