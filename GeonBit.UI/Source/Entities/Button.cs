@@ -38,8 +38,17 @@ namespace GeonBit.UI.Entities
     /// <summary>
     /// A clickable button with label on it.
     /// </summary>
+    [System.Serializable]
     public class Button : Entity
     {
+        /// <summary>
+        /// Static ctor.
+        /// </summary>
+        static Button()
+        {
+            Entity.MakeSerializable(typeof(Button));
+        }
+
         // button skin
         ButtonSkin _skin;
 
@@ -89,6 +98,13 @@ namespace GeonBit.UI.Entities
             ButtonParagraph._hiddenInternalEntity = true;
             ButtonParagraph.UpdateStyle(DefaultParagraphStyle);
             AddChild(ButtonParagraph, true);
+        }
+
+        /// <summary>
+        /// Create button with default params and without text.
+        /// </summary>
+        public Button() : this(string.Empty)
+        {
         }
 
         /// <summary>

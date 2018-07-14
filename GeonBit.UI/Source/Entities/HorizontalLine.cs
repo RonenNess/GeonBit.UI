@@ -17,8 +17,17 @@ namespace GeonBit.UI.Entities
     /// <summary>
     /// An horizontal line, used to separate between different sections of a panel or to emphasize headers.
     /// </summary>
+    [System.Serializable]
     public class HorizontalLine : Entity
     {
+        /// <summary>
+        /// Static ctor.
+        /// </summary>
+        static HorizontalLine()
+        {
+            Entity.MakeSerializable(typeof(HorizontalLine));
+        }
+
         // frame width in texture size, in percents.
         static Vector2 FRAME_WIDTH = new Vector2(0.2f, 0f);
 
@@ -30,7 +39,7 @@ namespace GeonBit.UI.Entities
         /// </summary>
         /// <param name="anchor">Position anchor.</param>
         /// <param name="offset">Offset from anchor position.</param>
-        public HorizontalLine(Anchor anchor = Anchor.Auto, Vector2? offset = null) :
+        public HorizontalLine(Anchor anchor, Vector2? offset = null) :
             base(Vector2.Zero, anchor, offset)
         {
 			// locked by default, so we won't do events etc.
@@ -42,6 +51,13 @@ namespace GeonBit.UI.Entities
             // get line texture and set default height
             Texture2D texture = Resources.HorizontalLineTexture;
             _size.Y = texture.Height * 1.75f;
+        }
+
+        /// <summary>
+        /// Create default horizontal line.
+        /// </summary>
+        public HorizontalLine() : this(Anchor.Auto)
+        {
         }
 
         /// <summary>

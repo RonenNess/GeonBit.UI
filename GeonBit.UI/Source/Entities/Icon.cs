@@ -126,12 +126,21 @@ namespace GeonBit.UI.Entities
         None,
     }
 
-     /// <summary>
-     /// A simple UI icon.
-     /// Comes we a selection of pre-defined icons to use + optional inventory-like background.
-     /// </summary>
+    /// <summary>
+    /// A simple UI icon.
+    /// Comes we a selection of pre-defined icons to use + optional inventory-like background.
+    /// </summary>
+    [System.Serializable]
     public class Icon : Image
     {
+        /// <summary>
+        /// Static ctor.
+        /// </summary>
+        static Icon()
+        {
+            Entity.MakeSerializable(typeof(Icon));
+        }
+
         /// <summary>If true, will draw inventory-like background to this icon.</summary>
         public bool DrawBackground = false;
 
@@ -175,6 +184,13 @@ namespace GeonBit.UI.Entities
 
             // update default style
             UpdateStyle(DefaultStyle);
+        }
+
+        /// <summary>
+        /// Create default icon.
+        /// </summary>
+        public Icon() : this (IconType.Apple)
+        {
         }
 
         /// <summary>

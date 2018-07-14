@@ -19,8 +19,17 @@ namespace GeonBit.UI.Entities
     /// A special panel used as the root panel that covers the entire screen.
     /// This panel is used internally to serve as the constant root entity in the entities tree.
     /// </summary>
+    [System.Serializable]
     public class RootPanel : Panel
     {
+        /// <summary>
+        /// Static ctor.
+        /// </summary>
+        static RootPanel()
+        {
+            Entity.MakeSerializable(typeof(RootPanel));
+        }
+
         /// <summary>
         /// Create the root panel.
         /// </summary>

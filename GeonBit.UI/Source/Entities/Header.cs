@@ -17,8 +17,17 @@ namespace GeonBit.UI.Entities
     /// Header entity is a subclass of Paragraph. Basically its the same, but with a different
     /// default styling, and serves as a sugarcoat to quickly create headers for menues.
     /// </summary>
+    [System.Serializable]
     public class Header : Paragraph
     {
+        /// <summary>
+        /// Static ctor.
+        /// </summary>
+        static Header()
+        {
+            Entity.MakeSerializable(typeof(Header));
+        }
+
         /// <summary>
         /// Default styling for headers. Remember that header is a subclass of Paragraph and has its basic styline. 
         /// Note: loaded from UI theme xml file.
@@ -35,6 +44,13 @@ namespace GeonBit.UI.Entities
             base(text, anchor, offset: offset)
         {
             UpdateStyle(DefaultStyle);
+        }
+
+        /// <summary>
+        /// Create default header without text.
+        /// </summary>
+        public Header() : this(string.Empty)
+        {
         }
     }
 }

@@ -15,8 +15,17 @@ namespace GeonBit.UI.Entities
     /// <summary>
     /// A line space is just a spacer for Auto-Anchored entities, eg a method to create artificial distance between rows.
     /// </summary>
+    [System.Serializable]
     public class LineSpace : Entity
     {
+        /// <summary>
+        /// Static ctor.
+        /// </summary>
+        static LineSpace()
+        {
+            Entity.MakeSerializable(typeof(LineSpace));
+        }
+
         /// <summary>
         /// Single line space height.
         /// </summary>
@@ -29,7 +38,7 @@ namespace GeonBit.UI.Entities
         /// Create a new Line Space entity.
         /// </summary>
         /// <param name="spacesCount">How many spaces to create.</param>
-        public LineSpace(int spacesCount = 1) :
+        public LineSpace(int spacesCount) :
             base(Vector2.One, Anchor.Auto, Vector2.Zero)
         {
             // by default locked so it won't do events
@@ -44,6 +53,13 @@ namespace GeonBit.UI.Entities
 
             // default padding and spacing zero
             SpaceAfter = SpaceBefore = Padding = Vector2.Zero;
+        }
+
+        /// <summary>
+        /// Create default line space.
+        /// </summary>
+        public LineSpace() : this(1)
+        {
         }
 
         /// <summary>

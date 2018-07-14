@@ -133,13 +133,50 @@ namespace GeonBit.UI.Entities
     /// Basic UI entity.
     /// All entities inherit from this class and share this API.
     /// </summary>
-    public class Entity
+    [System.Serializable]
+    public abstract class Entity
     {
+        /// <summary>
+        /// Static ctor.
+        /// </summary>
+        static Entity()
+        {
+            Entity.MakeSerializable(typeof(Entity));
+        }
+
         // list of child elements
         private List<Entity> _children = new List<Entity>();
 
+        /// <summary>
+        /// Get / set children list.
+        /// </summary>
+        public List<Entity> Children
+        {
+            get
+            {
+                return _children;
+            }
+            set
+            {
+                ClearChildren();
+                foreach (var child in value) AddChild(child);
+            }
+        }
+
         // list of sorted children
         private List<Entity> _sortedChildren;
+
+        // all child types
+        internal static List<System.Type> _serializableTypes = new List<System.Type>();
+
+        /// <summary>
+        /// Make an entity type serializable.
+        /// </summary>
+        /// <param name="type">Entity type to make serializable.</param>
+        public static void MakeSerializable(System.Type type)
+        {
+            _serializableTypes.Add(type);
+        }
 
         // do we need to update sorted children list?
         internal bool _needToSortChildren = true;
@@ -257,6 +294,7 @@ namespace GeonBit.UI.Entities
         private uint _parentLastDestRectVersion = 0;
 
         /// <summary>Optional data you can attach to this entity and retrieve later (for example when handling events).</summary>
+        [System.Xml.Serialization.XmlIgnore]
         public object AttachedData = null;
 
         /// <summary>
@@ -279,69 +317,91 @@ namespace GeonBit.UI.Entities
         public static StyleSheet DefaultStyle = new StyleSheet();
 
         /// <summary>Callback to execute when mouse button is pressed over this entity (called once when button is pressed).</summary>
+        [System.Xml.Serialization.XmlIgnore]
         public EventCallback OnMouseDown = null;
 
         /// <summary>Callback to execute when right mouse button is pressed over this entity (called once when button is pressed).</summary>
+        [System.Xml.Serialization.XmlIgnore]
         public EventCallback OnRightMouseDown = null;
 
         /// <summary>Callback to execute when mouse button is released over this entity (called once when button is released).</summary>
+        [System.Xml.Serialization.XmlIgnore]
         public EventCallback OnMouseReleased = null;
 
         /// <summary>Callback to execute every frame while mouse button is pressed over the entity.</summary>
+        [System.Xml.Serialization.XmlIgnore]
         public EventCallback WhileMouseDown = null;
 
         /// <summary>Callback to execute every frame while right mouse button is pressed over the entity.</summary>
+        [System.Xml.Serialization.XmlIgnore]
         public EventCallback WhileRightMouseDown = null;
 
         /// <summary>Callback to execute every frame while mouse is hovering over the entity (not called while mouse button is down).</summary>
+        [System.Xml.Serialization.XmlIgnore]
         public EventCallback WhileMouseHover = null;
 
         /// <summary>Callback to execute every frame while mouse is hovering over the entity, even if mouse is down.</summary>
+        [System.Xml.Serialization.XmlIgnore]
         public EventCallback WhileMouseHoverOrDown = null;
 
         /// <summary>Callback to execute when user clicks on this entity (eg release mouse over it).</summary>
+        [System.Xml.Serialization.XmlIgnore]
         public EventCallback OnClick = null;
 
         /// <summary>Callback to execute when user clicks on this entity with right mouse button (eg release mouse over it).</summary>
+        [System.Xml.Serialization.XmlIgnore]
         public EventCallback OnRightClick = null;
 
         /// <summary>Callback to execute when entity value changes (relevant only for entities with value).</summary>
+        [System.Xml.Serialization.XmlIgnore]
         public EventCallback OnValueChange = null;
 
         /// <summary>Callback to execute when mouse start hovering over this entity (eg enters its region).</summary>
+        [System.Xml.Serialization.XmlIgnore]
         public EventCallback OnMouseEnter = null;
 
         /// <summary>Callback to execute when mouse stop hovering over this entity (eg leaves its region).</summary>
+        [System.Xml.Serialization.XmlIgnore]
         public EventCallback OnMouseLeave = null;
 
         /// <summary>Callback to execute when mouse wheel scrolls and this entity is the active entity.</summary>
+        [System.Xml.Serialization.XmlIgnore]
         public EventCallback OnMouseWheelScroll = null;
 
         /// <summary>Called when entity starts getting dragged (only if draggable).</summary>
+        [System.Xml.Serialization.XmlIgnore]
         public EventCallback OnStartDrag = null;
 
         /// <summary>Called when entity stop getting dragged (only if draggable).</summary>
+        [System.Xml.Serialization.XmlIgnore]
         public EventCallback OnStopDrag = null;
 
         /// <summary>Called every frame while the entity is being dragged.</summary>
+        [System.Xml.Serialization.XmlIgnore]
         public EventCallback WhileDragging = null;
 
         /// <summary>Callback to execute every frame before this entity is rendered.</summary>
+        [System.Xml.Serialization.XmlIgnore]
         public EventCallback BeforeDraw = null;
 
         /// <summary>Callback to execute every frame after this entity is rendered.</summary>
+        [System.Xml.Serialization.XmlIgnore]
         public EventCallback AfterDraw = null;
 
         /// <summary>Callback to execute every frame before this entity updates.</summary>
+        [System.Xml.Serialization.XmlIgnore]
         public EventCallback BeforeUpdate = null;
 
         /// <summary>Callback to execute every frame after this entity updates.</summary>
+        [System.Xml.Serialization.XmlIgnore]
         public EventCallback AfterUpdate = null;
 
         /// <summary>Callback to execute every time the visibility of this entity changes (also invokes when parent becomes invisible / visible again).</summary>
+        [System.Xml.Serialization.XmlIgnore]
         public EventCallback OnVisiblityChange = null;
 
         /// <summary>Callback to execute every time this entity focus / unfocus.</summary>
+        [System.Xml.Serialization.XmlIgnore]
         public EventCallback OnFocusChange = null;
 
         /// <summary>
@@ -646,15 +706,6 @@ namespace GeonBit.UI.Entities
         {
             get { return _entityState; }
             set { _entityState = value; }
-        }
-
-        /// <summary>
-        /// Return all children of this entity.
-        /// </summary>
-        /// <returns>List with all children in entity.</returns>
-        public List<Entity> GetChildren()
-        {
-            return _children;
         }
 
         /// <summary>
@@ -974,16 +1025,9 @@ namespace GeonBit.UI.Entities
         /// <param name="offset">New offset to set.</param>
         public void SetOffset(Vector2 offset)
         {
-            // if currently dragged:
-            if (_isBeingDragged)
+            if (_offset != offset || _dragOffset != offset)
             {
-                _dragOffset = offset;
-                MarkAsDirty();
-            }
-            // if not dragged, set regular offset
-            else if (_offset != offset)
-            {
-                _offset = offset;
+                _dragOffset = _offset = offset;
                 MarkAsDirty();
             }
         }
@@ -1110,6 +1154,30 @@ namespace GeonBit.UI.Entities
 
             // do stuff after drawing children
             AfterDrawChildren(spriteBatch);
+        }
+
+        /// <summary>
+        /// Special init after deserializing entity from file.
+        /// </summary>
+        public void InitAfterDeserialize()
+        {
+            // fix children parent
+            var temp = _children;
+            _children = new List<Entity>();
+            foreach (var child in temp)
+            {
+                child._parent = null;
+                AddChild(child);
+            }
+
+            // mark as dirty
+            MarkAsDirty();
+
+            // update all children
+            foreach (var child in _children)
+            {
+                child.InitAfterDeserialize();
+            }
         }
 
         /// <summary>
@@ -1698,7 +1766,7 @@ namespace GeonBit.UI.Entities
             if (_parent == null) { return null; }
 
             // get siblings and iterate them
-            List<Entity> siblings = _parent.GetChildren();
+            List<Entity> siblings = _parent.Children;
             Entity prev = null;
             foreach (Entity sibling in siblings)
             {

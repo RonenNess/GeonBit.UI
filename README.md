@@ -1774,7 +1774,7 @@ Bug fixes and improvements to API.
 - Fixed mouse leave and mouse up events when entity becomes invisible / disabled.
 - Added ```UserInterface.TargetEntity``` that you can use to determine the entity currently pointed on.
 - Added option to insert child at a given index.
-- Refactor - made entities ```DefaultSize``` a static property, so you can access things like ```Button.DefaultSize``` without having to instanciate it.
+- Refactor - made entities ```DefaultSize``` a static property, so you can access things like ```Button.DefaultSize``` without having to instantiate it.
 - Fixed out-of-screen buttons in tabs panel that's attached to the top of the screen.
 - Added option to easily set per-panel skin in tabs panel.
 
@@ -1921,9 +1921,14 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Added some helper functions to Input Helper.
 - Added exception when trying to use non mono-space font, which is not supported.
 
-### 3.1.0.6
+### 3.1.0.6 [Not yet released!]
 
 - Fixed show-cursor property when using render targets.
+- Made Entity class abstract, since it makes no sense to instantiate it.
+- Removed GetChildren(), added 'Children' property instead.
+- Fixed bug with setting offset of dragged entities.
+- Moved `TabData` outside of `PanelTabs`.
+- Added serialize / deserialize functionality. [STILL IN PROGRESS]
 
 ## Credits
 

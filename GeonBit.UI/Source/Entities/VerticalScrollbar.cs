@@ -17,6 +17,14 @@ namespace GeonBit.UI.Entities
     /// </summary>
     public class VerticalScrollbar : Slider
     {
+        /// <summary>
+        /// Static ctor.
+        /// </summary>
+        static VerticalScrollbar()
+        {
+            Entity.MakeSerializable(typeof(VerticalScrollbar));
+        }
+
         // frame and mark actual height
         float _frameActualHeight = 0f;
         int _markHeight = 20;
@@ -51,6 +59,13 @@ namespace GeonBit.UI.Entities
 
             // update default style
             UpdateStyle(DefaultStyle);
+        }
+
+        /// <summary>
+        /// Create vertical scroll with default params.
+        /// </summary>
+        public VerticalScrollbar() : this(0, 10)
+        {
         }
 
         /// <summary>
@@ -171,7 +186,7 @@ namespace GeonBit.UI.Entities
                 int parentTop = Parent.InternalDestRect.Y;
 
                 // iterate parent children to get the most bottom child
-                foreach (var child in Parent.GetChildren())
+                foreach (var child in Parent.Children)
                 {
                     // skip self
                     if (child == this) continue;

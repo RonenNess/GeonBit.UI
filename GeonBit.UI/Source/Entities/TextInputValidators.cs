@@ -38,11 +38,31 @@ namespace GeonBit.UI.Entities.TextValidators
     /// <summary>
     /// Make sure input is numeric and optionally validate min / max values.
     /// </summary>
+    [System.Serializable]
     public class TextValidatorNumbersOnly : ITextValidator
     {
-        bool _allowDecimalPoint;
-        double? _min;
-        double? _max;
+        /// <summary>
+        /// Static ctor.
+        /// </summary>
+        static TextValidatorNumbersOnly()
+        {
+            Entity.MakeSerializable(typeof(TextValidatorNumbersOnly));
+        }
+
+        /// <summary>
+        /// Do we allow decimal point?
+        /// </summary>
+        public bool AllowDecimalPoint;
+
+        /// <summary>
+        /// Optional min value.
+        /// </summary>
+        public double? Min;
+
+        /// <summary>
+        /// Optional max value.
+        /// </summary>
+        public double? Max;
 
         /// <summary>
         /// Create the number validator.
@@ -50,11 +70,18 @@ namespace GeonBit.UI.Entities.TextValidators
         /// <param name="allowDecimal">If true, will allow decimal point in input.</param>
         /// <param name="min">If provided, will force min value.</param>
         /// <param name="max">If provided, will force max value.</param>
-        public TextValidatorNumbersOnly(bool allowDecimal = false, double? min = null, double? max = null)
+        public TextValidatorNumbersOnly(bool allowDecimal, double? min = null, double? max = null)
         {
-            _allowDecimalPoint = allowDecimal;
-            _min = min;
-            _max = max;
+            AllowDecimalPoint = allowDecimal;
+            Min = min;
+            Max = max;
+        }
+
+        /// <summary>
+        /// Create number validator with default params.
+        /// </summary>
+        public TextValidatorNumbersOnly() : this(false)
+        {
         }
 
         /// <summary>
@@ -75,7 +102,7 @@ namespace GeonBit.UI.Entities.TextValidators
             double num;
 
             // try to parse as double
-            if (_allowDecimalPoint)
+            if (AllowDecimalPoint)
             {
                 if (!double.TryParse(text, out num))
                 {
@@ -94,8 +121,8 @@ namespace GeonBit.UI.Entities.TextValidators
             }
 
             // validate range
-            if (_min != null && num < (double)_min) { text = _min.ToString(); }
-            if (_max != null && num > (double)_max) { text = _max.ToString(); }
+            if (Min != null && num < (double)Min) { text = Min.ToString(); }
+            if (Max != null && num > (double)Max) { text = Max.ToString(); }
 
             // valid number input
             return true;
@@ -105,8 +132,17 @@ namespace GeonBit.UI.Entities.TextValidators
     /// <summary>
     /// Make sure input contains only english characters.
     /// </summary>
+    [System.Serializable]
     public class TextValidatorEnglishCharsOnly : ITextValidator
     {
+        /// <summary>
+        /// Static ctor.
+        /// </summary>
+        static TextValidatorEnglishCharsOnly()
+        {
+            Entity.MakeSerializable(typeof(TextValidatorEnglishCharsOnly));
+        }
+
         // the regex to use
         System.Text.RegularExpressions.Regex _regex;
 
@@ -115,14 +151,33 @@ namespace GeonBit.UI.Entities.TextValidators
 
         // regex for english only without spaces
         static readonly System.Text.RegularExpressions.Regex _slugWithSpaces = new System.Text.RegularExpressions.Regex(@"^[a-zA-Z|\ ]+$");
+        
+        // do we allow spaces in text?
+        private bool _allowSpaces;
+
+        /// <summary>
+        /// Set / get if we allow spaces in text.
+        /// </summary>
+        public bool AllowSpaces
+        {
+            get { return _allowSpaces; }
+            set { _allowSpaces = value; _regex = _allowSpaces ? _slugWithSpaces : _slugNoSpaces; }
+        }
 
         /// <summary>
         /// Create the validator.
         /// </summary>
         /// <param name="allowSpaces">If true, will allow spaces.</param>
-        public TextValidatorEnglishCharsOnly(bool allowSpaces = false)
+        public TextValidatorEnglishCharsOnly(bool allowSpaces)
         {
-            _regex = allowSpaces ? _slugWithSpaces : _slugNoSpaces;
+            AllowSpaces = allowSpaces;
+        }
+
+        /// <summary>
+        /// Create the validator with default params.
+        /// </summary>
+        public TextValidatorEnglishCharsOnly() : this(false)
+        {
         }
 
         /// <summary>
@@ -140,8 +195,17 @@ namespace GeonBit.UI.Entities.TextValidators
     /// <summary>
     /// Make sure input contains only letters, numbers, underscores or hyphens (and optionally spaces).
     /// </summary>
+    [System.Serializable]
     public class SlugValidator : ITextValidator
     {
+        /// <summary>
+        /// Static ctor.
+        /// </summary>
+        static SlugValidator()
+        {
+            Entity.MakeSerializable(typeof(SlugValidator));
+        }
+
         // the regex to use
         System.Text.RegularExpressions.Regex _regex;
 
@@ -151,13 +215,32 @@ namespace GeonBit.UI.Entities.TextValidators
         // regex for slug without spaces
         static readonly System.Text.RegularExpressions.Regex _slugWithSpaces = new System.Text.RegularExpressions.Regex(@"^[a-zA-Z\-_\ 0-9]+$");
 
+        // do we allow spaces in text?
+        private bool _allowSpaces;
+
+        /// <summary>
+        /// Set / get if we allow spaces in text.
+        /// </summary>
+        public bool AllowSpaces
+        {
+            get { return _allowSpaces; }
+            set { _allowSpaces = value; _regex = _allowSpaces ? _slugWithSpaces : _slugNoSpaces; }
+        }
+
         /// <summary>
         /// Create the slug validator.
         /// </summary>
         /// <param name="allowSpaces">If true, will allow spaces.</param>
-        public SlugValidator(bool allowSpaces = false)
+        public SlugValidator(bool allowSpaces)
         {
-            _regex = allowSpaces ? _slugWithSpaces : _slugNoSpaces;
+            AllowSpaces = AllowSpaces;
+        }
+
+        /// <summary>
+        /// Create the validator with default params.
+        /// </summary>
+        public SlugValidator() : this(false)
+        {
         }
 
         /// <summary>
@@ -176,8 +259,17 @@ namespace GeonBit.UI.Entities.TextValidators
     /// <summary>
     /// Make sure input don't contain double spaces or tabs.
     /// </summary>
+    [System.Serializable]
     public class OnlySingleSpaces : ITextValidator
     {
+        /// <summary>
+        /// Static ctor.
+        /// </summary>
+        static OnlySingleSpaces()
+        {
+            Entity.MakeSerializable(typeof(OnlySingleSpaces));
+        }
+
         /// <summary>
         /// Return true if text input don't contain double spaces or tabs.
         /// </summary>
@@ -193,8 +285,17 @@ namespace GeonBit.UI.Entities.TextValidators
     /// <summary>
     /// Make sure input is always title, eg starts with a capital letter followed by lowercase.
     /// </summary>
+    [System.Serializable]
     public class TextValidatorMakeTitle : ITextValidator
     {
+        /// <summary>
+        /// Static ctor.
+        /// </summary>
+        static TextValidatorMakeTitle()
+        {
+            Entity.MakeSerializable(typeof(TextValidatorMakeTitle));
+        }
+
         /// <summary>
         /// Always return true, and make first character uppercase while all following
         /// chars lowercase.

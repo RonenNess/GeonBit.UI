@@ -17,8 +17,17 @@ namespace GeonBit.UI.Entities
     /// <summary>
     /// A textbox that allow users to put in free text.
     /// </summary>
+    [System.Serializable]
     public class TextInput : Panel
     {
+        /// <summary>
+        /// Static ctor.
+        /// </summary>
+        static TextInput()
+        {
+            Entity.MakeSerializable(typeof(TextInput));
+        }
+
         // current text value
         string _value = string.Empty;
 
@@ -82,6 +91,7 @@ namespace GeonBit.UI.Entities
         string _actualDisplayText = string.Empty;
 
         /// <summary>List of validators to apply on text input.</summary>
+        [System.Xml.Serialization.XmlIgnore]
         public List<ITextValidator> Validators = new List<ITextValidator>();
 
         /// <summary>
@@ -152,6 +162,13 @@ namespace GeonBit.UI.Entities
         /// <param name="offset">Offset from anchor position.</param>
         public TextInput(bool multiline, Anchor anchor = Anchor.Auto, Vector2? offset = null) :
            this(multiline, USE_DEFAULT_SIZE, anchor, offset)
+        {
+        }
+
+        /// <summary>
+        /// Create default single-line text input.
+        /// </summary>
+        public TextInput() : this(false)
         {
         }
 
@@ -230,8 +247,8 @@ namespace GeonBit.UI.Entities
         /// </summary>
         public int ScrollPosition
         {
-            get { return _scrollbar.Value; }
-            set { _scrollbar.Value = value; }
+            get { return _scrollbar != null ? _scrollbar.Value : 0; }
+            set { if (_scrollbar != null) _scrollbar.Value = value; }
         }
 
         /// <summary>

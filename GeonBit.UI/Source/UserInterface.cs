@@ -12,6 +12,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using GeonBit.UI.Entities;
 using Microsoft.Xna.Framework.Content;
+using System.Runtime.Serialization;
+using System.Xml.Serialization;
+
 
 namespace GeonBit.UI
 {
@@ -688,5 +691,58 @@ namespace GeonBit.UI
             // return raw cursor pos
             return _input.MousePosition + addVector.Value;
         }
+
+        /// <summary>
+        /// Get xml serializer.
+        /// </summary>
+        /// <returns>XML serializer instance.</returns>
+        virtual protected XmlSerializer GetXmlSerializer()
+        {
+            return new XmlSerializer(Root.GetType(), Entity._serializableTypes.ToArray());
+        }
+
+        /// <summary>
+        /// Serialize the whole UI to stream.
+        /// </summary>
+        /// <param name="stream">Stream to serialize to.</param>
+        public void Serialize(System.IO.Stream stream)
+        {
+            var writer = GetXmlSerializer();
+            writer.Serialize(stream, Root);
+        }
+
+        /// <summary>
+        /// Deserialize the whole UI from stream.
+        /// </summary>
+        /// <param name="stream">Stream to deserialize from.</param>
+        public void Deserialize(System.IO.Stream stream)
+        {
+            var reader = GetXmlSerializer();
+            Root = (RootPanel)reader.Deserialize(stream);
+            Root.InitAfterDeserialize();
+        }
+
+        /// <summary>
+        /// Serialize the whole UI to filename.
+        /// </summary>
+        /// <param name="path">Filename to serialize into.</param>
+        public void Serialize(string path)
+        {
+            System.IO.FileStream file = System.IO.File.Create(path);
+            Serialize(file);
+            file.Close();
+        }
+
+        /// <summary>
+        /// Deserialize the whole UI from filename.
+        /// </summary>
+        /// <param name="path">Filename to deserialize from.</param>
+        public void Deserialize(string path)
+        {
+            System.IO.FileStream file = System.IO.File.OpenRead(path);
+            Deserialize(file);
+            file.Close();
+        }
+
     }
 }

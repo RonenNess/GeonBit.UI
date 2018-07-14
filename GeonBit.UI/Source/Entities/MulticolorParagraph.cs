@@ -16,6 +16,7 @@ using System.Text;
 namespace GeonBit.UI.Entities
 {
     /// <summary>Hold color instructions for MultiColor paragraphs.</summary>
+    [System.Serializable]
     public class ColorInstruction
     {
         // should we use the paragraph original color?
@@ -107,8 +108,17 @@ namespace GeonBit.UI.Entities
     /// <summary>
     /// Multicolor Paragraph is a paragraph that supports in-text color tags that changes the fill color of the text.
     /// </summary>
+    [System.Serializable]
     public class MulticolorParagraph : Paragraph
     {
+        /// <summary>
+        /// Static ctor.
+        /// </summary>
+        static MulticolorParagraph()
+        {
+            Entity.MakeSerializable(typeof(MulticolorParagraph));
+        }
+
         /// <summary>Default styling for paragraphs. Note: loaded from UI theme xml file.</summary>
         new public static StyleSheet DefaultStyle = new StyleSheet();
 
@@ -154,6 +164,13 @@ namespace GeonBit.UI.Entities
         /// <param name="scale">Optional font size.</param>
         public MulticolorParagraph(string text, Anchor anchor = Anchor.Auto, Vector2? size = null, Vector2? offset = null, float? scale = null) :
             base(text, anchor, size, offset, scale)
+        {
+        }
+
+        /// <summary>
+        /// Create default multicolor paragraph with empty text.
+        /// </summary>
+        public MulticolorParagraph() : this(string.Empty)
         {
         }
 
@@ -218,6 +235,10 @@ namespace GeonBit.UI.Entities
         /// <param name="phase">The phase we are currently drawing.</param>
         override protected void DrawEntity(SpriteBatch spriteBatch, DrawPhase phase)
         {
+            // update processed text if needed
+            if (_processedText == null)
+                UpdateDestinationRects();
+
             // get outline width
             int outlineWidth = OutlineWidth;
 

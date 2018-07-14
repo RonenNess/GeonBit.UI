@@ -18,8 +18,17 @@ namespace GeonBit.UI.Entities
     /// Label entity is a subclass of Paragraph. Basically its the same, but with a different
     /// default styling, and serves as a sugarcoat to quickly create labels for widgets.
     /// </summary>
+    [System.Serializable]
     public class Label : Paragraph
     {
+        /// <summary>
+        /// Static ctor.
+        /// </summary>
+        static Label()
+        {
+            Entity.MakeSerializable(typeof(Label));
+        }
+
         /// <summary>Default styling for labels. Note: loaded from UI theme xml file.</summary>
         new public static StyleSheet DefaultStyle = new StyleSheet();
 
@@ -34,6 +43,13 @@ namespace GeonBit.UI.Entities
             base(text, anchor, size: size, offset: offset)
         {
             UpdateStyle(DefaultStyle);
+        }
+
+        /// <summary>
+        /// Create label with default params and empty text.
+        /// </summary>
+        public Label() : this(string.Empty)
+        {
         }
     }
 }

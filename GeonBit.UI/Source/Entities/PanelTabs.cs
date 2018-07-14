@@ -15,46 +15,56 @@ using GeonBit.UI.DataTypes;
 
 namespace GeonBit.UI.Entities
 {
+    /// <summary>Contains the button and panel of a single tab in the PanelTabs.</summary>
+    public class TabData
+    {
+        /// <summary>The tab panel.</summary>
+        public Panel panel;
+
+        /// <summary>The tab top button.</summary>
+        public Button button;
+
+        /// <summary>Tab identifier / name.</summary>
+        readonly public string name;
+
+        /// <summary>
+        /// Create the new tab type.
+        /// </summary>
+        /// <param name="tabName">Tab name / identifier.</param>
+        /// <param name="tabPanel">Tab panel.</param>
+        /// <param name="tabButton">Tab button.</param>
+        public TabData(string tabName, Panel tabPanel, Button tabButton)
+        {
+            // store name, panel and button
+            name = tabName;
+            panel = tabPanel;
+            button = tabButton;
+        }
+    }
+
     /// <summary>
     /// A graphical panel or form you can create and add entities to.
     /// Used to group together entities with common logic.
     /// </summary>
+    [System.Serializable]
     public class PanelTabs : Entity
     {
+        /// <summary>
+        /// Static ctor.
+        /// </summary>
+        static PanelTabs()
+        {
+            Entity.MakeSerializable(typeof(PanelTabs));
+        }
+
         /// <summary>Default styling for panel buttons. Note: loaded from UI theme xml file.</summary>
         public static StyleSheet DefaultButtonStyle = new StyleSheet();
 
         /// <summary>Default styling for panel buttons paragraphs. Note: loaded from UI theme xml file.</summary>
         public static StyleSheet DefaultButtonParagraphStyle = new StyleSheet();
 
-        /// <summary>Contains the button and panel of a single tab in the PanelTabs.</summary>
-        public class TabData
-        {
-            /// <summary>The tab panel.</summary>
-            public Panel panel;
-
-            /// <summary>The tab top button.</summary>
-            public Button button;
-
-            /// <summary>Tab identifier / name.</summary>
-            readonly public string name;
-
-            /// <summary>
-            /// Create the new tab type.
-            /// </summary>
-            /// <param name="tabName">Tab name / identifier.</param>
-            /// <param name="tabPanel">Tab panel.</param>
-            /// <param name="tabButton">Tab button.</param>
-            public TabData(string tabName, Panel tabPanel, Button tabButton)
-            {
-                // store name, panel and button
-                name = tabName;
-                panel = tabPanel;
-                button = tabButton;
-            }
-        }
-
         /// <summary>List of tabs data currently in panel tabs.</summary>
+        [System.Xml.Serialization.XmlIgnore]
         private List<TabData> _tabs = new List<TabData>();
 
         /// <summary>A special internal panel to hold all the tab buttons.</summary>
@@ -67,7 +77,8 @@ namespace GeonBit.UI.Entities
         private Panel _internalRoot;
 
         /// <summary>Currently active tab.</summary>
-        TabData _activeTab = null;
+        [System.Xml.Serialization.XmlIgnore]
+        private TabData _activeTab = null;
 
         /// <summary>
         /// Optional panel skin to set as tabs background.
@@ -146,6 +157,7 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Get the currently active tab.
         /// </summary>
+        [System.Xml.Serialization.XmlIgnore]
         public TabData ActiveTab
         {
             get { return _activeTab; }

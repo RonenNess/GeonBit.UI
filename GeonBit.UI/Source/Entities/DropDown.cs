@@ -20,8 +20,17 @@ namespace GeonBit.UI.Entities
     /// DropDown is just like a list, but it only shows the currently selected value unless clicked on (the list is
     /// only revealed while interacted with).
     /// </summary>
+    [System.Serializable]
     public class DropDown : Entity
     {
+        /// <summary>
+        /// Static ctor.
+        /// </summary>
+        static DropDown()
+        {
+            Entity.MakeSerializable(typeof(DropDown));
+        }
+
         /// <summary>Default text to show when no value is selected from the list.</summary>
         public string DefaultText
         {
@@ -113,6 +122,7 @@ namespace GeonBit.UI.Entities
         public static int ArrowSize = 30;
 
         /// <summary>Special callback to execute when list size changes.</summary>
+        [System.Xml.Serialization.XmlIgnore]
         public EventCallback OnListChange = null;
 
         /// <summary>
@@ -198,6 +208,13 @@ namespace GeonBit.UI.Entities
 
             // make the selected value panel trigger the dropdown events
             _selectedTextPanel.PropagateEventsTo(this);
+        }
+
+        /// <summary>
+        /// Create default dropdown.
+        /// </summary>
+        public DropDown() : this(new Vector2(0, 200))
+        {
         }
 
         /// <summary>

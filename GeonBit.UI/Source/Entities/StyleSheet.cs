@@ -18,8 +18,17 @@ namespace GeonBit.UI.Entities
     /// Set of style properties for different entity states.
     /// For example, stylesheet can define that when mouse hover over a paragraph, its text turns red.
     /// </summary>
-    public class StyleSheet : Dictionary<string, StyleProperty>
+    [System.Serializable]
+    public class StyleSheet : Utils.SerializableDictionary<string, StyleProperty>
     {
+        /// <summary>
+        /// Static ctor.
+        /// </summary>
+        static StyleSheet()
+        {
+            Entity.MakeSerializable(typeof(StyleSheet));
+        }
+
         // caching of states as strings, to eliminate state.ToString() calls
         private static readonly string[] StateAsString =
         {

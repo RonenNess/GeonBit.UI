@@ -29,8 +29,17 @@ namespace GeonBit.UI.Entities
     /// <summary>
     /// A renderable image (draw custom texture on UI entities).
     /// </summary>
+    [System.Serializable]
     public class Image : Entity
     {
+        /// <summary>
+        /// Static ctor.
+        /// </summary>
+        static Image()
+        {
+            Entity.MakeSerializable(typeof(Image));
+        }
+
         /// <summary>How to draw the texture.</summary>
         public ImageDrawMode DrawMode;
 
@@ -38,7 +47,17 @@ namespace GeonBit.UI.Entities
         public Vector2 FrameWidth = Vector2.One * 0.15f;
 
         /// <summary>Texture to draw.</summary>
+        [System.Xml.Serialization.XmlIgnore]
         public Texture2D Texture;
+
+        /// <summary>
+        /// Get / set texture from name.
+        /// </summary>
+        public string TextureName
+        {
+            get { return Texture.Name; }
+            set { Texture = Resources._content.Load<Texture2D>(value); }
+        }
 
         /// <summary>Default styling for images. Note: loaded from UI theme xml file.</summary>
         new public static StyleSheet DefaultStyle = new StyleSheet();
@@ -54,7 +73,7 @@ namespace GeonBit.UI.Entities
         /// <param name="drawMode">How to draw the image (see ImageDrawMode for more info).</param>
         /// <param name="anchor">Poisition anchor.</param>
         /// <param name="offset">Offset from anchor position.</param>
-        public Image(Texture2D texture, Vector2 size, ImageDrawMode drawMode = ImageDrawMode.Stretch, Anchor anchor = Anchor.Auto, Vector2? offset = null) :
+        public Image(Texture2D texture, Vector2? size = null, ImageDrawMode drawMode = ImageDrawMode.Stretch, Anchor anchor = Anchor.Auto, Vector2? offset = null) :
             base(size, anchor, offset)
         {
             // store image DrawMode and texture
@@ -63,6 +82,13 @@ namespace GeonBit.UI.Entities
 
             // update style
             UpdateStyle(DefaultStyle);
+        }
+
+        /// <summary>
+        /// Create image without texture.
+        /// </summary>
+        public Image() : this(null)
+        {
         }
 
         /// <summary>

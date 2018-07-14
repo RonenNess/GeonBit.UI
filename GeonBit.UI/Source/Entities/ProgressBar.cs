@@ -25,8 +25,17 @@ namespace GeonBit.UI.Entities
     /// A sub-class of the slider entity, with graphics more fitting for a progress bar or things like hp bar etc.
     /// Behaves the same as a slider, if you want it to be for display only (and not changeable by user), simple set Locked = true.
     /// </summary>
+    [System.Serializable]
     public class ProgressBar : Slider
     {
+        /// <summary>
+        /// Static ctor.
+        /// </summary>
+        static ProgressBar()
+        {
+            Entity.MakeSerializable(typeof(ProgressBar));
+        }
+
         /// <summary>Default styling for progress bar. Note: loaded from UI theme xml file.</summary>
         new public static StyleSheet DefaultStyle = new StyleSheet();
 
@@ -77,9 +86,16 @@ namespace GeonBit.UI.Entities
         /// <param name="max">Max value.</param>
         /// <param name="anchor">Position anchor.</param>
         /// <param name="offset">Offset from anchor position.</param>
-        public ProgressBar(uint min = 0, uint max = 10, Anchor anchor = Anchor.Auto, Vector2? offset = null) :
+        public ProgressBar(uint min, uint max, Anchor anchor = Anchor.Auto, Vector2? offset = null) :
             this(min, max, USE_DEFAULT_SIZE, anchor, offset)
         { }
+
+        /// <summary>
+        /// Create progressbar with default params.
+        /// </summary>
+        public ProgressBar() : this(0, 10)
+        {
+        }
 
         /// <summary>
         /// Draw the entity.

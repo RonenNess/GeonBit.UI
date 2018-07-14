@@ -19,8 +19,17 @@ namespace GeonBit.UI.Entities
     /// <summary>
     /// A colored rectangle with outline.
     /// </summary>
+    [System.Serializable]
     public class ColoredRectangle : Entity
     {
+        /// <summary>
+        /// Static ctor.
+        /// </summary>
+        static ColoredRectangle()
+        {
+            Entity.MakeSerializable(typeof(ColoredRectangle));
+        }
+
         /// <summary>
         /// Default rectangle styling. Override this dictionary to change the way default rectangles appear.
         /// </summary>
@@ -35,12 +44,12 @@ namespace GeonBit.UI.Entities
         /// <param name="size">Rectangle size in pixels.</param>
         /// <param name="anchor">Position anchor.</param>
         /// <param name="offset">Offset from position anchor.</param>
-        public ColoredRectangle(Color fillColor, Color outlineColor, int outlineWidth, Vector2 size, Anchor anchor = Anchor.Auto, Vector2? offset = null) :
+        public ColoredRectangle(Color fillColor, Color? outlineColor = null, int outlineWidth = 1, Vector2? size = null, Anchor anchor = Anchor.Auto, Vector2? offset = null) :
             base(size, anchor, offset)
         {
             UpdateStyle(DefaultStyle);
             FillColor = fillColor;
-            OutlineColor = outlineColor;
+            OutlineColor = outlineColor ?? Color.Black;
             OutlineWidth = outlineWidth;
         }
 
@@ -73,6 +82,13 @@ namespace GeonBit.UI.Entities
             UpdateStyle(DefaultStyle);
             FillColor = fillColor;
             OutlineWidth = 0;
+        }
+
+        /// <summary>
+        /// Create default colored rectangle.
+        /// </summary>
+        public ColoredRectangle() : this(Color.White)
+        {
         }
 
         /// <summary>

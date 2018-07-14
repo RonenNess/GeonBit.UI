@@ -28,8 +28,17 @@ namespace GeonBit.UI.Entities
     /// <summary>
     /// Slider entity looks like a horizontal scrollbar that the user can drag left and right to select a numeric value from range.
     /// </summary>
+    [System.Serializable]
     public class Slider : Entity
     {
+        /// <summary>
+        /// Static ctor.
+        /// </summary>
+        static Slider()
+        {
+            Entity.MakeSerializable(typeof(Slider));
+        }
+
         // slider style
         SliderSkin _skin;
 
@@ -94,8 +103,15 @@ namespace GeonBit.UI.Entities
         /// <param name="skin">Slider skin (texture).</param>
         /// <param name="anchor">Position anchor.</param>
         /// <param name="offset">Offset from anchor position.</param>
-        public Slider(uint min = 0, uint max = 10, SliderSkin skin = SliderSkin.Default, Anchor anchor = Anchor.Auto, Vector2? offset = null) :
+        public Slider(uint min, uint max, SliderSkin skin = SliderSkin.Default, Anchor anchor = Anchor.Auto, Vector2? offset = null) :
             this(min, max, USE_DEFAULT_SIZE, skin, anchor, offset)
+        {
+        }
+
+        /// <summary>
+        /// Create default slider.
+        /// </summary>
+        public Slider() : this(0, 10)
         {
         }
 

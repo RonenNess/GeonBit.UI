@@ -26,8 +26,17 @@ namespace GeonBit.UI.Entities
     /// <remarks>
     /// Radio Buttons only affect their direct siblings, so if you need multiple groups of radio buttons on the same panel you can use internal panels to group them together.
     /// </remarks>
+    [System.Serializable]
     public class RadioButton : CheckBox
     {
+        /// <summary>
+        /// Static ctor.
+        /// </summary>
+        static RadioButton()
+        {
+            Entity.MakeSerializable(typeof(RadioButton));
+        }
+
         /// <summary>Default radio buttons size in pixels.</summary>
         new public static Vector2 DefaultSize = new Vector2(0f, 50f);
 
@@ -56,6 +65,13 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Create radiobutton without text.
+        /// </summary>
+        public RadioButton() : this(string.Empty)
+        {
+        }
+
+        /// <summary>
         /// Helper function to get radio button texture based on state and current value.
         /// </summary>
         /// <returns>Which texture to use for the checkbox.</returns>
@@ -81,7 +97,7 @@ namespace GeonBit.UI.Entities
             // disable all sibling radio buttons
             if (_parent != null)
             {
-                foreach (Entity entity in _parent.GetChildren())
+                foreach (Entity entity in _parent.Children)
                 {
                     // skip self
                     if (entity == this)

@@ -36,8 +36,17 @@ namespace GeonBit.UI.Entities
     /// <summary>
     /// Paragraph is a renderable text. It can be multiline, wrap words, have outline, etc.
     /// </summary>
+    [System.Serializable]
     public class Paragraph : Entity
     {
+        /// <summary>
+        /// Static ctor.
+        /// </summary>
+        static Paragraph()
+        {
+            Entity.MakeSerializable(typeof(Paragraph));
+        }
+
         /// <summary>Default styling for paragraphs. Note: loaded from UI theme xml file.</summary>
         new public static StyleSheet DefaultStyle = new StyleSheet();
 
@@ -60,6 +69,7 @@ namespace GeonBit.UI.Entities
         /// An optional font you can set to override the default fonts.
         /// NOTE! Only monospace fonts are supported!
         /// </summary>
+        [System.Xml.Serialization.XmlIgnore]
         public SpriteFont FontOverride = null;
 
         // the size of a single space character with current font.
@@ -166,7 +176,6 @@ namespace GeonBit.UI.Entities
             UpdateFontPropertiesIfNeeded();
         }
 
-
         /// <summary>
         /// Create the paragraph with optional fill color and font size.
         /// </summary>
@@ -182,6 +191,13 @@ namespace GeonBit.UI.Entities
             SetStyleProperty(StylePropertyIds.FillColor, new StyleProperty(color));
             if (scale != null) { SetStyleProperty(StylePropertyIds.Scale, new StyleProperty((float)scale)); }
             UpdateFontPropertiesIfNeeded();
+        }
+
+        /// <summary>
+        /// Create default paragraph without text.
+        /// </summary>
+        public Paragraph() : this(string.Empty)
+        {
         }
 
         /// <summary>
@@ -511,6 +527,10 @@ namespace GeonBit.UI.Entities
         /// <param name="phase">The phase we are currently drawing.</param>
         override protected void DrawEntity(SpriteBatch spriteBatch, DrawPhase phase)
         {
+            // update processed text if needed
+            if (_processedText == null)
+                UpdateDestinationRects();
+
             // draw background color
             if (BackgroundColor.A > 0)
             {

@@ -10,7 +10,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
-using GeonBit.UI.DataTypes;
+using GeonBit.UI.Utils;
 
 namespace GeonBit.UI.Entities
 {
@@ -29,8 +29,17 @@ namespace GeonBit.UI.Entities
     /// <summary>
     /// List of items (strings) user can scroll and pick from.
     /// </summary>
+    [System.Serializable]
     public class SelectList : Panel
     {
+        /// <summary>
+        /// Static ctor.
+        /// </summary>
+        static SelectList()
+        {
+            Entity.MakeSerializable(typeof(SelectList));
+        }
+
         // current selected value and index
         string _value = null;
         int _index = -1;
@@ -54,6 +63,7 @@ namespace GeonBit.UI.Entities
         public float ItemsScale = 1f;
 
         /// <summary>Special callback to execute when list size changes.</summary>
+        [System.Xml.Serialization.XmlIgnore]
         public EventCallback OnListChange = null;
 
         /// <summary>
@@ -82,7 +92,7 @@ namespace GeonBit.UI.Entities
         /// Optional dictionary of list indexes you want to lock.
         /// Every item in this dictionary set to true will be locked and user won't be able to select it.
         /// </summary>
-        public Dictionary<int, bool> LockedItems = new Dictionary<int, bool>();
+        public SerializableDictionary<int, bool> LockedItems = new SerializableDictionary<int, bool>();
 
         // list of values
         List<string> _list = new List<string>();
@@ -127,8 +137,15 @@ namespace GeonBit.UI.Entities
         /// </summary>
         /// <param name="anchor">Position anchor.</param>
         /// <param name="offset">Offset from anchor position.</param>
-        public SelectList(Anchor anchor = Anchor.Auto, Vector2? offset = null) :
+        public SelectList(Anchor anchor, Vector2? offset = null) :
            this(USE_DEFAULT_SIZE, anchor, offset)
+        {
+        }
+
+        /// <summary>
+        /// Create emprt select list with default params.
+        /// </summary>
+        public SelectList() : this (Anchor.Auto)
         {
         }
 
@@ -405,6 +422,7 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Currently selected item value (or null if none is selected).
         /// </summary>
+        [System.Xml.Serialization.XmlIgnore]
         public string SelectedValue
         {
             get { return _value; }
@@ -414,6 +432,7 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Currently selected item index (or -1 if none is selected).
         /// </summary>
+        [System.Xml.Serialization.XmlIgnore]
         public int SelectedIndex
         {
             get { return _index; }
@@ -423,6 +442,7 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Current scrollbar position.
         /// </summary>
+        [System.Xml.Serialization.XmlIgnore]
         public int ScrollPosition
         {
             get { return _scrollbar.Value; }

@@ -72,8 +72,17 @@ namespace GeonBit.UI.Entities
     /// A graphical panel or form you can create and add entities to.
     /// Used to group together entities with common logic.
     /// </summary>
+    [System.Serializable]
     public class Panel : Entity, System.IDisposable
     {
+        /// <summary>
+        /// Static ctor.
+        /// </summary>
+        static Panel()
+        {
+            Entity.MakeSerializable(typeof(Panel));
+        }
+
         // panel style
         PanelSkin _skin;
 
@@ -129,6 +138,14 @@ namespace GeonBit.UI.Entities
         {
             _skin = skin;
             UpdateStyle(DefaultStyle);
+        }
+
+        /// <summary>
+        /// Create the panel with default params.
+        /// </summary>
+        public Panel() :
+            this(new Vector2(500, 500))
+        {
         }
 
         /// <summary>

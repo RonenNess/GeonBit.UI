@@ -22,8 +22,17 @@ namespace GeonBit.UI.Entities
     /// A checkbox entity, eg a label with a square you can mark as checked or uncheck.
     /// Holds a boolean value.
     /// </summary>
+    [System.Serializable]
     public class CheckBox : Entity
     {
+        /// <summary>
+        /// Static ctor.
+        /// </summary>
+        static CheckBox()
+        {
+            Entity.MakeSerializable(typeof(CheckBox));
+        }
+
         /// <summary>CheckBox label. Use this if you want to change the checkbox text or font style.</summary>
         public Paragraph TextParagraph;
 
@@ -68,6 +77,13 @@ namespace GeonBit.UI.Entities
 
             // set value
             Checked = isChecked;
+        }
+
+        /// <summary>
+        /// Create checkbox without text.
+        /// </summary>
+        public CheckBox() : this(string.Empty)
+        {
         }
 
         /// <summary>
