@@ -1932,6 +1932,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Added `PopulateDict` function to convert tree to flat dictionary.
 - Fixed Find<> with generic `Entity` type.
 - Optimized processing multicolor text.
+- Optimized stylesheet and memory usage.
 - Added serialize / deserialize functionality. [STILL IN PROGRESS]
 
 ## Credits

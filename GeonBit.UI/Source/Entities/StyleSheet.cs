@@ -37,15 +37,24 @@ namespace GeonBit.UI.Entities
             "MouseDown",
         };
 
+        // internal mechanism to reduce memory usage.
+        private static Dictionary<KeyValuePair<string, EntityState>, string> _identifiersCache = new Dictionary<KeyValuePair<string, EntityState>, string>();
+
         /// <summary>
         /// Get the full string that represent a style property identifier.
         /// </summary>
         private string GetPropertyFullId(string property, EntityState state)
         {
+            // get identifier from cache
+            var pair = new KeyValuePair<string, EntityState>(property, state);
+            if (_identifiersCache.ContainsKey(pair))
+                return _identifiersCache[pair];
+
+            // build and return new identifier
             StringBuilder fullPropertyIdentifier = new StringBuilder(StateAsString[(int)state]);
             fullPropertyIdentifier.Append('.');
             fullPropertyIdentifier.Append(property);
-            return fullPropertyIdentifier.ToString();
+            return _identifiersCache[pair] = fullPropertyIdentifier.ToString();
         }
 
         /// <summary>
