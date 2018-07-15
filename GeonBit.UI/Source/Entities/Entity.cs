@@ -257,6 +257,15 @@ namespace GeonBit.UI.Entities
         private StyleSheet _style = new StyleSheet();
 
         /// <summary>
+        /// Get / set raw stylesheet.
+        /// </summary>
+        public StyleSheet RawStyleSheet
+        {
+            get { return _style; }
+            set { _style = value; }
+        }
+
+        /// <summary>
         /// Get overflow scrollbar value.
         /// </summary>
         protected virtual Point OverflowScrollVal { get { return Point.Zero; } }
