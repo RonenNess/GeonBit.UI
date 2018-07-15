@@ -218,6 +218,17 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Special init after deserializing entity from file.
+        /// </summary>
+        internal protected override void InitAfterDeserialize()
+        {
+            base.InitAfterDeserialize();
+            _selectedTextPanel._hiddenInternalEntity = true;
+            _arrowDownImage._hiddenInternalEntity = true;
+            _selectList._hiddenInternalEntity = true;
+        }
+
+        /// <summary>
         /// Is the DropDown list currentle opened (visible).
         /// </summary>
         public bool ListVisible

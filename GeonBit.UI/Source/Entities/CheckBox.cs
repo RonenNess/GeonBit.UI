@@ -87,6 +87,15 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Special init after deserializing entity from file.
+        /// </summary>
+        internal protected override void InitAfterDeserialize()
+        {
+            base.InitAfterDeserialize();
+            TextParagraph._hiddenInternalEntity = true;
+        }
+
+        /// <summary>
         /// Is the checkbox a natrually-interactable entity.
         /// </summary>
         /// <returns>True.</returns>

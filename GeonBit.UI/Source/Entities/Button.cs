@@ -108,6 +108,15 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Special init after deserializing entity from file.
+        /// </summary>
+        internal protected override void InitAfterDeserialize()
+        {
+            base.InitAfterDeserialize();
+            ButtonParagraph._hiddenInternalEntity = true;
+        }
+
+        /// <summary>
         /// Override the default theme textures and set a custom skin for this specific button.
         /// </summary>
         /// <remarks>You must provide all state textures when overriding button skin.</remarks>

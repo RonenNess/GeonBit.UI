@@ -155,6 +155,17 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Special init after deserializing entity from file.
+        /// </summary>
+        internal protected override void InitAfterDeserialize()
+        {
+            base.InitAfterDeserialize();
+            TextParagraph._hiddenInternalEntity = true;
+            PlaceholderParagraph._hiddenInternalEntity = true;
+            if (_scrollbar != null) _scrollbar._hiddenInternalEntity = true;
+        }
+
+        /// <summary>
         /// Create the text input with default size.
         /// </summary>
         /// <param name="multiline">If true, text input will accept multiple lines.</param>

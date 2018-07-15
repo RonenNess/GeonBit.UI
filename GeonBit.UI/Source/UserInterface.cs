@@ -703,6 +703,8 @@ namespace GeonBit.UI
 
         /// <summary>
         /// Serialize the whole UI to stream.
+        /// Note: serialization have some limitation and things that will not be included in xml,
+        /// like even handlers. Please read docs carefuly to know what to expect.
         /// </summary>
         /// <param name="stream">Stream to serialize to.</param>
         public void Serialize(System.IO.Stream stream)
@@ -713,6 +715,8 @@ namespace GeonBit.UI
 
         /// <summary>
         /// Deserialize the whole UI from stream.
+        /// Note: serialization have some limitation and things that will not be included in xml,
+        /// like even handlers. Please read docs carefuly to know what to expect.
         /// </summary>
         /// <param name="stream">Stream to deserialize from.</param>
         public void Deserialize(System.IO.Stream stream)
@@ -724,6 +728,8 @@ namespace GeonBit.UI
 
         /// <summary>
         /// Serialize the whole UI to filename.
+        /// Note: serialization have some limitation and things that will not be included in xml,
+        /// like even handlers. Please read docs carefuly to know what to expect.
         /// </summary>
         /// <param name="path">Filename to serialize into.</param>
         public void Serialize(string path)
@@ -735,6 +741,8 @@ namespace GeonBit.UI
 
         /// <summary>
         /// Deserialize the whole UI from filename.
+        /// Note: serialization have some limitation and things that will not be included in xml,
+        /// like even handlers. Please read docs carefuly to know what to expect.
         /// </summary>
         /// <param name="path">Filename to deserialize from.</param>
         public void Deserialize(string path)

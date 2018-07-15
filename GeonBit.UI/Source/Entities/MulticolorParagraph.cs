@@ -148,7 +148,7 @@ namespace GeonBit.UI.Entities
         public override string Text
         {
             get { return _text; }
-            set { if (_text != value) { _text = value; ParseColorInstructions(); MarkAsDirty(); } }
+            set { if (_text != value) { _text = value; _processedText = null; MarkAsDirty(); } }
         }
 
         // color-changing instructions in current paragraph. key is char index, value is color change command.
@@ -174,7 +174,6 @@ namespace GeonBit.UI.Entities
         {
         }
 
-
         /// <summary>
         /// Create the paragraph with optional fill color and font size.
         /// </summary>
@@ -188,6 +187,17 @@ namespace GeonBit.UI.Entities
             base(text, anchor, color, scale, size, offset)
         {
         }
+
+        /// <summary>
+        /// Special init after deserializing entity from file.
+        /// </summary>
+        internal protected override void InitAfterDeserialize()
+        {
+            base.InitAfterDeserialize();
+        }
+
+        // regex to find color instructions
+        static System.Text.RegularExpressions.Regex colorInstructionsRegex = new System.Text.RegularExpressions.Regex("{{[^{}]*}}");
 
         /// <summary>
         /// Parse special color-changing instructions inside the text.
@@ -204,19 +214,17 @@ namespace GeonBit.UI.Entities
             if (_text.Contains("{{"))
             {
                 int iLastLength = 0;
-                System.Text.RegularExpressions.Regex oRegex = new System.Text.RegularExpressions.Regex("{{[^{}]*}}");
 
-                System.Text.RegularExpressions.MatchCollection oMatches = oRegex.Matches(_text);
+                System.Text.RegularExpressions.MatchCollection oMatches = colorInstructionsRegex.Matches(_text);
                 foreach (System.Text.RegularExpressions.Match oMatch in oMatches)
                 {
                     string sColor = oMatch.Value.Substring(2, oMatch.Value.Length - 4);
-
                     _colorInstructions.Add(oMatch.Index - iLastLength, new ColorInstruction(sColor));
                     iLastLength += oMatch.Value.Length;
                 }
 
                 // Strip out the color instructions from the text to allow the rest of processing to process the actual text content
-                _text = oRegex.Replace(_text, string.Empty);
+                _text = colorInstructionsRegex.Replace(_text, string.Empty);
             }
         }
 

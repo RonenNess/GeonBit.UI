@@ -1928,6 +1928,10 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Removed GetChildren(), added 'Children' property instead.
 - Fixed bug with setting offset of dragged entities.
 - Moved `TabData` outside of `PanelTabs`.
+- Added Anchor and Offset public properties.
+- Added `PopulateDict` function to convert tree to flat dictionary.
+- Fixed Find<> with generic `Entity` type.
+- Optimized processing multicolor text.
 - Added serialize / deserialize functionality. [STILL IN PROGRESS]
 
 ## Credits

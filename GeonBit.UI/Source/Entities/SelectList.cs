@@ -98,6 +98,15 @@ namespace GeonBit.UI.Entities
         List<string> _list = new List<string>();
 
         /// <summary>
+        /// Get / set all items.
+        /// </summary>
+        public string[] Items
+        {
+            get { return _list.ToArray(); }
+            set { _list.Clear(); _list.AddRange(value);  OnListChanged(); }
+        }
+
+        /// <summary>
         /// If true and user clicks on the item currently selected item, it will still invoke value change event as if 
         /// a new value was selected.
         /// </summary>
@@ -140,6 +149,15 @@ namespace GeonBit.UI.Entities
         public SelectList(Anchor anchor, Vector2? offset = null) :
            this(USE_DEFAULT_SIZE, anchor, offset)
         {
+        }
+
+        /// <summary>
+        /// Special init after deserializing entity from file.
+        /// </summary>
+        internal protected override void InitAfterDeserialize()
+        {
+            base.InitAfterDeserialize();
+            _scrollbar._hiddenInternalEntity = true;
         }
 
         /// <summary>

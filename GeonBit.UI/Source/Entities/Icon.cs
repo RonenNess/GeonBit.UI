@@ -156,6 +156,16 @@ namespace GeonBit.UI.Entities
         public static int BackgroundSize = 10;
 
         /// <summary>
+        /// Set / get icon.
+        /// </summary>
+        public IconType IconType
+        {
+            get { return _icon; }
+            set { Texture = Resources.IconTextures[value]; _icon = value; }
+        }
+        IconType _icon;
+
+        /// <summary>
         /// Create a new icon.
         /// Note: if you want to use your own texture for the icon, simply set 'icon' to be IconType.None and replace 'Texture' with
         /// your own texture after it is created.
@@ -171,7 +181,7 @@ namespace GeonBit.UI.Entities
             // set scale and basic properties
             Scale = scale;
             DrawBackground = background;
-            Texture = Resources.IconTextures[icon];
+            IconType = icon;
 
             // set default background color
             SetStyleProperty("BackgroundColor", new StyleProperty(Color.White));

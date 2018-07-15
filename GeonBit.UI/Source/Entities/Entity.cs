@@ -239,7 +239,7 @@ namespace GeonBit.UI.Entities
         /// This is useful for stuff like a paragraph that's attached to a button etc.
         /// NOTE!!! entities that inherit parent state will not trigger any events either.
         /// </summary>
-        protected bool InheritParentState = false;
+        public bool InheritParentState = false;
 
         // optional background object for this entity.
         // the background will be rendered on the full size of this entity, behind it, and will not respond to events etc.
@@ -310,8 +310,26 @@ namespace GeonBit.UI.Entities
         /// <summary>Offset, in pixels, from the anchor position.</summary>
         protected Vector2 _offset;
 
+        /// <summary>
+        /// Set / get offset.
+        /// </summary>
+        public Vector2 Offset
+        {
+            get { return _offset; }
+            set { _offset = value;  MarkAsDirty(); }
+        }
+
         /// <summary>Anchor to position this entity based on (see Anchor enum for more info).</summary>
         protected Anchor _anchor;
+
+        /// <summary>
+        /// Set / get anchor.
+        /// </summary>
+        public Anchor Anchor
+        {
+            get { return _anchor; }
+            set { _anchor = value; MarkAsDirty(); }
+        }
 
         /// <summary>Basic default style that all entities share. Note: loaded from UI theme xml file.</summary>
         public static StyleSheet DefaultStyle = new StyleSheet();
@@ -717,6 +735,9 @@ namespace GeonBit.UI.Entities
         /// <returns>First found entity with given identifier and type, or null if nothing found.</returns>
         public T Find<T> (string identifier, bool recursive = false) where T : Entity
         {
+            // should we return any entity type?
+            bool anyType = typeof(T) == typeof(Entity);
+
             // iterate children
             foreach (Entity child in _children)
             {
@@ -725,7 +746,7 @@ namespace GeonBit.UI.Entities
                     continue;
 
                 // check if identifier and type matches - if so, return it
-                if (child.Identifier == identifier && child.GetType() == typeof(T))
+                if (child.Identifier == identifier && (anyType || (child.GetType() == typeof(T))))
                 {
                     return (T)child;
                 }
@@ -1159,7 +1180,7 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Special init after deserializing entity from file.
         /// </summary>
-        public void InitAfterDeserialize()
+        internal protected virtual void InitAfterDeserialize()
         {
             // fix children parent
             var temp = _children;
@@ -1167,7 +1188,7 @@ namespace GeonBit.UI.Entities
             foreach (var child in temp)
             {
                 child._parent = null;
-                AddChild(child);
+                AddChild(child, child.InheritParentState);
             }
 
             // mark as dirty
@@ -1177,6 +1198,24 @@ namespace GeonBit.UI.Entities
             foreach (var child in _children)
             {
                 child.InitAfterDeserialize();
+            }
+        }
+
+        /// <summary>
+        /// Put all entities that have identifier property in a dictionary.
+        /// Note: if multiple entities share the same identifier, the deepest entity in hirarchy will end up in dict.
+        /// </summary>
+        /// <param name="dict">Dictionary to put entities into.</param>
+        public void PopulateDict(ref Dictionary<string, Entity> dict)
+        {
+            // add self if got identifier
+            if (Identifier != null && Identifier.Length > 0)
+                dict[Identifier] = this;
+
+            // iterate children
+            foreach(var child in _children)
+            {
+                child.PopulateDict(ref dict);
             }
         }
 
