@@ -140,7 +140,7 @@ namespace GeonBit.UI.Entities
             set
             {
                 _enableColorInstructions = value;
-                ParseColorInstructions();
+                _needUpdateColors = true;
             }
         }
 
@@ -148,8 +148,19 @@ namespace GeonBit.UI.Entities
         public override string Text
         {
             get { return _text; }
-            set { if (_text != value) { _text = value; _processedText = null; MarkAsDirty(); } }
+            set
+            {
+                if (_text != value)
+                {
+                    _text = value;
+                    MarkAsDirty();
+                    if (EnableColorInstructions) _needUpdateColors = true;
+                }
+            }
         }
+
+        // do we need to update color-related stuff?
+        private bool _needUpdateColors = true;
 
         // color-changing instructions in current paragraph. key is char index, value is color change command.
         Dictionary<int, ColorInstruction> _colorInstructions = new Dictionary<int, ColorInstruction>();
@@ -194,6 +205,7 @@ namespace GeonBit.UI.Entities
         internal protected override void InitAfterDeserialize()
         {
             base.InitAfterDeserialize();
+            _needUpdateColors = true;
         }
 
         // regex to find color instructions
@@ -226,6 +238,9 @@ namespace GeonBit.UI.Entities
                 // Strip out the color instructions from the text to allow the rest of processing to process the actual text content
                 _text = colorInstructionsRegex.Replace(_text, string.Empty);
             }
+
+            // no longer need to update colors
+            _needUpdateColors = false;
         }
 
         /// <summary>
@@ -244,8 +259,11 @@ namespace GeonBit.UI.Entities
         override protected void DrawEntity(SpriteBatch spriteBatch, DrawPhase phase)
         {
             // update processed text if needed
-            if (_processedText == null)
+            if (_needUpdateColors)
+            {
+                ParseColorInstructions();
                 UpdateDestinationRects();
+            }
 
             // get outline width
             int outlineWidth = OutlineWidth;
