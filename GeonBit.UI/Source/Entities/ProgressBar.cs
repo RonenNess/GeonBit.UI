@@ -65,18 +65,23 @@ namespace GeonBit.UI.Entities
             // update default styles
             UpdateStyle(DefaultStyle);
 
-            // create the fill part
-            Padding = Vector2.Zero;
-            ProgressFill = new Image(Resources.ProgressBarFillTexture, Vector2.Zero, ImageDrawMode.Stretch, Anchor.CenterLeft);
-            ProgressFill.UpdateStyle(DefaultFillStyle);
-            ProgressFill._hiddenInternalEntity = true;
-            AddChild(ProgressFill, true);
+            if (!UserInterface.Active._isDeserializing)
+            {
+                // create the fill part
+                Padding = Vector2.Zero;
+                ProgressFill = new Image(Resources.ProgressBarFillTexture, Vector2.Zero, ImageDrawMode.Stretch, Anchor.CenterLeft);
+                ProgressFill.UpdateStyle(DefaultFillStyle);
+                ProgressFill._hiddenInternalEntity = true;
+                ProgressFill.Identifier = "_progress_fill";
+                AddChild(ProgressFill, true);
 
-            // the caption is just a label centered on the progress bar itself
-            Caption = new Label(string.Empty, Anchor.Center);
-            Caption.ClickThrough = true;
-            Caption._hiddenInternalEntity = true;
-            AddChild(Caption);
+                // create caption on progressbar
+                Caption = new Label(string.Empty, Anchor.Center);
+                Caption.ClickThrough = true;
+                Caption._hiddenInternalEntity = true;
+                Caption.Identifier = "_progress_caption";
+                AddChild(Caption);
+            }
         }
 
         /// <summary>
@@ -103,7 +108,9 @@ namespace GeonBit.UI.Entities
         internal protected override void InitAfterDeserialize()
         {
             base.InitAfterDeserialize();
+            Caption = Find<Label>("_progress_caption", false);
             Caption._hiddenInternalEntity = true;
+            ProgressFill = Find<Image>("_progress_fill");
             ProgressFill._hiddenInternalEntity = true;
         }
 

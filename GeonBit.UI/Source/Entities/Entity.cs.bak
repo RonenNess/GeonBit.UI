@@ -325,7 +325,7 @@ namespace GeonBit.UI.Entities
         public Vector2 Offset
         {
             get { return _offset; }
-            set { SetOffset(value); }
+            set { _offset = value;  MarkAsDirty(); }
         }
 
         /// <summary>Anchor to position this entity based on (see Anchor enum for more info).</summary>
@@ -337,7 +337,7 @@ namespace GeonBit.UI.Entities
         public Anchor Anchor
         {
             get { return _anchor; }
-            set { SetAnchor(value); }
+            set { _anchor = value; MarkAsDirty(); }
         }
 
         /// <summary>Basic default style that all entities share. Note: loaded from UI theme xml file.</summary>
@@ -466,7 +466,6 @@ namespace GeonBit.UI.Entities
         bool _isFocused = false;
 
         /// <summary>Does this entity or one of its children currently focused?</summary>
-        [System.Xml.Serialization.XmlIgnore]
         public bool IsFocused
         {
             // get if focused
@@ -730,7 +729,6 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Current entity state (default / mouse hover / mouse down..).
         /// </summary>
-        [System.Xml.Serialization.XmlIgnore]
         public EntityState State
         {
             get { return _entityState; }
@@ -815,7 +813,6 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Extra space (in pixels) to reserve *after* this entity when using Auto Anchors.
         /// </summary>
-        [System.Xml.Serialization.XmlIgnore]
         public Vector2 SpaceAfter
         {
             set { SetStyleProperty(StylePropertyIds.SpaceAfter, new StyleProperty(value)); }
@@ -825,7 +822,6 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Extra space (in pixels) to reserve *before* this entity when using Auto Anchors.
         /// </summary>
-        [System.Xml.Serialization.XmlIgnore]
         public Vector2 SpaceBefore
         {
             set { SetStyleProperty(StylePropertyIds.SpaceBefore, new StyleProperty(value)); }
@@ -835,7 +831,6 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Entity fill color - this is just a sugarcoat to access the default fill color style property.
         /// </summary>
-        [System.Xml.Serialization.XmlIgnore]
         public Color FillColor
         {
             set { SetStyleProperty(StylePropertyIds.FillColor, new StyleProperty(value), markAsDirty: false); }
@@ -845,7 +840,6 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Entity fill color opacity - this is just a sugarcoat to access the default fill color alpha style property.
         /// </summary>
-        [System.Xml.Serialization.XmlIgnore]
         public byte Opacity
         {
             set
@@ -863,7 +857,6 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Entity outline color opacity - this is just a sugarcoat to access the default outline color alpha style property.
         /// </summary>
-        [System.Xml.Serialization.XmlIgnore]
         public byte OutlineOpacity
         {
             set
@@ -881,7 +874,6 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Entity padding - this is just a sugarcoat to access the default padding style property.
         /// </summary>
-        [System.Xml.Serialization.XmlIgnore]
         public Vector2 Padding
         {
             set { SetStyleProperty(StylePropertyIds.Padding, new StyleProperty(value)); }
@@ -891,7 +883,6 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Entity shadow color - this is just a sugarcoat to access the default shadow color style property.
         /// </summary>
-        [System.Xml.Serialization.XmlIgnore]
         public Color ShadowColor
         {
             set { SetStyleProperty(StylePropertyIds.ShadowColor, new StyleProperty(value), markAsDirty: false); }
@@ -901,7 +892,6 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Entity shadow scale - this is just a sugarcoat to access the default shadow scale style property.
         /// </summary>
-        [System.Xml.Serialization.XmlIgnore]
         public float ShadowScale
         {
             set { SetStyleProperty(StylePropertyIds.ShadowScale, new StyleProperty(value), markAsDirty: false); }
@@ -911,7 +901,6 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Entity shadow offset - this is just a sugarcoat to access the default shadow offset style property.
         /// </summary>
-        [System.Xml.Serialization.XmlIgnore]
         public Vector2 ShadowOffset
         {
             set { SetStyleProperty(StylePropertyIds.ShadowOffset, new StyleProperty(value), markAsDirty: false); }
@@ -930,7 +919,6 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Entity outline color - this is just a sugarcoat to access the default outline color style property.
         /// </summary>
-        [System.Xml.Serialization.XmlIgnore]
         public Color OutlineColor
         {
             set { SetStyleProperty(StylePropertyIds.OutlineColor, new StyleProperty(value), markAsDirty: false); }
@@ -940,7 +928,6 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Entity outline width - this is just a sugarcoat to access the default outline color style property.
         /// </summary>
-        [System.Xml.Serialization.XmlIgnore]
         public int OutlineWidth
         {
             set { SetStyleProperty(StylePropertyIds.OutlineWidth, new StyleProperty(value), markAsDirty: false); }

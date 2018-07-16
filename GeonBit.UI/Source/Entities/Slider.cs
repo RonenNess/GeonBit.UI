@@ -116,6 +116,15 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Get / set slider skin.
+        /// </summary>
+        public SliderSkin SliderSkin
+        {
+            get { return _skin; }
+            set { _skin = value; }
+        }
+
+        /// <summary>
         /// Get the size of a single step.
         /// </summary>
         /// <returns>Size of a single step, eg how much value changes in a step.</returns>
@@ -142,12 +151,15 @@ namespace GeonBit.UI.Entities
         /// <returns>Normalized value.</returns>
         protected int NormalizeValue(int value)
         {
-            // round to steps
-            float stepSize = (float)GetStepSize();
-            value = (int)(System.Math.Round(((double)value) / stepSize) * stepSize);
+            if (!UserInterface.Active._isDeserializing)
+            {
+                // round to steps
+                float stepSize = (float)GetStepSize();
+                value = (int)(System.Math.Round(((double)value) / stepSize) * stepSize);
 
-            // camp between min and max
-            value = (int)System.Math.Min(System.Math.Max(value, Min), Max);
+                // camp between min and max
+                value = (int)System.Math.Min(System.Math.Max(value, Min), Max);
+            }
 
             // return normalized value
             return value;
@@ -176,7 +188,7 @@ namespace GeonBit.UI.Entities
         public uint Min
         {
             get { return _min; }
-            set { if (_min != value) { _min = value; Value = Value; } }
+            set { if (_min != value) { _min = value; if (Value < _min) Value = (int)_min; } }
         }
 
         /// <summary>
@@ -184,25 +196,8 @@ namespace GeonBit.UI.Entities
         /// </summary>
         public uint Max
         {
-            // get max value
-            get
-            {
-                return _max;
-            }
-
-            // set max value
-            set
-            {
-                // only if changed
-                if (_max != value)
-                {
-                    // set value
-                    _max = value;
-
-                    // if value is bigger than max, cap it
-                    if (Value > Max) Value = (int)Max;
-                }
-            }
+            get { return _max; }
+            set { if (_max != value) { _max = value; if (Value > _max) Value = (int)_max; } }
         }
 
         /// <summary>

@@ -345,6 +345,7 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Current font style - this is just a sugarcoat to access the default font style property.
         /// </summary>
+        [System.Xml.Serialization.XmlIgnore]
         public FontStyle TextStyle
         {
             set { SetStyleProperty("FontStyle", new StyleProperty((int)value)); }
@@ -354,6 +355,7 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Should we align text to center - this is just a sugarcoat to access the default force-align-to-center style property.
         /// </summary>
+        [System.Xml.Serialization.XmlIgnore]
         public bool AlignToCenter
         {
             set { SetStyleProperty("ForceAlignCenter", new StyleProperty(value)); }

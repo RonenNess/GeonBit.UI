@@ -114,6 +114,9 @@ namespace GeonBit.UI
         // are we currently in use-render-target mode
         private bool _useRenderTarget = false;
 
+        // are we currently during deserialization phase?
+        internal bool _isDeserializing = false;
+
         /// <summary>
         /// If true, GeonBit.UI will not raise exceptions on sanity checks, validations, and errors which are not critical.
         /// For example, trying to select a value that doesn't exist from a list would do nothing instead of throwing exception.
@@ -721,8 +724,24 @@ namespace GeonBit.UI
         /// <param name="stream">Stream to deserialize from.</param>
         public void Deserialize(System.IO.Stream stream)
         {
-            var reader = GetXmlSerializer();
-            Root = (RootPanel)reader.Deserialize(stream);
+            // started deserializing..
+            _isDeserializing = true;
+
+            // do deserialize
+            try
+            {
+                var reader = GetXmlSerializer();
+                Root = (RootPanel)reader.Deserialize(stream);
+            }
+            // handle errors
+            catch
+            {
+                _isDeserializing = false;
+                throw;
+            }
+
+            // init after finish deserializing
+            _isDeserializing = false;
             Root.InitAfterDeserialize();
         }
 
