@@ -93,11 +93,15 @@ namespace GeonBit.UI.Entities
             // update styles
             UpdateStyle(DefaultStyle);
 
-            // create and set button paragraph
-            ButtonParagraph = UserInterface.DefaultParagraph(text, Anchor.Center);
-            ButtonParagraph._hiddenInternalEntity = true;
-            ButtonParagraph.UpdateStyle(DefaultParagraphStyle);
-            AddChild(ButtonParagraph, true);
+            if (!UserInterface.Active._isDeserializing)
+            {
+                // create and set button paragraph
+                ButtonParagraph = UserInterface.DefaultParagraph(text, Anchor.Center);
+                ButtonParagraph._hiddenInternalEntity = true;
+                ButtonParagraph.UpdateStyle(DefaultParagraphStyle);
+                ButtonParagraph.Identifier = "_button_caption";
+                AddChild(ButtonParagraph, true);
+            }
         }
 
         /// <summary>
@@ -113,6 +117,7 @@ namespace GeonBit.UI.Entities
         internal protected override void InitAfterDeserialize()
         {
             base.InitAfterDeserialize();
+            ButtonParagraph = Find("_button_caption") as Paragraph;
             ButtonParagraph._hiddenInternalEntity = true;
         }
 

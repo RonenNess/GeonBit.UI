@@ -66,11 +66,15 @@ namespace GeonBit.UI.Entities
             UpdateStyle(DefaultStyle);
 
             // create and set checkbox paragraph
-            TextParagraph = UserInterface.DefaultParagraph(text, Anchor.CenterLeft);
-            TextParagraph.UpdateStyle(DefaultParagraphStyle);
-            TextParagraph.SetOffset(new Vector2(25, 0));
-            TextParagraph._hiddenInternalEntity = true;
-            AddChild(TextParagraph, true);
+            if (!UserInterface.Active._isDeserializing)
+            {
+                TextParagraph = UserInterface.DefaultParagraph(text, Anchor.CenterLeft);
+                TextParagraph.UpdateStyle(DefaultParagraphStyle);
+                TextParagraph.SetOffset(new Vector2(25, 0));
+                TextParagraph._hiddenInternalEntity = true;
+                TextParagraph.Identifier = "_checkbox_text";
+                AddChild(TextParagraph, true);
+            }
 
             // checkboxes are promiscuous by default.
             PromiscuousClicksMode = true;
@@ -92,6 +96,7 @@ namespace GeonBit.UI.Entities
         internal protected override void InitAfterDeserialize()
         {
             base.InitAfterDeserialize();
+            TextParagraph = Find("_checkbox_text") as Paragraph;
             TextParagraph._hiddenInternalEntity = true;
         }
 

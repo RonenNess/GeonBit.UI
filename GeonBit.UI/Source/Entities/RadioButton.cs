@@ -61,7 +61,10 @@ namespace GeonBit.UI.Entities
             base(text, anchor, size, offset, isChecked)
         {
             UpdateStyle(DefaultStyle);
-            TextParagraph.UpdateStyle(DefaultParagraphStyle);
+            if (TextParagraph != null)
+            {
+                TextParagraph.UpdateStyle(DefaultParagraphStyle);
+            }
         }
 
         /// <summary>

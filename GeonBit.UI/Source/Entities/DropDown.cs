@@ -35,7 +35,7 @@ namespace GeonBit.UI.Entities
         public string DefaultText
         {
             get { return _placeholderText; }
-            set { _placeholderText = value;  if (SelectedIndex == -1) _selectedTextParagraph.Text = _placeholderText; }
+            set { _placeholderText = value; }
         }
 
         // text used as placeholder when nothing is selected.
@@ -143,34 +143,62 @@ namespace GeonBit.UI.Entities
             // to get collision right when list is opened
             UseActualSizeForCollision = true;
 
-            // create the panel and paragraph used to show currently selected value (what's shown when drop-down is closed)
-            _selectedTextPanel = new Panel(new Vector2(0, SelectedPanelHeight), skin, Anchor.TopLeft);
-            _selectedTextParagraph = UserInterface.DefaultParagraph(string.Empty, Anchor.CenterLeft);
-            _selectedTextParagraph.UseActualSizeForCollision = false;
-            _selectedTextParagraph.UpdateStyle(SelectList.DefaultParagraphStyle);
-            _selectedTextParagraph.UpdateStyle(DefaultParagraphStyle);
-            _selectedTextParagraph.UpdateStyle(DefaultSelectedParagraphStyle);
-            _selectedTextPanel.AddChild(_selectedTextParagraph, true);
-            _selectedTextPanel._hiddenInternalEntity = true;
+            if (!UserInterface.Active._isDeserializing)
+            {
 
-            // create the arrow down icon
-            _arrowDownImage = new Image(Resources.ArrowDown, new Vector2(ArrowSize, ArrowSize), ImageDrawMode.Stretch, Anchor.CenterRight, new Vector2(-10, 0));
-            _selectedTextPanel.AddChild(_arrowDownImage, true);
-            _arrowDownImage._hiddenInternalEntity = true;
-            _arrowDownImage.Visible = showArrow;
+                // create the panel and paragraph used to show currently selected value (what's shown when drop-down is closed)
+                _selectedTextPanel = new Panel(new Vector2(0, SelectedPanelHeight), skin, Anchor.TopLeft);
+                _selectedTextParagraph = UserInterface.DefaultParagraph(string.Empty, Anchor.CenterLeft);
+                _selectedTextParagraph.UseActualSizeForCollision = false;
+                _selectedTextParagraph.UpdateStyle(SelectList.DefaultParagraphStyle);
+                _selectedTextParagraph.UpdateStyle(DefaultParagraphStyle);
+                _selectedTextParagraph.UpdateStyle(DefaultSelectedParagraphStyle);
+                _selectedTextParagraph.Identifier = "_selectedTextParagraph";
+                _selectedTextPanel.AddChild(_selectedTextParagraph, true);
+                _selectedTextPanel._hiddenInternalEntity = true;
+                _selectedTextPanel.Identifier = "_selectedTextPanel";
 
-            // create the list component
-            _selectList = new SelectList(new Vector2(0f, size.Y), Anchor.TopCenter, Vector2.Zero, listSkin ?? skin);
+                // create the arrow down icon
+                _arrowDownImage = new Image(Resources.ArrowDown, new Vector2(ArrowSize, ArrowSize), ImageDrawMode.Stretch, Anchor.CenterRight, new Vector2(-10, 0));
+                _selectedTextPanel.AddChild(_arrowDownImage, true);
+                _arrowDownImage._hiddenInternalEntity = true;
+                _arrowDownImage.Identifier = "_arrowDownImage";
+                _arrowDownImage.Visible = showArrow;
 
-            // update list offset and space before
-            _selectList.SetOffset(new Vector2(0, SelectedPanelHeight));
-            _selectList.SpaceBefore = Vector2.Zero;
-            _selectList._hiddenInternalEntity = true;
+                // create the list component
+                _selectList = new SelectList(new Vector2(0f, size.Y), Anchor.TopCenter, Vector2.Zero, listSkin ?? skin);
 
-            // add the header and select list as children
-            AddChild(_selectedTextPanel);
-            AddChild(_selectList);
+                // update list offset and space before
+                _selectList.SetOffset(new Vector2(0, SelectedPanelHeight));
+                _selectList.SpaceBefore = Vector2.Zero;
+                _selectList._hiddenInternalEntity = true;
+                _selectList.Identifier = "_selectList";
 
+                // add the header and select list as children
+                AddChild(_selectedTextPanel);
+                AddChild(_selectList);
+
+                InitEvents();
+            }
+            // if during serialization create just a temp placeholder
+            else
+            {
+                _selectList = new SelectList(new Vector2(0f, size.Y), Anchor.TopCenter, Vector2.Zero, listSkin ?? skin);
+            }
+        }
+
+        /// <summary>
+        /// Create default dropdown.
+        /// </summary>
+        public DropDown() : this(new Vector2(0, 200))
+        {
+        }
+
+        /// <summary>
+        /// Init event-related stuff after all sub-entities are created.
+        /// </summary>
+        private void InitEvents()
+        {
             // add callback on list value change
             _selectList.OnValueChange = (Entity entity) =>
             {
@@ -211,21 +239,24 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
-        /// Create default dropdown.
-        /// </summary>
-        public DropDown() : this(new Vector2(0, 200))
-        {
-        }
-
-        /// <summary>
         /// Special init after deserializing entity from file.
         /// </summary>
         internal protected override void InitAfterDeserialize()
         {
             base.InitAfterDeserialize();
+
+            _selectedTextPanel = Find<Panel>("_selectedTextPanel");
             _selectedTextPanel._hiddenInternalEntity = true;
+
+            _arrowDownImage = _selectedTextPanel.Find<Image>("_arrowDownImage");
             _arrowDownImage._hiddenInternalEntity = true;
+
+            _selectList = Find<SelectList>("_selectList");
             _selectList._hiddenInternalEntity = true;
+
+            _selectedTextParagraph = _selectedTextPanel.Find("_selectedTextParagraph") as Paragraph;
+
+            InitEvents();
         }
 
         /// <summary>
@@ -319,6 +350,10 @@ namespace GeonBit.UI.Entities
         /// </summary>
         private void OnDropDownVisibilityChange()
         {
+            // if during deserialize, skip
+            if (UserInterface.Active._isDeserializing)
+                return;
+
             // update arrow image
             _arrowDownImage.Texture = ListVisible ? Resources.ArrowUp : Resources.ArrowDown;
 
@@ -349,6 +384,10 @@ namespace GeonBit.UI.Entities
         /// <param name="phase">The phase we are currently drawing.</param>
         override protected void DrawEntity(SpriteBatch spriteBatch, DrawPhase phase)
         {
+            if (SelectedIndex == -1 && _selectedTextParagraph.Text != _placeholderText)
+            {
+                _selectedTextParagraph.Text = _placeholderText;
+            }
         }
 
         /// <summary>
