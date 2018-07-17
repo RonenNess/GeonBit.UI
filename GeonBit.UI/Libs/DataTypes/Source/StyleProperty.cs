@@ -12,6 +12,8 @@ namespace GeonBit.UI.DataTypes
     /// This class acts like a Union, eg we don't use all the fields.
     /// This is a waste of some memory, but we need it to be able to serialize / desrialize to XMLs.
     /// </summary>
+    [System.Xml.Serialization.XmlInclude(typeof(Color))]
+    [System.Xml.Serialization.XmlInclude(typeof(Vector2))]
     public struct StyleProperty
     {
         /// <summary>Color value.</summary>
@@ -21,30 +23,62 @@ namespace GeonBit.UI.DataTypes
         private Vector2? _vector;
 
         /// <summary>Float value.</summary>
-        private float _float;
-
-        /// <summary>bool value.</summary>
-        private bool _bool;
+        private float? _float;
 
         /// <summary>helper function to get / set color value.</summary>
         [ContentSerializerAttribute(Optional = true)]
+        [System.Xml.Serialization.XmlIgnore]
         public Color asColor { get { return _color != null ? (Color)_color : Color.White; } set { _color = value; } }
 
         /// <summary>helper function to get / set vector value.</summary>
         [ContentSerializerAttribute(Optional = true)]
+        [System.Xml.Serialization.XmlIgnore]
         public Vector2 asVector { get { return _vector != null ? (Vector2)_vector : Vector2.One; } set { _vector = value; } }
 
         /// <summary>helper function to get / set float value.</summary>
         [ContentSerializerAttribute(Optional = true)]
-        public float asFloat { get { return _float; } set { _float = value; } }
+        [System.Xml.Serialization.XmlIgnore]
+        public float asFloat { get { return _float.Value; } set { _float = value; } }
 
         /// <summary>helper function to get / set int value.</summary>
         [ContentSerializerAttribute(Optional = true)]
-        public int asInt { get { return (int)_float; } set { _float = value; } }
+        [System.Xml.Serialization.XmlIgnore]
+        public int asInt { get { return (int)_float.Value; } set { _float = value; } }
 
         /// <summary>helper function to get / set bool value.</summary>
         [ContentSerializerAttribute(Optional = true)]
-        public bool asBool { get { return _bool; } set { _bool = value; } }
+        [System.Xml.Serialization.XmlIgnore]
+        public bool asBool { get { return _float.Value > 0f; } set { _float = value ? 1f : 0f; } }
+
+        /// <summary>
+        /// Get/set currently-set value, for serialization.
+        /// </summary>
+        [ContentSerializerAttribute(Optional = true)]
+        public object _Value
+        {
+            get
+            {
+                if (_color != null)
+                    return _color.Value;
+
+                else if (_vector != null)
+                    return _vector.Value;
+
+                else
+                    return _float.Value;
+            }
+            set
+            {
+                if (value is Color)
+                    _color = (Color)value;
+
+                else if (value is Vector2)
+                    _vector = (Vector2)value;
+
+                else
+                    _float = (float)value;
+            }
+        }
 
         /// <summary>
         /// Init with float value.
@@ -54,7 +88,17 @@ namespace GeonBit.UI.DataTypes
         {
             _float = value;
             _color = null;
-            _bool = false;
+            _vector = null;
+        }
+
+        /// <summary>
+        /// Init with int value.
+        /// </summary>
+        /// <param name="value">Value to set.</param>
+        public StyleProperty(int value)
+        {
+            _float = value;
+            _color = null;
             _vector = null;
         }
 
@@ -66,8 +110,7 @@ namespace GeonBit.UI.DataTypes
         {
             _vector = value;
             _color = null;
-            _bool = false;
-            _float = 0;
+            _float = null;
         }
 
         /// <summary>
@@ -78,8 +121,7 @@ namespace GeonBit.UI.DataTypes
         {
             _color = value;
             _vector = null;
-            _bool = false;
-            _float = 0;
+            _float = null;
         }
 
         /// <summary>
@@ -88,10 +130,9 @@ namespace GeonBit.UI.DataTypes
         /// <param name="value">Value to set.</param>
         public StyleProperty(bool value)
         {
-            _bool = value;
             _vector = null;
             _color = null;
-            _float = 0;
+            _float = value ? 1f : 0f;
         }
     }
 }

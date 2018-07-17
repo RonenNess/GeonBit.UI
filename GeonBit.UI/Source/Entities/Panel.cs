@@ -141,6 +141,17 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Special init after deserializing entity from file.
+        /// </summary>
+        internal protected override void InitAfterDeserialize()
+        {
+            base.InitAfterDeserialize();
+            var scrollbar = Find<VerticalScrollbar>("__scrollbar");
+            if (scrollbar != null) RemoveChild(scrollbar);
+            UpdateOverflowMode();
+        }
+
+        /// <summary>
         /// Create the panel with default params.
         /// </summary>
         public Panel() :
@@ -325,12 +336,20 @@ namespace GeonBit.UI.Entities
                     {
                         Padding = Vector2.Zero,
                         AdjustMaxAutomatically = true,
-                        Identifier = "scrollbar",
+                        Identifier = "__scrollbar",
                         _hiddenInternalEntity = true
                     };
                     bool prev_needToSortChildren = _needToSortChildren;
                     AddChild(_scrollbar);
                     _needToSortChildren = prev_needToSortChildren;
+                }
+            }
+            // if its not vertical scroll but we have scrollbar, remove it
+            else
+            {
+                if (_scrollbar != null)
+                {
+                    _scrollbar.RemoveFromParent();
                 }
             }
         }

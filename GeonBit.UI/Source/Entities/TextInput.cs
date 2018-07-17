@@ -120,37 +120,44 @@ namespace GeonBit.UI.Entities
             // set limit by size - default true in single-line, default false in multi-line
             LimitBySize = !_multiLine;
 
-            // create paragraph to show current value
-            TextParagraph = UserInterface.DefaultParagraph(string.Empty, _multiLine ? Anchor.TopLeft : Anchor.CenterLeft);
-            TextParagraph.UpdateStyle(DefaultParagraphStyle);
-            TextParagraph._hiddenInternalEntity = true;
-            AddChild(TextParagraph, true);
-
-            // create the placeholder paragraph
-            PlaceholderParagraph = UserInterface.DefaultParagraph(string.Empty, _multiLine ? Anchor.TopLeft : Anchor.CenterLeft);
-            PlaceholderParagraph.UpdateStyle(DefaultPlaceholderStyle);
-            PlaceholderParagraph._hiddenInternalEntity = true;
-            AddChild(PlaceholderParagraph, true);
-
-            // create the scrollbar
-            if (_multiLine)
+            if (!UserInterface.Active._isDeserializing)
             {
-                _scrollbar = new VerticalScrollbar(0, 0, Anchor.CenterRight, offset: new Vector2(-8, 0));
-                _scrollbar.Value = 0;
-                _scrollbar.Visible = false;
-                _scrollbar._hiddenInternalEntity = true;
-                AddChild(_scrollbar, false);
-            }
 
-            // set word-wrap mode based on whether or not this text input is multiline
-            TextParagraph.WrapWords = _multiLine;
-            PlaceholderParagraph.WrapWords = _multiLine;
+                // create paragraph to show current value
+                TextParagraph = UserInterface.DefaultParagraph(string.Empty, _multiLine ? Anchor.TopLeft : Anchor.CenterLeft);
+                TextParagraph.UpdateStyle(DefaultParagraphStyle);
+                TextParagraph._hiddenInternalEntity = true;
+                TextParagraph.Identifier = "_TextParagraph";
+                AddChild(TextParagraph, true);
 
-            // if the default paragraph type is multicolor, disable it for input
-            MulticolorParagraph colorTextParagraph = TextParagraph as MulticolorParagraph;
-            if (colorTextParagraph != null)
-            {
-                colorTextParagraph.EnableColorInstructions = false;
+                // create the placeholder paragraph
+                PlaceholderParagraph = UserInterface.DefaultParagraph(string.Empty, _multiLine ? Anchor.TopLeft : Anchor.CenterLeft);
+                PlaceholderParagraph.UpdateStyle(DefaultPlaceholderStyle);
+                PlaceholderParagraph._hiddenInternalEntity = true;
+                PlaceholderParagraph.Identifier = "_PlaceholderParagraph";
+                AddChild(PlaceholderParagraph, true);
+
+                // create the scrollbar
+                if (_multiLine)
+                {
+                    _scrollbar = new VerticalScrollbar(0, 0, Anchor.CenterRight, offset: new Vector2(-8, 0));
+                    _scrollbar.Value = 0;
+                    _scrollbar.Visible = false;
+                    _scrollbar._hiddenInternalEntity = true;
+                    _scrollbar.Identifier = "_scrollbar";
+                    AddChild(_scrollbar, false);
+                }
+
+                // set word-wrap mode based on whether or not this text input is multiline
+                TextParagraph.WrapWords = _multiLine;
+                PlaceholderParagraph.WrapWords = _multiLine;
+
+                // if the default paragraph type is multicolor, disable it for input
+                MulticolorParagraph colorTextParagraph = TextParagraph as MulticolorParagraph;
+                if (colorTextParagraph != null)
+                {
+                    colorTextParagraph.EnableColorInstructions = false;
+                }
             }
         }
 
@@ -160,9 +167,16 @@ namespace GeonBit.UI.Entities
         internal protected override void InitAfterDeserialize()
         {
             base.InitAfterDeserialize();
+
+            TextParagraph = Find("_TextParagraph") as Paragraph;
             TextParagraph._hiddenInternalEntity = true;
+
+            _scrollbar = Find<VerticalScrollbar>("_scrollbar");
+            if (_scrollbar != null)
+                _scrollbar._hiddenInternalEntity = true;
+
+            PlaceholderParagraph = Find("_PlaceholderParagraph") as Paragraph;
             PlaceholderParagraph._hiddenInternalEntity = true;
-            if (_scrollbar != null) _scrollbar._hiddenInternalEntity = true;
         }
 
         /// <summary>
