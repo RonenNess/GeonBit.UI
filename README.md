@@ -1639,18 +1639,18 @@ It has lots of useful functionality.
 
 # Serialization [WIP - STILL IN PROGRESS]
 
-GeonBit.UI support XML serialization / deserialization. You can save your entire UI to file and load it later on a different process!
+GeonBit.UI support XML serialization / deserialization out of the box. You can save your entire UI to file and load it later on a different process!
 
-To serialize UI layout to file simply call:
+To serialize your UI layout to file, simply call:
 
 ```cs
-UserInterface.Active.Serialize("test_serialize.xml");
+UserInterface.Active.Serialize("your_file_name.xml");
 ```
 
-And later to deserialize it:
+And later to deserialize it call:
 
 ```cs
-UserInterface.Active.Deserialize("test_serialize.xml");
+UserInterface.Active.Deserialize("your_file_name.xml");
 ```
 
 ## Limitations
@@ -1661,17 +1661,21 @@ Things that will not be serialized are:
 
 1. Callbacks attached to entities (for example OnClick events).
 2. Some special custom fields, like overriding button's texture with custom textures at runtime.
-3. Runtime values like currently selected list value or scrollbar position.
+3. Runtime states like currently selected list item or scrollbar position.
 
 ### How to handle missing things?
 
 The most important thing you lose in serialization is the callbacks. To solve this you will have to set them again after your UI is deserialized.
 
-To easily locate your entities and re-assign their callbacks, you can give them all unique identifiers. Then on the after you deserialization you can put them all in a flat dictionary to easily access them:
+To easily locate your entities and re-assign their callbacks, you can give them all unique identifiers. Later after you deserialize you can put them all in a flat dictionary to easily access them:
 
 ```cs
+// get all entities in dictionary
 var entities = new Dictionary<string, Entity>();
 UserInterface.Active.Root.PopulateDict(ref entities);
+
+// attach click event to button
+entities["some_button"].OnClick = ....
 ```
 
 
