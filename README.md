@@ -1637,6 +1637,44 @@ It has lots of useful functionality.
 ```InputHelper``` requires an Update() call every frame from your game Update() loop.
 
 
+# Serialization [WIP - STILL IN PROGRESS]
+
+GeonBit.UI support XML serialization / deserialization. You can save your entire UI to file and load it later on a different process!
+
+To serialize UI layout to file simply call:
+
+```cs
+UserInterface.Active.Serialize("test_serialize.xml");
+```
+
+And later to deserialize it:
+
+```cs
+UserInterface.Active.Deserialize("test_serialize.xml");
+```
+
+## Limitations
+
+You need to be aware that serialization have some limitations and not everything will pass the serialize / deserialize process.
+
+Things that will not be serialized are:
+
+1. Callbacks attached to entities (for example OnClick events).
+2. Some special custom fields, like overriding button's texture with custom textures at runtime.
+3. Runtime values like currently selected list value or scrollbar position.
+
+### How to handle missing things?
+
+The most important thing you lose in serialization is the callbacks. To solve this you will have to set them again after your UI is deserialized.
+
+To easily locate your entities and re-assign their callbacks, you can give them all unique identifiers. Then on the after you deserialization you can put them all in a flat dictionary to easily access them:
+
+```cs
+var entities = new Dictionary<string, Entity>();
+UserInterface.Active.Root.PopulateDict(ref entities);
+```
+
+
 # Migration
 
 This part describe steps needed when upgrading breaking versions.
@@ -1933,7 +1971,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Fixed Find<> with generic `Entity` type.
 - Optimized processing multicolor text.
 - Optimized stylesheet and memory usage.
-- Added serialize / deserialize functionality. [STILL IN PROGRESS]
+- Added serialize / deserialize functionality. [WIP - STILL IN PROGRESS]
 
 ## Credits
 
