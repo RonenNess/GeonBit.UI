@@ -43,6 +43,15 @@ namespace GeonBit.UI.Entities
         /// <summary>If false, it will only allow one line input.</summary>
         protected bool _multiLine = false;
 
+        /// <summary>
+        /// Set / get multiline mode.
+        /// </summary>
+        public bool Multiline
+        {
+            get { return _multiLine; }
+            set { if (_multiLine != value) { _multiLine = value; UpdateMultilineState(); } }
+        }
+
         // scrollbar to use if text height exceed the input box size
         VerticalScrollbar _scrollbar;
 
@@ -124,33 +133,21 @@ namespace GeonBit.UI.Entities
             {
 
                 // create paragraph to show current value
-                TextParagraph = UserInterface.DefaultParagraph(string.Empty, _multiLine ? Anchor.TopLeft : Anchor.CenterLeft);
+                TextParagraph = UserInterface.DefaultParagraph(string.Empty, Anchor.TopLeft);
                 TextParagraph.UpdateStyle(DefaultParagraphStyle);
                 TextParagraph._hiddenInternalEntity = true;
                 TextParagraph.Identifier = "_TextParagraph";
                 AddChild(TextParagraph, true);
 
                 // create the placeholder paragraph
-                PlaceholderParagraph = UserInterface.DefaultParagraph(string.Empty, _multiLine ? Anchor.TopLeft : Anchor.CenterLeft);
+                PlaceholderParagraph = UserInterface.DefaultParagraph(string.Empty, Anchor.TopLeft);
                 PlaceholderParagraph.UpdateStyle(DefaultPlaceholderStyle);
                 PlaceholderParagraph._hiddenInternalEntity = true;
                 PlaceholderParagraph.Identifier = "_PlaceholderParagraph";
                 AddChild(PlaceholderParagraph, true);
 
-                // create the scrollbar
-                if (_multiLine)
-                {
-                    _scrollbar = new VerticalScrollbar(0, 0, Anchor.CenterRight, offset: new Vector2(-8, 0));
-                    _scrollbar.Value = 0;
-                    _scrollbar.Visible = false;
-                    _scrollbar._hiddenInternalEntity = true;
-                    _scrollbar.Identifier = "__inputScrollbar";
-                    AddChild(_scrollbar, false);
-                }
-
-                // set word-wrap mode based on whether or not this text input is multiline
-                TextParagraph.WrapWords = _multiLine;
-                PlaceholderParagraph.WrapWords = _multiLine;
+                // update multiline related stuff
+                UpdateMultilineState();
 
                 // if the default paragraph type is multicolor, disable it for input
                 MulticolorParagraph colorTextParagraph = TextParagraph as MulticolorParagraph;
@@ -159,6 +156,37 @@ namespace GeonBit.UI.Entities
                     colorTextParagraph.EnableColorInstructions = false;
                 }
             }
+        }
+
+        /// <summary>
+        /// Update after multiline state was changed.
+        /// </summary>
+        private void UpdateMultilineState()
+        {
+            // we are now multiline
+            if (_multiLine)
+            {
+                _scrollbar = new VerticalScrollbar(0, 0, Anchor.CenterRight, offset: new Vector2(-8, 0));
+                _scrollbar.Value = 0;
+                _scrollbar.Visible = false;
+                _scrollbar._hiddenInternalEntity = true;
+                _scrollbar.Identifier = "__inputScrollbar";
+                AddChild(_scrollbar, false);
+            }
+            // we are not multiline
+            else
+            {
+                if (_scrollbar != null)
+                {
+                    _scrollbar.RemoveFromParent();
+                    _scrollbar = null;
+                }
+            }
+
+            // set default wrap words state
+            TextParagraph.WrapWords = _multiLine;
+            PlaceholderParagraph.WrapWords = _multiLine;
+            TextParagraph.Anchor = PlaceholderParagraph.Anchor = _multiLine ? Anchor.TopLeft : Anchor.CenterLeft;
         }
 
         /// <summary>
@@ -182,7 +210,7 @@ namespace GeonBit.UI.Entities
             PlaceholderParagraph._hiddenInternalEntity = true;
 
             // recalc dest rects
-            MarkAsDirty();
+            UpdateMultilineState();
         }
 
         /// <summary>
