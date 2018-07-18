@@ -18,7 +18,7 @@ namespace GeonBit.UI.Entities
     /// A textbox that allow users to put in free text.
     /// </summary>
     [System.Serializable]
-    public class TextInput : Panel
+    public class TextInput : PanelBase
     {
         /// <summary>
         /// Static ctor.
@@ -144,7 +144,7 @@ namespace GeonBit.UI.Entities
                     _scrollbar.Value = 0;
                     _scrollbar.Visible = false;
                     _scrollbar._hiddenInternalEntity = true;
-                    _scrollbar.Identifier = "_scrollbar";
+                    _scrollbar.Identifier = "__inputScrollbar";
                     AddChild(_scrollbar, false);
                 }
 
@@ -168,15 +168,21 @@ namespace GeonBit.UI.Entities
         {
             base.InitAfterDeserialize();
 
+            // set main text paragraph
             TextParagraph = Find("_TextParagraph") as Paragraph;
             TextParagraph._hiddenInternalEntity = true;
 
-            _scrollbar = Find<VerticalScrollbar>("_scrollbar");
+            // set scrollbar
+            _scrollbar = Find<VerticalScrollbar>("__inputScrollbar");
             if (_scrollbar != null)
                 _scrollbar._hiddenInternalEntity = true;
 
+            // set placeholder paragraph
             PlaceholderParagraph = Find("_PlaceholderParagraph") as Paragraph;
             PlaceholderParagraph._hiddenInternalEntity = true;
+
+            // recalc dest rects
+            MarkAsDirty();
         }
 
         /// <summary>
@@ -270,6 +276,7 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Current scrollbar position.
         /// </summary>
+        [System.Xml.Serialization.XmlIgnore]
         public int ScrollPosition
         {
             get { return _scrollbar != null ? _scrollbar.Value : 0; }

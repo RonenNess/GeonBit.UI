@@ -22,30 +22,6 @@ using GeonBit.UI.DataTypes;
 namespace GeonBit.UI.Entities
 {
     /// <summary>
-    /// Different panel textures you can use.
-    /// </summary>
-    public enum PanelSkin
-    {
-        /// <summary>No skin, eg panel itself is invisible.</summary>
-        None = -1,
-
-        /// <summary>Default panel texture.</summary>
-        Default = 0,
-
-        /// <summary>Alternative panel texture.</summary>
-        Fancy = 1,
-
-        /// <summary>Simple, grey panel. Useful for internal frames, eg when inside another panel.</summary>
-        Simple = 2,
-
-        /// <summary>Shiny golden panel.</summary>
-        Golden = 3,
-
-        /// <summary>Special panel skin used for lists and input background.</summary>
-        ListBackground = 4,
-    }
-
-    /// <summary>
     /// How to treat entities that overflow panel boundaries.
     /// </summary>
     public enum PanelOverflowBehavior
@@ -73,7 +49,7 @@ namespace GeonBit.UI.Entities
     /// Used to group together entities with common logic.
     /// </summary>
     [System.Serializable]
-    public class Panel : Entity, System.IDisposable
+    public class Panel : PanelBase
     {
         /// <summary>
         /// Static ctor.
@@ -83,17 +59,16 @@ namespace GeonBit.UI.Entities
             Entity.MakeSerializable(typeof(Panel));
         }
 
-        // panel style
-        PanelSkin _skin;
-
         /// <summary>Default styling for panels. Note: loaded from UI theme xml file.</summary>
         new public static StyleSheet DefaultStyle = new StyleSheet();
 
         // how the panel draw entities that exceed boundaries.
         private PanelOverflowBehavior _overflowMode = PanelOverflowBehavior.Overflow;
 
-        // panel scrollbar
-        VerticalScrollbar _scrollbar = null;
+        /// <summary>
+        /// Panel scrollbar for specific overflow modes.
+        /// </summary>
+        protected VerticalScrollbar _scrollbar = null;
 
         /// <summary>
         /// Get the scrollbar of this panel.
@@ -107,7 +82,7 @@ namespace GeonBit.UI.Entities
         /// Set / get panel overflow behavior.
         /// Note: some modes require Render Targets, eg setting the 'UseRenderTarget' to true.
         /// </summary>
-        public PanelOverflowBehavior PanelOverflowBehavior
+        public virtual PanelOverflowBehavior PanelOverflowBehavior
         {
             get { return _overflowMode; }
             set { _overflowMode = value; UpdateOverflowMode(); }
@@ -134,9 +109,8 @@ namespace GeonBit.UI.Entities
         /// <param name="anchor">Position anchor.</param>
         /// <param name="offset">Offset from anchor position.</param>
         public Panel(Vector2 size, PanelSkin skin = PanelSkin.Default, Anchor anchor = Anchor.Center, Vector2? offset = null) :
-            base(size, anchor, offset)
+            base(size, skin, anchor, offset)
         {
-            _skin = skin;
             UpdateStyle(DefaultStyle);
         }
 
@@ -173,15 +147,6 @@ namespace GeonBit.UI.Entities
         public void Dispose()
         {
             DisposeRenderTarget();
-        }
-
-        /// <summary>
-        /// Set / get current panel skin.
-        /// </summary>
-        public PanelSkin Skin
-        {
-            get { return _skin; }
-            set { _skin = value; }
         }
 
         /// <summary>
@@ -307,7 +272,7 @@ namespace GeonBit.UI.Entities
                 spriteBatch.Draw(_renderTarget, GetRenderTargetRect(), Color.White);
                 UserInterface.Active.DrawUtils.EndDraw(spriteBatch);
 
-                // fix scrollbar positioning etc
+                // fix scrollbar positioning
                 if (_scrollbar != null)
                 {
                     _destRectInternal.Y -= _scrollbar.Value;
@@ -352,30 +317,7 @@ namespace GeonBit.UI.Entities
                     _scrollbar.RemoveFromParent();
                 }
             }
-        }
-
-        /// <summary>
-        /// Draw the entity.
-        /// </summary>
-        /// <param name="spriteBatch">Sprite batch to draw on.</param>
-        /// <param name="phase">The phase we are currently drawing.</param>
-        override protected void DrawEntity(SpriteBatch spriteBatch, DrawPhase phase)
-        {
-            // draw panel itself, but only if got style
-            if (_skin != PanelSkin.None)
-            {
-                // get texture based on skin
-                Texture2D texture = Resources.PanelTextures[_skin];
-                TextureData data = Resources.PanelData[(int)_skin];
-                Vector2 frameSize = new Vector2(data.FrameWidth, data.FrameHeight);
-
-                // draw panel
-                UserInterface.Active.DrawUtils.DrawSurface(spriteBatch, texture, _destRect, frameSize, 1f, FillColor, Scale);
-            }
-
-            // call base draw function
-            base.DrawEntity(spriteBatch, phase);
-        }
+        }   
 
         /// <summary>
         /// Dispose the render target (only if use) and set it to null.

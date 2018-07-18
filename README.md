@@ -1975,6 +1975,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Fixed Find<> with generic `Entity` type.
 - Optimized processing multicolor text.
 - Optimized stylesheet and memory usage.
+- Created base panel class for better handling entities that are based on panels.
 - Added serialize / deserialize functionality. [WIP - STILL IN PROGRESS]
 
 ## Credits

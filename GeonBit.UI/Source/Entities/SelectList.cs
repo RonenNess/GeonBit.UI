@@ -30,7 +30,7 @@ namespace GeonBit.UI.Entities
     /// List of items (strings) user can scroll and pick from.
     /// </summary>
     [System.Serializable]
-    public class SelectList : Panel
+    public class SelectList : PanelBase
     {
         /// <summary>
         /// Static ctor.
