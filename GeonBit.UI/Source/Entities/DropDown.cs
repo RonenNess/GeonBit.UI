@@ -12,6 +12,7 @@
 #endregion
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace GeonBit.UI.Entities
 {
@@ -52,6 +53,12 @@ namespace GeonBit.UI.Entities
 
         /// <summary>Default select list size in pixels.</summary>
         new public static Vector2 DefaultSize = new Vector2(0f, 220f);
+
+        // dictionary of special events for specific items selection
+        private Dictionary<string, System.Action> _perItemCallbacks = new Dictionary<string, System.Action>();
+
+        // last known selected index
+        private int _lastSelected = -1;
 
         // internal panel and paragraph to show selected value.
         Panel _selectedTextPanel;
@@ -115,6 +122,11 @@ namespace GeonBit.UI.Entities
         /// If true, will auto-set the internal list height based on number of options.
         /// </summary>
         public bool AutoSetListHeight = false;
+
+        /// <summary>
+        /// If set to true, whenever user select an item it will trigger event but jump back to placeholder value.
+        /// </summary>
+        public bool DontKeepSelection = false;
 
         /// <summary>
         /// Size of the arrow to show on the side of the Selected Text Panel.
@@ -260,11 +272,28 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Set special callback to trigger if a specific value is selected.
+        /// </summary>
+        /// <param name="itemValue">Item text to trigger event.</param>
+        /// <param name="action">Event to trigger.</param>
+        public void OnSelectedSpecificItem(string itemValue, System.Action action)
+        {
+            _perItemCallbacks[itemValue] = action;
+        }
+
+        /// <summary>
+        /// Clear all the per-item specific events.
+        /// </summary>
+        public void ClearSpecificItemEvents()
+        {
+            _perItemCallbacks.Clear();
+        }
+
+        /// <summary>
         /// Is the DropDown list currentle opened (visible).
         /// </summary>
         public bool ListVisible
         {
-
             // get if the list is visible
             get
             {
@@ -278,15 +307,6 @@ namespace GeonBit.UI.Entities
                 _selectList.Visible = value;
                 OnDropDownVisibilityChange();
             }
-        }
-
-        /// <summary>
-        /// Handle when current value changes. DropDown entity override this to turn the list invisible.
-        /// </summary>
-        override protected void DoOnValueChange()
-        {
-            ListVisible = false;
-            base.DoOnValueChange();
         }
 
         /// <summary>
@@ -409,6 +429,37 @@ namespace GeonBit.UI.Entities
 
             // call base do-before-update
             base.DoAfterUpdate();
+
+            // do we have a selected item?
+            if (HasSelectedValue)
+            {
+                // trigger per-item events, but only if value changed
+                if (SelectedIndex != _lastSelected)
+                {
+                    System.Action callback = null;
+                    if (_perItemCallbacks.TryGetValue(_selectList.SelectedValue, out callback))
+                    {
+                        callback.Invoke();
+                    }
+                }
+
+                // if set to not keep selected value, return to original placeholder
+                if (DontKeepSelection && SelectedIndex != -1)
+                {
+                    Unselect();
+                }
+            }
+
+            // store last known index
+            _lastSelected = SelectedIndex;
+        }
+
+        /// <summary>
+        /// Return if currently have a selected value.
+        /// </summary>
+        public bool HasSelectedValue
+        {
+            get { return SelectedIndex != -1; }
         }
 
         /// <summary>

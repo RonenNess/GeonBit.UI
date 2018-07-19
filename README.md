@@ -1977,6 +1977,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Optimized stylesheet and memory usage.
 - Created base panel class for better handling entities that are based on panels.
 - Added way to change text input multiline mode.
+- Extended dropdown and list API + added per-item-select events.
 - Added serialize / deserialize functionality. [WIP - STILL IN PROGRESS]
 
 ## Credits

@@ -120,19 +120,18 @@ namespace GeonBit.UI.Utils
                 dropdown.DefaultText = menu.Title;
                 dropdown.Identifier = "menu-" + menu.Title;
 
-                // set events
-                dropdown.OnValueChange += (Entities.Entity ent) =>
+                // disable dropdown selection (will only trigger event and unselect)
+                dropdown.DontKeepSelection = true;
+
+                // set callbacks
+                for (int i = 0; i < menu.Items.Count; ++i)
                 {
-                    // skip event when disable selection
-                    if (dropdown.SelectedIndex == -1)
-                        return;
-
-                    // call the item callback
-                    menu.Actions[dropdown.SelectedIndex]?.Invoke();
-
-                    // unselect, so we'll show the menu title again
-                    dropdown.Unselect();
-                };
+                    var callback = menu.Actions[i];
+                    if (callback != null)
+                    {
+                        dropdown.OnSelectedSpecificItem(menu.Items[i], callback);
+                    }
+                }
             }
 
             // return the root panel

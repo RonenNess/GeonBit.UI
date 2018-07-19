@@ -474,7 +474,15 @@ namespace GeonBit.UI.Entities
         {
             Select(-1, false);
         }
-        
+
+        /// <summary>
+        /// Return if currently have a selected value.
+        /// </summary>
+        public bool HasSelectedValue
+        {
+            get { return SelectedIndex != -1; }
+        }
+
         /// <summary>
         /// Select list item by value.
         /// </summary>

@@ -86,7 +86,7 @@ namespace GeonBit.UI.Entities
         public PanelSkin BackgroundSkin
         {
             get { return _panelsPanel.Skin; }
-            set { _panelsPanel.Skin = value; }
+            set { if (_panelsPanel != null) _panelsPanel.Skin = value; }
         }
 
         /// <summary>
@@ -100,25 +100,57 @@ namespace GeonBit.UI.Entities
             // remove self padding
             Padding = Vector2.Zero;
 
-            // create the internal panel that contains everything - buttons + panels
-            _internalRoot = new Panel(Vector2.Zero, PanelSkin.None, Anchor.TopCenter);
-            _internalRoot.SpaceBefore = _internalRoot.SpaceAfter = _internalRoot.Padding = Vector2.Zero;
-            AddChild(_internalRoot);
+            if (!UserInterface.Active._isDeserializing)
+            {
+                // create the internal panel that contains everything - buttons + panels
+                _internalRoot = new Panel(Vector2.Zero, PanelSkin.None, Anchor.TopCenter);
+                _internalRoot.SpaceBefore = _internalRoot.SpaceAfter = _internalRoot.Padding = Vector2.Zero;
+                _internalRoot.Identifier = "_internalRoot";
+                AddChild(_internalRoot);
 
-            // create the panel to hold the tab buttons
-            _buttonsPanel = new Panel(Vector2.Zero, PanelSkin.None, Anchor.TopCenter);
-            _buttonsPanel.SpaceBefore = _buttonsPanel.SpaceAfter = _buttonsPanel.Padding = Vector2.Zero;
-            _internalRoot.AddChild(_buttonsPanel);
+                // create the panel to hold the tab buttons
+                _buttonsPanel = new Panel(Vector2.Zero, PanelSkin.None, Anchor.TopCenter);
+                _buttonsPanel.SpaceBefore = _buttonsPanel.SpaceAfter = _buttonsPanel.Padding = Vector2.Zero;
+                _buttonsPanel.Identifier = "_buttonsPanel";
+                _internalRoot.AddChild(_buttonsPanel);
 
-            // create the panel to hold the tab panels
-            _panelsPanel = new Panel(Vector2.Zero, PanelSkin.None, Anchor.TopCenter, new Vector2(0, 0));
-            _panelsPanel.SpaceBefore = _panelsPanel.SpaceAfter = _panelsPanel.Padding = Vector2.Zero;
-            _internalRoot.AddChild(_panelsPanel);
+                // create the panel to hold the tab panels
+                _panelsPanel = new Panel(Vector2.Zero, PanelSkin.None, Anchor.TopCenter, new Vector2(0, 0));
+                _panelsPanel.SpaceBefore = _panelsPanel.SpaceAfter = _panelsPanel.Padding = Vector2.Zero;
+                _panelsPanel.Identifier = "_panelsPanel";
+                _internalRoot.AddChild(_panelsPanel);
 
-            // make internal stuff hidden
+                // make internal stuff hidden
+                _panelsPanel._hiddenInternalEntity = true;
+                _buttonsPanel._hiddenInternalEntity = true;
+                _internalRoot._hiddenInternalEntity = true;
+            }
+        }
+
+        /// <summary>
+        /// Special init after deserializing entity from file.
+        /// </summary>
+        internal protected override void InitAfterDeserialize()
+        {
+            base.InitAfterDeserialize();
+
+            // get internal panels
+            _internalRoot = Find<Panel>("_internalRoot");
+            _buttonsPanel = _internalRoot.Find<Panel>("_buttonsPanel");
+            _panelsPanel = _internalRoot.Find<Panel>("_panelsPanel");
             _panelsPanel._hiddenInternalEntity = true;
             _buttonsPanel._hiddenInternalEntity = true;
             _internalRoot._hiddenInternalEntity = true;
+
+            // rebuild tabs
+            var buttons = new List<Entity>(_buttonsPanel.Children);
+            _buttonsPanel.ClearChildren();
+            var panels = new List<Entity>(_panelsPanel.Children);
+            _panelsPanel.ClearChildren();
+            for (int i = 0; i < panels.Count; ++i)
+            {
+                AddTab(panels[i] as Panel, buttons[i] as Button);
+            }
         }
 
         /// <summary>
@@ -192,11 +224,22 @@ namespace GeonBit.UI.Entities
         /// <returns>The new tab we created - contains the panel and the button to switch it.</returns>
         public TabData AddTab(string name, PanelSkin panelSkin = PanelSkin.None)
         {
-            // create new panel and button
             Panel newPanel = new Panel(Vector2.Zero, panelSkin, Anchor.TopCenter);
             Button newButton = new Button(name, ButtonSkin.Default, Anchor.AutoInline, new Vector2(-1, -1));
+            newPanel.Identifier = name;
+            return AddTab(newPanel, newButton);
+        }
 
-            // create the new tab data
+        /// <summary>
+        /// Add a new tab to the panel tabs.
+        /// </summary>
+        /// <param name="newPanel">Panel instance to add as a tab.</param>
+        /// <param name="newButton">Button to activate this tab.</param>
+        /// <returns>The new tab we created - contains the panel and the button to switch it.</returns>
+        private TabData AddTab(Panel newPanel, Button newButton)
+        {
+            // get name from panel and create tab data
+            var name = newPanel.Identifier;
             TabData newTab = new TabData(name, newPanel, newButton);
 
             // link tab data to panel
