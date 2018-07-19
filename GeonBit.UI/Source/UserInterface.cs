@@ -95,7 +95,7 @@ namespace GeonBit.UI
     public class UserInterface : System.IDisposable
     {
         /// <summary>Current GeonBit.UI version identifier.</summary>
-        public const string VERSION = "3.1.0.6";
+        public const string VERSION = "3.2.0.0";
 
         /// <summary>
         /// The currently active user interface instance.

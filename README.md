@@ -1637,7 +1637,7 @@ It has lots of useful functionality.
 ```InputHelper``` requires an Update() call every frame from your game Update() loop.
 
 
-# Serialization [WIP - STILL IN PROGRESS]
+# Serialization
 
 GeonBit.UI support XML serialization / deserialization out of the box. You can save your entire UI to file and load it later on a different process!
 
@@ -1963,7 +1963,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Added some helper functions to Input Helper.
 - Added exception when trying to use non mono-space font, which is not supported.
 
-### 3.1.0.6 [Not yet released!]
+### 3.2.0.0
 
 - Fixed show-cursor property when using render targets.
 - Made Entity class abstract, since it makes no sense to instantiate it.
@@ -1978,7 +1978,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Created base panel class for better handling entities that are based on panels.
 - Added way to change text input multiline mode.
 - Extended dropdown and list API + added per-item-select events.
-- Added serialize / deserialize functionality. [WIP - STILL IN PROGRESS]
+- Added serialize / deserialize functionality.
 
 ## Credits
 
