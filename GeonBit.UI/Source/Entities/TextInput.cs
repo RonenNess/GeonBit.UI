@@ -100,7 +100,6 @@ namespace GeonBit.UI.Entities
         string _actualDisplayText = string.Empty;
 
         /// <summary>List of validators to apply on text input.</summary>
-        [System.Xml.Serialization.XmlIgnore]
         public List<ITextValidator> Validators = new List<ITextValidator>();
 
         /// <summary>

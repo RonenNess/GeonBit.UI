@@ -90,7 +90,7 @@ namespace GeonBit.UI.Example
             graphics.PreferredBackBufferHeight = (int)_ScreenHeight;
             graphics.IsFullScreen = false;
             graphics.ApplyChanges();
-            
+
             // init ui and examples
             InitExamplesAndUI();
         }
@@ -117,6 +117,7 @@ namespace GeonBit.UI.Example
             // add next example button
             nextExampleButton = new Button("Next ->", ButtonSkin.Default, Anchor.TopRight, new Vector2(300, topPanelHeight));
             nextExampleButton.OnClick = (Entity btn) => { this.NextExample(); };
+            nextExampleButton.Identifier = "next_btn";
             topPanel.AddChild(nextExampleButton);
 
             // add show-get button
@@ -537,16 +538,16 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
 
                     // lock and create title
                     list.LockedItems[0] = true;
-                    list.AddItem(System.String.Format("{0}{1,-10} {2,-10} {3,-10}", "{{RED}}", "Name", "Class", "Level"));
+                    list.AddItem(System.String.Format("{0}{1,-8} {2,-8} {3, -10}", "{{RED}}", "Name", "Class", "Level"));
 
                     // add items as formatted table
-                    list.AddItem(System.String.Format("{0,-10} {1,-10} {2,-10}", "Joe", "Mage", "5"));
-                    list.AddItem(System.String.Format("{0,-10} {1,-10} {2,-10}", "Ron", "Monk", "7"));
-                    list.AddItem(System.String.Format("{0,-10} {1,-10} {2,-10}", "Alex", "Rogue", "3"));
-                    list.AddItem(System.String.Format("{0,-10} {1,-10} {2,-10}", "Jim", "Paladin", "7"));
-                    list.AddItem(System.String.Format("{0,-10} {1,-10} {2,-10}", "Abe", "Cleric", "8"));
-                    list.AddItem(System.String.Format("{0,-10} {1,-10} {2,-10}", "James", "Warlock", "20"));
-                    list.AddItem(System.String.Format("{0,-10} {1,-10} {2,-10}", "Bob", "Bard", "1"));
+                    list.AddItem(System.String.Format("{0,-8} {1,-8} {2,-10}", "Joe", "Mage", "5"));
+                    list.AddItem(System.String.Format("{0,-8} {1,-8} {2,-10}", "Ron", "Monk", "7"));
+                    list.AddItem(System.String.Format("{0,-8} {1,-8} {2,-10}", "Alex", "Rogue", "3"));
+                    list.AddItem(System.String.Format("{0,-8} {1,-8} {2,-10}", "Jim", "Paladin", "7"));
+                    list.AddItem(System.String.Format("{0,-8} {1,-8} {2,-10}", "Abe", "Cleric", "8"));
+                    list.AddItem(System.String.Format("{0,-8} {1,-8} {2,-10}", "James", "Warlock", "20"));
+                    list.AddItem(System.String.Format("{0,-8} {1,-8} {2,-10}", "Bob", "Bard", "1"));
                     panel.AddChild(list);
                 }
 
@@ -1237,10 +1238,7 @@ If you liked GeonBit.UI feel free to star the repo on GitHub. :)"));
 
             // once done init, clear events log
             eventsLog.ClearItems();
-
-            // test serializing ui
-            UserInterface.Active.Serialize("test_serialize.xml");
-
+            
             // call base initialize
             base.Initialize();
         }

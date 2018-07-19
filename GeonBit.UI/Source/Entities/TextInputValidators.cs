@@ -22,8 +22,9 @@ namespace GeonBit.UI.Entities.TextValidators
     /// <summary>
     /// A class that validates text input to make sure its valid.
     /// These classes can be added to any TextInput to limit the type of input the user can enter.
+    /// Note: this cannot be an interface due to serialization.
     /// </summary>
-    public interface ITextValidator
+    public partial class ITextValidator
     {
         /// <summary>
         /// Get the new text input value and return true if valid.
@@ -32,7 +33,7 @@ namespace GeonBit.UI.Entities.TextValidators
         /// <param name="text">New text input value.</param>
         /// <param name="oldText">Previous text input value.</param>
         /// <returns>If TextInput value is legal.</returns>
-        bool ValidateText(ref string text, string oldText);
+        public virtual bool ValidateText(ref string text, string oldText) { return true; }
     }
 
     /// <summary>
@@ -90,7 +91,7 @@ namespace GeonBit.UI.Entities.TextValidators
         /// <param name="text">New text input value.</param>
         /// <param name="oldText">Previous text input value.</param>
         /// <returns>If TextInput value is legal.</returns>
-        public bool ValidateText(ref string text, string oldText)
+        public override bool ValidateText(ref string text, string oldText)
         {
             // if string empty return true
             if (text.Length == 0)
@@ -186,7 +187,7 @@ namespace GeonBit.UI.Entities.TextValidators
         /// <param name="text">New text input value.</param>
         /// <param name="oldText">Previous text input value.</param>
         /// <returns>If TextInput value is legal.</returns>
-        public bool ValidateText(ref string text, string oldText)
+        public override bool ValidateText(ref string text, string oldText)
         {
             return (text.Length == 0 || _regex.IsMatch(text));
         }
@@ -249,7 +250,7 @@ namespace GeonBit.UI.Entities.TextValidators
         /// <param name="text">New text input value.</param>
         /// <param name="oldText">Previous text input value.</param>
         /// <returns>If TextInput value is legal.</returns>
-        public bool ValidateText(ref string text, string oldText)
+        public override bool ValidateText(ref string text, string oldText)
         {
             return (text.Length == 0 || _regex.IsMatch(text));
         }
@@ -276,7 +277,7 @@ namespace GeonBit.UI.Entities.TextValidators
         /// <param name="text">New text input value.</param>
         /// <param name="oldText">Previous text input value.</param>
         /// <returns>If TextInput value is legal.</returns>
-        public bool ValidateText(ref string text, string oldText)
+        public override bool ValidateText(ref string text, string oldText)
         {
             return !text.Contains("  ") && !text.Contains("\t");
         }
@@ -303,7 +304,7 @@ namespace GeonBit.UI.Entities.TextValidators
         /// <param name="text">New text input value.</param>
         /// <param name="oldText">Previous text input value.</param>
         /// <returns>Always return true.</returns>
-        public bool ValidateText(ref string text, string oldText)
+        public override bool ValidateText(ref string text, string oldText)
         {
             if (text.Length > 0)
             {
