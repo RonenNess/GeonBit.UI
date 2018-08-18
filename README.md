@@ -1980,6 +1980,10 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Extended dropdown and list API + added per-item-select events.
 - Added serialize / deserialize functionality.
 
+### 3.2.0.1 [NOT RELEASED YET]
+
+- Fixed bug when clearing entity's children and it didn't update.
+
 ## Credits
 
 GeonBit.UI was written by Ronen Ness, but uses some free textures made by awesome people who share their work for free.

@@ -1513,6 +1513,7 @@ namespace GeonBit.UI.Entities
             _children.Clear();
 
             // mark self as dirty
+            _needToSortChildren = true;
             MarkAsDirty();
         }
 
