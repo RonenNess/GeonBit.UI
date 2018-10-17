@@ -92,7 +92,8 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Create the panel tabs.
         /// </summary>
-        public PanelTabs() : base(new Vector2(0, 0), Anchor.TopCenter, Vector2.Zero)
+        /// <param name="buttonsBackground">Optional buttons background panel.</param>
+        public PanelTabs(PanelSkin buttonsBackground = PanelSkin.None) : base(new Vector2(0, 0), Anchor.TopCenter, Vector2.Zero)
         {
             // update style
             UpdateStyle(DefaultStyle);
@@ -109,7 +110,7 @@ namespace GeonBit.UI.Entities
                 AddChild(_internalRoot);
 
                 // create the panel to hold the tab buttons
-                _buttonsPanel = new Panel(Vector2.Zero, PanelSkin.None, Anchor.TopCenter);
+                _buttonsPanel = new Panel(Vector2.Zero, buttonsBackground, Anchor.TopCenter);
                 _buttonsPanel.SpaceBefore = _buttonsPanel.SpaceAfter = _buttonsPanel.Padding = Vector2.Zero;
                 _buttonsPanel.Identifier = "_buttonsPanel";
                 _internalRoot.AddChild(_buttonsPanel);
@@ -178,9 +179,14 @@ namespace GeonBit.UI.Entities
             float buttonsHeight = GetButtonsHeight(false);
             _panelsPanel.SetOffset(new Vector2(0, buttonsHeight));
 
-            // adjust size
-            var parentSize = GetActualDestRect().Size;
-            _internalRoot.Size = new Vector2(parentSize.X, parentSize.Y - GetButtonsHeight(true)) / GlobalScale;
+            // adjust buttons size to fix global scaling
+            _buttonsPanel.CalcDestRect();
+            var buttons = _buttonsPanel.Children;
+            var sizeX = (int)System.Math.Round((int)System.Math.Round((float)_buttonsPanel.GetActualDestRect().Width / buttons.Count) / GlobalScale);
+            foreach (var button in buttons)
+            {
+                button.Size = new Vector2(sizeX, button.Size.Y);
+            }
 
             // call base draw function
             base.DrawEntity(spriteBatch, phase);
@@ -225,7 +231,7 @@ namespace GeonBit.UI.Entities
         public TabData AddTab(string name, PanelSkin panelSkin = PanelSkin.None)
         {
             Panel newPanel = new Panel(Vector2.Zero, panelSkin, Anchor.TopCenter);
-            Button newButton = new Button(name, ButtonSkin.Default, Anchor.AutoInline, new Vector2(-1, -1));
+            Button newButton = new Button(name, ButtonSkin.Default, Anchor.AutoInlineNoBreak, new Vector2(-1, -1));
             newPanel.Identifier = name;
             return AddTab(newPanel, newButton);
         }
