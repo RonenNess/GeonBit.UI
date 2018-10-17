@@ -66,6 +66,7 @@ namespace GeonBit.UI.Example
             // init graphics device manager and set content root
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            Window.IsBorderless = true;
         }
 
         /// <summary>
@@ -110,7 +111,7 @@ namespace GeonBit.UI.Example
             UserInterface.Active.AddEntity(topPanel);
 
             // add previous example button
-            previousExampleButton = new Button("<- Back", ButtonSkin.Default, Anchor.TopLeft, new Vector2(300, topPanelHeight));
+            previousExampleButton = new Button("<- Back", ButtonSkin.Default, Anchor.Auto, new Vector2(300, topPanelHeight));
             previousExampleButton.OnClick = (Entity btn) => { this.PreviousExample(); };
             topPanel.AddChild(previousExampleButton);
 
@@ -197,6 +198,7 @@ namespace GeonBit.UI.Example
             {
                 eventsPanel.Visible = !eventsPanel.Visible;
             };
+            infoBtn.ToggleMode = true;
             infoBtn.ToolTipText = "Show events log.";
             UserInterface.Active.AddEntity(infoBtn);
 
@@ -215,8 +217,19 @@ namespace GeonBit.UI.Example
                     UserInterface.Active.RenderTargetTransformMatrix = null;
                 }
             };
+            transBtn.ToggleMode = true;
             transBtn.ToolTipText = "Apply transform matrix on the entire UI.";
             UserInterface.Active.AddEntity(transBtn);
+
+            // add button to enable debug mode
+            Button debugBtn = new Button("Debug Mode", anchor: Anchor.BottomLeft, size: new Vector2(300, -1), offset: new Vector2(140 + 280 + 320, 0));
+            debugBtn.OnClick = (Entity entity) =>
+            {
+                UserInterface.Active.DebugDraw = !UserInterface.Active.DebugDraw;
+            };
+            debugBtn.ToggleMode = true;
+            debugBtn.ToolTipText = "Enable special debug drawing mode.";
+            UserInterface.Active.AddEntity(debugBtn);
 
             // zoom in / out factor
             float zoominFactor = 0.05f;

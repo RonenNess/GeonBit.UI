@@ -100,14 +100,15 @@ namespace GeonBit.UI.Entities
         /// <summary>Center-Right of parent element.</summary>
         CenterRight,
 
-        /// <summary>Position of the older sibling bottom, eg align this entity based on its older sibling.
-        /// Use this property to place entities one after another.</summary>
+        /// <summary>Automatically position this entity below its older sibling.</summary>
         Auto,
 
-        /// <summary>Position of the older sibling right side, or below it if not enough room in parent.
-        /// In other words, this will try to put together entities on the same row until overflow parent width, in which case will
-        /// go row down. Use this property to place entities one after another in the same row.</summary>
+        /// <summary>Automatically position this entity to the right side of its older sibling, and begin a new row whenever
+        /// exceeding the parent container width.</summary>
         AutoInline,
+
+        /// <summary>Automatically position this entity to the right side of its older sibling, even if exceeding parent container width.</summary>
+        AutoInlineNoBreak,
 
         /// <summary>Position of the older sibling bottom, eg align this entity based on its older sibling, but center on X axis.
         /// Use this property to place entities one after another but keep them aligned to center (especially paragraphs).</summary>
@@ -597,6 +598,14 @@ namespace GeonBit.UI.Entities
         protected float GlobalScale
         {
             get { return UserInterface.Active.GlobalScale; }
+        }
+
+        /// <summary>
+        /// If true, will add debug drawing to UI system to show offsets, margin, etc.
+        /// </summary>
+        protected bool DebugDraw
+        {
+            get { return UserInterface.Active.DebugDraw; }
         }
 
         /// <summary>
@@ -1170,11 +1179,62 @@ namespace GeonBit.UI.Entities
             DrawEntity(spriteBatch, DrawPhase.Base);
             UserInterface.Active.DrawUtils.EndDraw(spriteBatch);
 
+            // do debug drawing
+            if (DebugDraw)
+            {
+                DrawDebugStuff(spriteBatch);
+            }
+
             // draw all child entities
             DrawChildren(spriteBatch);
 
             // do after draw event
             OnAfterDraw(spriteBatch);
+        }
+
+        /// <summary>
+        /// Draw debug stuff for this entity.
+        /// </summary>
+        /// <param name="spriteBatch">Spritebatch to use for drawing.</param>
+        protected virtual void DrawDebugStuff(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
+
+            // first draw whole dest rect
+            var destRectCol = new Color(0f, 1f, 0.25f, 0.05f);
+            spriteBatch.Draw(Resources.WhiteTexture, _destRect, destRectCol);
+
+            // now draw internal dest rect
+            var internalCol = new Color(1f, 0.5f, 0f, 0.5f);
+            spriteBatch.Draw(Resources.WhiteTexture, _destRectInternal, internalCol);
+
+            // draw space before
+            var spaceColor = new Color(0f, 0f, 0.5f, 0.5f);
+            if (SpaceBefore.X > 0)
+            {
+                spriteBatch.Draw(Resources.WhiteTexture,
+                    new Rectangle((int)(_destRect.Left - _scaledSpaceBefore.X), _destRect.Y, (int)_scaledSpaceBefore.X, _destRect.Height), spaceColor);
+            }
+            if (SpaceBefore.Y > 0)
+            {
+                spriteBatch.Draw(Resources.WhiteTexture,
+                    new Rectangle(_destRect.X, (int)(_destRect.Top - _scaledSpaceBefore.Y), _destRect.Width, (int)_scaledSpaceBefore.Y), spaceColor);
+            }
+
+            // draw space after
+            spaceColor = new Color(0.5f, 0f, 0.5f, 0.5f);
+            if (SpaceAfter.X > 0)
+            {
+                spriteBatch.Draw(Resources.WhiteTexture,
+                    new Rectangle(_destRect.Right, _destRect.Y, (int)_scaledSpaceAfter.X, _destRect.Height), spaceColor);
+            }
+            if (SpaceAfter.Y > 0)
+            {
+                spriteBatch.Draw(Resources.WhiteTexture,
+                    new Rectangle(_destRect.X, _destRect.Bottom, _destRect.Width, (int)_scaledSpaceAfter.Y), spaceColor);
+            }
+
+            spriteBatch.End();
         }
 
         /// <summary>
@@ -1630,6 +1690,7 @@ namespace GeonBit.UI.Entities
             {
                 case Anchor.Auto:
                 case Anchor.AutoInline:
+                case Anchor.AutoInlineNoBreak:
                 case Anchor.TopLeft:
                     ret.X = parent_left + (int)offset.X;
                     ret.Y = parent_top + (int)offset.Y;
@@ -1678,19 +1739,19 @@ namespace GeonBit.UI.Entities
             }
 
             // special case for auto anchors
-            if ((anchor == Anchor.Auto || anchor == Anchor.AutoInline || anchor == Anchor.AutoCenter) && _parent != null)
+            if ((anchor == Anchor.Auto || anchor == Anchor.AutoInline || anchor == Anchor.AutoCenter || anchor == Anchor.AutoInlineNoBreak) && _parent != null)
             {
                 // get previous entity before this
                 Entity prevEntity = GetPreviousEntity(true);
 
-                // only if found align based on it
+                // if found entity before this one, align based on it
                 if (prevEntity != null)
                 {
                     // make sure sibling is up-to-date
                     prevEntity.UpdateDestinationRectsIfDirty();
 
                     // handle inline align
-                    if (anchor == Anchor.AutoInline)
+                    if (anchor == Anchor.AutoInline || anchor == Anchor.AutoInlineNoBreak)
                     {
                         ret.X = prevEntity._destRect.Right + (int)(offset.X + prevEntity._scaledSpaceAfter.X + _scaledSpaceBefore.X);
                         ret.Y = prevEntity._destRect.Y;
@@ -1711,6 +1772,12 @@ namespace GeonBit.UI.Entities
                             prevEntity._scaledSpaceAfter.Y +
                             _scaledSpaceBefore.Y);
                     }
+                }
+                // if this is the first entity in parent, apply space-before only
+                else
+                {
+                    ret.X += (int)_scaledSpaceBefore.X;
+                    ret.Y += (int)_scaledSpaceBefore.Y;
                 }
             }
 

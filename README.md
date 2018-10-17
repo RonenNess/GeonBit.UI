@@ -1982,7 +1982,11 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 
 ### 3.2.0.1 [NOT RELEASED YET]
 
+- Added debug rendering to show destination rects, offsets, etc.
 - Fixed bug when clearing entity's children and it didn't update.
+- Fixed SpaceBefore property on first item in container.
+- Fixed bug with tabs panel buttons and scaling.
+- Added new anchor type: AutoInlineNoBreak.
 
 ## Credits
 
