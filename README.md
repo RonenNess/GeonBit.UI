@@ -1633,14 +1633,23 @@ protected override void Draw(GameTime gameTime)
 }
 ```
 
+# Input Providers
 
-# DefaultInputProvider
+GeonBit.UI rely on Mouse-like and Keyboard-like input methods. However, you can implement alternative input types, like touch gestures, by replacing the input providers.
 
-```DefaultInputProvider``` is a useful helper class, used internally, that implement access to Keyboard and Mouse.
+GeonBit.UI uses two type of input providers:
 
-If you find yourself writing logic such as storing previous ```MouseState``` or ```KeyboardState``` and comparing it to new states to detect stuff like key release, clicks, etc, you should take a look at this class.
+### IMouseInput
 
-It has lots of useful functionality.
+Wrap mouse-based input. Override ```UserInterface.MouseInputProvider``` to use your own implementation.
+
+### IKeyboardInput
+
+Wrap keyboard and typing input. Override ```UserInterface.KeyboardInputProvider``` to use your own implementation.
+
+## DefaultInputProvider
+
+```DefaultInputProvider``` is the default implementation for Mouse and Keyboard input that GeonBit.UI uses. Its also a useful utility class you can use outside GeonBit.UI that implements state changes and better mouse and typing handling.
 
 ```DefaultInputProvider``` requires an Update() call every frame from your game Update() loop.
 
