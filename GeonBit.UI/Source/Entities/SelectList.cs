@@ -272,9 +272,23 @@ namespace GeonBit.UI.Entities
         /// </summary>
         public void MatchHeightToList()
         {
+            // no items? nothing to do
             if (_list.Count == 0) return;
-            if (_paragraphs.Count == 0) OnResize();
-            if (_paragraphs.Count == 0) return;
+
+            // if there are no initialized paragraphs, build them
+            if (_paragraphs.Count == 0)
+            {
+                // calling resize will build paragraphs list
+                OnResize();
+
+                // if still no paragraphs were created, skip
+                if (_paragraphs.Count == 0)
+                {
+                    return;
+                }
+            }
+
+            // get height of a single paragraph and calculate size from it
             var height = _list.Count * (_paragraphs[0].GetCharacterActualSize().Y / GlobalScale + _paragraphs[0].SpaceAfter.Y) + Padding.Y * 2;
             Size = new Vector2(Size.X, height);
         }
