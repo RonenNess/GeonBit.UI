@@ -262,7 +262,7 @@ namespace GeonBit.UI.Entities
         /// Is the list a natrually-interactable entity.
         /// </summary>
         /// <returns>True.</returns>
-        override public bool IsNaturallyInteractable()
+        override internal protected bool IsNaturallyInteractable()
         {
             return true;
         }

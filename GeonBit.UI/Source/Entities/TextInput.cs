@@ -234,7 +234,7 @@ namespace GeonBit.UI.Entities
         /// Is the text input a natrually-interactable entity.
         /// </summary>
         /// <returns>True.</returns>
-        override public bool IsNaturallyInteractable()
+        override internal protected bool IsNaturallyInteractable()
         {
             return true;
         }

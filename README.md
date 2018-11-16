@@ -1670,9 +1670,8 @@ The most important thing you lose in serialization is the callbacks. To solve th
 To easily locate your entities and re-assign their callbacks, you can give them all unique identifiers. Later after you deserialize you can put them all in a flat dictionary to easily access them:
 
 ```cs
-// get all entities in dictionary
-var entities = new Dictionary<string, Entity>();
-UserInterface.Active.Root.PopulateDict(ref entities);
+// get all entities in a dictionary by their identifiers
+var entities = UserInterface.Active.Root.ToEntitiesDictionary();
 
 // attach click event to button
 entities["some_button"].OnClick = ....
@@ -1980,13 +1979,20 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Extended dropdown and list API + added per-item-select events.
 - Added serialize / deserialize functionality.
 
-### 3.2.0.1 [NOT RELEASED YET]
+### 3.3.0.0 [NOT RELEASED YET]
 
 - Added debug rendering to show destination rects, offsets, etc.
 - Fixed bug when clearing entity's children and it didn't update.
 - Fixed SpaceBefore property on first item in container.
 - Fixed bug with tabs panel buttons and scaling.
 - Added new anchor type: AutoInlineNoBreak.
+- API improvements (note: may break old code).
+- Fixed exception with select list update (out of range).
+- Fixed BringToFront with inherit parent properties setting.
+- Added SendToBack() function.
+- Changed PopulateDict into ToEntitiesDictionary().
+- Changed some public functions to be internal / protected.
+- Renamed IsInsideEntity() to IsTouching().
 
 ## Credits
 

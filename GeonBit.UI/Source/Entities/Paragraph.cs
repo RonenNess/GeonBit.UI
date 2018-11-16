@@ -375,7 +375,7 @@ namespace GeonBit.UI.Entities
         /// Update dest rect and internal dest rect.
         /// This is called internally whenever a change is made to the entity or its parent.
         /// </summary>
-        override public void UpdateDestinationRects()
+        override internal protected void UpdateDestinationRects()
         {
             // call base function
             base.UpdateDestinationRects();

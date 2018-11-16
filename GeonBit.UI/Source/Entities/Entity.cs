@@ -1042,7 +1042,7 @@ namespace GeonBit.UI.Entities
         /// </summary>
         /// <param name="anchor">New anchor to set.</param>
         /// <param name="offset">Offset from new anchor position.</param>
-        public void SetPosition(Anchor anchor, Vector2 offset)
+        public void SetAnchorAndOffset(Anchor anchor, Vector2 offset)
         {
             SetAnchor(anchor);
             SetOffset(offset);
@@ -1052,7 +1052,7 @@ namespace GeonBit.UI.Entities
         /// Set the anchor of this entity.
         /// </summary>
         /// <param name="anchor">New anchor to set.</param>
-        public void SetAnchor(Anchor anchor)
+        private void SetAnchor(Anchor anchor)
         {
             _anchor = anchor;
             MarkAsDirty();
@@ -1062,7 +1062,7 @@ namespace GeonBit.UI.Entities
         /// Set the offset of this entity.
         /// </summary>
         /// <param name="offset">New offset to set.</param>
-        public void SetOffset(Vector2 offset)
+        private void SetOffset(Vector2 offset)
         {
             if (_offset != offset || _dragOffset != offset)
             {
@@ -1099,7 +1099,7 @@ namespace GeonBit.UI.Entities
         /// Update dest rect and internal dest rect.
         /// This is called internally whenever a change is made to the entity or its parent.
         /// </summary>
-        virtual public void UpdateDestinationRects()
+        virtual internal protected void UpdateDestinationRects()
         {
             // update dest and internal dest rects
             _destRect = CalcDestRect();
@@ -1116,7 +1116,7 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Update dest rect and internal dest rect, but only if needed (eg if something changed since last update).
         /// </summary>
-        virtual public void UpdateDestinationRectsIfDirty()
+        virtual internal protected void UpdateDestinationRectsIfDirty()
         {
             // if dirty, update destination rectangles
             if (_parent != null && (_isDirty || (_parentLastDestRectVersion != _parent._destRectVersion)))
@@ -1271,11 +1271,24 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Create and return a dictionary of entities, where key is Identifier and value is the entity. 
+        /// This will include self + all children (and their children), and will only include entities that have Identifier property defined.
+        /// Note: if multiple entities share the same identifier, the deepest entity in hirarchy will end up in dict.
+        /// </summary>
+        /// <returns>Dictionary with entities by their identifiers.</returns>
+        public Dictionary<string, Entity> ToEntitiesDictionary()
+        {
+            Dictionary<string, Entity> ret = new Dictionary<string, Entity>();
+            PopulateDict(ref ret);
+            return ret;
+        }
+
+        /// <summary>
         /// Put all entities that have identifier property in a dictionary.
         /// Note: if multiple entities share the same identifier, the deepest entity in hirarchy will end up in dict.
         /// </summary>
         /// <param name="dict">Dictionary to put entities into.</param>
-        public void PopulateDict(ref Dictionary<string, Entity> dict)
+        private void PopulateDict(ref Dictionary<string, Entity> dict)
         {
             // add self if got identifier
             if (Identifier != null && Identifier.Length > 0)
@@ -1509,7 +1522,17 @@ namespace GeonBit.UI.Entities
         {
             Entity parent = _parent;
             parent.RemoveChild(this);
-            parent.AddChild(this);
+            parent.AddChild(this, InheritParentState);
+        }
+
+        /// <summary>
+        /// Push this entity to the back (inside its parent).
+        /// </summary>
+        public void SendToBack()
+        {
+            Entity parent = _parent;
+            parent.RemoveChild(this);
+            parent.AddChild(this, InheritParentState, 0);
         }
 
         /// <summary>
@@ -1568,7 +1591,7 @@ namespace GeonBit.UI.Entities
         /// Calculate and return the internal destination rectangle (note: this relay on the dest rect having a valid value first).
         /// </summary>
         /// <returns>Internal destination rectangle.</returns>
-        virtual public Rectangle CalcInternalRect()
+        virtual internal protected Rectangle CalcInternalRect()
         {
             // calculate the internal destination rect, eg after padding
             Vector2 padding = _scaledPadding;
@@ -2086,7 +2109,7 @@ namespace GeonBit.UI.Entities
         /// <remarks>This function result is affected by the 'UseActualSizeForCollision' flag.</remarks>
         /// <param name="point">Point to test.</param>
         /// <returns>True if point is in entity's boundaries (destination rectangle)</returns>
-        virtual public bool IsInsideEntity(Vector2 point)
+        virtual public bool IsTouching(Vector2 point)
         {
             // adjust scrolling
             point += _lastScrollVal.ToVector2();
@@ -2105,7 +2128,7 @@ namespace GeonBit.UI.Entities
         /// </summary>
         /// <remarks>This function should be overrided and implemented by different entities, and either return constant True or False.</remarks>
         /// <returns>True if entity is naturally interactable.</returns>
-        virtual public bool IsNaturallyInteractable()
+        virtual internal protected bool IsNaturallyInteractable()
         {
             return false;
         }
@@ -2123,7 +2146,7 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Mark that this entity boundaries or style changed and it need to recalculate cached destination rect and other things.
         /// </summary>
-        public void MarkAsDirty()
+        internal protected void MarkAsDirty()
         {
             _isDirty = true;
         }
@@ -2270,7 +2293,7 @@ namespace GeonBit.UI.Entities
                     _entityState = EntityState.Default;
 
                     // set mouse state
-                    if (IsInsideEntity(mousePos))
+                    if (IsTouching(mousePos))
                     {
                         // set self as the current target, unless a sibling got the event first
                         if (targetEntity == null || targetEntity._parent != _parent)

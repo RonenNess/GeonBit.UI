@@ -896,13 +896,13 @@ Maybe something interesting in tab3?"));
                     layout.AddItemToMenu("Display", "Zoom Out", () => { UserInterface.Active.GlobalScale -= 0.1f; });
                     layout.AddItemToMenu("Display", "Reset Zoom", () => { UserInterface.Active.GlobalScale = 1f; });
                     var fileMenu = Utils.SimpleFileMenu.Create(layout);
-                    fileMenu.SetAnchor(Anchor.Auto);
+                    fileMenu.Anchor = Anchor.Auto;
                     panel.AddChild(fileMenu);
                     panel.AddChild(new LineSpace(24));
 
                     panel.AddChild(new Paragraph("Usually this menu should cover the top of the screen and not be inside another panel. Note that like most entities in GeonBit.UI, you can also set its skin:"));
                     fileMenu = Utils.SimpleFileMenu.Create(layout, PanelSkin.Fancy);
-                    fileMenu.SetAnchor(Anchor.Auto);
+                    fileMenu.Anchor = Anchor.Auto;
                     panel.AddChild(fileMenu);
                 }
 
@@ -1033,7 +1033,7 @@ Maybe something interesting in tab3?"));
 
                     // button with icon
                     Button btn = new Button("Button With Icon");
-                    btn.ButtonParagraph.SetPosition(Anchor.CenterLeft, new Vector2(60, 0));
+                    btn.ButtonParagraph.SetAnchorAndOffset(Anchor.CenterLeft, new Vector2(60, 0));
                     btn.AddChild(new Icon(IconType.Book, Anchor.CenterLeft), true);
                     panel.AddChild(btn);
 

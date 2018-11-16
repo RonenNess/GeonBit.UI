@@ -151,7 +151,7 @@ namespace GeonBit.UI.Entities
         /// Is the button a natrually-interactable entity.
         /// </summary>
         /// <returns>True.</returns>
-        override public bool IsNaturallyInteractable()
+        override internal protected bool IsNaturallyInteractable()
         {
             return true;
         }

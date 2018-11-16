@@ -56,7 +56,7 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Update dest rect and internal dest rect, but only if needed (eg if something changed since last update).
         /// </summary>
-        override public void UpdateDestinationRectsIfDirty()
+        override internal protected void UpdateDestinationRectsIfDirty()
         {
             // if dirty, update destination rectangles
             if (IsDirty)

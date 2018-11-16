@@ -177,7 +177,7 @@ namespace GeonBit.UI.Entities
 
             // recalculate the size of the panel containing the internal panels
             float buttonsHeight = GetButtonsHeight(false);
-            _panelsPanel.SetOffset(new Vector2(0, buttonsHeight));
+            _panelsPanel.Offset = new Vector2(0, buttonsHeight);
 
             // adjust buttons size to fix global scaling
             _buttonsPanel.CalcDestRect();

@@ -95,7 +95,7 @@ namespace GeonBit.UI
     public class UserInterface : System.IDisposable
     {
         /// <summary>Current GeonBit.UI version identifier.</summary>
-        public const string VERSION = "3.2.0.1";
+        public const string VERSION = "3.3.0.0";
 
         /// <summary>
         /// The currently active user interface instance.
@@ -379,7 +379,7 @@ namespace GeonBit.UI
                 if (position.X > screenBounds.Right - destRect.Width) position.X = screenBounds.Right - destRect.Width;
 
                 // update tooltip position
-                tooltip.SetPosition(Anchor.TopLeft, position / Active.GlobalScale);
+                tooltip.SetAnchorAndOffset(Anchor.TopLeft, position / Active.GlobalScale);
             };
             tooltip.CalcTextActualRectWithWrap();
             tooltip.BeforeDraw(tooltip);

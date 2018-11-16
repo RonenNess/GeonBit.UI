@@ -209,8 +209,8 @@ namespace GeonBit.UI.Entities
                 _destRectInternal.Y -= _scrollbar.Value;
 
                 // update scrollbar position
-                _scrollbar.SetAnchor(Anchor.CenterLeft);
-                _scrollbar.SetOffset(new Vector2(_destRectInternal.Width + 5, -_destRectInternal.Y) / GlobalScale);
+                _scrollbar.Anchor = Anchor.CenterLeft;
+                _scrollbar.Offset = (new Vector2(_destRectInternal.Width + 5, -_destRectInternal.Y) / GlobalScale);
                 if (_scrollbar.Parent != null)
                 {
                     _scrollbar.BringToFront();
@@ -229,7 +229,7 @@ namespace GeonBit.UI.Entities
         /// Calculate and return the internal destination rectangle (note: this relay on the dest rect having a valid value first).
         /// </summary>
         /// <returns>Internal destination rectangle.</returns>
-        override public Rectangle CalcInternalRect()
+        override internal protected Rectangle CalcInternalRect()
         {
             base.CalcInternalRect();
             _destRectInternal.Width -= GetScrollbarWidth();

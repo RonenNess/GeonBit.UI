@@ -105,7 +105,7 @@ namespace GeonBit.UI.Entities
             }
 
             // make sure in boundaries
-            if (!IsInsideEntity(pos))
+            if (!IsTouching(pos))
             {
                 throw new Exceptions.InvalidValueException("Position to get coords for must be inside entity boundaries!");
             }

@@ -181,7 +181,7 @@ namespace GeonBit.UI.Entities
                 _selectList = new SelectList(new Vector2(0f, size.Y), Anchor.TopCenter, Vector2.Zero, listSkin ?? skin);
 
                 // update list offset and space before
-                _selectList.SetOffset(new Vector2(0, SelectedPanelHeight));
+                _selectList.Offset = new Vector2(0, SelectedPanelHeight);
                 _selectList.SpaceBefore = Vector2.Zero;
                 _selectList._hiddenInternalEntity = true;
                 _selectList.Identifier = "_selectList";
@@ -326,7 +326,7 @@ namespace GeonBit.UI.Entities
         /// <remarks>This function result is affected by the 'UseActualSizeForCollision' flag.</remarks>
         /// <param name="point">Point to test.</param>
         /// <returns>True if point is in entity's boundaries (destination rectangle)</returns>
-        override public bool IsInsideEntity(Vector2 point)
+        override public bool IsTouching(Vector2 point)
         {
             // adjust scrolling
             point += _lastScrollVal.ToVector2();
@@ -421,7 +421,7 @@ namespace GeonBit.UI.Entities
             {
                 // check if mouse down and not inside list
                 var mousePosition = GetMousePos();
-                if (Input.AnyMouseButtonPressed() && !IsInsideEntity(mousePosition))
+                if (Input.AnyMouseButtonPressed() && !IsTouching(mousePosition))
                 {
                     ListVisible = false;
                 }
@@ -564,7 +564,7 @@ namespace GeonBit.UI.Entities
         /// Is the list a natrually-interactable entity.
         /// </summary>
         /// <returns>True.</returns>
-        override public bool IsNaturallyInteractable()
+        override internal protected bool IsNaturallyInteractable()
         {
             return true;
         }

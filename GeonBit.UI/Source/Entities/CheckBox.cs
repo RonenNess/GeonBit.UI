@@ -70,7 +70,7 @@ namespace GeonBit.UI.Entities
             {
                 TextParagraph = UserInterface.DefaultParagraph(text, Anchor.CenterLeft);
                 TextParagraph.UpdateStyle(DefaultParagraphStyle);
-                TextParagraph.SetOffset(new Vector2(25, 0));
+                TextParagraph.Offset = new Vector2(25, 0);
                 TextParagraph._hiddenInternalEntity = true;
                 TextParagraph.Identifier = "_checkbox_text";
                 AddChild(TextParagraph, true);
@@ -104,7 +104,7 @@ namespace GeonBit.UI.Entities
         /// Is the checkbox a natrually-interactable entity.
         /// </summary>
         /// <returns>True.</returns>
-        override public bool IsNaturallyInteractable()
+        override internal protected bool IsNaturallyInteractable()
         {
             return true;
         }
