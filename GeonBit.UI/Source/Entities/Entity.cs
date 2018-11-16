@@ -666,8 +666,16 @@ namespace GeonBit.UI.Entities
         /// <summary>Get extra space before with current UI scale applied. </summary>
         protected Vector2 _scaledSpaceBefore { get { return SpaceBefore * GlobalScale; } }
 
-        /// <summary>Get size with current UI scale applied. </summary>
-        protected Vector2 _scaledSize { get { return _size * GlobalScale; } }
+        /// <summary>Get size with current UI scale applied. Note: doesn't effect relative sizes with values from 0.0 to 1.0.</summary>
+        protected Vector2 _scaledSize
+        {
+            get
+            {
+                return new Vector2(
+                    _size.X < 1 ? _size.X : _size.X * GlobalScale, 
+                    _size.Y < 1 ? _size.Y : _size.Y * GlobalScale);
+            }
+        }
 
         /// <summary>Get offset with current UI scale applied. </summary>
         protected Vector2 _scaledOffset { get { return _offset * GlobalScale; } }

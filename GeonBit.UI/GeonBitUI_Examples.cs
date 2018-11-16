@@ -268,7 +268,7 @@ namespace GeonBit.UI.Example
                 // example: welcome message
                 {
                     // create panel and add to list of panels and manager
-                    Panel panel = new Panel(new Vector2(500, 620));
+                    Panel panel = new Panel(new Vector2(520, 620));
                     panels.Add(panel);
                     UserInterface.Active.AddEntity(panel);
 
@@ -279,7 +279,7 @@ namespace GeonBit.UI.Example
                     panel.AddChild(title);
                     var welcomeText = new MulticolorParagraph(@"Welcome to {{RED}}GeonBit{{MAGENTA}}.UI{{DEFAULT}}!
 
-This UI is part of the GeonBit project.
+GeonBit.UI is the UI system of the GeonBit project.
 It provide a simple yet extensive UI for MonoGame based projects.
 
 To start the demo, please click the 'Next' button on the top navbar.");

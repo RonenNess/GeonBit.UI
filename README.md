@@ -1996,7 +1996,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Extended dropdown and list API + added per-item-select events.
 - Added serialize / deserialize functionality.
 
-### 3.3.0.0 [NOT RELEASED YET]
+### 3.3.0.0
 
 - Added debug rendering to show destination rects, offsets, etc.
 - Fixed bug when clearing entity's children and it didn't update.
@@ -2012,6 +2012,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Renamed IsInsideEntity() to IsTouching().
 - Added MouseInput provider interface, allowing the user to implement alternative mouse-based input methods (like touch).
 - Added KeyboardInput provider interface, allowing the user to implement alternative keyboard-based input methods.
+- Fixed global scaling with percent-based sizes that grow / shrink too much.
 
 ## Credits
 
