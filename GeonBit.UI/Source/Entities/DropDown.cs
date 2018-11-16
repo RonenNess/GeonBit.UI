@@ -359,7 +359,7 @@ namespace GeonBit.UI.Entities
         /// DropDown entity override this function to give some bonus priority, since when list is opened it needs to override entities
         /// under it, which usually have bigger index in container.
         /// </summary>
-        override public int Priority
+        override protected int Priority
         {
             get { return 100 - _indexInParent + PriorityBonus; }
         }

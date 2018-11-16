@@ -686,7 +686,7 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Return entity priority in drawing order and event handling.
         /// </summary>
-        public virtual int Priority
+        protected virtual int Priority
         {
             get { return _indexInParent + PriorityBonus; }
         }
@@ -694,7 +694,7 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Get if this entity needs to recalculate destination rect.
         /// </summary>
-        public bool IsDirty
+        protected bool IsDirty
         {
             get { return _isDirty; }
         }

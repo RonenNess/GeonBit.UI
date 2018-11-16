@@ -1036,7 +1036,7 @@ Maybe something interesting in tab3?"));
                     btn.ButtonParagraph.SetAnchorAndOffset(Anchor.CenterLeft, new Vector2(60, 0));
                     btn.AddChild(new Icon(IconType.Book, Anchor.CenterLeft), true);
                     panel.AddChild(btn);
-
+                    
                     // change progressbar color
                     panel.AddChild(new Paragraph("Different ProgressBar colors:"));
                     ProgressBar pb = new ProgressBar();
