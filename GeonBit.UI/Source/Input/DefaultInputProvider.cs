@@ -1,8 +1,7 @@
 ﻿#region File Description
 //-----------------------------------------------------------------------------
-// Helper utility to get keyboard and mouse input.
-// It provides easier access to the Input API, and in addition functions to
-// measure changes between frames.
+// Helper utility that implements default mouse and keyboard input for GeonBit.UI.
+// You can create your own mouse/keyboard inputs to replace this.
 //
 // Author: Ronen Ness.
 // Since: 2016.
@@ -14,38 +13,10 @@ using Microsoft.Xna.Framework.Input;
 namespace GeonBit.UI
 {
     /// <summary>
-    /// Supported mouse buttons.
+    /// Implement Mouse Input and Keyboard Input for GeonBit.UI + provide some helpful utils you can use externally.
+    /// This is the object we provide to GeonBit.UI by default, if no other input providers were set by user.
     /// </summary>
-    public enum MouseButton
-    {
-        ///<summary>Left mouse button.</summary>
-        Left,
-
-        ///<summary>Right mouse button.</summary>
-        Right,
-        
-        ///<summary>Middle mouse button (eg scrollwheel when clicked).</summary>
-        Middle
-    };
-
-    /// <summary>
-    /// Some special characters input.
-    /// Note: enum values are based on ascii table values for these special characters.
-    /// </summary>
-    enum SpecialChars
-    {
-        Null = 0,           // no character input
-        Delete = 127,       // delete char
-        Backspace = 8,      // backspace char
-        Space = 32,         // space character input
-        ArrowLeft = 1,      // arrow left - moving caret left
-        ArrowRight = 2,     // arrow right - moving caret right
-    };
-
-    /// <summary>
-    /// Provide easier keyboard and mouse access, keyboard text input, and other user input utils.
-    /// </summary>
-    public class InputHelper
+    public class DefaultInputProvider : IMouseInput, IKeyboardInput
     {
         // store current & previous keyboard states so we can detect key release
         KeyboardState _newKeyboardState;
@@ -83,17 +54,17 @@ namespace GeonBit.UI
         /// <summary>
         /// Current mouse wheel value.
         /// </summary>
-        public int MouseWheel = 0;
+        public int MouseWheel { get; private set; }
 
         /// <summary>
         /// Mouse wheel change sign (eg 0, 1 or -1) since last frame.
         /// </summary>
-        public int MouseWheelChange = 0;
+        public int MouseWheelChange { get; private set; }
 
         /// <summary>
         /// Create the input helper.
         /// </summary>
-        public InputHelper()
+        public DefaultInputProvider()
         {
             // init keyboard states
             _newKeyboardState = _oldKeyboardState;
@@ -176,7 +147,7 @@ namespace GeonBit.UI
         /// Move the cursor to be at the center of the screen.
         /// </summary>
         /// <param name="pos">New mouse position.</param>
-        public void UpdateCursorPosition(Vector2 pos)
+        public void UpdateMousePosition(Vector2 pos)
         {
             // move mouse position back to center
             Mouse.SetPosition((int)pos.X, (int)pos.Y);
@@ -188,7 +159,7 @@ namespace GeonBit.UI
         /// </summary>
         /// <param name="transform">Matrix to transform cursor position by.</param>
         /// <returns>Cursor position with optional transform applied.</returns>
-        public Vector2 TransformCursorPos(Matrix? transform)
+        public Vector2 TransformMousePosition(Matrix? transform)
         {
             var newMousePos = _newMousePos;
             if (transform != null)

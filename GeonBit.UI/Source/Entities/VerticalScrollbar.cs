@@ -166,9 +166,9 @@ namespace GeonBit.UI.Entities
                 UserInterface.Active.ActiveEntity == _parent ||
                 (UserInterface.Active.ActiveEntity != null && UserInterface.Active.ActiveEntity.IsDeepChildOf(_parent))))
             {
-                if (Input.MouseWheelChange != 0)
+                if (MouseInput.MouseWheelChange != 0)
                 {
-                    Value = _value - Input.MouseWheelChange * GetStepSize();
+                    Value = _value - MouseInput.MouseWheelChange * GetStepSize();
                 }
             }
         }
@@ -223,7 +223,7 @@ namespace GeonBit.UI.Entities
         /// </summary>
         override protected void DoOnMouseWheelScroll()
         {
-            Value = _value - Input.MouseWheelChange * GetStepSize();
+            Value = _value - MouseInput.MouseWheelChange * GetStepSize();
         }
     }
 }

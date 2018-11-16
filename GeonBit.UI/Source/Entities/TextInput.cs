@@ -549,7 +549,7 @@ namespace GeonBit.UI.Entities
         override protected void DoBeforeUpdate()
         {
             // animate caret
-            _caretAnim += (float)Input.CurrGameTime.ElapsedGameTime.TotalSeconds * CaretBlinkingSpeed;
+            _caretAnim += (float)UserInterface.Active.CurrGameTime.ElapsedGameTime.TotalSeconds * CaretBlinkingSpeed;
 
             // if focused, and got character input in this frame..
             if (IsFocused)
@@ -562,7 +562,7 @@ namespace GeonBit.UI.Entities
 
                 // store old string and update based on user input
                 string oldVal = _value;
-                _value = Input.GetTextInput(_value, ref pos);
+                _value = KeyboardInput.GetTextInput(_value, ref pos);
 
                 // update caret position
                 _caret = pos;

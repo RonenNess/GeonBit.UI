@@ -77,7 +77,9 @@
     <Compile Include="Source\Entities\TextInputValidators.cs" />
     <Compile Include="Source\Entities\VerticalScrollbar.cs" />
     <Compile Include="Source\Exceptions.cs" />
-    <Compile Include="Source\InputHelper.cs" />
+    <Compile Include="Source\Input\DefaultInputProvider.cs" />
+    <Compile Include="Source\Input\IKeyboardInput.cs" />
+    <Compile Include="Source\Input\IMouseInput.cs" />
     <Compile Include="Source\Resources.cs" />
     <Compile Include="Source\UserInterface.cs" />
     <Compile Include="Source\Utils\MessageBox.cs" />
@@ -149,6 +151,7 @@
       <Name>DataTypes</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

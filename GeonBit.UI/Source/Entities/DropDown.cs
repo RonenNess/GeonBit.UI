@@ -421,7 +421,7 @@ namespace GeonBit.UI.Entities
             {
                 // check if mouse down and not inside list
                 var mousePosition = GetMousePos();
-                if (Input.AnyMouseButtonPressed() && !IsTouching(mousePosition))
+                if (MouseInput.AnyMouseButtonPressed() && !IsTouching(mousePosition))
                 {
                     ListVisible = false;
                 }

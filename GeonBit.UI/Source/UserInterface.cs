@@ -102,8 +102,26 @@ namespace GeonBit.UI
         /// </summary>
         public static UserInterface Active = null;
 
-        // input manager
-        static internal InputHelper _input;
+        /// <summary>
+        /// The object that provide mouse input for GeonBit UI.
+        /// By default it uses internal implementation that uses MonoGame mouse input.
+        /// If you want to use things like Touch input, you can override and replace this instance
+        /// with your own object that emulates mouse input from different sources.
+        /// </summary>
+        public IMouseInput MouseInputProvider;
+
+        /// <summary>
+        /// The object that provide keyboard and typing input for GeonBit UI.
+        /// By default it uses internal implementation that uses MonoGame keyboard input.
+        /// If you want to use alternative typing methods, you can override and replace this instance
+        /// with your own object that emulates keyboard input.
+        /// </summary>
+        public IKeyboardInput KeyboardInputProvider;
+
+        /// <summary>
+        /// Get current game time value.
+        /// </summary>
+        public GameTime CurrGameTime { get; private set; }
 
         // content manager
         static ContentManager _content;
@@ -409,12 +427,12 @@ namespace GeonBit.UI
                 throw new Exceptions.InvalidStateException("Cannot create a UserInterface before calling UserInterface.Initialize()!");
             }
 
+            // create default input providers
+            MouseInputProvider = new DefaultInputProvider();
+            KeyboardInputProvider = new DefaultInputProvider();
+
             // create draw utils
             DrawUtils = new DrawUtils();
-
-            // create input helper
-            if (_input == null)
-                _input = new InputHelper();
 
             // create the root panel
             Root = new RootPanel();
@@ -459,7 +477,7 @@ namespace GeonBit.UI
             float cursorSize = CursorScale * GlobalScale * ((float)_cursorWidth / (float)_cursorTexture.Width);
 
             // get cursor position and draw it
-            Vector2 cursorPos = _input.MousePosition;
+            Vector2 cursorPos = MouseInputProvider.MousePosition;
             spriteBatch.Draw(_cursorTexture,
                 new Rectangle(
                     (int)(cursorPos.X + _cursorOffset.X * cursorSize), (int)(cursorPos.Y + _cursorOffset.Y * cursorSize),
@@ -502,11 +520,15 @@ namespace GeonBit.UI
         /// <param name="gameTime">Current game time.</param>
         public void Update(GameTime gameTime)
         {
-            // update input manager
-            _input.Update(gameTime);
+            // store current time
+            CurrGameTime = gameTime;
+
+            // update input managers
+            MouseInputProvider.Update(gameTime);
+            if (MouseInputProvider != KeyboardInputProvider) { KeyboardInputProvider.Update(gameTime); }
 
             // unset the drag target if the mouse was released
-            if (_dragTarget != null && !_input.MouseButtonDown(MouseButton.Left)) {
+            if (_dragTarget != null && !MouseInputProvider.MouseButtonDown(MouseButton.Left)) {
               _dragTarget = null;
             }
 
@@ -516,7 +538,7 @@ namespace GeonBit.UI
             Root.Update(ref target, ref _dragTarget, ref wasEventHandled, Point.Zero);
 
             // set active entity
-            if (_input.MouseButtonDown(MouseButton.Left))
+            if (MouseInputProvider.MouseButtonDown(MouseButton.Left))
             {
                 ActiveEntity = target;
             }
@@ -693,11 +715,11 @@ namespace GeonBit.UI
             if (UseRenderTarget && RenderTargetTransformMatrix != null && !IncludeCursorInRenderTarget)
             {
                 var matrix = Matrix.Invert(RenderTargetTransformMatrix.Value);
-                return _input.TransformCursorPos(matrix) + Vector2.Transform(addVector.Value, matrix);
+                return MouseInputProvider.TransformMousePosition(matrix) + Vector2.Transform(addVector.Value, matrix);
             }
 
             // return raw cursor pos
-            return _input.MousePosition + addVector.Value;
+            return MouseInputProvider.MousePosition + addVector.Value;
         }
 
         /// <summary>

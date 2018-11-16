@@ -572,11 +572,19 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
-        /// Get input helper from active user interface.
+        /// Get mouse input provider.
         /// </summary>
-        protected InputHelper Input
+        protected IMouseInput MouseInput
         {
-            get { return UserInterface._input; }
+            get { return UserInterface.Active.MouseInputProvider; }
+        }
+
+        /// <summary>
+        /// Get keyboard input provider.
+        /// </summary>
+        protected IKeyboardInput KeyboardInput
+        {
+            get { return UserInterface.Active.KeyboardInputProvider; }
         }
 
         /// <summary>
@@ -1984,19 +1992,19 @@ namespace GeonBit.UI.Entities
             UserInterface.Active.WhileMouseHoverOrDown?.Invoke(this);
 
             // do right mouse click event
-            if (Input.MouseButtonClick(MouseButton.Right))
+            if (MouseInput.MouseButtonClick(MouseButton.Right))
             {
                 OnRightClick?.Invoke(this);
                 UserInterface.Active.OnRightClick?.Invoke(this);
             }
             // do right mouse down event
-            else if (Input.MouseButtonPressed(MouseButton.Right))
+            else if (MouseInput.MouseButtonPressed(MouseButton.Right))
             {
                 OnRightMouseDown?.Invoke(this);
                 UserInterface.Active.OnRightMouseDown?.Invoke(this);
             }
             // do while right mouse down even
-            else if (Input.MouseButtonDown(MouseButton.Right))
+            else if (MouseInput.MouseButtonDown(MouseButton.Right))
             {
                 WhileRightMouseDown?.Invoke(this);
                 UserInterface.Active.WhileRightMouseDown?.Invoke(this);
@@ -2305,19 +2313,19 @@ namespace GeonBit.UI.Entities
                         _isMouseOver = true;
 
                         // update mouse state
-                        _entityState = (IsFocused || PromiscuousClicksMode || Input.MouseButtonPressed()) &&
-                            Input.MouseButtonDown() ? EntityState.MouseDown : EntityState.MouseHover;
+                        _entityState = (IsFocused || PromiscuousClicksMode || MouseInput.MouseButtonPressed()) &&
+                            MouseInput.MouseButtonDown() ? EntityState.MouseDown : EntityState.MouseHover;
                     }
                 }
 
                 // set if focused
-                if (Input.MouseButtonPressed())
+                if (MouseInput.MouseButtonPressed())
                 {
                     IsFocused = _isMouseOver;
                 }
             }
             // if currently other entity is targeted and mouse clicked, set focused to false
-            else if (Input.MouseButtonClick())
+            else if (MouseInput.MouseButtonClick())
             {
                 IsFocused = false;
             }
@@ -2328,7 +2336,7 @@ namespace GeonBit.UI.Entities
             UpdateChildren(ref targetEntity, ref dragTargetEntity, ref wasEventHandled, scrollVal);
 
             // check dragging after children so that the most nested entity gets priority
-            if ((_draggable || IsNaturallyInteractable()) && dragTargetEntity == null && _isMouseOver && Input.MouseButtonPressed(MouseButton.Left))
+            if ((_draggable || IsNaturallyInteractable()) && dragTargetEntity == null && _isMouseOver && MouseInput.MouseButtonPressed(MouseButton.Left))
             {
                 dragTargetEntity = this;
             }
@@ -2354,17 +2362,17 @@ namespace GeonBit.UI.Entities
                 if (prevState != _entityState)
                 {
                     // mouse down
-                    if (Input.MouseButtonPressed())
+                    if (MouseInput.MouseButtonPressed())
                     {
                         DoOnMouseDown();
                     }
                     // mouse up
-                    if (Input.MouseButtonReleased())
+                    if (MouseInput.MouseButtonReleased())
                     {
                         DoOnMouseReleased();
                     }
                     // mouse click
-                    if (Input.MouseButtonClick())
+                    if (MouseInput.MouseButtonClick())
                     {
                         DoOnClick();
                     }
@@ -2395,7 +2403,7 @@ namespace GeonBit.UI.Entities
             // handle mouse wheel scroll over this entity
             if (targetEntity == this || UserInterface.Active.ActiveEntity == this)
             {
-                if (Input.MouseWheelChange != 0)
+                if (MouseInput.MouseWheelChange != 0)
                 {
                     DoOnMouseWheelScroll();
                 }
@@ -2407,7 +2415,7 @@ namespace GeonBit.UI.Entities
             if (_draggable && (dragTargetEntity == this) && IsFocused)
             {
                 // check if we need to start dragging the entity that was not dragged before
-                if (!_isBeingDragged && Input.MousePositionDiff.Length() != 0)
+                if (!_isBeingDragged && MouseInput.MousePositionDiff.Length() != 0)
                 {
                     // remove self from parent and add again. this trick is to keep the dragged entity always on-top
                     Entity parent = _parent;
@@ -2423,7 +2431,7 @@ namespace GeonBit.UI.Entities
                 if (_isBeingDragged)
                 {
                     // update drag offset and call the dragging event
-                    _dragOffset += Input.MousePositionDiff;
+                    _dragOffset += MouseInput.MousePositionDiff;
                     DoWhileDragging();
                 }
             }
