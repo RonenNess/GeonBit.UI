@@ -151,16 +151,11 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Get / set children list.
         /// </summary>
-        public List<Entity> Children
+        public IReadOnlyList<Entity> Children
         {
             get
             {
-                return _children;
-            }
-            set
-            {
-                ClearChildren();
-                foreach (var child in value) AddChild(child);
+                return _children.AsReadOnly() as IReadOnlyList<Entity>;
             }
         }
 
@@ -442,14 +437,6 @@ namespace GeonBit.UI.Entities
 
         /// <summary>Is the entity currently enabled? If false, will not be interactive and be rendered with a greyscale effect.</summary>
         public bool Enabled = true;
-
-        /// <summary>Disable entities - will be removed in future versions!</summary>
-        [System.Obsolete("'Disabled' is deprecated, please use 'Enabled' instead.")]
-        public bool Disabled
-        {
-            get { return !Enabled; }
-            set { Enabled = !value; }
-        }
 
         /// <summary>If true, this entity and its children will not respond to events (but will be drawn normally, unlike when disabled).</summary>
         public bool Locked = false;
@@ -1895,7 +1882,7 @@ namespace GeonBit.UI.Entities
             if (_parent == null) { return null; }
 
             // get siblings and iterate them
-            List<Entity> siblings = _parent.Children;
+            List<Entity> siblings = _parent._children;
             Entity prev = null;
             foreach (Entity sibling in siblings)
             {
