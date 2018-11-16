@@ -91,6 +91,8 @@ So if your project require extensive text editing you might need to do some work
 
 GeonBit.UI is built to work with mouse / touch screens. It is currently not designed for keyboard-only / joystick input (e.g. it doesn't support tab navigating etc.)
 
+Note: supporting touch input requires some implementation from your side. More about this in 'Input Providers'.
+
 ## Git structure
 
 ![repo folders](assets/img/geonbit_folders.png "repo folders")
@@ -562,17 +564,17 @@ Return true if this entity is really visible right now, also check parents to ma
 
 Check if this entity is a child or a descendant of another entity.
 
-### SetPosition()
+### SetAnchorAndOffset()
 
-Change entity anchor and position.
+Change entity anchor and offset.
 
-### SetAnchor()
+### Anchor
 
-Change entity anchor.
+Get / set entity anchor.
 
-### SetOffset()
+### Offset
 
-Change entity offset.
+Get / set entity offset.
 
 ### Find()
 
@@ -585,6 +587,10 @@ Iterate over children and apply a callback function on them.
 ### BringToFront()
 
 Move this entity to be at the front of all the children inside its direct parent. This is equivalent to just adding this entity last.
+
+### SendToBack()
+
+Move this entity to be at the back of all the children inside its direct parent. This is equivalent to just adding this entity first.
 
 ## Entity StyleSheets
 
@@ -1628,13 +1634,15 @@ protected override void Draw(GameTime gameTime)
 ```
 
 
-# InputHelper
+# DefaultInputProvider
 
-```InputHelper``` is a useful helper class, used internally, that wraps access to keyboard and mouse.
+```DefaultInputProvider``` is a useful helper class, used internally, that implement access to Keyboard and Mouse.
+
 If you find yourself writing logic such as storing previous ```MouseState``` or ```KeyboardState``` and comparing it to new states to detect stuff like key release, clicks, etc, you should take a look at this class.
+
 It has lots of useful functionality.
 
-```InputHelper``` requires an Update() call every frame from your game Update() loop.
+```DefaultInputProvider``` requires an Update() call every frame from your game Update() loop.
 
 
 # Serialization
@@ -1993,6 +2001,8 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Changed PopulateDict into ToEntitiesDictionary().
 - Changed some public functions to be internal / protected.
 - Renamed IsInsideEntity() to IsTouching().
+- Added MouseInput provider interface, allowing the user to implement alternative mouse-based input methods (like touch).
+- Added KeyboardInput provider interface, allowing the user to implement alternative keyboard-based input methods.
 
 ## Credits
 
