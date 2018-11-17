@@ -1157,7 +1157,7 @@ Click on 'Next' to see the character creation demo."));
                     leftPanel.AddChild(classTypes);
                     classTypes.OnValueChange = (Entity entity) =>
                     {
-                        string texture = ((SelectList)(entity)).SelectedValue.ToLower();
+                        string texture = ((SelectList)(entity)).SelectedValue.ToLowerInvariant();
                         previewImage.Texture = Content.Load<Texture2D>("example/" + texture);
                         previewImageColor.Texture = Content.Load<Texture2D>("example/" + texture + "_color");
                         previewImageSkin.Texture = Content.Load<Texture2D>("example/" + texture + "_skin");
