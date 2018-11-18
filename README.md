@@ -2014,6 +2014,10 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Added KeyboardInput provider interface, allowing the user to implement alternative keyboard-based input methods.
 - Fixed global scaling with percent-based sizes that grow / shrink too much.
 
+### 3.3.0.1 [NOT RELEASED YET]
+
+- Fixed crash with Turkish locale and loading textures (and potentially other languages).
+
 ## Credits
 
 GeonBit.UI was written by Ronen Ness, but uses some free textures made by awesome people who share their work for free.

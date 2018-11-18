@@ -112,7 +112,7 @@ namespace GeonBit.UI
             }
 
             // all other type of enums
-            return e.ToString().ToLower();
+            return e.ToString().ToLowerInvariant();
         }
 
         /// <summary>
@@ -264,7 +264,7 @@ namespace GeonBit.UI
             CursorsData = new CursorTextureData[Enum.GetValues(typeof(CursorType)).Length];
             foreach (CursorType cursor in Enum.GetValues(typeof(CursorType)))
             {
-                string cursorName = cursor.ToString().ToLower();
+                string cursorName = cursor.ToString().ToLowerInvariant();
                 CursorsData[(int)cursor] = content.Load<CursorTextureData>(_root + "textures/cursor_" + cursorName + "_md");
             }
 
@@ -279,7 +279,7 @@ namespace GeonBit.UI
                 }
 
                 // load panels metadata
-                string skinName = skin.ToString().ToLower();
+                string skinName = skin.ToString().ToLowerInvariant();
                 PanelData[(int)skin] = content.Load<TextureData>(_root + "textures/panel_" + skinName + "_md");
             }
 
@@ -290,7 +290,7 @@ namespace GeonBit.UI
             SliderData = new TextureData[Enum.GetValues(typeof(SliderSkin)).Length];
             foreach (SliderSkin skin in Enum.GetValues(typeof(SliderSkin)))
             {
-                string skinName = skin.ToString().ToLower();
+                string skinName = skin.ToString().ToLowerInvariant();
                 SliderData[(int)skin] = content.Load<TextureData>(_root + "textures/slider_" + skinName + "_md");
             }
 
@@ -306,7 +306,7 @@ namespace GeonBit.UI
             ButtonData = new TextureData[Enum.GetValues(typeof(ButtonSkin)).Length];
             foreach (ButtonSkin skin in Enum.GetValues(typeof(ButtonSkin)))
             {
-                string skinName = skin.ToString().ToLower();
+                string skinName = skin.ToString().ToLowerInvariant();
                 ButtonData[(int)skin] = content.Load<TextureData>(_root + "textures/button_" + skinName + "_md");
             }
 
