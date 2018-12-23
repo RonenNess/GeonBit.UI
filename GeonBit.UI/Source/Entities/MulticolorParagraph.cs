@@ -265,36 +265,7 @@ namespace GeonBit.UI.Entities
                 UpdateDestinationRects();
             }
 
-            // get outline width
-            int outlineWidth = OutlineWidth;
-
-            // if we got outline draw it
-            if (outlineWidth > 0)
-            {
-                // get outline color
-                Color outlineColor = UserInterface.Active.DrawUtils.FixColorOpacity(OutlineColor);
-
-                // for not-too-thick outline we render just two corners
-                if (outlineWidth <= MaxOutlineWidthToOptimize)
-                {
-                    spriteBatch.DrawString(_currFont, _processedText, _position + Vector2.One * outlineWidth, outlineColor,
-                        0, _fontOrigin, _actualScale, SpriteEffects.None, 0.5f);
-                    spriteBatch.DrawString(_currFont, _processedText, _position - Vector2.One * outlineWidth, outlineColor,
-                        0, _fontOrigin, _actualScale, SpriteEffects.None, 0.5f);
-                }
-                // for really thick outline we need to cover the other corners as well
-                else
-                {
-                    spriteBatch.DrawString(_currFont, _processedText, _position + Vector2.UnitX * outlineWidth, outlineColor,
-                        0, _fontOrigin, _actualScale, SpriteEffects.None, 0.5f);
-                    spriteBatch.DrawString(_currFont, _processedText, _position - Vector2.UnitX * outlineWidth, outlineColor,
-                        0, _fontOrigin, _actualScale, SpriteEffects.None, 0.5f);
-                    spriteBatch.DrawString(_currFont, _processedText, _position + Vector2.UnitY * outlineWidth, outlineColor,
-                        0, _fontOrigin, _actualScale, SpriteEffects.None, 0.5f);
-                    spriteBatch.DrawString(_currFont, _processedText, _position - Vector2.UnitY * outlineWidth, outlineColor,
-                        0, _fontOrigin, _actualScale, SpriteEffects.None, 0.5f);
-                }
-            }
+            DrawOutline(spriteBatch, _processedText, _position);
 
             // if there are color changing instructions in paragraph, draw with color changes
             if (_colorInstructions.Count > 0)
