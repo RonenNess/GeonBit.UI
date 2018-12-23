@@ -557,6 +557,27 @@ namespace GeonBit.UI.Entities
                 spriteBatch.Draw(Resources.WhiteTexture, rect, backColor);
             }
 
+            DrawOutline(spriteBatch, _processedText, _position);
+
+            // get fill color
+            Color fillCol = UserInterface.Active.DrawUtils.FixColorOpacity(FillColor);
+
+            // draw text itself
+            spriteBatch.DrawString(_currFont, _processedText, _position, fillCol,
+                0, _fontOrigin, _actualScale, SpriteEffects.None, 0.5f);
+
+            // call base draw function
+            base.DrawEntity(spriteBatch, phase);
+        }
+
+        /// <summary>
+        /// Draw an outline around the paragraph
+        /// </summary>
+        /// <param name="spriteBatch">Sprite batch to draw on.</param>
+        /// <param name="text">The text to get the outline from.</param>
+        /// <param name="position">The position of the outline.</param>
+        protected void DrawOutline(SpriteBatch spriteBatch, string text, Vector2 position)
+        {
             // get outline width
             int outlineWidth = OutlineWidth;
 
@@ -569,34 +590,24 @@ namespace GeonBit.UI.Entities
                 // for not-too-thick outline we render just two corners
                 if (outlineWidth <= MaxOutlineWidthToOptimize)
                 {
-                    spriteBatch.DrawString(_currFont, _processedText, _position + Vector2.One * outlineWidth, outlineColor,
+                    spriteBatch.DrawString(_currFont, text, position + Vector2.One * outlineWidth, outlineColor,
                         0, _fontOrigin, _actualScale, SpriteEffects.None, 0.5f);
-                    spriteBatch.DrawString(_currFont, _processedText, _position - Vector2.One * outlineWidth, outlineColor,
+                    spriteBatch.DrawString(_currFont, text, position - Vector2.One * outlineWidth, outlineColor,
                         0, _fontOrigin, _actualScale, SpriteEffects.None, 0.5f);
                 }
                 // for really thick outline we need to cover the other corners as well
                 else
                 {
-                    spriteBatch.DrawString(_currFont, _processedText, _position + Vector2.UnitX * outlineWidth, outlineColor,
+                    spriteBatch.DrawString(_currFont, text, position + Vector2.UnitX * outlineWidth, outlineColor,
                         0, _fontOrigin, _actualScale, SpriteEffects.None, 0.5f);
-                    spriteBatch.DrawString(_currFont, _processedText, _position - Vector2.UnitX * outlineWidth, outlineColor,
+                    spriteBatch.DrawString(_currFont, text, position - Vector2.UnitX * outlineWidth, outlineColor,
                         0, _fontOrigin, _actualScale, SpriteEffects.None, 0.5f);
-                    spriteBatch.DrawString(_currFont, _processedText, _position + Vector2.UnitY * outlineWidth, outlineColor,
+                    spriteBatch.DrawString(_currFont, text, position + Vector2.UnitY * outlineWidth, outlineColor,
                         0, _fontOrigin, _actualScale, SpriteEffects.None, 0.5f);
-                    spriteBatch.DrawString(_currFont, _processedText, _position - Vector2.UnitY * outlineWidth, outlineColor,
+                    spriteBatch.DrawString(_currFont, text, position - Vector2.UnitY * outlineWidth, outlineColor,
                         0, _fontOrigin, _actualScale, SpriteEffects.None, 0.5f);
                 }
             }
-
-            // get fill color
-            Color fillCol = UserInterface.Active.DrawUtils.FixColorOpacity(FillColor);
-
-            // draw text itself
-            spriteBatch.DrawString(_currFont, _processedText, _position, fillCol,
-                0, _fontOrigin, _actualScale, SpriteEffects.None, 0.5f);
-
-            // call base draw function
-            base.DrawEntity(spriteBatch, phase);
         }
     }
 }
