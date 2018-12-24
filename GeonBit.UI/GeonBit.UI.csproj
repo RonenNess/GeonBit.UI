@@ -75,6 +75,7 @@
     <Compile Include="Source\Entities\StyleSheet.cs" />
     <Compile Include="Source\Entities\TextInput.cs" />
     <Compile Include="Source\Entities\TextInputValidators.cs" />
+    <Compile Include="Source\Entities\TypeWriterParagraph.cs" />
     <Compile Include="Source\Entities\VerticalScrollbar.cs" />
     <Compile Include="Source\Exceptions.cs" />
     <Compile Include="Source\Input\DefaultInputProvider.cs" />
