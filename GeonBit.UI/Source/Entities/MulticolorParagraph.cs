@@ -140,7 +140,7 @@ namespace GeonBit.UI.Entities
             set
             {
                 _enableColorInstructions = value;
-                _needUpdateColors = true;
+                NeedUpdateColors = true;
             }
         }
 
@@ -154,16 +154,20 @@ namespace GeonBit.UI.Entities
                 {
                     _text = value;
                     MarkAsDirty();
-                    if (EnableColorInstructions) _needUpdateColors = true;
+                    if (EnableColorInstructions) NeedUpdateColors = true;
                 }
             }
         }
-
-        // do we need to update color-related stuff?
-        private bool _needUpdateColors = true;
-
-        // color-changing instructions in current paragraph. key is char index, value is color change command.
-        Dictionary<int, ColorInstruction> _colorInstructions = new Dictionary<int, ColorInstruction>();
+        
+        /// <summary>
+        /// Do we need to update color-related stuff?
+        /// </summary>
+        protected bool NeedUpdateColors = true;
+        
+        /// <summary>
+        /// Color-changing instructions in current paragraph. Key is char index, value is color change command.
+        /// </summary>
+        protected Dictionary<int, ColorInstruction> ColorInstructions = new Dictionary<int, ColorInstruction>();
 
         /// <summary>
         /// Create the paragraph.
@@ -205,7 +209,7 @@ namespace GeonBit.UI.Entities
         internal protected override void InitAfterDeserialize()
         {
             base.InitAfterDeserialize();
-            _needUpdateColors = true;
+            NeedUpdateColors = true;
         }
 
         // regex to find color instructions
@@ -214,10 +218,10 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Parse special color-changing instructions inside the text.
         /// </summary>
-        private void ParseColorInstructions()
+        protected void ParseColorInstructions()
         {
             // clear previous color instructions
-            _colorInstructions.Clear();
+            ColorInstructions.Clear();
 
             // if color instructions are disabled, stop here
             if (!EnableColorInstructions) { return; }
@@ -231,7 +235,7 @@ namespace GeonBit.UI.Entities
                 foreach (System.Text.RegularExpressions.Match oMatch in oMatches)
                 {
                     string sColor = oMatch.Value.Substring(2, oMatch.Value.Length - 4);
-                    _colorInstructions.Add(oMatch.Index - iLastLength, new ColorInstruction(sColor));
+                    ColorInstructions.Add(oMatch.Index - iLastLength, new ColorInstruction(sColor));
                     iLastLength += oMatch.Value.Length;
                 }
 
@@ -240,7 +244,7 @@ namespace GeonBit.UI.Entities
             }
 
             // no longer need to update colors
-            _needUpdateColors = false;
+            NeedUpdateColors = false;
         }
 
         /// <summary>
@@ -259,7 +263,7 @@ namespace GeonBit.UI.Entities
         override protected void DrawEntity(SpriteBatch spriteBatch, DrawPhase phase)
         {
             // update processed text if needed
-            if (_needUpdateColors)
+            if (NeedUpdateColors)
             {
                 ParseColorInstructions();
                 UpdateDestinationRects();
@@ -268,7 +272,7 @@ namespace GeonBit.UI.Entities
             DrawOutline(spriteBatch, _processedText, _position);
 
             // if there are color changing instructions in paragraph, draw with color changes
-            if (_colorInstructions.Count > 0)
+            if (ColorInstructions.Count > 0)
             {
                 int iTextIndex = 0;
                 Color oColor = FillColor;
@@ -277,7 +281,7 @@ namespace GeonBit.UI.Entities
                 foreach (char cCharacter in _processedText)
                 {
                     ColorInstruction colorInstruction;
-                    if (_colorInstructions.TryGetValue(iTextIndex, out colorInstruction))
+                    if (ColorInstructions.TryGetValue(iTextIndex, out colorInstruction))
                     {
                         if (colorInstruction.UseFillColor)
                         {
@@ -306,10 +310,7 @@ namespace GeonBit.UI.Entities
                 }
             }
             // if there are no color-changing instructions, just draw the paragraph as-is
-            else
-            {
-                base.DrawEntity(spriteBatch, phase);
-            }
+            else base.DrawEntity(spriteBatch, phase);
         }
     }
 }
