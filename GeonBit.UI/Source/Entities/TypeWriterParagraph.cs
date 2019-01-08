@@ -112,6 +112,29 @@ namespace GeonBit.UI.Source.Entities
         }
 
         /// <summary>
+        /// Update dest rect and internal dest rect.
+        /// This is called internally whenever a change is made to the entity or its parent.
+        /// </summary>
+        override internal protected void UpdateDestinationRects()
+        {
+            // call base function
+            base.UpdateDestinationRects();
+
+            _wholeCharSizeX = 0;
+            _wholeCharSizeY = 0;
+
+            for (int i = 0; i < _charPropertyList.Count; i++)
+            {
+                CharProperty newCharProperty = _charPropertyList[i];
+                newCharProperty.Size = GetCharacterActualSize();
+                newCharProperty.Position = _position;
+
+                CalculateCharSizePosition(ref newCharProperty);
+                _charPropertyList[i] = newCharProperty;
+            }
+        }
+
+        /// <summary>
         /// Draw entity outline. Note: in paragraph its a special case and we implement it inside the DrawEntity function.
         /// </summary>
         /// <param name="spriteBatch">Sprite batch to draw on.</param>
@@ -212,20 +235,25 @@ namespace GeonBit.UI.Source.Entities
                     else charProperty.Color = _lastColor ?? FillColor;
                 }
 
-                if (charProperty.Char != '\n')
-                {
-                    _wholeCharSizeX += charProperty.Size.X;
-                }
-                else
-                {
-                    _wholeCharSizeX = 0;
-                    _wholeCharSizeY += charProperty.Size.Y;
-                }
-                charProperty.Position.X += _wholeCharSizeX;
-                charProperty.Position.Y += _wholeCharSizeY;
-
+                CalculateCharSizePosition(ref charProperty);
                 _charPropertyList.Add(charProperty);
             }
+        }
+
+        // calculate the size and the position of a char.
+        private void CalculateCharSizePosition(ref CharProperty charProperty)
+        {
+            if (charProperty.Char != '\n')
+            {
+                _wholeCharSizeX += charProperty.Size.X;
+            }
+            else
+            {
+                _wholeCharSizeX = 0;
+                _wholeCharSizeY += charProperty.Size.Y;
+            }
+            charProperty.Position.X += _wholeCharSizeX;
+            charProperty.Position.Y += _wholeCharSizeY;
         }
     }
 }
