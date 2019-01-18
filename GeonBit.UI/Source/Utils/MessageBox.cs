@@ -25,6 +25,35 @@ namespace GeonBit.UI.Utils
     public static class MessageBox
     {
         /// <summary>
+        /// Return object containing all the data of a message box instance.
+        /// </summary>
+        public class MessageBoxHandle
+        {
+            /// <summary>
+            /// Message box panel.
+            /// </summary>
+            public Entities.Panel Panel;
+
+            /// <summary>
+            /// Object used to fade out the background.
+            /// </summary>
+            public Entities.Entity BackgroundFader;
+
+            /// <summary>
+            /// Hide / close the message box.
+            /// </summary>
+            public void Close()
+            {
+                if (Panel.Parent != null)
+                {
+                    Panel.RemoveFromParent();
+                    if (BackgroundFader != null) { BackgroundFader.RemoveFromParent(); }
+                    OpenedMsgBoxesCount--;
+                }
+            }
+        }
+
+        /// <summary>
         /// Default size to use for message boxes.
         /// </summary>
         public static Vector2 DefaultMsgBoxSize = new Vector2(480, 350);
@@ -91,12 +120,16 @@ namespace GeonBit.UI.Utils
         /// <param name="append">Optional array of entities to add to msg box under the text and above the buttons.</param>
         /// <param name="size">Alternative size to use.</param>
         /// <param name="onDone">Optional callback to call when this msgbox closes.</param>
-        /// <returns>Message box panel.</returns>
-        public static Entities.Panel ShowMsgBox(string header, string text, MsgBoxOption[] options, Entities.Entity[] append = null, Vector2? size = null, System.Action onDone = null)
+        /// <returns>Message box handle.</returns>
+        public static MessageBoxHandle ShowMsgBox(string header, string text, MsgBoxOption[] options, Entities.Entity[] append = null, Vector2? size = null, System.Action onDone = null)
         {
+            // object to return
+            MessageBoxHandle ret = new MessageBoxHandle();
+
             // create panel for messagebox
             size = size ?? new Vector2(500, 500);
             var panel = new Entities.Panel(size.Value);
+            ret.Panel = panel;
             panel.AddChild(new Entities.Header(header));
             panel.AddChild(new Entities.HorizontalLine());
             panel.AddChild(new Entities.Paragraph(text));
@@ -113,6 +146,7 @@ namespace GeonBit.UI.Utils
                 fader.OutlineWidth = 0;
                 fader.ClickThrough = false;
                 UserInterface.Active.AddEntity(fader);
+                ret.BackgroundFader = fader;
             }
 
             // add custom appended entities
@@ -160,7 +194,7 @@ namespace GeonBit.UI.Utils
 
             // add panel to active ui
             UserInterface.Active.AddEntity(panel);
-            return panel;
+            return ret;
         }
 
         /// <summary>
@@ -171,7 +205,7 @@ namespace GeonBit.UI.Utils
         /// <param name="closeButtonTxt">Text for the closing button (if not provided will use default).</param>
         /// <param name="size">Message box size (if not provided will use default).</param>
         /// <returns>Message box panel.</returns>
-        public static Entities.Panel ShowMsgBox(string header, string text, string closeButtonTxt = null, Vector2? size = null)
+        public static MessageBoxHandle ShowMsgBox(string header, string text, string closeButtonTxt = null, Vector2? size = null)
         {
             return ShowMsgBox(header, text, new MsgBoxOption[]
             {
