@@ -69,5 +69,9 @@ namespace GeonBit.UI.DataTypes
 
         // shadow scale
         public float? ShadowScale = null;
+
+        // default entity size
+        [XmlElement("Vector", IsNullable = true)]
+        public Vector2? DefaultSize = null;
     }
 }

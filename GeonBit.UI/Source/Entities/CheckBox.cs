@@ -42,9 +42,6 @@ namespace GeonBit.UI.Entities
         // checkbox widget size (the graphic box part)
         static Vector2 CHECKBOX_SIZE = new Vector2(35, 35);
 
-        /// <summary>Default checkbox size for when no size is provided or when -1 is set for either width or height.</summary>
-        new public static Vector2 DefaultSize = new Vector2(0f, 40f);
-
         /// <summary>Default styling for the checkbox itself. Note: loaded from UI theme xml file.</summary>
         new public static StyleSheet DefaultStyle = new StyleSheet();
 

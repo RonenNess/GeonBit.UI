@@ -117,9 +117,6 @@ namespace GeonBit.UI.Entities
         /// </summary>
         public int MaxItems = 0;
 
-        /// <summary>Default select list size in pixels.</summary>
-        new public static Vector2 DefaultSize = new Vector2(0f, 220f);
-
         /// <summary>
         /// Create the select list.
         /// </summary>

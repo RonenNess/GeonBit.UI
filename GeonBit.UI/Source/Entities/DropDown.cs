@@ -51,9 +51,6 @@ namespace GeonBit.UI.Entities
         /// <summary>Default styling for the dropdown currently-selected label. Note: loaded from UI theme xml file.</summary>
         public static StyleSheet DefaultSelectedParagraphStyle = new StyleSheet();
 
-        /// <summary>Default select list size in pixels.</summary>
-        new public static Vector2 DefaultSize = new Vector2(0f, 220f);
-
         // dictionary of special events for specific items selection
         private Dictionary<string, System.Action> _perItemCallbacks = new Dictionary<string, System.Action>();
 

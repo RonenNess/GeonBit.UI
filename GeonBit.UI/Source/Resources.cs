@@ -392,6 +392,7 @@ namespace GeonBit.UI
             if (styles.SpaceBefore != null) { sheet[state.ToString() + "." + "SpaceBefore"] = new StyleProperty((Vector2)styles.SpaceBefore); }
             if (styles.SpaceAfter != null) { sheet[state.ToString() + "." + "SpaceAfter"] = new StyleProperty((Vector2)styles.SpaceAfter); }
             if (styles.ShadowScale != null) { sheet[state.ToString() + "." + "ShadowScale"] = new StyleProperty((float)styles.ShadowScale); }
+            if (styles.DefaultSize != null) { sheet[state.ToString() + "." + "DefaultSize"] = new StyleProperty((Vector2)styles.DefaultSize); }
         }
     }
 }

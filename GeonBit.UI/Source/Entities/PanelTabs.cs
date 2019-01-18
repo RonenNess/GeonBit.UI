@@ -144,9 +144,9 @@ namespace GeonBit.UI.Entities
             _internalRoot._hiddenInternalEntity = true;
 
             // rebuild tabs
-            var buttons = new List<Entity>(_buttonsPanel.Children);
+            var buttons = new List<Entity>(_buttonsPanel._children);
             _buttonsPanel.ClearChildren();
-            var panels = new List<Entity>(_panelsPanel.Children);
+            var panels = new List<Entity>(_panelsPanel._children);
             _panelsPanel.ClearChildren();
             for (int i = 0; i < panels.Count; ++i)
             {

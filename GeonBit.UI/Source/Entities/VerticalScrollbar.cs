@@ -34,9 +34,6 @@ namespace GeonBit.UI.Entities
         /// </summary>
         public bool AdjustMaxAutomatically = false;
 
-        /// <summary>Default scrollbar size for when no size is provided or when -1 is set for either width or height.</summary>
-        new public static Vector2 DefaultSize = new Vector2(30f, 0f);
-
         /// <summary>Default styling for vertical scrollbars. Note: loaded from UI theme xml file.</summary>
         new public static StyleSheet DefaultStyle = new StyleSheet();
 
@@ -186,7 +183,7 @@ namespace GeonBit.UI.Entities
                 int parentTop = Parent.InternalDestRect.Y;
 
                 // iterate parent children to get the most bottom child
-                foreach (var child in Parent.Children)
+                foreach (var child in Parent._children)
                 {
                     // skip self
                     if (child == this) continue;

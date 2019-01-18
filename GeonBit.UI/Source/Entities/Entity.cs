@@ -64,6 +64,7 @@ namespace GeonBit.UI.Entities
         public static readonly string ShadowOffset = "ShadowOffset";
         public static readonly string OutlineColor = "OutlineColor";
         public static readonly string OutlineWidth = "OutlineWidth";
+        public static readonly string DefaultSize = "DefaultSize";
     }
 
     /// <summary>
@@ -145,8 +146,10 @@ namespace GeonBit.UI.Entities
             Entity.MakeSerializable(typeof(Entity));
         }
 
-        // list of child elements
-        private List<Entity> _children = new List<Entity>();
+        /// <summary>
+        /// List of child elements.
+        /// </summary>
+        protected internal List<Entity> _children = new List<Entity>();
 
         /// <summary>
         /// Get / set children list.
@@ -503,9 +506,6 @@ namespace GeonBit.UI.Entities
         // true if this entity is currently being dragged.
         private bool _isBeingDragged = false;
 
-        /// <summary>Default size this entity will have when no size is provided or when -1 is set for either width or height.</summary>
-        public static Vector2 DefaultSize = Vector2.Zero;
-
         /// <summary>If true, users will not be able to drag this entity outside its parent boundaries.</summary>
         public bool LimitDraggingToParentBoundaries = true;
 
@@ -520,18 +520,13 @@ namespace GeonBit.UI.Entities
             // set as dirty (eg need to recalculate destination rect)
             MarkAsDirty();
 
-            // store size, anchor and offset
-            Vector2 defaultSize = EntityDefaultSize;
-            _size = size ?? defaultSize;
-            _offset = offset ?? Vector2.Zero;
-            _anchor = anchor;
-
             // set basic default style
             UpdateStyle(DefaultStyle);
 
-            // check default size on specific axises
-            if (_size.X == -1) { _size.X = defaultSize.X; }
-            if (_size.Y == -1) { _size.Y = defaultSize.Y; }
+            // store size, anchor and offset
+            _size = size ?? USE_DEFAULT_SIZE;
+            _offset = offset ?? Vector2.Zero;
+            _anchor = anchor;
         }
 
         /// <summary>
@@ -541,23 +536,8 @@ namespace GeonBit.UI.Entities
         {
             get
             {
-                // get current class type
-                System.Type type = GetType();
-
-                // try to get default size static property, and if not found, climb to parent class until DefaultSize is defined.
-                // note: eventually it will stop at Entity, since we have defined default size here.
-                while (true)
-                {
-                    // try to get DefaultSize field and if found return it
-                    FieldInfo field = type.GetField("DefaultSize", BindingFlags.Public | BindingFlags.Static);
-                    if (field != null)
-                    {
-                        return (Vector2)(field.GetValue(null));
-                    }
-
-                    // if not found climb up to parent
-                    type = type.BaseType;
-                }
+                var ret = GetStyleProperty(StylePropertyIds.DefaultSize, EntityState.Default, true).asVector;
+                return ret;
             }
         }
 
@@ -1630,7 +1610,9 @@ namespace GeonBit.UI.Entities
         {
             // simple case: if size is not in percents, just return as-is
             if (size.X > 1f && size.Y > 1f)
+            {
                 return size.ToPoint();
+            }
 
             // get parent internal destination rectangle
             _parent.UpdateDestinationRectsIfDirty();
@@ -1655,6 +1637,14 @@ namespace GeonBit.UI.Entities
             if (_parent == null)
             {
                 return ret;
+            }
+
+            // set default size
+            if (_size.X == -1 || _size.Y == -1)
+            {
+                Vector2 defaultSize = EntityDefaultSize;
+                if (_size.X == -1) { _size.X = defaultSize.X; }
+                if (_size.Y == -1) { _size.Y = defaultSize.Y; }
             }
 
             // get parent internal destination rectangle

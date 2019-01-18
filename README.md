@@ -2014,9 +2014,12 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Added KeyboardInput provider interface, allowing the user to implement alternative keyboard-based input methods.
 - Fixed global scaling with percent-based sizes that grow / shrink too much.
 
-### 3.3.0.1 [NOT RELEASED YET]
+### 3.4.0.0 [NOT RELEASED YET]
 
 - Fixed crash with Turkish locale and loading textures (and potentially other languages).
+- Moved default size property to be part of the theme stylesheet, and not hard-coded (note: this breaks old themes need to add a new property).
+- Improved return value of the message boxes utility to return a useful object with Close() function.
+- Added auto height properly for panels.
 
 ## Credits
 

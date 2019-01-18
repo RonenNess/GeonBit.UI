@@ -42,9 +42,6 @@ namespace GeonBit.UI.Entities
         /// <summary>Default styling for the progress bar fill part. Note: loaded from UI theme xml file.</summary>
         public static StyleSheet DefaultFillStyle = new StyleSheet();
 
-        /// <summary>Default progressbar size for when no size is provided or when -1 is set for either width or height.</summary>
-        new public static Vector2 DefaultSize = new Vector2(0f, 52f);
-
         /// <summary>The fill part of the progress bar.</summary>
         public Image ProgressFill;
 

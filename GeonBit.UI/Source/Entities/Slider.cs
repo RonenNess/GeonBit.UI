@@ -63,9 +63,6 @@ namespace GeonBit.UI.Entities
         /// <summary>Actual mark width in pixels (used internally).</summary>
         protected int _markWidth = 20;
 
-        /// <summary>Default slider size for when no size is provided or when -1 is set for either width or height.</summary>
-        new public static Vector2 DefaultSize = new Vector2(0f, 30f);
-
         /// <summary>
         /// Create the slider.
         /// </summary>

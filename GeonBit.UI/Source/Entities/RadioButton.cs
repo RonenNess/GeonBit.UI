@@ -37,9 +37,6 @@ namespace GeonBit.UI.Entities
             Entity.MakeSerializable(typeof(RadioButton));
         }
 
-        /// <summary>Default radio buttons size in pixels.</summary>
-        new public static Vector2 DefaultSize = new Vector2(0f, 50f);
-
         /// <summary>Default styling for the radio button itself. Note: loaded from UI theme xml file.</summary>
         new public static StyleSheet DefaultStyle = new StyleSheet();
 
@@ -100,7 +97,7 @@ namespace GeonBit.UI.Entities
             // disable all sibling radio buttons
             if (_parent != null)
             {
-                foreach (Entity entity in _parent.Children)
+                foreach (Entity entity in _parent._children)
                 {
                     // skip self
                     if (entity == this)
