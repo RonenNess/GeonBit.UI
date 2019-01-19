@@ -33,6 +33,16 @@ namespace GeonBit.UI.Animators
         /// If value = 1f it means it will take a second to type each character.
         /// </summary>
         public float SpeedFactor = 10f;
+        
+        /// <summary>
+        /// Return if an entity type is compatible with this animator.
+        /// </summary>
+        /// <param name="entity">Entity to test.</param>
+        /// <returns>True if compatible, false otherwise.</returns>
+        public override bool CheckEntityCompatibility(Entities.Entity entity)
+        {
+            return entity is Entities.Paragraph;
+        }
 
         /// <summary>
         /// Do animation.

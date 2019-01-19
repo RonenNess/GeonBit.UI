@@ -18,11 +18,30 @@ namespace GeonBit.UI.Animators
         /// <param name="entity">Target entity to animate.</param>
         internal void SetTargetEntity(Entities.Entity entity)
         {
+            // validate compatibility
+            if (!CheckEntityCompatibility(entity))
+            {
+                throw new Exceptions.InvalidValueException("Entity type not compatible with this animator!");
+            }
+
+            // make sure not already attached
             if (TargetEntity != null && entity != null)
             {
                 throw new Exceptions.InvalidStateException("Cannot attach animator to entity after it was already attached!");
             }
+
+            // set entity
             TargetEntity = entity;
+        }
+
+        /// <summary>
+        /// Return if an entity type is compatible with this animator.
+        /// </summary>
+        /// <param name="entity">Entity to test.</param>
+        /// <returns>True if compatible, false otherwise.</returns>
+        public virtual bool CheckEntityCompatibility(Entities.Entity entity)
+        {
+            return true;
         }
 
         /// <summary>
