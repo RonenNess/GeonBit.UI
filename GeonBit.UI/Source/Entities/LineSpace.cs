@@ -44,12 +44,11 @@ namespace GeonBit.UI.Entities
             ClickThrough = true;
 
             // set size based on space count
-            _size.X = 0f;
-            _size.Y = spacesCount != 0 ? 
-                SpaceSize * GlobalScale * System.Math.Max(spacesCount, 0) : -1;
+            Size = new Vector2(0, 1);
 
             // default padding and spacing zero
-            SpaceAfter = SpaceBefore = Padding = Vector2.Zero;
+            SpaceBefore = Padding = Vector2.Zero;
+            SpaceAfter = new Vector2(0, SpaceSize * GlobalScale * spacesCount);
         }
 
         /// <summary>
