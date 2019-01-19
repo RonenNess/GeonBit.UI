@@ -2020,6 +2020,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Moved default size property to be part of the theme stylesheet, and not hard-coded (note: this breaks old themes need to add a new property).
 - Improved return value of the message boxes utility to return a useful object with Close() function.
 - Added auto height properly for panels.
+- Added optional custom texture for panels.
 
 ## Credits
 

@@ -66,6 +66,12 @@ namespace GeonBit.UI.Entities
         private PanelOverflowBehavior _overflowMode = PanelOverflowBehavior.Overflow;
 
         /// <summary>
+        /// If true, will set panel height automatically based on children.
+        /// Note: this will change the Size.Y property every time children under this panel change.
+        /// </summary>
+        public bool AdjustHeightAutomatically = false;
+
+        /// <summary>
         /// Panel scrollbar for specific overflow modes.
         /// </summary>
         protected VerticalScrollbar _scrollbar = null;
@@ -112,6 +118,10 @@ namespace GeonBit.UI.Entities
             base(size, skin, anchor, offset)
         {
             UpdateStyle(DefaultStyle);
+            if (size.Y == -1)
+            {
+                AdjustHeightAutomatically = true;
+            }
         }
 
         /// <summary>
@@ -150,6 +160,22 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Draw this panel.
+        /// </summary>
+        /// <param name="spriteBatch">Spritebatch to use when drawing this panel.</param>
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            // adjust height automatically
+            if (AdjustHeightAutomatically)
+            {
+                SetHeightBasedOnChildren();
+            }
+
+            // call base drawing function
+            base.Draw(spriteBatch);
+        }
+
+        /// <summary>
         /// Get the rectangle used for target texture for this panel.
         /// </summary>
         /// <returns>Destination rect for target texture.</returns>
@@ -166,17 +192,69 @@ namespace GeonBit.UI.Entities
         /// <param name="spriteBatch">SpriteBatch used to draw entities.</param>
         protected override void BeforeDrawChildren(SpriteBatch spriteBatch)
         {
-            // if overflow mode is simply overflow, do nothing.
+            // if overflow mode is simply overflow, dispose render target if such exist
             if (_overflowMode == PanelOverflowBehavior.Overflow)
             {
                 DisposeRenderTarget();
-                return;
+            }
+            // if we have a render target, update it
+            else
+            {
+                UpdatePanelRenderTarget(spriteBatch);
+            }
+            
+        }
+
+        /// <summary>
+        /// Set the panel's height to match its children automatically.
+        /// Note: to make this happen on its own every frame, set the 'AdjustHeightAutomatically' property to true.
+        /// </summary>
+        public void SetHeightBasedOnChildren()
+        {
+            // sanity check - not supported with scrollbar
+            if (PanelOverflowBehavior == PanelOverflowBehavior.VerticalScroll)
+            {
+                throw new Exceptions.InvalidStateException("Cannot set panel height automatically while having vertical scrollbar!");
             }
 
+            // calc the desired height this panel should have
+            var selfTop = GetActualDestRect().Y - Padding.Y;
+            var maxHeight = 0f;
+            foreach (var child in _children)
+            {
+                if (!child.Draggable &&
+                    (child.Anchor == Anchor.TopCenter || child.Anchor == Anchor.TopLeft || child.Anchor == Anchor.TopRight ||
+                    child.Anchor == Anchor.Auto || child.Anchor == Anchor.AutoCenter || child.Anchor == Anchor.AutoInline || child.Anchor == Anchor.AutoInlineNoBreak))
+                {
+                    var currHeight = (child.GetActualDestRect().Bottom - selfTop);
+                    if (currHeight > maxHeight)
+                    {
+                        maxHeight = currHeight;
+                    }
+                }
+            }
+
+            // check if need to update size
+            if (Size.Y != maxHeight)
+            {
+                Size = new Vector2(Size.X, maxHeight / UserInterface.Active.GlobalScale);
+                UpdateDestinationRects();
+                foreach(var child in _children)
+                {
+                    child.UpdateDestinationRects();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Update panel's render target.
+        /// </summary>
+        private void UpdatePanelRenderTarget(SpriteBatch spriteBatch)
+        {
             // create the render target for this panel
             Rectangle targetRect = GetRenderTargetRect();
-            if (_renderTarget == null || 
-                _renderTarget.Width != targetRect.Width || 
+            if (_renderTarget == null ||
+                _renderTarget.Width != targetRect.Width ||
                 _renderTarget.Height != targetRect.Height)
             {
                 // recreate render target
@@ -218,7 +296,7 @@ namespace GeonBit.UI.Entities
                 else
                 {
                     AddChild(_scrollbar);
-                }           
+                }
             }
 
             // to make sure the dest rect will not be recalculated while drawing children

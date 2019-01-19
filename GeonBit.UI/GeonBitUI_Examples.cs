@@ -268,7 +268,7 @@ namespace GeonBit.UI.Example
                 // example: welcome message
                 {
                     // create panel and add to list of panels and manager
-                    Panel panel = new Panel(new Vector2(520, 620));
+                    Panel panel = new Panel(new Vector2(520, -1));
                     panels.Add(panel);
                     UserInterface.Active.AddEntity(panel);
 
@@ -282,7 +282,8 @@ namespace GeonBit.UI.Example
 GeonBit.UI is the UI system of the GeonBit project.
 It provide a simple yet extensive UI for MonoGame based projects.
 
-To start the demo, please click the 'Next' button on the top navbar.");
+To start the demo, please click the 'Next' button on the top bar.
+");
                     panel.AddChild(welcomeText);
                     panel.AddChild(new Paragraph("V" + UserInterface.VERSION, Anchor.BottomRight)).FillColor = Color.Yellow;
                 }
@@ -290,7 +291,7 @@ To start the demo, please click the 'Next' button on the top navbar.");
                 // example: features list
                 {
                     // create panel and add to list of panels and manager
-                    Panel panel = new Panel(new Vector2(500, 590));
+                    Panel panel = new Panel(new Vector2(500, -1));
                     panels.Add(panel);
                     UserInterface.Active.AddEntity(panel);
 
@@ -320,7 +321,7 @@ To start the demo, please click the 'Next' button on the top navbar.");
                 // example: basic concepts
                 {
                     // create panel and add to list of panels and manager
-                    Panel panel = new Panel(new Vector2(740, 540));
+                    Panel panel = new Panel(new Vector2(740, -1));
                     panels.Add(panel);
                     UserInterface.Active.AddEntity(panel);
 
@@ -361,7 +362,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 // example: buttons
                 {
                     // create panel and add to list of panels and manager
-                    Panel panel = new Panel(new Vector2(450, 660));
+                    Panel panel = new Panel(new Vector2(450, -1));
                     panels.Add(panel);
                     UserInterface.Active.AddEntity(panel);
 
@@ -396,7 +397,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 // example: checkboxes and radio buttons
                 {
                     // create panel and add to list of panels and manager
-                    Panel panel = new Panel(new Vector2(450, 520));
+                    Panel panel = new Panel(new Vector2(450, -1));
                     panels.Add(panel);
                     UserInterface.Active.AddEntity(panel);
 
@@ -422,7 +423,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 // example: panels
                 {
                     // create panel and add to list of panels and manager
-                    Panel panel = new Panel(new Vector2(450, 640));
+                    Panel panel = new Panel(new Vector2(450, -1));
                     panels.Add(panel);
                     UserInterface.Active.AddEntity(panel);
 
@@ -430,7 +431,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                     panel.AddChild(new Header("Panels"));
                     panel.AddChild(new HorizontalLine());
                     panel.AddChild(new Paragraph("GeonBit.UI comes with 4 alternative panel skins:"));
-                    int panelHeight = 110;
+                    int panelHeight = 80;
                     {
                         Panel intPanel = new Panel(new Vector2(0, panelHeight), PanelSkin.Fancy, Anchor.Auto);
                         intPanel.AddChild(new Paragraph("Fancy Panel", Anchor.Center));
@@ -449,6 +450,12 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                     {
                         Panel intPanel = new Panel(new Vector2(0, panelHeight), PanelSkin.ListBackground, Anchor.Auto);
                         intPanel.AddChild(new Paragraph("List Background", Anchor.Center));
+                        panel.AddChild(intPanel);
+                    }
+                    {
+                        Panel intPanel = new Panel(new Vector2(0, panelHeight * 2), PanelSkin.ListBackground, Anchor.Auto);
+                        intPanel.SetCustomSkin(Content.Load<Texture2D>("example/btn_default"));
+                        intPanel.AddChild(new Paragraph("Custom Skin", Anchor.Center));
                         panel.AddChild(intPanel);
                     }
                 }
@@ -485,7 +492,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 // example: sliders
                 {
                     // create panel and add to list of panels and manager
-                    Panel panel = new Panel(new Vector2(450, 540));
+                    Panel panel = new Panel(new Vector2(450, -1));
                     panels.Add(panel);
                     UserInterface.Active.AddEntity(panel);
 
@@ -511,7 +518,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 // example: lists
                 {
                     // create panel and add to list of panels and manager
-                    Panel panel = new Panel(new Vector2(450, 460));
+                    Panel panel = new Panel(new Vector2(450, -1));
                     panels.Add(panel);
                     UserInterface.Active.AddEntity(panel);
 
@@ -537,7 +544,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 // example: list as tables
                 {
                     // create panel and add to list of panels and manager
-                    Panel panel = new Panel(new Vector2(620, 460));
+                    Panel panel = new Panel(new Vector2(620, -1));
                     panels.Add(panel);
                     UserInterface.Active.AddEntity(panel);
 
@@ -567,7 +574,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 // example: lists skins
                 {
                     // create panel and add to list of panels and manager
-                    Panel panel = new Panel(new Vector2(450, 460));
+                    Panel panel = new Panel(new Vector2(450, -1));
                     panels.Add(panel);
                     UserInterface.Active.AddEntity(panel);
 
@@ -593,7 +600,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                 // example: dropdown
                 {
                     // create panel and add to list of panels and manager
-                    Panel panel = new Panel(new Vector2(450, 430));
+                    Panel panel = new Panel(new Vector2(450, -1));
                     panels.Add(panel);
                     UserInterface.Active.AddEntity(panel);
 
@@ -660,7 +667,7 @@ Here's a button, to test clicking while scrolled:"));
                 // example: icons
                 {
                     // create panel and add to list of panels and manager
-                    Panel panel = new Panel(new Vector2(460, 640));
+                    Panel panel = new Panel(new Vector2(460, -1));
                     panels.Add(panel);
                     UserInterface.Active.AddEntity(panel);
 
@@ -689,7 +696,7 @@ Here's a button, to test clicking while scrolled:"));
                 // example: text input
                 {
                     // create panel and add to list of panels and manager
-                    Panel panel = new Panel(new Vector2(450, 700));
+                    Panel panel = new Panel(new Vector2(450, -1));
                     panels.Add(panel);
                     UserInterface.Active.AddEntity(panel);
 
@@ -729,7 +736,7 @@ Here's a button, to test clicking while scrolled:"));
                 // example: tooltip text
                 {
                     // create panel and add to list of panels and manager
-                    Panel panel = new Panel(new Vector2(450, 550));
+                    Panel panel = new Panel(new Vector2(450, -1));
                     panels.Add(panel);
                     UserInterface.Active.AddEntity(panel);
 
@@ -752,7 +759,7 @@ And yes, it can be multiline.";
                 // example: locked text input
                 {
                     // create panel and add to list of panels and manager
-                    Panel panel = new Panel(new Vector2(500, 570));
+                    Panel panel = new Panel(new Vector2(500, -1));
                     panels.Add(panel);
                     UserInterface.Active.AddEntity(panel);
 
@@ -824,7 +831,7 @@ Maybe something interesting in tab3?"));
                 // example: messages
                 {
                     // create panel and add to list of panels and manager
-                    Panel panel = new Panel(new Vector2(450, 560));
+                    Panel panel = new Panel(new Vector2(450, -1));
                     panels.Add(panel);
                     UserInterface.Active.AddEntity(panel);
 
@@ -876,7 +883,7 @@ Maybe something interesting in tab3?"));
                 // example: file menu
                 {
                     // create panel and add to list of panels and manager
-                    Panel panel = new Panel(new Vector2(750, 660));
+                    Panel panel = new Panel(new Vector2(750, -1));
                     panels.Add(panel);
                     UserInterface.Active.AddEntity(panel);
 
@@ -976,7 +983,7 @@ Maybe something interesting in tab3?"));
                 // example: Cursors
                 {
                     // create panel and add to list of panels and manager
-                    Panel panel = new Panel(new Vector2(450, 540));
+                    Panel panel = new Panel(new Vector2(450, -1));
                     panels.Add(panel);
                     UserInterface.Active.AddEntity(panel);
 
@@ -1022,7 +1029,7 @@ Maybe something interesting in tab3?"));
                 // example: Misc
                 {
                     // create panel and add to list of panels and manager
-                    Panel panel = new Panel(new Vector2(530, 590));
+                    Panel panel = new Panel(new Vector2(530, -1));
                     panels.Add(panel);
                     UserInterface.Active.AddEntity(panel);
 
@@ -1075,7 +1082,7 @@ Maybe something interesting in tab3?"));
                 // example: character build page - intro
                 {
                     // create panel and add to list of panels and manager
-                    Panel panel = new Panel(new Vector2(500, 300));
+                    Panel panel = new Panel(new Vector2(500, -1));
                     panels.Add(panel);
                     UserInterface.Active.AddEntity(panel);
 
@@ -1173,7 +1180,7 @@ Click on 'Next' to see the character creation demo."));
                         for (int i = 0; i < 8; ++i)
                         {
                             Color color = baseColor * (1.0f - (i * 2 / 16.0f)); color.A = 255;
-                            ColoredRectangle currColorButton = new ColoredRectangle(color, Vector2.One * colorPickSize, Anchor.AutoInline);
+                            ColoredRectangle currColorButton = new ColoredRectangle(color, Vector2.One * colorPickSize, Anchor.AutoInlineNoBreak);
                             currColorButton.Padding = currColorButton.SpaceAfter = currColorButton.SpaceBefore = Vector2.Zero;
                             currColorButton.OnClick = (Entity entity) =>
                             {

@@ -18,13 +18,13 @@ namespace GeonBit.UI.Entities
     /// </summary>
     public enum PanelSkin
     {
-        /// <summary>No skin, eg panel itself is invisible.</summary>
+        /// <summary>No skin, the panel itself is invisible.</summary>
         None = -1,
 
         /// <summary>Default panel texture.</summary>
         Default = 0,
 
-        /// <summary>Alternative panel texture.</summary>
+        /// <summary>Alternative more decorated panel texture.</summary>
         Fancy = 1,
 
         /// <summary>Simple, grey panel. Useful for internal frames, eg when inside another panel.</summary>
@@ -54,6 +54,16 @@ namespace GeonBit.UI.Entities
 
         // panel style
         PanelSkin _skin;
+
+        /// <summary>
+        /// Optional alternative texture to use with this panel.
+        /// </summary>
+        protected Texture2D _customTexture;
+
+        /// <summary>
+        /// Custom frame size to use with optional custom texture.
+        /// </summary>
+        protected Vector2? _customFrame = null;
 
         /// <summary>
         /// Create the panel.
@@ -94,6 +104,18 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Override the default theme textures and set a custom skin for this specific button.
+        /// </summary>
+        /// <remarks>You must provide all state textures when overriding button skin.</remarks>
+        /// <param name="customTexture">Texture to use for default state.</param>
+        /// <param name="frameWidth">The width of the custom texture's frame, in percents of texture size.</param>
+        public void SetCustomSkin(Texture2D customTexture, Vector2? frameWidth = null)
+        {
+            _customTexture = customTexture;
+            _customFrame = frameWidth ?? null;
+        }
+
+        /// <summary>
         /// Draw the entity.
         /// </summary>
         /// <param name="spriteBatch">Sprite batch to draw on.</param>
@@ -104,9 +126,9 @@ namespace GeonBit.UI.Entities
             if (_skin != PanelSkin.None)
             {
                 // get texture based on skin
-                Texture2D texture = Resources.PanelTextures[_skin];
+                Texture2D texture = _customTexture ?? Resources.PanelTextures[_skin];
                 TextureData data = Resources.PanelData[(int)_skin];
-                Vector2 frameSize = new Vector2(data.FrameWidth, data.FrameHeight);
+                Vector2 frameSize = _customFrame ?? new Vector2(data.FrameWidth, data.FrameHeight);
 
                 // draw panel
                 UserInterface.Active.DrawUtils.DrawSurface(spriteBatch, texture, _destRect, frameSize, 1f, FillColor, Scale);

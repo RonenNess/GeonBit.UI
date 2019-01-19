@@ -56,7 +56,7 @@ namespace GeonBit.UI.Utils
         /// <summary>
         /// Default size to use for message boxes.
         /// </summary>
-        public static Vector2 DefaultMsgBoxSize = new Vector2(480, 350);
+        public static Vector2 DefaultMsgBoxSize = new Vector2(480, -1);
 
         /// <summary>
         /// Default text for OK button.
@@ -120,14 +120,15 @@ namespace GeonBit.UI.Utils
         /// <param name="append">Optional array of entities to add to msg box under the text and above the buttons.</param>
         /// <param name="size">Alternative size to use.</param>
         /// <param name="onDone">Optional callback to call when this msgbox closes.</param>
+        /// <param name="parent">Parent to add message box to (if not defined will use root)</param>
         /// <returns>Message box handle.</returns>
-        public static MessageBoxHandle ShowMsgBox(string header, string text, MsgBoxOption[] options, Entities.Entity[] append = null, Vector2? size = null, System.Action onDone = null)
+        public static MessageBoxHandle ShowMsgBox(string header, string text, MsgBoxOption[] options, Entities.Entity[] append = null, Vector2? size = null, System.Action onDone = null, Entities.Entity parent = null)
         {
             // object to return
             MessageBoxHandle ret = new MessageBoxHandle();
 
             // create panel for messagebox
-            size = size ?? new Vector2(500, 500);
+            size = size ?? new Vector2(500, -1);
             var panel = new Entities.Panel(size.Value);
             ret.Panel = panel;
             panel.AddChild(new Entities.Header(header));
@@ -159,7 +160,8 @@ namespace GeonBit.UI.Utils
             }
 
             // add bottom buttons panel
-            var buttonsPanel = new Entities.Panel(new Vector2(0, 70), Entities.PanelSkin.None, Entities.Anchor.BottomCenter);
+            var buttonsPanel = new Entities.Panel(new Vector2(0, 70), 
+                Entities.PanelSkin.None, size.Value.Y == -1 ? Entities.Anchor.Auto : Entities.Anchor.BottomCenter);
             buttonsPanel.Padding = Vector2.Zero;
             panel.AddChild(buttonsPanel);
 
@@ -192,8 +194,16 @@ namespace GeonBit.UI.Utils
                 buttonsPanel.AddChild(button);
             }
 
-            // add panel to active ui
-            UserInterface.Active.AddEntity(panel);
+            // add panel to given parent
+            if (parent != null)
+            {
+                parent.AddChild(panel);
+            }
+            // add panel to active ui root
+            else
+            {
+                UserInterface.Active.AddEntity(panel);
+            }
             return ret;
         }
 

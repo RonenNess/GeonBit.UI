@@ -1606,7 +1606,7 @@ namespace GeonBit.UI.Entities
         /// </summary>
         /// <param name="size">Size to calculate.</param>
         /// <returns>Actual size in pixels.</returns>
-        protected Point CalcActualSizeInPixels(Vector2 size)
+        protected virtual Point CalcActualSizeInPixels(Vector2 size)
         {
             // simple case: if size is not in percents, just return as-is
             if (size.X > 1f && size.Y > 1f)
@@ -1615,8 +1615,12 @@ namespace GeonBit.UI.Entities
             }
 
             // get parent internal destination rectangle
-            _parent.UpdateDestinationRectsIfDirty();
-            Rectangle parentDest = _parent._destRectInternal;
+            var parentDest = UserInterface.Active.Root._destRect;
+            if (_parent != null)
+            {
+                _parent.UpdateDestinationRectsIfDirty();
+                parentDest = _parent._destRectInternal;
+            }
 
             // calc and return size
             return new Point(
@@ -1633,13 +1637,15 @@ namespace GeonBit.UI.Entities
             // create new rectangle
             Rectangle ret = new Rectangle();
 
-            // no parent? stop here and return empty rect
-            if (_parent == null)
+            // no parent? assume active interface root as parent
+            var parent = _parent;
+            if (parent == null)
             {
-                return ret;
+                parent = UserInterface.Active.Root;
             }
 
             // set default size
+            var originSize = _size;
             if (_size.X == -1 || _size.Y == -1)
             {
                 Vector2 defaultSize = EntityDefaultSize;
@@ -1648,8 +1654,8 @@ namespace GeonBit.UI.Entities
             }
 
             // get parent internal destination rectangle
-            _parent.UpdateDestinationRectsIfDirty();
-            Rectangle parentDest = _parent._destRectInternal;
+            parent.UpdateDestinationRectsIfDirty();
+            Rectangle parentDest = parent._destRectInternal;
 
             // set size:
             // 0: takes whole parent size.
@@ -1657,6 +1663,7 @@ namespace GeonBit.UI.Entities
             // > 1.0: size in pixels.
             Vector2 size = _scaledSize;
             Point sizeInPixels = CalcActualSizeInPixels(size);
+            _size = originSize;
 
             // apply min size
             if (MinSize != null)
@@ -1755,7 +1762,7 @@ namespace GeonBit.UI.Entities
             }
 
             // special case for auto anchors
-            if ((anchor == Anchor.Auto || anchor == Anchor.AutoInline || anchor == Anchor.AutoCenter || anchor == Anchor.AutoInlineNoBreak) && _parent != null)
+            if ((anchor == Anchor.Auto || anchor == Anchor.AutoInline || anchor == Anchor.AutoCenter || anchor == Anchor.AutoInlineNoBreak))
             {
                 // get previous entity before this
                 Entity prevEntity = GetPreviousEntity(true);
@@ -1774,7 +1781,7 @@ namespace GeonBit.UI.Entities
                     }
 
                     // handle inline align that ran out of width / or auto anchor not inline
-                    if ((anchor == Anchor.AutoInline && ret.Right > _parent._destRectInternal.Right) ||
+                    if ((anchor == Anchor.AutoInline && ret.Right > parent._destRectInternal.Right) ||
                         (anchor == Anchor.Auto || anchor == Anchor.AutoCenter))
                     {
                         // align x

@@ -100,8 +100,10 @@ namespace GeonBit.UI.Entities
             set { _wrapWords = value; MarkAsDirty(); }
         }
 
-        // text actual destination rect
-        Rectangle _actualDestRect = new Rectangle();
+        /// <summary>
+        /// Text actual destination rect.
+        /// </summary>
+        internal Rectangle _actualDestRect = new Rectangle();
 
         /// <summary>If the outline width is less than this value, the outline will be optimized but will appear slightly less sharp on corners.</summary>
         protected static int MaxOutlineWidthToOptimize = 1;
