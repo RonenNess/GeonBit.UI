@@ -282,7 +282,7 @@ namespace GeonBit.UI.Example
 GeonBit.UI is the UI system of the GeonBit project.
 It provide a simple yet extensive UI for MonoGame based projects.
 
-To start the demo, please click the {{BOLD}}'Next'{{DEFAULT}} button on the top bar.
+To start the demo, please click the {{ITALIC}}'Next'{{DEFAULT}} button on the top bar.
 
 ");
                     panel.AddChild(welcomeText);

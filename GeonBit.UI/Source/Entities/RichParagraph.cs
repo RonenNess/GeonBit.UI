@@ -19,7 +19,7 @@ namespace GeonBit.UI.Entities
     /// Hold style changes instructions for rich paragraphs.
     /// </summary>
     [System.Serializable]
-    public class RichParagraphStyleInstruction
+    public struct RichParagraphStyleInstruction
     {
         /// <summary>
         /// Add a style insturctions you could later use in rich paragraphs.
@@ -34,14 +34,18 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Create a rich paragraph style instruction to change font style, color, or other properties.
         /// </summary>
-        /// <param name="fillColor"></param>
-        /// <param name="fontStyle"></param>
-        /// <param name="resetStyles"></param>
-        public RichParagraphStyleInstruction(Color? fillColor = null, FontStyle? fontStyle = null, bool resetStyles = false)
+        /// <param name="fillColor">Set fill color.</param>
+        /// <param name="fontStyle">Set font style.</param>
+        /// <param name="outlineWidth">Set outline width.</param>
+        /// <param name="outlineColor">Set outline color.</param>
+        /// <param name="resetStyles">If true will reset all style properties to defaults.</param>
+        public RichParagraphStyleInstruction(Color? fillColor = null, FontStyle? fontStyle = null, int? outlineWidth = null, Color? outlineColor = null, bool resetStyles = false)
         {
             ResetStyles = resetStyles;
             FillColor = fillColor;
             FontStyle = fontStyle;
+            OutlineWidth = outlineWidth;
+            OutlineColor = outlineColor;
         }
 
         /// <summary>
@@ -53,6 +57,16 @@ namespace GeonBit.UI.Entities
         /// Will change font style.
         /// </summary>
         public FontStyle? FontStyle { get; private set; }
+
+        /// <summary>
+        /// Will change outline width.
+        /// </summary>
+        public int? OutlineWidth { get; private set; }
+        
+        /// <summary>
+        /// Will change text outline color.
+        /// </summary>
+        public Color? OutlineColor { get; private set; }
 
         /// <summary>
         /// If true, will reset all custom styles before applying this instruction.
@@ -288,23 +302,30 @@ namespace GeonBit.UI.Entities
                 UpdateDestinationRects();
             }
 
-            // draw text outline
-            int outlineWidth = OutlineWidth;
-            if (outlineWidth > 0)
-            {
-                DrawTextOutline(spriteBatch, outlineWidth);
-            }
-
             // if there are color changing instructions in paragraph, draw with color changes
             if (_styleInstructions.Count > 0)
             {
                 // iterate characters in text and check when there's an instruction to apply
                 int iTextIndex = 0;
-                Color oColor = UserInterface.Active.DrawUtils.FixColorOpacity(FillColor);
-                SpriteFont oFont = _currFont;
-                Vector2 oCharacterSize = GetCharacterActualSize();
-                Vector2 oCurrentPosition = new Vector2(_position.X - oCharacterSize.X, _position.Y);
-                foreach (char cCharacter in _processedText)
+                Color currColor = Color.White;
+                Color currOutlineColor = Color.Black;
+                SpriteFont currFont = null;
+                Vector2 characterSize = GetCharacterActualSize();
+                Vector2 currPosition = new Vector2(_position.X - characterSize.X, _position.Y);
+                int currOutlineWidth = 0;
+
+                // function to reset styles back to defaults
+                System.Action ResetToDefaults = () =>
+                {
+                    currColor = UserInterface.Active.DrawUtils.FixColorOpacity(FillColor);
+                    currFont = _currFont;
+                    currOutlineWidth = OutlineWidth;
+                    currOutlineColor = UserInterface.Active.DrawUtils.FixColorOpacity(OutlineColor);
+                    characterSize = GetCharacterActualSize();
+                };
+                ResetToDefaults();
+
+                foreach (char currCharacter in _processedText)
                 {
                     // if we found style instruction:
                     RichParagraphStyleInstruction styleInstruction;
@@ -313,40 +334,57 @@ namespace GeonBit.UI.Entities
                         // reset properties
                         if (styleInstruction.ResetStyles)
                         {
-                            oColor = UserInterface.Active.DrawUtils.FixColorOpacity(FillColor);
-                            oFont = _currFont;
+                            ResetToDefaults();
                         }
 
                         // set fill color
                         if (styleInstruction.FillColor.HasValue)
                         {
-                            oColor = UserInterface.Active.DrawUtils.FixColorOpacity(styleInstruction.FillColor.Value);
+                            currColor = UserInterface.Active.DrawUtils.FixColorOpacity(styleInstruction.FillColor.Value);
                         }
 
                         // set font style
                         if (styleInstruction.FontStyle.HasValue)
                         {
-                            oFont = Resources.Fonts[(int)styleInstruction.FontStyle.Value];
+                            currFont = Resources.Fonts[(int)styleInstruction.FontStyle.Value];
+                        }
+
+                        // set outline width
+                        if (styleInstruction.OutlineWidth.HasValue)
+                        {
+                            currOutlineWidth = styleInstruction.OutlineWidth.Value;
+                        }
+
+                        // set outline color
+                        if (styleInstruction.OutlineColor.HasValue)
+                        {
+                            currOutlineColor = UserInterface.Active.DrawUtils.FixColorOpacity(styleInstruction.OutlineColor.Value);
                         }
                     }
 
                     // adjust character position
-                    if (cCharacter == '\n')
+                    if (currCharacter == '\n')
                     {
-                        oCurrentPosition.X = _position.X - oCharacterSize.X;
-                        oCurrentPosition.Y += oFont.LineSpacing * _actualScale;
+                        currPosition.X = _position.X - characterSize.X;
+                        currPosition.Y += currFont.LineSpacing * _actualScale;
                     }
                     else
                     {
                         iTextIndex++;
-                        oCurrentPosition.X += oCharacterSize.X;
+                        currPosition.X += characterSize.X;
                     }
 
+                    // get current char as string
+                    var currText = currCharacter.ToString();
+
+                    // draw outline
+                    DrawTextOutline(spriteBatch, currText, currOutlineWidth, currFont, _actualScale, currPosition, currOutlineColor, _fontOrigin);
+
                     // fix color opacity and draw
-                    spriteBatch.DrawString(oFont, cCharacter.ToString(), oCurrentPosition, oColor, 0, _fontOrigin, _actualScale, SpriteEffects.None, 0.5f);
+                    spriteBatch.DrawString(currFont, currText, currPosition, currColor, 0, _fontOrigin, _actualScale, SpriteEffects.None, 0.5f);
                 }
             }
-            // if there are no color-changing instructions, just draw the paragraph as-is
+            // if there are no style-changing instructions, just draw the paragraph as-is
             else
             {
                 base.DrawEntity(spriteBatch, phase);
