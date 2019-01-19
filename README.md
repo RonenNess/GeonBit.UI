@@ -754,15 +754,16 @@ Default font style property (regular / bold / italic).
 Default align-to-canter style property (when true will align text to center).
 
 
-## MulticolorParagraph
+## RichParagraph
 
-![Paragraph](assets/img/entity_multicolorparagraph.png "Multicolor Paragraph")
+![Paragraph](assets/img/entity_multicolorparagraph.png "Rich Paragraph")
 
-Docs: [MulticolorParagraph Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_MulticolorParagraph.htm ).
+Docs: [RichParagraph Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_RichParagraph.htm ).
 
-A paragraph that support color changes inside the text itself.
-To switch colors add the ```{{COLOR}}``` tag anywhere inside the text, with one of the following options as 'COLOR':
+A paragraph that support color and style changes inside the text itself.
+To switch styles add a ```{{STYLE_KEY}}``` tag anywhere inside the text, with one of the following available options:
 
+[change text color instructions]
 - RED
 - BLUE
 - GREEN
@@ -781,11 +782,28 @@ To switch colors add the ```{{COLOR}}``` tag anywhere inside the text, with one 
 - TEAL
 - NAVY
 
-Or, you can define your own custom color tags:
+[change font style instructions]
+- BOLD
+- REGULAR
+- ITALIC
+
+[reset to default]
+- DEFAULT
+
+For example, take a look at the following paragraph:
 
 ```cs
-// adding {{SOME_COLOR}} will now use ColorVal as the paragraph fill color.
-ColorInstruction.AddCustomColor("SOME_COLOR", ColorVal);
+var richParagraph = new RichParagraph(@"This text will have default color, but {{RED}}this part will be red{{DEFAULT}}.
+This text will have regular weight, but {{BOLD}}this part will be bold{{DEFAULT}}.");
+```
+
+### Adding Custom Instructions
+
+You can add your own style changing instructions to support new tags:
+
+```cs
+// adding {{BOLD_BLUE}} tag that will make text bold and blue.
+RichParagraphStyleInstruction.AddInstruction("BOLD_BLUE", new RichParagraphStyleInstruction(fillColor: Color.Blue, fontStyle: FontStyle.Bold));
 ```
 
 
@@ -2024,6 +2042,8 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Improved multicolor paragraph efficiency when don't actually have colors (removed redundant calculations).
 - Added utility to generate grid / columns.
 - Changed built-in themes default scales to produce sharper results.
+- Turned 'MulticolorParagraph' into 'RichParagraph' and added option to change font style.
+- Misc code refactor and improvements.
 
 ## Credits
 
@@ -2047,7 +2067,7 @@ The following people contributed to the project via pull requests:
 
 #### Justin Gattuso (MrCapitalG)
 
-- Added MulticolorParagraph entity.
+- Added MulticolorParagraph entity (later turned into RichParagraph).
 
 #### Craig Johnston
 
