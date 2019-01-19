@@ -62,7 +62,7 @@
     <Compile Include="Source\Entities\Image.cs" />
     <Compile Include="Source\Entities\Label.cs" />
     <Compile Include="Source\Entities\LineSpace.cs" />
-    <Compile Include="Source\Entities\MulticolorParagraph.cs" />
+    <Compile Include="Source\Entities\RichParagraph.cs" />
     <Compile Include="Source\Entities\PanelBase.cs" />
     <Compile Include="Source\Entities\Panel.cs" />
     <Compile Include="Source\Entities\PanelTabs.cs" />

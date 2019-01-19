@@ -146,10 +146,10 @@ namespace GeonBit.UI.Entities
                 UpdateMultilineState();
 
                 // if the default paragraph type is multicolor, disable it for input
-                MulticolorParagraph colorTextParagraph = TextParagraph as MulticolorParagraph;
+                RichParagraph colorTextParagraph = TextParagraph as RichParagraph;
                 if (colorTextParagraph != null)
                 {
-                    colorTextParagraph.EnableColorInstructions = false;
+                    colorTextParagraph.EnableStyleInstructions = false;
                 }
             }
         }

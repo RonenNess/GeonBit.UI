@@ -155,9 +155,9 @@ namespace GeonBit.UI
             (string text, Anchor anchor, Color? color, float? scale, Vector2? size, Vector2? offset) => {
                 if (color != null)
                 {
-                    return new MulticolorParagraph(text, anchor, color.Value, scale, size, offset);
+                    return new RichParagraph(text, anchor, color.Value, scale, size, offset);
                 }
-                return new MulticolorParagraph(text, anchor, size, offset, scale);
+                return new RichParagraph(text, anchor, size, offset, scale);
             };
 
         /// <summary>

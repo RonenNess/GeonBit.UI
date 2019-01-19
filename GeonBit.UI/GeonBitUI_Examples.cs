@@ -277,12 +277,12 @@ namespace GeonBit.UI.Example
                     title.ShadowColor = new Color(0, 0, 0, 128);
                     title.ShadowOffset = Vector2.One * -6;
                     panel.AddChild(title);
-                    var welcomeText = new MulticolorParagraph(@"Welcome to {{RED}}GeonBit{{MAGENTA}}.UI{{DEFAULT}}!
+                    var welcomeText = new RichParagraph(@"Welcome to {{RED}}GeonBit{{MAGENTA}}.UI{{DEFAULT}}!
 
 GeonBit.UI is the UI system of the GeonBit project.
 It provide a simple yet extensive UI for MonoGame based projects.
 
-To start the demo, please click the 'Next' button on the top bar.
+To start the demo, please click the {{BOLD}}'Next'{{DEFAULT}} button on the top bar.
 
 ");
                     panel.AddChild(welcomeText);
