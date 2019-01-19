@@ -2035,7 +2035,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 ### 3.4.0.0 [NOT RELEASED YET]
 
 - Fixed crash with Turkish locale and loading textures (and potentially other languages).
-- Moved default size property to be part of the theme stylesheet, and not hard-coded (note: this breaks old themes need to add a new property).
+- Moved default size property to be part of the theme stylesheet, and not hard-coded (note: this breaks old themes - need to add the new property).
 - Improved return value of the message boxes utility to return a useful object with Close() function.
 - Added auto height properly for panels.
 - Added optional custom texture for panels.
@@ -2043,8 +2043,8 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Added utility to generate grid / columns.
 - Changed built-in themes default scales to produce sharper results.
 - Turned 'MulticolorParagraph' into 'RichParagraph' and added option to change font style.
-- Added animators, currently including type writer, fade out, and float up-down animations.
-- Misc code refactor and improvements.
+- Added animators, currently including: typewriter, fadeout, and float up-down animations.
+- Misc code refactors and improvements.
 
 ## Credits
 
