@@ -2043,6 +2043,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Added utility to generate grid / columns.
 - Changed built-in themes default scales to produce sharper results.
 - Turned 'MulticolorParagraph' into 'RichParagraph' and added option to change font style.
+- Added animators, currently including type writer, fade out, and float up-down animations.
 - Misc code refactor and improvements.
 
 ## Credits

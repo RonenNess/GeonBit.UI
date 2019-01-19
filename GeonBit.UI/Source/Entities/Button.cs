@@ -145,6 +145,23 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Entity fill color opacity - this is just a sugarcoat to access the default fill color alpha style property.
+        /// </summary>
+        [System.Xml.Serialization.XmlIgnore]
+        public override byte Opacity
+        {
+            set
+            {
+                base.Opacity = value;
+                ButtonParagraph.Opacity = value;
+            }
+            get
+            {
+                return base.Opacity;
+            }
+        }
+
+        /// <summary>
         /// Is the button a natrually-interactable entity.
         /// </summary>
         /// <returns>True.</returns>

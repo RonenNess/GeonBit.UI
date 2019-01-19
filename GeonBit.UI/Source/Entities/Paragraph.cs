@@ -135,7 +135,7 @@ namespace GeonBit.UI.Entities
 
         // should we break words too long if in wrap mode?
         private bool _breakWordsIfMust = true;
-
+        
         /// <summary>
         /// If WrapWords is true and there's a word that's too long (eg longer than max width), will break the word in the middle.
         /// If false, word wrap will only break lines in between words (eg spaces) and never break words.

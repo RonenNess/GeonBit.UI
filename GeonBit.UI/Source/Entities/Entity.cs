@@ -197,6 +197,9 @@ namespace GeonBit.UI.Entities
         /// <summary>Index inside parent.</summary>
         protected int _indexInParent;
 
+        // list of animators attached to this entity.
+        private List<Animators.IAnimator> _animators = new List<Animators.IAnimator>();
+
         /// <summary>
         /// Optional extra drawing priority, to bring certain objects before others.
         /// </summary>
@@ -838,13 +841,19 @@ namespace GeonBit.UI.Entities
         /// Entity fill color opacity - this is just a sugarcoat to access the default fill color alpha style property.
         /// </summary>
         [System.Xml.Serialization.XmlIgnore]
-        public byte Opacity
+        public virtual byte Opacity
         {
             set
             {
+                // update fill color
                 Color col = FillColor;
                 col.A = value;
                 SetStyleProperty(StylePropertyIds.FillColor, new StyleProperty(col), markAsDirty: false);
+
+                // update outline color
+                col = OutlineColor;
+                col.A = value;
+                SetStyleProperty(StylePropertyIds.OutlineColor, new StyleProperty(col), markAsDirty: false);
             }
             get
             {
@@ -1600,6 +1609,29 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Add animator to this entity.
+        /// </summary>
+        /// <param name="animator">Animator to attach.</param>
+        public Animators.IAnimator AttachAnimator(Animators.IAnimator animator)
+        {
+            animator.SetTargetEntity(this);
+            _animators.Add(animator);
+            return animator;
+        }
+
+        /// <summary>
+        /// Remove animator from entity.
+        /// </summary>
+        /// <param name="animator">Animator to remove.</param>
+        public void RemoveAnimator(Animators.IAnimator animator)
+        {
+            if (_animators.Remove(animator))
+            {
+                animator.SetTargetEntity(null);
+            }
+        }
+
+        /// <summary>
         /// Takes a size value in vector, that can be in percents or units, and convert it to absolute
         /// size in pixels. For example, if given size is 0.5f this will calculate it to be half its parent
         /// size, as it should be.
@@ -2157,6 +2189,24 @@ namespace GeonBit.UI.Entities
         public bool IsMouseOver { get { return _isMouseOver; } }
 
         /// <summary>
+        /// Update all animators attached to this entity.
+        /// </summary>
+        protected void UpdateAnimators()
+        {
+            // update animators
+            foreach (var animator in _animators)
+            {
+                if (animator.Enabled)
+                {
+                    animator.Update();
+                }
+            }
+
+            // remove animators that are done
+            _animators.RemoveAll(x => x.IsDone && x.ShouldRemoveWhenDone);
+        }
+
+        /// <summary>
         /// Mark that this entity boundaries or style changed and it need to recalculate cached destination rect and other things.
         /// </summary>
         internal protected void MarkAsDirty()
@@ -2205,6 +2255,9 @@ namespace GeonBit.UI.Entities
         {
             // set last scroll var
             _lastScrollVal = scrollVal;
+
+            // update animations
+            UpdateAnimators();
 
             // check if should invoke the spawn effect
             if (_isFirstUpdate)
