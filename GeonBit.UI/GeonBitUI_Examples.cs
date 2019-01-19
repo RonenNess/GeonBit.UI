@@ -1110,7 +1110,7 @@ Click on 'Next' to see the character creation demo."));
 
                     // create an internal panel to align components better - a row that covers the entire width split into 3 columns (left, center, right)
                     // first the container panel
-                    Panel entitiesGroup = new Panel(new Vector2(0, 220), PanelSkin.None, Anchor.Auto);
+                    Panel entitiesGroup = new Panel(new Vector2(0, 250), PanelSkin.None, Anchor.Auto);
                     entitiesGroup.Padding = Vector2.Zero;
                     panel.AddChild(entitiesGroup);
 
@@ -1165,7 +1165,7 @@ Click on 'Next' to see the character creation demo."));
 
                     // create color selection buttons
                     rightPanel.AddChild(new Label(@"Color", Anchor.AutoCenter));
-                    Color[] colors = { Color.White, Color.Red, Color.Green, Color.Blue, Color.Yellow, Color.Purple, Color.Cyan, Color.Brown };
+                    Color[] colors = { Color.White, Color.Red, Color.Green, Color.Blue, Color.Yellow, Color.Purple, Color.Cyan, Color.Brown, Color.Orange };
                     int colorPickSize = 24;
                     foreach (Color baseColor in colors)
                     {
@@ -1183,13 +1183,13 @@ Click on 'Next' to see the character creation demo."));
                     }
 
                     // gender selection (radio buttons)
-                    panel.AddChild(new LineSpace());
                     panel.AddChild(new RadioButton("Male", Anchor.Auto, new Vector2(180, 60), isChecked: true));
                     panel.AddChild(new RadioButton("Female", Anchor.AutoInline, new Vector2(240, 60)));
 
                     // hardcore mode
                     Button hardcore = new Button("Hardcore", ButtonSkin.Fancy, Anchor.AutoInline, new Vector2(220, 60));
                     hardcore.ButtonParagraph.Scale = 0.8f;
+                    hardcore.SpaceBefore = new Vector2(24, 0);
                     hardcore.ToggleMode = true;
                     panel.AddChild(hardcore);
                     panel.AddChild(new HorizontalLine());

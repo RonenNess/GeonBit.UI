@@ -2023,6 +2023,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Added optional custom texture for panels.
 - Improved multicolor paragraph efficiency when don't actually have colors (removed redundant calculations).
 - Added utility to generate grid / columns.
+- Changed built-in themes default scales to produce sharper results.
 
 ## Credits
 

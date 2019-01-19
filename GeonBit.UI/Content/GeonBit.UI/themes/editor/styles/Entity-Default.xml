@@ -10,9 +10,10 @@
     <SelectedHighlightColor>00000000</SelectedHighlightColor>
     <ShadowColor>00000000</ShadowColor>
     <ShadowOffset>0 0</ShadowOffset>
-    <Padding>30 30</Padding>
+    <Padding>26 26</Padding>
     <SpaceBefore>0 0</SpaceBefore>
     <SpaceAfter>0 8</SpaceAfter>
     <ShadowScale>1</ShadowScale>
+	<DefaultSize>0 0</DefaultSize>
   </Asset>
 </XnaContent>

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <XnaContent xmlns:ns="Microsoft.Xna.Framework">
   <Asset Type="GeonBit.UI.DataTypes.DefaultStyles">
-    <Scale>1.15</Scale>
+    <Scale>1</Scale>
     <FillColor Null="true" />
     <OutlineColor Null="true" />
     <OutlineWidth Null="true" />
@@ -14,6 +14,7 @@
     <SpaceBefore Null="true" />
     <SpaceAfter Null="true" />
     <ShadowScale Null="true" />
+	<DefaultSize Null="true" />
   </Asset>
         
 </XnaContent>

@@ -41,5 +41,7 @@ Note:
 	<SpaceAfter>0 0</SpaceAfter>
     <!-- Scale the shadow of this entity (if have shadow) -->
     <ShadowScale>1</ShadowScale>
+	<!-- Default entity size, when not setting size / setting -1. only used in default state -->
+	<DefaultSize>50 50</DefaultSize>
   </Asset>
 </XnaContent>
