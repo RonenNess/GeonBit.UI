@@ -222,7 +222,8 @@ namespace GeonBit.UI.Entities
             var maxHeight = 0f;
             foreach (var child in _children)
             {
-                if (!child.Draggable &&
+                if (child.Size.Y != 0 &&
+                    !child.Draggable &&
                     (child.Anchor == Anchor.TopCenter || child.Anchor == Anchor.TopLeft || child.Anchor == Anchor.TopRight ||
                     child.Anchor == Anchor.Auto || child.Anchor == Anchor.AutoCenter || child.Anchor == Anchor.AutoInline || child.Anchor == Anchor.AutoInlineNoBreak))
                 {

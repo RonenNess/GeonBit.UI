@@ -1100,7 +1100,7 @@ Click on 'Next' to see the character creation demo."));
                     int panelWidth = 730;
 
                     // create panel and add to list of panels and manager
-                    Panel panel = new Panel(new Vector2(panelWidth, 550));
+                    Panel panel = new Panel(new Vector2(panelWidth, -1));
                     panels.Add(panel);
                     UserInterface.Active.AddEntity(panel);
 
@@ -1110,24 +1110,16 @@ Click on 'Next' to see the character creation demo."));
 
                     // create an internal panel to align components better - a row that covers the entire width split into 3 columns (left, center, right)
                     // first the container panel
-                    Panel entitiesGroup = new Panel(new Vector2(0, 240), PanelSkin.None, Anchor.AutoCenter);
+                    Panel entitiesGroup = new Panel(new Vector2(0, 220), PanelSkin.None, Anchor.Auto);
                     entitiesGroup.Padding = Vector2.Zero;
                     panel.AddChild(entitiesGroup);
 
-                    // now left side
-                    Panel leftPanel = new Panel(new Vector2(0.33f, 0), PanelSkin.None, Anchor.TopLeft);
-                    leftPanel.Padding = Vector2.Zero;
-                    entitiesGroup.AddChild(leftPanel);
-
-                    // right side
-                    Panel rightPanel = new Panel(new Vector2(0.33f, 0), PanelSkin.None, Anchor.TopRight);
-                    rightPanel.Padding = Vector2.Zero;
-                    entitiesGroup.AddChild(rightPanel);
-
-                    // center
-                    Panel centerPanel = new Panel(new Vector2(0.33f, 0), PanelSkin.None, Anchor.TopCenter);
-                    centerPanel.Padding = Vector2.Zero;
-                    entitiesGroup.AddChild(centerPanel);
+                    // create grid
+                    var columnPanels = Utils.PanelsGrid.GenerateColums(3, entitiesGroup);
+                    foreach (var column in columnPanels) { column.Padding = Vector2.Zero; }
+                    Panel leftPanel = columnPanels[0];
+                    Panel centerPanel = columnPanels[1];
+                    Panel rightPanel = columnPanels[2];      
 
                     // create a character preview panel
                     centerPanel.AddChild(new Label(@"Preview", Anchor.AutoCenter));
@@ -1177,7 +1169,7 @@ Click on 'Next' to see the character creation demo."));
                     int colorPickSize = 24;
                     foreach (Color baseColor in colors)
                     {
-                        for (int i = 0; i < 8; ++i)
+                        for (int i = 0; i < 9; ++i)
                         {
                             Color color = baseColor * (1.0f - (i * 2 / 16.0f)); color.A = 255;
                             ColoredRectangle currColorButton = new ColoredRectangle(color, Vector2.One * colorPickSize, i == 0 ? Anchor.Auto : Anchor.AutoInlineNoBreak);
@@ -1191,22 +1183,22 @@ Click on 'Next' to see the character creation demo."));
                     }
 
                     // gender selection (radio buttons)
-                    entitiesGroup.AddChild(new LineSpace());
-                    entitiesGroup.AddChild(new RadioButton("Male", Anchor.Auto, new Vector2(180, 60), isChecked: true));
-                    entitiesGroup.AddChild(new RadioButton("Female", Anchor.AutoInline, new Vector2(240, 60)));
+                    panel.AddChild(new LineSpace());
+                    panel.AddChild(new RadioButton("Male", Anchor.Auto, new Vector2(180, 60), isChecked: true));
+                    panel.AddChild(new RadioButton("Female", Anchor.AutoInline, new Vector2(240, 60)));
 
                     // hardcore mode
                     Button hardcore = new Button("Hardcore", ButtonSkin.Fancy, Anchor.AutoInline, new Vector2(220, 60));
                     hardcore.ButtonParagraph.Scale = 0.8f;
                     hardcore.ToggleMode = true;
-                    entitiesGroup.AddChild(hardcore);
-                    entitiesGroup.AddChild(new HorizontalLine());
+                    panel.AddChild(hardcore);
+                    panel.AddChild(new HorizontalLine());
 
                     // add character name, last name, and age
                     // first add the labels
-                    entitiesGroup.AddChild(new Label(@"First Name: ", Anchor.AutoInline, size: new Vector2(0.4f, -1)));
-                    entitiesGroup.AddChild(new Label(@"Last Name: ", Anchor.AutoInline, size: new Vector2(0.4f, -1)));
-                    entitiesGroup.AddChild(new Label(@"Age: ", Anchor.AutoInline, size: new Vector2(0.2f, -1)));
+                    panel.AddChild(new Label(@"First Name: ", Anchor.AutoInline, size: new Vector2(0.4f, -1)));
+                    panel.AddChild(new Label(@"Last Name: ", Anchor.AutoInline, size: new Vector2(0.4f, -1)));
+                    panel.AddChild(new Label(@"Age: ", Anchor.AutoInline, size: new Vector2(0.2f, -1)));
 
                     // now add the text inputs
 
@@ -1216,7 +1208,7 @@ Click on 'Next' to see the character creation demo."));
                     firstName.Validators.Add(new TextValidatorEnglishCharsOnly(true));
                     firstName.Validators.Add(new OnlySingleSpaces());
                     firstName.Validators.Add(new TextValidatorMakeTitle());
-                    entitiesGroup.AddChild(firstName);
+                    panel.AddChild(firstName);
 
                     // last name
                     TextInput lastName = new TextInput(false, new Vector2(0.4f, -1), anchor: Anchor.AutoInline);
@@ -1224,14 +1216,14 @@ Click on 'Next' to see the character creation demo."));
                     lastName.Validators.Add(new TextValidatorEnglishCharsOnly(true));
                     lastName.Validators.Add(new OnlySingleSpaces());
                     lastName.Validators.Add(new TextValidatorMakeTitle());
-                    entitiesGroup.AddChild(lastName);
+                    panel.AddChild(lastName);
 
                     // age
                     TextInput age = new TextInput(false, new Vector2(0.2f, -1), anchor: Anchor.AutoInline);
                     age.Validators.Add(new TextValidatorNumbersOnly(false, 0, 80));
                     age.Value = "20";
                     age.ValueWhenEmpty = "20";
-                    entitiesGroup.AddChild(age);
+                    panel.AddChild(age);
                 }
 
                 // example: epilogue

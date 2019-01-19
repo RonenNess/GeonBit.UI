@@ -83,6 +83,7 @@
     <Compile Include="Source\Resources.cs" />
     <Compile Include="Source\UserInterface.cs" />
     <Compile Include="Source\Utils\MessageBox.cs" />
+    <Compile Include="Source\Utils\PanelsGrid.cs" />
     <Compile Include="Source\Utils\SerializedDictionary.cs" />
     <Compile Include="Source\Utils\SimpleFileMenu.cs" />
   </ItemGroup>
