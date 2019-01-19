@@ -1848,7 +1848,7 @@ namespace GeonBit.UI.Entities
         /// This is useful for things like DropDown, that when opened they take a larger part of the screen, but we don't
         /// want it to push down other entities.
         /// </summary>
-        virtual protected Rectangle GetDestRectForAutoAnchors()
+        virtual internal protected Rectangle GetDestRectForAutoAnchors()
         {
             return GetActualDestRect();
         }

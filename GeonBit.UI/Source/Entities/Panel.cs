@@ -226,7 +226,7 @@ namespace GeonBit.UI.Entities
                     (child.Anchor == Anchor.TopCenter || child.Anchor == Anchor.TopLeft || child.Anchor == Anchor.TopRight ||
                     child.Anchor == Anchor.Auto || child.Anchor == Anchor.AutoCenter || child.Anchor == Anchor.AutoInline || child.Anchor == Anchor.AutoInlineNoBreak))
                 {
-                    var currHeight = (child.GetActualDestRect().Bottom - selfTop);
+                    var currHeight = (child.GetDestRectForAutoAnchors().Bottom - selfTop);
                     if (currHeight > maxHeight)
                     {
                         maxHeight = currHeight;

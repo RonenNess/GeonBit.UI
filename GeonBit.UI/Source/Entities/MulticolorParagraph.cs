@@ -220,7 +220,11 @@ namespace GeonBit.UI.Entities
             _colorInstructions.Clear();
 
             // if color instructions are disabled, stop here
-            if (!EnableColorInstructions) { return; }
+            if (!EnableColorInstructions)
+            {
+                _needUpdateColors = false;
+                return;
+            }
 
             // find and parse color instructions
             if (_text.Contains("{{"))

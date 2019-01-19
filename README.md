@@ -2021,6 +2021,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Improved return value of the message boxes utility to return a useful object with Close() function.
 - Added auto height properly for panels.
 - Added optional custom texture for panels.
+- Improved multicolor paragraph efficiency when don't actually have colors (removed redundant calculations).
 
 ## Credits
 
