@@ -334,52 +334,7 @@ To start the demo, please click the {{ITALIC}}'Next'{{DEFAULT}} button on the to
 To position elements inside panels or other widgets, you set an anchor and offset. An anchor is a pre-defined position in parent element, like top-left corner, center, etc. and offset is just the distance from that point.
 
 Another thing to keep in mind is size; Most widgets come with a default size, but for those you need to set size for remember that setting size 0 will take full width / height. For example, size of X = 0, Y = 100 means the widget will be 100 pixels height and the width of its parent (minus the parent padding)."));
-                }
-
-                // example: animators
-                {
-                    // create panel and add to list of panels and manager
-                    Panel panel = new Panel(new Vector2(550, -1));
-                    panels.Add(panel);
-                    UserInterface.Active.AddEntity(panel);
-
-                    // add title and text
-                    panel.AddChild(new Header("Animators"));
-                    panel.AddChild(new HorizontalLine());
-                    panel.AddChild(new Paragraph(@"Animators are classes that bring UI elements into life by animating them. For example, take a look at these animators:"));
-
-                    // float up-down
-                    {
-                        panel.AddChild(new LineSpace(2));
-                        var entity = panel.AddChild(new Paragraph(@"Float Up-Down animator"));
-                        entity.AttachAnimator(new Animators.FloatUpDownAnimator());
-                    }
-
-                    // fade out
-                    {
-                        panel.AddChild(new LineSpace(2));
-                        var entity = panel.AddChild(new Button(@"Fade Out (click to see)"));
-                        var animator = entity.AttachAnimator(new Animators.FadeOutAnimator() { Enabled = false });
-                        entity.OnClick += (Entity ent) =>
-                        {
-                            animator.Enabled = true;
-                        };
-                    }
-
-                    // type writer animator
-                    {
-                        panel.AddChild(new LineSpace(2));
-                        var entity = panel.AddChild(new RichParagraph(@""));
-                        var animator = entity.AttachAnimator(new Animators.TypeWriterAnimator()
-                        {
-                            TextToType = @"This is a type writer animation, text will appear as if someone is typing it in real time. {{YELLOW}}Click on the paragraph to reset animation."
-                        });
-                        entity.OnClick += (Entity ent) =>
-                        {
-                            animator.Reset();
-                        };
-                    }
-                }
+                }  
 
                 // example: anchors
                 {
@@ -533,6 +488,51 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                     panelInt.Draggable = true;
                     panelInt.AddChild(new Paragraph("This panel is draggable too, but limited to its parent boundaries.", Anchor.Center, Color.White, 0.85f));
                     panel.AddChild(panelInt);
+                }
+
+                // example: animators
+                {
+                    // create panel and add to list of panels and manager
+                    Panel panel = new Panel(new Vector2(550, -1));
+                    panels.Add(panel);
+                    UserInterface.Active.AddEntity(panel);
+
+                    // add title and text
+                    panel.AddChild(new Header("Animators"));
+                    panel.AddChild(new HorizontalLine());
+                    panel.AddChild(new Paragraph(@"Animators are classes that bring UI elements into life by animating them. For example, take a look at these animators:"));
+
+                    // float up-down
+                    {
+                        panel.AddChild(new LineSpace(2));
+                        var entity = panel.AddChild(new Paragraph(@"Float Up-Down animator"));
+                        entity.AttachAnimator(new Animators.FloatUpDownAnimator());
+                    }
+
+                    // fade out
+                    {
+                        panel.AddChild(new LineSpace(2));
+                        var entity = panel.AddChild(new Button(@"Fade Out (click to see)"));
+                        var animator = entity.AttachAnimator(new Animators.FadeOutAnimator() { Enabled = false });
+                        entity.OnClick += (Entity ent) =>
+                        {
+                            animator.Enabled = true;
+                        };
+                    }
+
+                    // type writer animator
+                    {
+                        panel.AddChild(new LineSpace(2));
+                        var entity = panel.AddChild(new RichParagraph(@""));
+                        var animator = entity.AttachAnimator(new Animators.TypeWriterAnimator()
+                        {
+                            TextToType = @"This is a type writer animation, text will appear as if someone is typing it in real time. {{YELLOW}}Click on the paragraph to reset animation."
+                        });
+                        entity.OnClick += (Entity ent) =>
+                        {
+                            animator.Reset();
+                        };
+                    }
                 }
 
                 // example: sliders
