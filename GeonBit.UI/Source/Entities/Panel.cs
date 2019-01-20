@@ -224,6 +224,7 @@ namespace GeonBit.UI.Entities
             {
                 if (child.Size.Y != 0 &&
                     !child.Draggable &&
+                    child.Visible &&
                     (child.Anchor == Anchor.TopCenter || child.Anchor == Anchor.TopLeft || child.Anchor == Anchor.TopRight ||
                     child.Anchor == Anchor.Auto || child.Anchor == Anchor.AutoCenter || child.Anchor == Anchor.AutoInline || child.Anchor == Anchor.AutoInlineNoBreak))
                 {
