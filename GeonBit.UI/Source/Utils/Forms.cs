@@ -190,10 +190,14 @@ namespace GeonBit.UI.Utils
                         return dropdown;
 
                     case FieldType.MultilineTextInput:
-                        return new TextInput(true);
+                        var multiText = new TextInput(true);
+                        multiText.Value = fieldData.DefaultValue as string;
+                        return multiText;
 
                     case FieldType.TextInput:
-                        return new TextInput(false);
+                        var text = new TextInput(false);
+                        text.Value = fieldData.DefaultValue as string;
+                        return text;
 
                     case FieldType.Slider:
                         var slider = new Slider((uint)fieldData.Min, (uint)fieldData.Max);
