@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using GeonBit.UI.Entities;
 using GeonBit.UI.Entities.TextValidators;
 using GeonBit.UI.DataTypes;
+using GeonBit.UI.Utils.Forms;
 
 namespace GeonBit.UI.Example
 {
@@ -334,7 +335,34 @@ To start the demo, please click the {{ITALIC}}'Next'{{DEFAULT}} button on the to
 To position elements inside panels or other widgets, you set an anchor and offset. An anchor is a pre-defined position in parent element, like top-left corner, center, etc. and offset is just the distance from that point.
 
 Another thing to keep in mind is size; Most widgets come with a default size, but for those you need to set size for remember that setting size 0 will take full width / height. For example, size of X = 0, Y = 100 means the widget will be 100 pixels height and the width of its parent (minus the parent padding)."));
-                }  
+                }
+
+                // example: forms
+                {
+                    // create panel and add to list of panels and manager
+                    Panel panel = new Panel(new Vector2(560, -1));
+                    panels.Add(panel);
+                    UserInterface.Active.AddEntity(panel);
+
+                    // add title and text
+                    panel.AddChild(new Header("UI Forms"));
+                    panel.AddChild(new HorizontalLine());
+                    panel.AddChild(new Paragraph(@"Forms are objects that help you generate form-like UI groups and easily extract the data of different fields. For example click the button below: 
+                    "));
+
+                    // add create form button
+                    var btn = panel.AddChild(new Button(@"Show Form"));
+                    btn.OnClick += (Entity ent) =>
+                    {
+                        var newForm = new Form(new FormFieldData[] {
+                            new FormFieldData(FormFieldType.TextInput, "text1", "Text Field") { DefaultValue = "Some Default Val" },
+                            new FormFieldData(FormFieldType.Slider, "slider1", "Slider Field") { Min = 5, Max = 15, DefaultValue = 10 },
+                            new FormFieldData(FormFieldType.RadioButtons, "radios1", "Radio Buttons Field") { Choices = new string[] {"option1", "option2" }, DefaultValue = "option1" },
+                            new FormFieldData(FormFieldType.Checkbox, "checkbox1", "Checkbox Field") { },
+                        }, null);
+                        GeonBit.UI.Utils.MessageBox.ShowMsgBox("Example Form", "", "Close Form", extraEntities: new Entity[] { newForm.FormPanel });
+                    };
+                }
 
                 // example: anchors
                 {

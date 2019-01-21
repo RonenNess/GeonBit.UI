@@ -194,7 +194,7 @@ namespace GeonBit.UI.Utils.Forms
             {
                 case FormFieldType.Checkbox:
                     needLabel = false;
-                    return new CheckBox(fieldData.FieldLabel, isChecked: (bool)(fieldData.DefaultValue));
+                    return new CheckBox(fieldData.FieldLabel, isChecked: fieldData.DefaultValue != null && (bool)(fieldData.DefaultValue));
 
                 case FormFieldType.DropDown:
                     var dropdown = new DropDown(new Vector2(0, -1));
