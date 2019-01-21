@@ -125,6 +125,19 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Calculate and return the destination rectangle, eg the space this entity is rendered on.
+        /// </summary>
+        /// <returns>Destination rectangle.</returns>
+        override public Rectangle CalcDestRect()
+        {
+            if (AdjustHeightAutomatically && Size.Y <= 0)
+            {
+                _size.Y = 1;
+            }
+            return base.CalcDestRect();
+        }
+
+        /// <summary>
         /// Special init after deserializing entity from file.
         /// </summary>
         internal protected override void InitAfterDeserialize()
@@ -166,9 +179,12 @@ namespace GeonBit.UI.Entities
         public override void Draw(SpriteBatch spriteBatch)
         {
             // adjust height automatically
-            if (AdjustHeightAutomatically)
+            if (AdjustHeightAutomatically && Visible)
             {
-                SetHeightBasedOnChildren();
+                if(!SetHeightBasedOnChildren())
+                {
+                    return;
+                }
             }
 
             // call base drawing function
@@ -209,7 +225,8 @@ namespace GeonBit.UI.Entities
         /// Set the panel's height to match its children automatically.
         /// Note: to make this happen on its own every frame, set the 'AdjustHeightAutomatically' property to true.
         /// </summary>
-        public void SetHeightBasedOnChildren()
+        /// <returns>True if succeed to adjust height, false if couldn't for whatever reason.</returns>
+        public bool SetHeightBasedOnChildren()
         {
             // sanity check - not supported with scrollbar
             if (PanelOverflowBehavior == PanelOverflowBehavior.VerticalScroll)
@@ -217,9 +234,13 @@ namespace GeonBit.UI.Entities
                 throw new Exceptions.InvalidStateException("Cannot set panel height automatically while having vertical scrollbar!");
             }
 
-            // calc the desired height this panel should have
-            var selfTop = GetActualDestRect().Y - Padding.Y;
-            var maxHeight = 0f;
+            // get the absolute top of this panel, but if size is 0 skip
+            UpdateDestinationRectsIfDirty();
+            var selfDestRect = GetActualDestRect();
+            var selfTop = selfDestRect.Y - Padding.Y;
+
+            // calculate the max height this panel should have base on children
+            var maxHeight = 1f;
             foreach (var child in _children)
             {
                 if (child.Size.Y != 0 &&
@@ -228,7 +249,15 @@ namespace GeonBit.UI.Entities
                     (child.Anchor == Anchor.TopCenter || child.Anchor == Anchor.TopLeft || child.Anchor == Anchor.TopRight ||
                     child.Anchor == Anchor.Auto || child.Anchor == Anchor.AutoCenter || child.Anchor == Anchor.AutoInline || child.Anchor == Anchor.AutoInlineNoBreak))
                 {
-                    var currHeight = (child.GetDestRectForAutoAnchors().Bottom + child.SpaceAfter.Y - selfTop);
+                    // update child destination rects
+                    child.UpdateDestinationRectsIfDirty();
+
+                    // if child height is 0 skip it
+                    if (child.GetActualDestRect().Height == 0) { continue; }
+
+                    // get child height and check if should change this panel's height
+                    var childDestRect = child.GetDestRectForAutoAnchors();
+                    var currHeight = (childDestRect.Bottom + child.SpaceAfter.Y - selfTop);
                     if (currHeight > maxHeight)
                     {
                         maxHeight = currHeight;
@@ -237,7 +266,7 @@ namespace GeonBit.UI.Entities
             }
 
             // check if need to update size
-            if (Size.Y != maxHeight)
+            if ((Size.Y != maxHeight))
             {
                 Size = new Vector2(Size.X, maxHeight / UserInterface.Active.GlobalScale);
                 UpdateDestinationRects();
@@ -246,6 +275,9 @@ namespace GeonBit.UI.Entities
                     child.UpdateDestinationRects();
                 }
             }
+
+            // return if could adjust height
+            return maxHeight > 1f;
         }
 
         /// <summary>

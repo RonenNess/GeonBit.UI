@@ -117,12 +117,12 @@ namespace GeonBit.UI.Utils
         /// <param name="header">Messagebox header.</param>
         /// <param name="text">Main text.</param>
         /// <param name="options">Msgbox response options.</param>
-        /// <param name="append">Optional array of entities to add to msg box under the text and above the buttons.</param>
+        /// <param name="extraEntities">Optional array of entities to add to msg box under the text and above the buttons.</param>
         /// <param name="size">Alternative size to use.</param>
         /// <param name="onDone">Optional callback to call when this msgbox closes.</param>
         /// <param name="parent">Parent to add message box to (if not defined will use root)</param>
         /// <returns>Message box handle.</returns>
-        public static MessageBoxHandle ShowMsgBox(string header, string text, MsgBoxOption[] options, Entities.Entity[] append = null, Vector2? size = null, System.Action onDone = null, Entities.Entity parent = null)
+        public static MessageBoxHandle ShowMsgBox(string header, string text, MsgBoxOption[] options, Entities.Entity[] extraEntities = null, Vector2? size = null, System.Action onDone = null, Entities.Entity parent = null)
         {
             // object to return
             MessageBoxHandle ret = new MessageBoxHandle();
@@ -151,9 +151,9 @@ namespace GeonBit.UI.Utils
             }
 
             // add custom appended entities
-            if (append != null)
+            if (extraEntities != null)
             {
-                foreach (var entity in append)
+                foreach (var entity in extraEntities)
                 {
                     panel.AddChild(entity);
                 }
@@ -214,13 +214,14 @@ namespace GeonBit.UI.Utils
         /// <param name="text">Main text to write on the message box.</param>
         /// <param name="closeButtonTxt">Text for the closing button (if not provided will use default).</param>
         /// <param name="size">Message box size (if not provided will use default).</param>
+        /// <param name="extraEntities">Optional array of entities to add to msg box under the text and above the buttons.</param>
         /// <returns>Message box panel.</returns>
-        public static MessageBoxHandle ShowMsgBox(string header, string text, string closeButtonTxt = null, Vector2? size = null)
+        public static MessageBoxHandle ShowMsgBox(string header, string text, string closeButtonTxt = null, Vector2? size = null, Entities.Entity[] extraEntities = null)
         {
             return ShowMsgBox(header, text, new MsgBoxOption[]
             {
                 new MsgBoxOption(closeButtonTxt ?? DefaultOkButtonText, null)
-            }, size: size ?? DefaultMsgBoxSize);
+            }, size: size ?? DefaultMsgBoxSize, extraEntities: extraEntities);
         }
     }
 }
