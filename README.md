@@ -2044,6 +2044,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Changed built-in themes default scales to produce sharper results.
 - Turned 'MulticolorParagraph' into 'RichParagraph' and added option to change font style.
 - Added animators, currently including: typewriter, fadeout, and float up-down animations.
+- Added forms generator to quickly create a form from a list of fields.
 - Misc code refactors and improvements.
 
 ## Credits
