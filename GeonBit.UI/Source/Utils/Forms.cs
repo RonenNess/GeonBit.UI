@@ -5,98 +5,110 @@ using System.Collections.Generic;
 
 namespace GeonBit.UI.Utils.Forms
 {
+    /// <summary>
+    /// Form field types.
+    /// </summary>
+    public enum FormFieldType
+    {
+        /// <summary>
+        /// Checkbox field.
+        /// </summary>
+        Checkbox,
 
         /// <summary>
-        /// Form field types.
+        /// Radio buttons (require choices).
         /// </summary>
-        public enum FormFieldType
-        {
-            /// <summary>
-            /// Checkbox field.
-            /// </summary>
-            Checkbox,
-
-            /// <summary>
-            /// Radio buttons (require choices).
-            /// </summary>
-            RadioButtons,
-
-            /// <summary>
-            /// Inline text input.
-            /// </summary>
-            TextInput,
-
-            /// <summary>
-            /// Multiline text input.
-            /// </summary>
-            MultilineTextInput,
-
-            /// <summary>
-            /// Select list.
-            /// </summary>
-            SelectList,
-
-            /// <summary>
-            /// Dropdown choices.
-            /// </summary>
-            DropDown,
-
-            /// <summary>
-            /// Slider field.
-            /// </summary>
-            Slider,
-
-            /// <summary>
-            /// Start a new form section, with a header and horizontal line.
-            /// </summary>
-            Section,
-        }
+        RadioButtons,
 
         /// <summary>
-        /// Form field data.
+        /// Inline text input.
         /// </summary>
-        public struct FormFieldData
+        TextInput,
+
+        /// <summary>
+        /// Multiline text input.
+        /// </summary>
+        MultilineTextInput,
+
+        /// <summary>
+        /// Select list.
+        /// </summary>
+        SelectList,
+
+        /// <summary>
+        /// Dropdown choices.
+        /// </summary>
+        DropDown,
+
+        /// <summary>
+        /// Slider field.
+        /// </summary>
+        Slider,
+
+        /// <summary>
+        /// Start a new form section, with a header and horizontal line.
+        /// </summary>
+        Section,
+    }
+
+    /// <summary>
+    /// Form field data.
+    /// </summary>
+    public class FormFieldData
+    {
+        /// <summary>
+        /// Field type.
+        /// </summary>
+        public FormFieldType Type;
+
+        /// <summary>
+        /// Field unique identifier.
+        /// </summary>
+        public string FieldId;
+
+        /// <summary>
+        /// Label to show above field.
+        /// </summary>
+        public string FieldLabel;
+
+        /// <summary>
+        /// Default value to start with.
+        /// </summary>
+        public object DefaultValue;
+
+        /// <summary>
+        /// Choices of this field, used for fields like dropdown, radio buttons, etc.
+        /// </summary>
+        public string[] Choices;
+
+        /// <summary>
+        /// Min value (when input is integer field like slider).
+        /// </summary>
+        public int Min;
+
+        /// <summary>
+        /// Max value (when input is integer field like slider).
+        /// </summary>
+        public int Max;
+
+        /// <summary>
+        /// Custom initialize function that will be called when the field's entity is created.
+        /// </summary>
+        public System.Action<Entity> OnFieldInit;
+
+        /// <summary>
+        /// Create form field data.
+        /// </summary>
+        /// <param name="type">Field type.</param>
+        /// <param name="id">Field unique id.</param>
+        /// <param name="label">Optional label.</param>
+        public FormFieldData(FormFieldType type, string id, string label = null)
         {
-            /// <summary>
-            /// Field type.
-            /// </summary>
-            public FormFieldType Type;
-
-            /// <summary>
-            /// Field unique identifier.
-            /// </summary>
-            public string FieldId;
-
-            /// <summary>
-            /// Label to show above field.
-            /// </summary>
-            public string FieldLabel;
-
-            /// <summary>
-            /// Default value to start with.
-            /// </summary>
-            public object DefaultValue;
-
-            /// <summary>
-            /// Choices of this field, used for fields like dropdown, radio buttons, etc.
-            /// </summary>
-            public string[] Choices;
-
-            /// <summary>
-            /// Min value (when input is integer field like slider).
-            /// </summary>
-            public int Min;
-
-            /// <summary>
-            /// Max value (when input is integer field like slider).
-            /// </summary>
-            public int Max;
-
-            /// <summary>
-            /// Custom initialize function that will be called when the field's entity is created.
-            /// </summary>
-            public System.Action<Entity> OnFieldInit;
+            Type = type;
+            FieldId = id;
+            FieldLabel = label;
         }
+    }
 
     /// <summary>
     /// Form instance.
@@ -106,6 +118,11 @@ namespace GeonBit.UI.Utils.Forms
         // fields data and entities used to represent them
         Dictionary<string, FormFieldData> _fieldsData = new Dictionary<string, FormFieldData>();
         Dictionary<string, Entity> _entities = new Dictionary<string, Entity>();
+
+        /// <summary>
+        /// Extra space to set between fields.
+        /// </summary>
+        public static int ExtraSpaceBetweenFields = 10;
 
         /// <summary>
         /// Form's root panel.
@@ -138,6 +155,7 @@ namespace GeonBit.UI.Utils.Forms
                 // create entity based on type
                 fieldEntity = CreateEntityForField(field, ref needLabel);
                 fieldEntity.Identifier = "form-entity-" + field.FieldId;
+                fieldEntity.SpaceAfter += new Vector2(0, ExtraSpaceBetweenFields);
 
                 // add label
                 if (needLabel)
@@ -201,7 +219,7 @@ namespace GeonBit.UI.Utils.Forms
 
                 case FormFieldType.TextInput:
                     var text = new TextInput(false);
-                    text.Value = fieldData.DefaultValue as string;
+                    if (fieldData.DefaultValue != null) { text.Value = fieldData.DefaultValue as string; }
                     return text;
 
                 case FormFieldType.Slider:

@@ -251,7 +251,12 @@ namespace GeonBit.UI.Entities
         public string Value
         {
             get { return _value; }
-            set { _value = _multiLine ? value : value.Replace("\n", string.Empty); FixCaretPosition(); }
+            set
+            {
+                value = value ?? string.Empty;
+                _value = _multiLine ? value : value.Replace("\n", string.Empty);
+                FixCaretPosition();
+            }
         }
 
         /// <summary>
