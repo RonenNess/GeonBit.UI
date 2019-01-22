@@ -133,7 +133,7 @@ namespace GeonBit.UI.Utils
             ret.Panel = panel;
             panel.AddChild(new Entities.Header(header));
             panel.AddChild(new Entities.HorizontalLine());
-            panel.AddChild(new Entities.Paragraph(text));
+            panel.AddChild(new Entities.RichParagraph(text));
 
             // add to opened boxes counter
             OpenedMsgBoxesCount++;
@@ -164,6 +164,7 @@ namespace GeonBit.UI.Utils
                 Entities.PanelSkin.None, size.Value.Y == -1 ? Entities.Anchor.Auto : Entities.Anchor.BottomCenter);
             buttonsPanel.Padding = Vector2.Zero;
             panel.AddChild(buttonsPanel);
+            buttonsPanel.PriorityBonus = -10;
 
             // add all option buttons
             var btnSize = new Vector2(options.Length == 1 ? 0f : (1f / options.Length), 60);
@@ -215,13 +216,14 @@ namespace GeonBit.UI.Utils
         /// <param name="closeButtonTxt">Text for the closing button (if not provided will use default).</param>
         /// <param name="size">Message box size (if not provided will use default).</param>
         /// <param name="extraEntities">Optional array of entities to add to msg box under the text and above the buttons.</param>
+        /// <param name="onDone">Optional callback to call when this msgbox closes.</param>
         /// <returns>Message box panel.</returns>
-        public static MessageBoxHandle ShowMsgBox(string header, string text, string closeButtonTxt = null, Vector2? size = null, Entities.Entity[] extraEntities = null)
+        public static MessageBoxHandle ShowMsgBox(string header, string text, string closeButtonTxt = null, Vector2? size = null, Entities.Entity[] extraEntities = null, System.Action onDone = null)
         {
             return ShowMsgBox(header, text, new MsgBoxOption[]
             {
                 new MsgBoxOption(closeButtonTxt ?? DefaultOkButtonText, null)
-            }, size: size ?? DefaultMsgBoxSize, extraEntities: extraEntities);
+            }, size: size ?? DefaultMsgBoxSize, extraEntities: extraEntities, onDone: onDone);
         }
     }
 }

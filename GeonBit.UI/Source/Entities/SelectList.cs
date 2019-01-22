@@ -313,6 +313,17 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Set the panel's height to match its children automatically.
+        /// Note: to make this happen on its own every frame, set the 'AdjustHeightAutomatically' property to true.
+        /// </summary>
+        /// <returns>True if succeed to adjust height, false if couldn't for whatever reason.</returns>
+        public override bool SetHeightBasedOnChildren()
+        {
+            MatchHeightToList();
+            return true;
+        }
+
+        /// <summary>
         /// Called for every new paragraph entity created as part of the list, to allow children classes
         /// to add extra processing etc to list labels.
         /// </summary>

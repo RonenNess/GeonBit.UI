@@ -92,9 +92,14 @@ namespace GeonBit.UI.Utils.Forms
         public int Max;
 
         /// <summary>
+        /// Tooltip text to assign to the field entity.
+        /// </summary>
+        public string ToolTipText;
+
+        /// <summary>
         /// Custom initialize function that will be called when the field's entity is created.
         /// </summary>
-        public System.Action<Entity> OnFieldInit;
+        public System.Action<Entity> OnFieldCreated;
 
         /// <summary>
         /// Create form field data.
@@ -164,8 +169,12 @@ namespace GeonBit.UI.Utils.Forms
                     label.Identifier = "form-entity-label-" + field.FieldId;
                 }
 
-                // ad entity to form
+                // add entity to form
                 FormPanel.AddChild(fieldEntity);
+
+                // set tooltiptext and call custom init function
+                if (string.IsNullOrEmpty(field.ToolTipText)) { fieldEntity.ToolTipText = field.ToolTipText; }
+                field.OnFieldCreated?.Invoke(fieldEntity);
 
                 // store entity in entities dictionary
                 _entities[field.FieldId] = fieldEntity;
@@ -192,16 +201,25 @@ namespace GeonBit.UI.Utils.Forms
             // create entity based on type
             switch (fieldData.Type)
             {
+                // create checkbox
                 case FormFieldType.Checkbox:
                     needLabel = false;
                     return new CheckBox(fieldData.FieldLabel, isChecked: fieldData.DefaultValue != null && (bool)(fieldData.DefaultValue));
 
+                // create dropdown
                 case FormFieldType.DropDown:
+
+                    // create entity and set choices
                     var dropdown = new DropDown(new Vector2(0, -1));
                     foreach (var choice in fieldData.Choices)
                     {
                         dropdown.AddItem(choice);
                     }
+
+                    // if got few items adjust height automatically
+                    if (dropdown.SelectList.Items.Length < 10) { dropdown.SelectList.AdjustHeightAutomatically = true; }
+
+                    // set default value and return
                     if (fieldData.DefaultValue is string)
                     {
                         dropdown.SelectedValue = fieldData.DefaultValue as string;
@@ -212,16 +230,19 @@ namespace GeonBit.UI.Utils.Forms
                     }
                     return dropdown;
 
+                // create multi-line text input
                 case FormFieldType.MultilineTextInput:
                     var multiText = new TextInput(true);
                     multiText.Value = fieldData.DefaultValue as string;
                     return multiText;
 
+                // create single-line text input
                 case FormFieldType.TextInput:
                     var text = new TextInput(false);
                     if (fieldData.DefaultValue != null) { text.Value = fieldData.DefaultValue as string; }
                     return text;
 
+                // create slider input
                 case FormFieldType.Slider:
                     var slider = new Slider((uint)fieldData.Min, (uint)fieldData.Max);
                     if (fieldData.DefaultValue is int)
@@ -230,12 +251,20 @@ namespace GeonBit.UI.Utils.Forms
                     }
                     return slider;
 
+                // create select list input
                 case FormFieldType.SelectList:
+                    
+                    // create the entity itself
                     var selectlist = new SelectList(new Vector2(0, -1));
                     foreach (var choice in fieldData.Choices)
                     {
                         selectlist.AddItem(choice);
                     }
+
+                    // if got few items set height automatically
+                    if (selectlist.Items.Length < 10) { selectlist.AdjustHeightAutomatically = true; }
+
+                    // set default value and return
                     if (fieldData.DefaultValue is string)
                     {
                         selectlist.SelectedValue = fieldData.DefaultValue as string;
@@ -246,6 +275,7 @@ namespace GeonBit.UI.Utils.Forms
                     }
                     return selectlist;
 
+                // create radio buttons
                 case FormFieldType.RadioButtons:
                     var radiosPanel = new Panel(new Vector2(0, -1), PanelSkin.None, Anchor.Auto);
                     radiosPanel.Padding = Vector2.Zero;
@@ -256,6 +286,7 @@ namespace GeonBit.UI.Utils.Forms
                     }
                     return radiosPanel;
 
+                // create a new secion
                 case FormFieldType.Section:
                     var containerPanel = new Panel(new Vector2(0, -1), PanelSkin.None, Anchor.Auto);
                     containerPanel.Padding = Vector2.Zero;
@@ -264,6 +295,7 @@ namespace GeonBit.UI.Utils.Forms
                     needLabel = false;
                     return containerPanel;
 
+                // unknown type!
                 default:
                     throw new Exceptions.InvalidStateException("Unknown field type!");
             }

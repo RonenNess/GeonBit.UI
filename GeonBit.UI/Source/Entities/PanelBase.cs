@@ -66,6 +66,12 @@ namespace GeonBit.UI.Entities
         protected Vector2? _customFrame = null;
 
         /// <summary>
+        /// If true, will set panel height automatically based on children.
+        /// Note: this will change the Size.Y property every time children under this panel change.
+        /// </summary>
+        public bool AdjustHeightAutomatically = false;
+
+        /// <summary>
         /// Create the panel.
         /// </summary>
         /// <param name="size">Panel size.</param>
@@ -92,6 +98,78 @@ namespace GeonBit.UI.Entities
         /// </summary>
         ~PanelBase()
         {
+        }
+
+        /// <summary>
+        /// Draw this panel.
+        /// </summary>
+        /// <param name="spriteBatch">Spritebatch to use when drawing this panel.</param>
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            // adjust height automatically
+            if (AdjustHeightAutomatically && Visible)
+            {
+                if (!SetHeightBasedOnChildren())
+                {
+                    return;
+                }
+            }
+
+            // call base drawing function
+            base.Draw(spriteBatch);
+        }
+
+        /// <summary>
+        /// Set the panel's height to match its children automatically.
+        /// Note: to make this happen on its own every frame, set the 'AdjustHeightAutomatically' property to true.
+        /// </summary>
+        /// <returns>True if succeed to adjust height, false if couldn't for whatever reason.</returns>
+        public virtual bool SetHeightBasedOnChildren()
+        {
+            // get the absolute top of this panel, but if size is 0 skip
+            UpdateDestinationRectsIfDirty();
+            var selfDestRect = GetActualDestRect();
+            var selfTop = selfDestRect.Y - Padding.Y;
+
+            // calculate the max height this panel should have base on children
+            var maxHeight = 1f;
+            foreach (var child in _children)
+            {
+                if (child.Size.Y != 0 &&
+                    !child.Draggable &&
+                    child.Visible &&
+                    (child.Anchor == Anchor.TopCenter || child.Anchor == Anchor.TopLeft || child.Anchor == Anchor.TopRight ||
+                    child.Anchor == Anchor.Auto || child.Anchor == Anchor.AutoCenter || child.Anchor == Anchor.AutoInline || child.Anchor == Anchor.AutoInlineNoBreak))
+                {
+                    // update child destination rects
+                    child.UpdateDestinationRectsIfDirty();
+
+                    // if child height is 0 skip it
+                    if (child.GetActualDestRect().Height == 0) { continue; }
+
+                    // get child height and check if should change this panel's height
+                    var childDestRect = child.GetDestRectForAutoAnchors();
+                    var currHeight = (childDestRect.Bottom + child.SpaceAfter.Y - selfTop);
+                    if (currHeight > maxHeight)
+                    {
+                        maxHeight = currHeight;
+                    }
+                }
+            }
+
+            // check if need to update size
+            if ((Size.Y != maxHeight))
+            {
+                Size = new Vector2(Size.X, maxHeight / UserInterface.Active.GlobalScale);
+                UpdateDestinationRects();
+                foreach (var child in _children)
+                {
+                    child.UpdateDestinationRects();
+                }
+            }
+
+            // return if could adjust height
+            return maxHeight > 1f;
         }
 
         /// <summary>

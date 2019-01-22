@@ -129,6 +129,26 @@ namespace GeonBit.UI.Entities
             AddInstruction("TEAL", new RichParagraphStyleInstruction(fillColor: Color.Teal));
             AddInstruction("NAVY", new RichParagraphStyleInstruction(fillColor: Color.Navy));
 
+            AddInstruction("L_RED", new RichParagraphStyleInstruction(fillColor: Color.PaleVioletRed));
+            AddInstruction("L_BLUE", new RichParagraphStyleInstruction(fillColor: Color.AliceBlue));
+            AddInstruction("L_GREEN", new RichParagraphStyleInstruction(fillColor: Color.LawnGreen));
+            AddInstruction("L_YELLOW", new RichParagraphStyleInstruction(fillColor: Color.LightYellow));
+            AddInstruction("L_BROWN", new RichParagraphStyleInstruction(fillColor: Color.RosyBrown));
+            AddInstruction("L_CYAN", new RichParagraphStyleInstruction(fillColor: Color.LightCyan));
+            AddInstruction("L_PINK", new RichParagraphStyleInstruction(fillColor: Color.LightPink));
+            AddInstruction("L_GRAY", new RichParagraphStyleInstruction(fillColor: Color.LightGray));
+            AddInstruction("L_GOLD", new RichParagraphStyleInstruction(fillColor: Color.LightGoldenrodYellow));
+
+            AddInstruction("D_RED", new RichParagraphStyleInstruction(fillColor: Color.DarkRed));
+            AddInstruction("D_BLUE", new RichParagraphStyleInstruction(fillColor: Color.DarkBlue));
+            AddInstruction("D_GREEN", new RichParagraphStyleInstruction(fillColor: Color.ForestGreen));
+            AddInstruction("D_YELLOW", new RichParagraphStyleInstruction(fillColor: Color.GreenYellow));
+            AddInstruction("D_BROWN", new RichParagraphStyleInstruction(fillColor: Color.SaddleBrown));
+            AddInstruction("D_CYAN", new RichParagraphStyleInstruction(fillColor: Color.DarkCyan));
+            AddInstruction("D_PINK", new RichParagraphStyleInstruction(fillColor: Color.DeepPink));
+            AddInstruction("D_GRAY", new RichParagraphStyleInstruction(fillColor: Color.DarkGray));
+            AddInstruction("D_GOLD", new RichParagraphStyleInstruction(fillColor: Color.DarkGoldenrod));
+
             // add font style change instructions
             AddInstruction("BOLD", new RichParagraphStyleInstruction(fontStyle: Entities.FontStyle.Bold));
             AddInstruction("REGULAR", new RichParagraphStyleInstruction(fontStyle: Entities.FontStyle.Regular));
@@ -268,7 +288,7 @@ namespace GeonBit.UI.Entities
                 {
                     var key = oMatch.Value.Substring(openingDenote.Length, oMatch.Value.Length - denotesLength);
                     string sColor = oMatch.Value.Substring(openingDenote.Length, oMatch.Value.Length - denotesLength);
-                    _styleInstructions.Add(oMatch.Index - iLastLength, RichParagraphStyleInstruction._instructions[key]);
+                    _styleInstructions[oMatch.Index - iLastLength] = RichParagraphStyleInstruction._instructions[key];
                     iLastLength += oMatch.Value.Length;
                 }
 

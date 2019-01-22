@@ -337,33 +337,6 @@ To position elements inside panels or other widgets, you set an anchor and offse
 Another thing to keep in mind is size; Most widgets come with a default size, but for those you need to set size for remember that setting size 0 will take full width / height. For example, size of X = 0, Y = 100 means the widget will be 100 pixels height and the width of its parent (minus the parent padding)."));
                 }
 
-                // example: forms
-                {
-                    // create panel and add to list of panels and manager
-                    Panel panel = new Panel(new Vector2(560, -1));
-                    panels.Add(panel);
-                    UserInterface.Active.AddEntity(panel);
-
-                    // add title and text
-                    panel.AddChild(new Header("UI Forms"));
-                    panel.AddChild(new HorizontalLine());
-                    panel.AddChild(new Paragraph(@"Forms are objects that help you generate form-like UI groups and easily extract the data of different fields. For example click the button below: 
-                    "));
-
-                    // add create form button
-                    var btn = panel.AddChild(new Button(@"Show Form"));
-                    btn.OnClick += (Entity ent) =>
-                    {
-                        var newForm = new Form(new FormFieldData[] {
-                            new FormFieldData(FormFieldType.TextInput, "text1", "Text Field") { DefaultValue = "Some Default Val" },
-                            new FormFieldData(FormFieldType.Slider, "slider1", "Slider Field") { Min = 5, Max = 15, DefaultValue = 10 },
-                            new FormFieldData(FormFieldType.RadioButtons, "radios1", "Radio Buttons Field") { Choices = new string[] {"option1", "option2" }, DefaultValue = "option1" },
-                            new FormFieldData(FormFieldType.Checkbox, "checkbox1", "Checkbox Field") { },
-                        }, null);
-                        GeonBit.UI.Utils.MessageBox.ShowMsgBox("Example Form", "", "Close Form", extraEntities: new Entity[] { newForm.FormPanel });
-                    };
-                }
-
                 // example: anchors
                 {
                     // create panel and add to list of panels and manager
@@ -952,6 +925,50 @@ Maybe something interesting in tab3?"));
                         };
                         panel.AddChild(btn);
                     }
+                }
+
+                // example: forms
+                {
+                    // create panel and add to list of panels and manager
+                    Panel panel = new Panel(new Vector2(560, -1));
+                    panels.Add(panel);
+                    UserInterface.Active.AddEntity(panel);
+
+                    // add title and text
+                    panel.AddChild(new Header("UI Forms"));
+                    panel.AddChild(new HorizontalLine());
+                    panel.AddChild(new Paragraph(@"Forms are objects that help you generate form-like UI groups and easily extract the data of different fields. For example click the button below: 
+                    "));
+
+                    // add create form button
+                    var btn = panel.AddChild(new Button(@"Show Form"));
+                    btn.OnClick += (Entity ent) =>
+                    {
+                        var newForm = new Form(new FormFieldData[] {
+                            new FormFieldData(FormFieldType.TextInput, "text1", "Text Field") { DefaultValue = "Some Default Val" },
+                            new FormFieldData(FormFieldType.Slider, "slider1", "Slider Field") { Min = 5, Max = 15, DefaultValue = 10 },
+                            new FormFieldData(FormFieldType.RadioButtons, "radios1", "Radio Buttons Field") { Choices = new string[] {"option1", "option2" }, DefaultValue = "option1" },
+                            new FormFieldData(FormFieldType.Checkbox, "checkbox1", "Checkbox Field") { },
+                            new FormFieldData(FormFieldType.Section, "newsection", "New Form Section") { },
+                            new FormFieldData(FormFieldType.DropDown, "dropdown1", "DropDown field") { Choices = new string[] {"option1", "option2", "option3" } },
+                        }, null);
+                        Utils.MessageBox.ShowMsgBox("Example Form", "", "Close Form And Show Values", extraEntities: new Entity[] { newForm.FormPanel }, onDone: () =>
+                        {
+                            Utils.MessageBox.ShowMsgBox("Form Values", string.Format(
+                                "Text Field: '{5}{0}{6}'\r\n" +
+                                "Slider: '{5}{1}{6}'\r\n" +
+                                "Radio Buttons: '{5}{2}{6}'\r\n" +
+                                "Checkbox: '{5}{3}{6}'\r\n" +
+                                "DropDown: '{5}{4}{6}'",
+                                newForm.GetValue("text1"),
+                                newForm.GetValue("slider1"),
+                                newForm.GetValue("radios1"),
+                                newForm.GetValue("checkbox1"),
+                                newForm.GetValue("dropdown1"),
+                                "{{L_GREEN}}", "{{DEFAULT}}"
+                                ));
+                        });
+                    };
                 }
 
                 // example: file menu
