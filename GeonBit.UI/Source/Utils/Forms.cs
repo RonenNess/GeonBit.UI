@@ -173,7 +173,7 @@ namespace GeonBit.UI.Utils.Forms
                 FormPanel.AddChild(fieldEntity);
 
                 // set tooltiptext and call custom init function
-                if (string.IsNullOrEmpty(field.ToolTipText)) { fieldEntity.ToolTipText = field.ToolTipText; }
+                if (!string.IsNullOrEmpty(field.ToolTipText)) { fieldEntity.ToolTipText = field.ToolTipText; }
                 field.OnFieldCreated?.Invoke(fieldEntity);
 
                 // store entity in entities dictionary
