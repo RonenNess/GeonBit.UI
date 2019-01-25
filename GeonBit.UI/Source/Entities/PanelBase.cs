@@ -66,6 +66,11 @@ namespace GeonBit.UI.Entities
         protected Vector2? _customFrame = null;
 
         /// <summary>
+        /// Min size for panels when trying to auto-adjust height for child entities.
+        /// </summary>
+        public static float MinAutoAdjustHeight = 50f;
+
+        /// <summary>
         /// If true, will set panel height automatically based on children.
         /// Note: this will change the Size.Y property every time children under this panel change.
         /// </summary>
@@ -132,7 +137,8 @@ namespace GeonBit.UI.Entities
             var selfTop = selfDestRect.Y - Padding.Y;
 
             // calculate the max height this panel should have base on children
-            var maxHeight = 1f;
+            var maxHeight = MinAutoAdjustHeight;
+            bool didAdjustHeight = false;
             foreach (var child in _children)
             {
                 if (child.Size.Y != 0 &&
@@ -150,6 +156,7 @@ namespace GeonBit.UI.Entities
                     // get child height and check if should change this panel's height
                     var childDestRect = child.GetDestRectForAutoAnchors();
                     var currHeight = (childDestRect.Bottom + child.SpaceAfter.Y - selfTop);
+                    didAdjustHeight = true;
                     if (currHeight > maxHeight)
                     {
                         maxHeight = currHeight;
@@ -169,7 +176,7 @@ namespace GeonBit.UI.Entities
             }
 
             // return if could adjust height
-            return maxHeight > 1f;
+            return didAdjustHeight;
         }
 
         /// <summary>

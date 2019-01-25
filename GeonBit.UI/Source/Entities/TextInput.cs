@@ -113,14 +113,14 @@ namespace GeonBit.UI.Entities
             // set multiline mode
             _multiLine = multiline;
 
-            // special case - if multiline and asked for default height, make it heigher
-            if (multiline && size.Y == -1)
-            {
-                _size.Y *= 4;
-            }
-
             // update default style
             UpdateStyle(DefaultStyle);
+            
+            // default size of multiline text input is 4 times bigger
+            if (multiline)
+            {
+                SetStyleProperty(StylePropertyIds.DefaultSize, new DataTypes.StyleProperty(EntityDefaultSize * new Vector2(1, 4)));
+            }
 
             // set limit by size - default true in single-line, default false in multi-line
             LimitBySize = !_multiLine;
@@ -430,7 +430,7 @@ namespace GeonBit.UI.Entities
             _actualDisplayText = PrepareInputTextForDisplay(showPlaceholder, IsFocused);
 
             // for multiline only - handle scrollbar visibility and max
-            if (_multiLine && _actualDisplayText != null)
+            if (_multiLine && (_actualDisplayText != null) && (_destRectInternal.Height > 0))
             {
                 // get how many lines can fit in the textbox and how many lines display text actually have
                 int linesFit = _destRectInternal.Height / (int)(System.Math.Max(currParagraph.GetCharacterActualSize().Y, 1));

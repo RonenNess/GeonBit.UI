@@ -2050,6 +2050,12 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Made paragraph of message boxes RichParagraph by default.
 - Misc code refactors and improvements.
 
+### 3.4.0.1 [UNDER DEVELOPMENT]
+
+- Fixed missing ToolTipText bug with form entities.
+- Fixed default size for TextInput with multilines.
+- Added min size for panels when auto-adjust height.
+
 ## Credits
 
 GeonBit.UI was written by Ronen Ness, but uses some free textures made by awesome people who share their work for free.
