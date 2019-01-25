@@ -564,7 +564,7 @@ namespace GeonBit.UI.Entities
 
                 // store old string and update based on user input
                 string oldVal = _value;
-                _value = KeyboardInput.GetTextInput(_value, ref pos);
+                _value = KeyboardInput.GetTextInput(_value, TextParagraph.MaxCharactersInLine, ref pos);
 
                 // update caret position
                 _caret = pos;

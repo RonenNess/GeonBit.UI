@@ -223,6 +223,17 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Get how many characters can fit in a single line.
+        /// </summary>
+        public int MaxCharactersInLine
+        {
+            get
+            {
+                return GetActualDestRect().Width / (int)GetCharacterActualSize().X;
+            }
+        }
+
+        /// <summary>
         /// Wrap text to fit destination rect.
         /// Most if this code is coming from: http://stackoverflow.com/questions/15986473/how-do-i-implement-word-wrap
         /// </summary>

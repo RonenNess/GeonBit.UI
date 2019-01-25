@@ -26,6 +26,8 @@ namespace GeonBit.UI
         Space = 32,         // space character input
         ArrowLeft = 1,      // arrow left - moving caret left
         ArrowRight = 2,     // arrow right - moving caret right
+        ArrowUp = 3,        // arrow up - moving caret line up
+        ArrowDown = 4,      // arrow down - moving caret line down
     };
 
     /// <summary>
@@ -45,8 +47,9 @@ namespace GeonBit.UI
         /// This also handles keyboard cooldown, to make it feel like windows-input.
         /// </summary>
         /// <param name="txt">String to push text input into.</param>
+        /// <param name="lineWidth">How many characters can fit in a line.</param>
         /// <param name="pos">Position to insert / remove characters. -1 to push at the end of string. After done, will contain actual new caret position.</param>
         /// <returns>String after text input applied on it.</returns>
-        string GetTextInput(string txt, ref int pos);
+        string GetTextInput(string txt, int lineWidth, ref int pos);
     }
 }

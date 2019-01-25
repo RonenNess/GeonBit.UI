@@ -2055,6 +2055,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Fixed missing ToolTipText bug with form entities.
 - Fixed default size for TextInput with multilines.
 - Added min size for panels when auto-adjust height.
+- Added support in line up / down when editing multiline text input.
 
 ## Credits
 

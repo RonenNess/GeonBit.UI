@@ -212,6 +212,14 @@ namespace GeonBit.UI
                     _currCharacterInput = (char)SpecialChars.ArrowRight;
                     return;
 
+                case Keys.Up:
+                    _currCharacterInput = (char)SpecialChars.ArrowUp;
+                    return;
+
+                case Keys.Down:
+                    _currCharacterInput = (char)SpecialChars.ArrowDown;
+                    return;
+
                 case Keys.Delete:
                     _currCharacterInput = (char)SpecialChars.Delete;
                     return;
@@ -401,9 +409,10 @@ namespace GeonBit.UI
         /// This also handles keyboard cooldown, to make it feel like windows-input.
         /// </summary>
         /// <param name="txt">String to push text input into.</param>
+        /// <param name="lineWidth">How many characters can fit in a line.</param>
         /// <param name="pos">Position to insert / remove characters. -1 to push at the end of string. After done, will contain actual new caret position.</param>
         /// <returns>String after text input applied on it.</returns>
-        public string GetTextInput(string txt, ref int pos)
+        public string GetTextInput(string txt, int lineWidth, ref int pos)
         {
             // if need to skip due to cooldown time
             if (!_newKeyIsPressed && _keyboardInputCooldown > 0f)
@@ -432,6 +441,16 @@ namespace GeonBit.UI
 
                 case (char)SpecialChars.ArrowRight:
                     if (++pos > txt.Length) { pos = txt.Length; }
+                    return txt;
+
+                case (char)SpecialChars.ArrowUp:
+                    pos -= lineWidth;
+                    if (pos < 0) { pos = 0; }
+                    return txt;
+
+                case (char)SpecialChars.ArrowDown:
+                    pos += lineWidth;
+                    if (pos > txt.Length) { pos = txt.Length; }
                     return txt;
 
                 case (char)SpecialChars.Backspace:
