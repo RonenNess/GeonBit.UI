@@ -510,6 +510,13 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                         entity.AttachAnimator(new Animators.FloatUpDownAnimator());
                     }
 
+                    // wave animation
+                    {
+                        panel.AddChild(new LineSpace(2));
+                        var entity = panel.AddChild(new RichParagraph(@"Wave text animator"));
+                        entity.AttachAnimator(new Animators.TextWaveAnimator());
+                    }
+
                     // fade out
                     {
                         panel.AddChild(new LineSpace(2));

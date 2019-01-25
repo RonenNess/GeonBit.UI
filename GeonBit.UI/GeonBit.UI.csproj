@@ -50,6 +50,7 @@
     <Compile Include="GeonBitUI_Examples.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Source\Animators\TextWaveAnimator.cs" />
     <Compile Include="Source\Animators\TypeWriterAnimator.cs" />
     <Compile Include="Source\Animators\FadeOutAnimator.cs" />
     <Compile Include="Source\Animators\FloatUpDownAnimator.cs" />

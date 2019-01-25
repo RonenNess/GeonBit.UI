@@ -2045,6 +2045,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Turned 'MulticolorParagraph' into 'RichParagraph' and added option to change font style.
 - Added new built-in style instructions for RichParagraph.
 - Added animators, currently including: typewriter, fadeout, and float up-down animations.
+- Added per-character animations.
 - Added 'Forms' to quickly create a UI form and fetch fields data using a simple list of field descriptors.
 - Made paragraph of message boxes RichParagraph by default.
 - Misc code refactors and improvements.

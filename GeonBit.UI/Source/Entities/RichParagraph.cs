@@ -163,6 +163,24 @@ namespace GeonBit.UI.Entities
     public class RichParagraph : Paragraph
     {
         /// <summary>
+        /// A function to add per-character manipulation, used for advanced animations.
+        /// </summary>
+        /// <param name="paragraph">The rich paragraph entity.</param>
+        /// <param name="currChar">Value of current character to manipulate.</param>
+        /// <param name="index">Character index.</param>
+        /// <param name="fillColor">Output fill color.</param>
+        /// <param name="outlineColor">Output outline color.</param>
+        /// <param name="outlineWidth">Output line width.</param>
+        /// <param name="offset">Output position offset from original position.</param>
+        /// <param name="scale">Output character scale.</param>
+        public delegate void PerCharacterManipulationFunc(RichParagraph paragraph, char currChar, int index, ref Color fillColor, ref Color outlineColor, ref int outlineWidth, ref Vector2 offset, ref float scale);
+
+        /// <summary>
+        /// Optional manipulators we can add to change per-character color and position.
+        /// </summary>
+        public PerCharacterManipulationFunc PerCharacterManipulators;
+
+        /// <summary>
         /// Static ctor.
         /// </summary>
         static RichParagraph()
@@ -259,9 +277,9 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
-        /// Parse special color-changing instructions inside the text.
+        /// Parse special style-changing instructions inside the text.
         /// </summary>
-        private void ParseColorInstructions()
+        private void ParseStyleInstructions()
         {
             // clear previous color instructions
             _styleInstructions.Clear();
@@ -318,12 +336,12 @@ namespace GeonBit.UI.Entities
             // update processed text if needed
             if (_needUpdateStyleInstructions)
             {
-                ParseColorInstructions();
+                ParseStyleInstructions();
                 UpdateDestinationRects();
             }
 
             // if there are color changing instructions in paragraph, draw with color changes
-            if (_styleInstructions.Count > 0)
+            if (_styleInstructions.Count > 0 || PerCharacterManipulators != null)
             {
                 // iterate characters in text and check when there's an instruction to apply
                 int iTextIndex = 0;
@@ -397,11 +415,18 @@ namespace GeonBit.UI.Entities
                     // get current char as string
                     var currText = currCharacter.ToString();
 
+                    // do per-character manipulations
+                    Vector2 offset = Vector2.Zero;
+                    if (PerCharacterManipulators != null)
+                    {
+                        PerCharacterManipulators.Invoke(this, currCharacter, iTextIndex, ref currColor, ref currOutlineColor, ref currOutlineWidth, ref offset, ref _actualScale);
+                    }
+
                     // draw outline
-                    DrawTextOutline(spriteBatch, currText, currOutlineWidth, currFont, _actualScale, currPosition, currOutlineColor, _fontOrigin);
+                    DrawTextOutline(spriteBatch, currText, currOutlineWidth, currFont, _actualScale, currPosition + offset, currOutlineColor, _fontOrigin);
 
                     // fix color opacity and draw
-                    spriteBatch.DrawString(currFont, currText, currPosition, currColor, 0, _fontOrigin, _actualScale, SpriteEffects.None, 0.5f);
+                    spriteBatch.DrawString(currFont, currText, currPosition + offset, currColor, 0, _fontOrigin, _actualScale, SpriteEffects.None, 0.5f);
                 }
             }
             // if there are no style-changing instructions, just draw the paragraph as-is

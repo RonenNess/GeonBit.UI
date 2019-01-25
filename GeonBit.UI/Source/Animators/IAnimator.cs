@@ -31,7 +31,23 @@ namespace GeonBit.UI.Animators
             }
 
             // set entity
+            if (entity == null) { OnDetach(); }
             TargetEntity = entity;
+            if (entity != null) { OnAttached(); }
+        }
+
+        /// <summary>
+        /// Called after attached to an entity.
+        /// </summary>
+        protected virtual void OnAttached()
+        {
+        }
+
+        /// <summary>
+        /// Called right before detached from an entity.
+        /// </summary>
+        protected virtual void OnDetach()
+        {
         }
 
         /// <summary>
