@@ -323,51 +323,109 @@ namespace GeonBit.UI.Utils.Forms
         /// Get field's value.
         /// </summary>
         /// <param name="fieldId">Field to get.</param>
+        /// <param name="defaultVal">Default value to return if value to get is null, unselected, or empty string.</param>
         /// <returns>Field's value.</returns>
-        public virtual object GetValue(string fieldId)
+        public virtual object GetValue(string fieldId, object defaultVal = null)
         {
             // get field data and entity
             var fieldData = _fieldsData[fieldId];
             var entity = _entities[fieldId];
 
+            // anonymous function to return default value if value from form is null or empty
+            System.Func<object, object> ApplyDefaultVal = (object val) =>
+            {
+                if (defaultVal != null && (val == null || string.IsNullOrEmpty(val.ToString())))
+                {
+                    return defaultVal;
+                }
+                return val;
+            };
+
             // return value based on type
             switch (fieldData.Type)
             {
                 case FormFieldType.Checkbox:
-                    return ((CheckBox)(entity)).Checked;
+                    return ApplyDefaultVal(((CheckBox)(entity)).Checked);
 
                 case FormFieldType.DropDown:
-                    return ((DropDown)(entity)).SelectedValue;
+                    return ApplyDefaultVal(((DropDown)(entity)).SelectedValue);
 
                 case FormFieldType.MultilineTextInput:
-                    return ((TextInput)(entity)).Value;
+                    return ApplyDefaultVal(((TextInput)(entity)).Value);
 
                 case FormFieldType.TextInput:
-                    return ((TextInput)(entity)).Value;
+                    return ApplyDefaultVal(((TextInput)(entity)).Value);
 
                 case FormFieldType.Slider:
-                    return ((Slider)(entity)).Value;
+                    return ApplyDefaultVal(((Slider)(entity)).Value);
 
                 case FormFieldType.SelectList:
-                    return ((SelectList)(entity)).SelectedValue;
+                    return ApplyDefaultVal(((SelectList)(entity)).SelectedValue);
 
                 case FormFieldType.RadioButtons:
                     foreach (var child in ((Panel)(entity)).Children)
                     {
                         if (child is RadioButton && ((RadioButton)child).Checked)
                         {
-                            return (child as RadioButton).TextParagraph.Text;
+                            return ApplyDefaultVal((child as RadioButton).TextParagraph.Text);
                         }
                     }
-                    return null;
+                    return ApplyDefaultVal(null);
 
                 case FormFieldType.Section:
-                    return null;
+                    return ApplyDefaultVal(null);
 
                 default:
                     throw new Exceptions.InvalidStateException("Unknown field type!");
             }
         }
 
+        /// <summary>
+        /// Get field value as a trimmed string.
+        /// </summary>
+        /// <param name="fieldId">Field to get.</param>
+        /// <param name="defaultVal">Default value to return if value to get is null, unselected, or empty string.</param>
+        /// <returns>Field's value.</returns>
+        public virtual string GetValueString(string fieldId, string defaultVal = null)
+        {
+            var ret = GetValue(fieldId, defaultVal);
+            return ret.ToString().Trim();
+        }
+
+        /// <summary>
+        /// Get field value as boolean.
+        /// </summary>
+        /// <param name="fieldId">Field to get.</param>
+        /// <param name="defaultVal">Default value to return if value to get is null, unselected, or empty string.</param>
+        /// <returns>Field's value.</returns>
+        public virtual bool GetValueBool(string fieldId, bool? defaultVal = null)
+        {
+            var ret = GetValue(fieldId, defaultVal);
+            return System.Boolean.Parse(ret.ToString());
+        }
+
+        /// <summary>
+        /// Get field value as integer.
+        /// </summary>
+        /// <param name="fieldId">Field to get.</param>
+        /// <param name="defaultVal">Default value to return if value to get is null, unselected, or empty string.</param>
+        /// <returns>Field's value.</returns>
+        public virtual int GetValueInt(string fieldId, int? defaultVal = null)
+        {
+            var ret = GetValue(fieldId, defaultVal);
+            return System.Int32.Parse(ret.ToString());
+        }
+
+        /// <summary>
+        /// Get field value as float.
+        /// </summary>
+        /// <param name="fieldId">Field to get.</param>
+        /// <param name="defaultVal">Default value to return if value to get is null, unselected, or empty string.</param>
+        /// <returns>Field's value.</returns>
+        public virtual float GetValueFloat(string fieldId, float? defaultVal = null)
+        {
+            var ret = GetValue(fieldId, defaultVal);
+            return System.Single.Parse(ret.ToString());
+        }
     }
 }

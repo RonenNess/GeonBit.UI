@@ -2056,6 +2056,8 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Fixed default size for TextInput with multilines.
 - Added min size for panels when auto-adjust height.
 - Added support in line up / down when editing multiline text input.
+- Added useful getter functions for specific types in form (string, int, float, bool..)
+- Added default value to form GetValue() methods.
 
 ## Credits
 
