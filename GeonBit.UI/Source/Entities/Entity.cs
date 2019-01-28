@@ -2191,7 +2191,8 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Update all animators attached to this entity.
         /// </summary>
-        protected void UpdateAnimators()
+        /// <param name="recursive">If true, will also update children's animators</param>
+        protected internal void UpdateAnimators(bool recursive)
         {
             // update animators
             foreach (var animator in _animators)
@@ -2204,6 +2205,15 @@ namespace GeonBit.UI.Entities
 
             // remove animators that are done
             _animators.RemoveAll(x => x.IsDone && x.ShouldRemoveWhenDone);
+
+            // update children animations
+            if (recursive)
+            {
+                foreach (var child in _children)
+                {
+                    child.UpdateAnimators(true);
+                }
+            }
         }
 
         /// <summary>
@@ -2257,7 +2267,7 @@ namespace GeonBit.UI.Entities
             _lastScrollVal = scrollVal;
 
             // update animations
-            UpdateAnimators();
+            UpdateAnimators(false);
 
             // check if should invoke the spawn effect
             if (_isFirstUpdate)

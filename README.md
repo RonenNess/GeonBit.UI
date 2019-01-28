@@ -2058,6 +2058,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Added support in line up / down when editing multiline text input.
 - Added useful getter functions for specific types in form (string, int, float, bool..)
 - Added default value to form GetValue() methods.
+- Fixed bug with animators not working in panels that have clipping overflow when mouse is outside boundaries.
 
 ## Credits
 

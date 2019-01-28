@@ -386,6 +386,7 @@ namespace GeonBit.UI.Entities
         override protected void UpdateChildren(ref Entity targetEntity, ref Entity dragTargetEntity, ref bool wasEventHandled, Point scrollVal)
         {
             // if not in overflow mode and mouse not on this panel boundaries, skip calling children
+            // this is so we won't target / activate entities that are not visible
             bool skipChildren = false;
             if (_overflowMode != PanelOverflowBehavior.Overflow)
             {
@@ -407,6 +408,14 @@ namespace GeonBit.UI.Entities
             if (!skipChildren)
             {
                 base.UpdateChildren(ref targetEntity, ref dragTargetEntity, ref wasEventHandled, scrollVal);
+            }
+            // if don't update children at least update their animators
+            else
+            {
+                foreach (var child in _children)
+                {
+                    child.UpdateAnimators(true);
+                }
             }
 
             // re-enable scrollbar and update it
