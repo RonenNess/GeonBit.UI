@@ -62,7 +62,7 @@ namespace GeonBit.UI.Entities
         /// Will change outline width.
         /// </summary>
         public int? OutlineWidth { get; private set; }
-        
+
         /// <summary>
         /// Will change text outline color.
         /// </summary>
@@ -413,7 +413,7 @@ namespace GeonBit.UI.Entities
                     }
 
                     // get current char as string
-                    var currText = currCharacter.ToString();
+                    var currText = Resources.GetStringForChar(currCharacter);
 
                     // do per-character manipulations
                     Vector2 offset = Vector2.Zero;

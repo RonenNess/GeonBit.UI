@@ -14,7 +14,8 @@ using Microsoft.Xna.Framework;
 using System;
 using GeonBit.UI.Entities;
 using GeonBit.UI.DataTypes;
-
+using System.Collections.Generic;
+using System.Linq;
 
 namespace GeonBit.UI
 {
@@ -165,8 +166,12 @@ namespace GeonBit.UI
     /// </summary>
     public static class Resources
     {
+
+        /// <summary>Lookup for char > string conversion</summary>
+        private static Dictionary<char, string> charStringDict = new Dictionary<char, string>();
+
         /// <summary>Just a plain white texture, used internally.</summary>
-        public static Texture2D WhiteTexture { get { return _content.Load<Texture2D>(_root + "textures/white_texture"); } }
+        public static Texture2D WhiteTexture;
 
         /// <summary>Cursor textures.</summary>
         public static TexturesGetter<CursorType> Cursors = new TexturesGetter<CursorType>("textures/cursor_");
@@ -193,16 +198,16 @@ namespace GeonBit.UI
         public static TexturesGetter<EntityState> RadioTextures = new TexturesGetter<EntityState>("textures/radio");
 
         /// <summary>ProgressBar texture.</summary>
-        public static Texture2D ProgressBarTexture { get { return _content.Load<Texture2D>(_root + "textures/progressbar"); } }
+        public static Texture2D ProgressBarTexture;
 
         /// <summary>Metadata about progressbar texture.</summary>
         public static TextureData ProgressBarData;
 
         /// <summary>ProgressBar fill texture.</summary>
-        public static Texture2D ProgressBarFillTexture { get { return _content.Load<Texture2D>(_root + "textures/progressbar_fill"); } }
+        public static Texture2D ProgressBarFillTexture;
 
         /// <summary>HorizontalLine texture.</summary>
-        public static Texture2D HorizontalLineTexture { get { return _content.Load<Texture2D>(_root + "textures/horizontal_line"); } }
+        public static Texture2D HorizontalLineTexture;
 
         /// <summary>Sliders base textures.</summary>
         public static TexturesGetter<SliderSkin> SliderTextures = new TexturesGetter<SliderSkin>("textures/slider_");
@@ -217,22 +222,22 @@ namespace GeonBit.UI
         public static TexturesGetter<IconType> IconTextures = new TexturesGetter<IconType>("textures/icons/");
 
         /// <summary>Icons inventory background texture.</summary>
-        public static Texture2D IconBackgroundTexture { get { return _content.Load<Texture2D>(_root + "textures/icons/background"); } }
+        public static Texture2D IconBackgroundTexture;
 
         /// <summary>Vertical scrollbar base texture.</summary>
-        public static Texture2D VerticalScrollbarTexture { get { return _content.Load<Texture2D>(_root + "textures/scrollbar"); } }
+        public static Texture2D VerticalScrollbarTexture;
 
         /// <summary>Vertical scrollbar mark texture.</summary>
-        public static Texture2D VerticalScrollbarMarkTexture { get { return _content.Load<Texture2D>(_root + "textures/scrollbar_mark"); } }
+        public static Texture2D VerticalScrollbarMarkTexture;
 
         /// <summary>Metadata about scrollbar texture.</summary>
         public static TextureData VerticalScrollbarData;
 
         /// <summary>Arrow-down texture (used in dropdown).</summary>
-        public static Texture2D ArrowDown { get { return _content.Load<Texture2D>(_root + "textures/arrow_down"); } }
+        public static Texture2D ArrowDown;
 
         /// <summary>Arrow-up texture (used in dropdown).</summary>
-        public static Texture2D ArrowUp { get { return _content.Load<Texture2D>(_root + "textures/arrow_up"); } }
+        public static Texture2D ArrowUp;
 
         /// <summary>Default font types.</summary>
         public static SpriteFont[] Fonts;
@@ -256,9 +261,22 @@ namespace GeonBit.UI
         /// <param name="theme">Which theme to load resources from.</param>
         static public void LoadContent(ContentManager content, string theme = "default")
         {
+            InitialiseCharStringDict();
+
             // set resources root path and store content manager
             _root = "GeonBit.UI/themes/" + theme + "/";
             _content = content;
+
+            // set Texture2D static fields
+            HorizontalLineTexture = _content.Load<Texture2D>(_root + "textures/horizontal_line");
+            WhiteTexture = _content.Load<Texture2D>(_root + "textures/white_texture");
+            IconBackgroundTexture = _content.Load<Texture2D>(_root + "textures/icons/background");
+            VerticalScrollbarTexture = _content.Load<Texture2D>(_root + "textures/scrollbar");
+            VerticalScrollbarMarkTexture = _content.Load<Texture2D>(_root + "textures/scrollbar_mark");
+            ArrowDown = _content.Load<Texture2D>(_root + "textures/arrow_down");
+            ArrowUp = _content.Load<Texture2D>(_root + "textures/arrow_up");
+            ProgressBarTexture = _content.Load<Texture2D>(_root + "textures/progressbar");
+            ProgressBarFillTexture = _content.Load<Texture2D>(_root + "textures/progressbar_fill");
 
             // load cursors metadata
             CursorsData = new CursorTextureData[Enum.GetValues(typeof(CursorType)).Length];
@@ -349,6 +367,33 @@ namespace GeonBit.UI
             LoadDefaultStyles(ref PanelTabs.DefaultButtonParagraphStyle, "PanelTabsButtonParagraph", _root, content);
         }
 
+
+        /// <summary>
+        /// Creates Dictionary containing char > string lookup
+        /// </summary>
+        private static void InitialiseCharStringDict()
+        {
+            charStringDict.Clear();
+
+            var asciiValues = Enumerable.Range('\x1', 127).ToArray();
+
+            for (var i = 0; i < asciiValues.Length; i++)
+            {
+                var c = (char)asciiValues[i];
+                charStringDict.Add(c, c.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Returns string from char > string lookup
+        /// </summary>
+        /// <param name="c"></param>
+        /// <returns></returns>
+        public static string GetStringForChar(char c)
+        {
+            return charStringDict[c];
+        }
+
         /// <summary>
         /// Load default stylesheets for a given entity name and put values inside the sheet.
         /// </summary>
@@ -363,7 +408,7 @@ namespace GeonBit.UI
 
             // load default styles
             FillDefaultStyles(ref sheet, EntityState.Default, content.Load<DefaultStyles>(stylesheetBase + "-Default"));
-            
+
             // load mouse-hover styles
             FillDefaultStyles(ref sheet, EntityState.MouseHover, content.Load<DefaultStyles>(stylesheetBase + "-MouseHover"));
 

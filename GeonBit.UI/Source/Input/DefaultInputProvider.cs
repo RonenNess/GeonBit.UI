@@ -33,6 +33,9 @@ namespace GeonBit.UI
         // store current frame gametime
         GameTime _currTime;
 
+        // store all Key values in lookup array
+        Keys[] _allKeyValues;
+
         /// <summary>An artificial "lag" after a key is pressed when typing text input, to prevent mistake duplications.</summary>
         public float KeysTypeCooldown = 0.6f;
 
@@ -66,6 +69,8 @@ namespace GeonBit.UI
         /// </summary>
         public DefaultInputProvider()
         {
+            _allKeyValues = (Keys[])System.Enum.GetValues(typeof(Keys));
+
             // init keyboard states
             _newKeyboardState = _oldKeyboardState;
 
@@ -134,7 +139,7 @@ namespace GeonBit.UI
             }
 
             // send key-down events
-            foreach (Keys key in System.Enum.GetValues(typeof(Keys)))
+            foreach (var key in _allKeyValues)
             {
                 if (_newKeyboardState.IsKeyDown(key) && !_oldKeyboardState.IsKeyDown(key))
                 {
@@ -308,7 +313,7 @@ namespace GeonBit.UI
                 case Keys.OemQuotes:
                     _currCharacterInput = isShiftDown ? '\"' : '\'';
                     return;
-                
+
                 // semicolon
                 case Keys.OemSemicolon:
                     _currCharacterInput = isShiftDown ? ':' : ';';
@@ -323,8 +328,8 @@ namespace GeonBit.UI
                 case Keys.OemOpenBrackets:
                     _currCharacterInput = isShiftDown ? '{' : '[';
                     return;
-                
-                    // close brackets
+
+                // close brackets
                 case Keys.OemCloseBrackets:
                     _currCharacterInput = isShiftDown ? '}' : ']';
                     return;
@@ -366,7 +371,7 @@ namespace GeonBit.UI
                 case Keys.OemComma:
                     _currCharacterInput = isShiftDown ? '<' : ',';
                     return;
-                
+
                 // tab
                 case Keys.Tab:
                     _currCharacterInput = ' ';
@@ -400,7 +405,7 @@ namespace GeonBit.UI
 
             // fix case and set as current char pressed
             _currCharacterInput = (capsLock ? lastCharPressedStr.ToUpper() : lastCharPressedStr.ToLower())[0];
-            
+
         }
 
         /// <summary>
@@ -431,7 +436,7 @@ namespace GeonBit.UI
             {
                 pos = txt.Length;
             }
-            
+
             // handle special chars
             switch (_currCharacterInput)
             {
@@ -561,7 +566,7 @@ namespace GeonBit.UI
         /// <returns>True if any mouse button was clicked.</returns>
         public bool AnyMouseButtonClicked()
         {
-            return 
+            return
                 MouseButtonClick(MouseButton.Left) ||
                 MouseButtonClick(MouseButton.Right) ||
                 MouseButtonClick(MouseButton.Middle);
