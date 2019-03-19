@@ -391,6 +391,7 @@ namespace GeonBit.UI
         /// <returns></returns>
         public static string GetStringForChar(char c)
         {
+            if (!charStringDict.ContainsKey(c)) { return c.ToString(); }
             return charStringDict[c];
         }
 
