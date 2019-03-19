@@ -2050,8 +2050,9 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Made paragraph of message boxes RichParagraph by default.
 - Misc code refactors and improvements.
 
-### 3.4.0.1 [UNDER DEVELOPMENT]
+### 3.4.0.1
 
+- Memory and GC optimizations - contributed by Matt Swift.
 - Fixed missing ToolTipText bug with form entities.
 - Fixed default size for TextInput with multilines.
 - Added min size for panels when auto-adjust height.
@@ -2087,4 +2088,8 @@ The following people contributed to the project via pull requests:
 #### Craig Johnston
 
 - Bug fixes in dragging entities and mouse down events.
+
+#### Matt Swift
+
+- Memory optimizations.
 
