@@ -37,8 +37,43 @@ namespace GeonBit.UI.Entities
             "MouseDown",
         };
 
+        /// <summary>
+        /// Low allocation comparer for Dictionary
+        /// </summary>
+        private struct StringEntityStateKvpComparer : IEqualityComparer<KeyValuePair<string, EntityState>>
+        {
+            /// <summary>
+            /// Compares combined string, EntityState Kvp for equality
+            /// </summary>
+            /// <param name="x"></param>
+            /// <param name="y"></param>
+            /// <returns></returns>
+            public bool Equals(KeyValuePair<string, EntityState> x, KeyValuePair<string, EntityState> y)
+            {
+                return (x.Key == y.Key && x.Value == y.Value);
+            }
+
+            /// <summary>
+            /// Creates a unique hash for string, EntityState Kvp
+            /// </summary>
+            /// <param name="obj"></param>
+            /// <returns></returns>
+            public int GetHashCode(KeyValuePair<string, EntityState> obj)
+            {
+                unchecked
+                {
+                    int hashCode = 0;
+
+                    hashCode = (hashCode * 397) ^ (obj.Key != null ? obj.Key.GetHashCode() : 0);
+                    hashCode = (hashCode * 397) ^ ((int)obj.Value).GetHashCode();
+
+                    return hashCode;
+                }
+            }
+        }
+
         // internal mechanism to reduce memory usage.
-        private static Dictionary<KeyValuePair<string, EntityState>, string> _identifiersCache = new Dictionary<KeyValuePair<string, EntityState>, string>();
+        private static Dictionary<KeyValuePair<string, EntityState>, string> _identifiersCache = new Dictionary<KeyValuePair<string, EntityState>, string>(new StringEntityStateKvpComparer());
 
         /// <summary>
         /// Get the full string that represent a style property identifier.
