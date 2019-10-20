@@ -6,7 +6,7 @@ UI extension for MonoGame-based projects by Ronen Ness.
 
 Get it from: [GeonBit.UI git](https://github.com/RonenNess/GeonBit.UI).
 
-Full API documentation available here: [Online docs](https://ronenness.github.io/GeonBit.UI-docs/).
+Full API documentation available here: [Online docs](https://ronenness.github.io/GeonBit.UI/).
 
 ## What's GeonBit
 
@@ -374,7 +374,7 @@ Now we can finally start talking about the different UI entities GeonBit.UI prov
 
 ## Base Entity
 
-Docs: [Entity Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_Entity.htm ).
+Docs: [Entity Class]( https://ronenness.github.io/GeonBit.UI/html/T_GeonBit_UI_Entities_Entity.htm ).
 
 Before going over the entities GeonBit.UI has to offer, lets go over the most basic class that all entities inherit from: ```Entity```.
 
@@ -668,7 +668,7 @@ The following are all the entities available in GeonBit.UI.
 
 ![Panels](assets/img/entity_panel.png "Panels")
 
-Docs: [Panel Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_Panel.htm ).
+Docs: [Panel Class]( https://ronenness.github.io/GeonBit.UI/html/T_GeonBit_UI_Entities_Panel.htm ).
 
 The most basic entity in GeonBit.UI is the panel entity.
 
@@ -715,7 +715,7 @@ Note that in order to use the ```Clipped``` and ```VerticalScroll``` options you
 
 ![Paragraph](assets/img/entity_paragraph.png "Paragraph")
 
-Docs: [Paragraph Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_Paragraph.htm ).
+Docs: [Paragraph Class]( https://ronenness.github.io/GeonBit.UI/html/T_GeonBit_UI_Entities_Paragraph.htm ).
 
 Paragraph is a multiline text paragraph you can add to your UI. It can be a simple inline label, or a long, multiline text.
 
@@ -758,7 +758,7 @@ Default align-to-canter style property (when true will align text to center).
 
 ![Paragraph](assets/img/entity_multicolorparagraph.png "Rich Paragraph")
 
-Docs: [RichParagraph Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_RichParagraph.htm ).
+Docs: [RichParagraph Class]( https://ronenness.github.io/GeonBit.UI/html/T_GeonBit_UI_Entities_RichParagraph.htm ).
 
 A paragraph that support color and style changes inside the text itself.
 To switch styles add a ```{{STYLE_KEY}}``` tag anywhere inside the text, with one of the following available options:
@@ -811,7 +811,7 @@ RichParagraphStyleInstruction.AddInstruction("BOLD_BLUE", new RichParagraphStyle
 
 ![Header](assets/img/entity_header.png "Header")
 
-Docs: [Header Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_Header.htm ).
+Docs: [Header Class]( https://ronenness.github.io/GeonBit.UI/html/T_GeonBit_UI_Entities_Header.htm ).
 
 Header is just like a paragraph, but with different default styling. It doesn't provide any new functionality but rather a simple way to create pre-defined header text types.
 
@@ -828,7 +828,7 @@ panel.AddChild(header);
 
 ![Label](assets/img/entity_label.png "Label")
 
-Docs: [Label Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_Label.htm ).
+Docs: [Label Class]( https://ronenness.github.io/GeonBit.UI/html/T_GeonBit_UI_Entities_Label.htm ).
 
 Label is just like a paragraph, but with different default styling. It doesn't provide any new functionality but rather a simple way to create pre-defined label text types.
 
@@ -845,7 +845,7 @@ panel.AddChild(label);
 
 ![Buttons](assets/img/entity_buttons.png "Buttons")
 
-Docs: [Button Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_Button.htm ).
+Docs: [Button Class]( https://ronenness.github.io/GeonBit.UI/html/T_GeonBit_UI_Entities_Button.htm ).
 
 Buttons are clickable images with label. Usually when using buttons you'll also register an ```OnClick``` event handler, to respond whenever the user click on it.
 
@@ -906,7 +906,7 @@ Get / set current button skin.
 
 ![Checkbox](assets/img/entity_checkbox.png "Checkbox")
 
-Docs: [CheckBox Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_CheckBox.htm ).
+Docs: [CheckBox Class]( https://ronenness.github.io/GeonBit.UI/html/T_GeonBit_UI_Entities_CheckBox.htm ).
 
 A checkbox is a label with a box next to it you can either check or uncheck. Its useful for boolean questions, such as "enable sound" etc.
 
@@ -951,7 +951,7 @@ Set / get the value of the CheckBox, e.g. weather or not its currently marked as
 
 ![RadioButton](assets/img/entity_radiobutton.png "RadioButton")
 
-Docs: [RadioButton Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_RadioButton.htm ).
+Docs: [RadioButton Class]( https://ronenness.github.io/GeonBit.UI/html/T_GeonBit_UI_Entities_RadioButton.htm ).
 
 A Radio Button behaves just like a CheckBox, with the main difference that only one radio may be checked at a time.
 In other words, once you mark a Radio Button as checked, all its sibling Radio Buttons will be unchecked automatically.
@@ -995,7 +995,7 @@ Note that when you check a radio button and it uncheck a sibling, the ```OnValue
 
 ![SelectList](assets/img/entity_selectlist.png "SelectList")
 
-Docs: [SelectList Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_SelectList.htm ).
+Docs: [SelectList Class]( https://ronenness.github.io/GeonBit.UI/html/T_GeonBit_UI_Entities_SelectList.htm ).
 
 A SelectList is a list of (string) values the user can pick from. You can also add / remove items dynamically via code at runtime.
 
@@ -1090,7 +1090,7 @@ If there's a scrollbar on list, will scroll to the bottom of the list.
 
 ![DropDown](assets/img/entity_dropdown.png "DropDown")
 
-Docs: [DropDown Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_DropDown.htm ).
+Docs: [DropDown Class]( https://ronenness.github.io/GeonBit.UI/html/T_GeonBit_UI_Entities_DropDown.htm ).
 
 A DropDown is just like a list, but only shows the currently selected value, unless clicked on. This is a way to save UI space when the user don't interact with the list.
 
@@ -1141,7 +1141,7 @@ Text to show when no value is selected.
 
 ![Slider](assets/img/entity_slider.png "Slider")
 
-Docs: [Slider Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_Slider.htm ).
+Docs: [Slider Class]( https://ronenness.github.io/GeonBit.UI/html/T_GeonBit_UI_Entities_Slider.htm ).
 
 A slider looks like an horizontal scrollbar that lets the user pick a numeric value from a pre-defined range. Its useful for stuff like difficulty level, music volume property, etc.
 
@@ -1203,7 +1203,7 @@ Get current value as a float ranging from 0.0f to 1.0f, which represent the valu
 
 ![ProgressBar](assets/img/entity_progressbar.png "ProgressBar")
 
-Docs: [ProgressBar Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_ProgressBar.htm ).
+Docs: [ProgressBar Class]( https://ronenness.github.io/GeonBit.UI/html/T_GeonBit_UI_Entities_ProgressBar.htm ).
 
 A ProgressBar is just like a slider, but with graphics fitting of a progress bar. This is useful for loading screens or things like HP bar, experience bar until level up, etc..
 
@@ -1240,7 +1240,7 @@ The image that draws the ProgressBar filled part. If you want to change color an
 
 ![VerticalScrollbar](assets/img/entity_scrollbar.png "VerticalScrollbar")
 
-Docs: [VerticalScrollbar Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_VerticalScrollbar.htm ).
+Docs: [VerticalScrollbar Class]( https://ronenness.github.io/GeonBit.UI/html/T_GeonBit_UI_Entities_VerticalScrollbar.htm ).
 
 A VerticalScrollbar is an entity used internally by GeonBit.UI (for example when list items exceed its height), but you can also create and use this entity externally.
 It inherits from the Slider class and provide the same API and behavior.
@@ -1272,7 +1272,7 @@ scrollbar.OnValueChange = (Entity entity) => {
 
 ![Image](assets/img/entity_image.png "Image")
 
-Docs: [Image Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_Image.htm ).
+Docs: [Image Class]( https://ronenness.github.io/GeonBit.UI/html/T_GeonBit_UI_Entities_Image.htm ).
 
 An image is a renderable texture to draw in the UI.
 
@@ -1328,7 +1328,7 @@ For example, calling CalcAutoWidth() will calculate image width based on its cur
 
 ![Icon](assets/img/entity_icon.png "Icon")
 
-Docs: [Icon Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_Icon.htm ).
+Docs: [Icon Class]( https://ronenness.github.io/GeonBit.UI/html/T_GeonBit_UI_Entities_Icon.htm ).
 
 Icon is just a type of image with a different styling, and a list of built-in icons you can pick from.
 
@@ -1361,7 +1361,7 @@ Show / hide the built-in inventory-like background.
 
 ![PanelTabs](assets/img/entity_paneltabs.png "PanelTabs")
 
-Docs: [PanelTabs Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_PanelTabs.htm ).
+Docs: [PanelTabs Class]( https://ronenness.github.io/GeonBit.UI/html/T_GeonBit_UI_Entities_PanelTabs.htm ).
 
 A PanelTabs is a special entity you attach to panels to split them into tabs with automatic toggle buttons to switch between them.
 
@@ -1420,7 +1420,7 @@ Change the currently active tab by string identifier.
 
 ![Icon](assets/img/entity_coloredrect.png "Icon")
 
-Docs: [ColoredRectangle Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_ColoredRectangle.htm ).
+Docs: [ColoredRectangle Class]( https://ronenness.github.io/GeonBit.UI/html/T_GeonBit_UI_Entities_ColoredRectangle.htm ).
 
 ColoredRectangle is simple a renderable rectangle, with fill and outline colors.
 
@@ -1437,7 +1437,7 @@ panel.AddChild(rect);
 
 ![TextInput](assets/img/entity_textinput.png "TextInput")
 
-Docs: [TextInput Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_TextInput.htm ).
+Docs: [TextInput Class]( https://ronenness.github.io/GeonBit.UI/html/T_GeonBit_UI_Entities_TextInput.htm ).
 
 A text input is an input box where user can type free textual input. It support single line or multiline input, text validators, scrollbar when needed, and placeholders.
 
@@ -1508,7 +1508,7 @@ For example, the following will attach slug validator to a text input:
 textInput.Validators.Add(new GeonBit.UI.Entities.TextValidators.SlugValidator());
 ```
 
-To learn more about validators, see the docs: [TextValidators]( https://ronenness.github.io/GeonBit.UI-docs/html/N_GeonBit_UI_Entities_TextValidators.htm ).
+To learn more about validators, see the docs: [TextValidators]( https://ronenness.github.io/GeonBit.UI/html/N_GeonBit_UI_Entities_TextValidators.htm ).
 
 #### PlaceholderText
 
@@ -1539,7 +1539,7 @@ Reset caret position to the end of the TextInput.
 
 ![HorizontalLine](assets/img/entity_horizontalline.png "HorizontalLine")
 
-Docs: [HorizontalLine Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_HorizontalLine.htm ).
+Docs: [HorizontalLine Class]( https://ronenness.github.io/GeonBit.UI/html/T_GeonBit_UI_Entities_HorizontalLine.htm ).
 
 A HorizontalLine is just an eye candy to separate between different sections of the same panel, or to emphasize headers.
 
@@ -1554,7 +1554,7 @@ panel.AddChild(hz);
 
 ## LineSpace
 
-Docs: [LineSpace Class]( https://ronenness.github.io/GeonBit.UI-docs/html/T_GeonBit_UI_Entities_LineSpace.htm ).
+Docs: [LineSpace Class]( https://ronenness.github.io/GeonBit.UI/html/T_GeonBit_UI_Entities_LineSpace.htm ).
 
 A LineSpace is just a simple way to create spaces between Auto-anchored entities. You can look at it like the HTML ```<br />``` tag.
 
