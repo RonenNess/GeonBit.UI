@@ -41,7 +41,7 @@ It provide all the basic UI elements required to make a game / editor UI, and co
 <None Include="Content\GeonBit.UI\**\*.*">
   <Pack>true</Pack>
   <PackageCopyToOutput>true</PackageCopyToOutput>
-  <PackagePath>contentFiles\GeonBit.UI\</PackagePath>
+  <PackagePath>contentFiles\Content\GeonBit.UI\</PackagePath>
 </None> 
   </ItemGroup>
 
