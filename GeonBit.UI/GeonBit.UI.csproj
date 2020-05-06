@@ -93,6 +93,7 @@
     <Compile Include="Source\Utils\PanelsGrid.cs" />
     <Compile Include="Source\Utils\SerializedDictionary.cs" />
     <Compile Include="Source\Utils\SimpleFileMenu.cs" />
+    <Compile Include="Source\Validators\IgnoreKeyValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
