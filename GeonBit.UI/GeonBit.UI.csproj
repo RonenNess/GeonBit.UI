@@ -87,6 +87,7 @@
     <Compile Include="Source\Input\IMouseInput.cs" />
     <Compile Include="Source\Resources.cs" />
     <Compile Include="Source\Systems\ISystem.cs" />
+    <Compile Include="Source\Systems\TabList.cs" />
     <Compile Include="Source\UserInterface.cs" />
     <Compile Include="Source\Utils\MessageBox.cs" />
     <Compile Include="Source\Utils\Forms.cs" />
