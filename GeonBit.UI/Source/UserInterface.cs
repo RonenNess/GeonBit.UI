@@ -8,12 +8,15 @@
 // Since: 2016.
 //-----------------------------------------------------------------------------
 #endregion
+
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using GeonBit.UI.Entities;
 using Microsoft.Xna.Framework.Content;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
+using GeonBit.UI.Systems;
 
 
 namespace GeonBit.UI
@@ -183,6 +186,11 @@ namespace GeonBit.UI
         /// </summary>
         public RootPanel Root { get; private set; }
 
+        /// <summary>
+        /// A list of systems attached to the user interface.
+        /// </summary>
+        public IList<ISystem> Systems { get; private set; }
+        
         /// <summary>
         /// Blend state to use when rendering UI.
         /// </summary>
@@ -436,6 +444,8 @@ namespace GeonBit.UI
 
             // create the root panel
             Root = new RootPanel();
+            
+            Systems = new List<ISystem>();
 
             // set default cursor
             SetCursor(CursorType.Default);
@@ -507,11 +517,30 @@ namespace GeonBit.UI
         }
 
         /// <summary>
+        /// Adds a system to the user interface.
+        /// </summary>
+        /// <param name="system">The system to add.</param>
+        public void AddSystem(ISystem system)
+        {
+            Systems.Add(system);
+        }
+
+        /// <summary>
+        /// Removes a system from the user interface.
+        /// </summary>
+        /// <param name="system">The system to remove from the user interface.</param>
+        public void RemoveSystem(ISystem system)
+        {
+            Systems.Remove(system);
+        }
+
+        /// <summary>
         /// Remove all entities from screen.
         /// </summary>
         public void Clear()
         {
             Root.ClearChildren();
+            Systems.Clear();
         }
 
         /// <summary>
@@ -537,6 +566,8 @@ namespace GeonBit.UI
             bool wasEventHandled = false;
             Root.Update(ref target, ref _dragTarget, ref wasEventHandled, Point.Zero);
 
+            UpdateSystems();
+            
             // set active entity
             if (MouseInputProvider.MouseButtonDown(MouseButton.Left))
             {
@@ -551,6 +582,17 @@ namespace GeonBit.UI
 
             // set current target entity
             TargetEntity = target;
+        }
+
+        /// <summary>
+        /// Updates each system attached to the user interface.
+        /// </summary>
+        private void UpdateSystems()
+        {
+            foreach (var system in Systems)
+            {
+                system.Update();
+            }
         }
 
         /// <summary>
