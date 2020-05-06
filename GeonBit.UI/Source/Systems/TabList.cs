@@ -46,7 +46,6 @@ namespace GeonBit.UI.Systems
         private readonly Keys _selectKey;
         private readonly bool _wraparound;
         private readonly Color _cycleFill;
-        private readonly Color _selectFill;
         private int _currentSelection = -1;
 
 
@@ -55,17 +54,15 @@ namespace GeonBit.UI.Systems
         /// </summary>
         /// <param name="entities">The entities to store in the tab list</param>
         /// <param name="cycleFill">The fill color of the entity when cycled to</param>
-        /// <param name="selectFill">The fill color of the entity when selected</param>
         /// <param name="cycleKey">The key that must be pressed to focus next entity</param>
         /// <param name="selectKey">The key that must be pressed to select entity</param>
         /// <param name="wraparound">Whether or not tab will reset to zero at end of the list</param>
-        public TabList(IEnumerable<Entity> entities, Color cycleFill = default, Color selectFill = default, Keys cycleKey = Keys.Tab, Keys selectKey = Keys.Enter, bool wraparound = true)
+        public TabList(IEnumerable<Entity> entities, Color cycleFill = default, Keys cycleKey = Keys.Tab, Keys selectKey = Keys.Enter, bool wraparound = true)
         {
             _cycleKey = cycleKey;
             _selectKey = selectKey;
             _wraparound = wraparound;
             _cycleFill = cycleFill;
-            _selectFill = selectFill;
 
             SetupEntities(entities);
         }
@@ -81,18 +78,19 @@ namespace GeonBit.UI.Systems
             
             if (KeyPressed(_cycleKey))
             {
-                DeselectLastCycled();
-                _currentSelection++;
-                ConstrainSelection();
-                SetCurrentCycled();
+                CycleNext();
             } else if (KeyPressed(_selectKey))
             {
-                SelectOrDeselectCurrent();
+                UseCurrent();
             }
 
             _lastKeyState = _keyState;
         }
         
+        /// <summary>
+        /// Creates a new list of entities and wraps them in an tab entity object.
+        /// </summary>
+        /// <param name="entities">The entities to wrap.</param>
         private void SetupEntities(IEnumerable<Entity> entities)
         {
             var enumerable = entities as Entity[] ?? entities.ToArray();
@@ -100,6 +98,10 @@ namespace GeonBit.UI.Systems
             _entities = enumerable.Select(entity => new TabEntity(entity)).ToArray();
         }
 
+        /// <summary>
+        /// Add the ignore key validator to each applicable entity.
+        /// </summary>
+        /// <param name="entities"></param>
         private void AddIgnoreKeyValidator(IEnumerable<Entity> entities)
         {
             foreach (var tabEntity in entities)
@@ -112,17 +114,12 @@ namespace GeonBit.UI.Systems
         }
         
         /// <summary>
-        /// Updates the set of entities depending on their tab index.
-        /// </summary>
-        
-        
-        /// <summary>
         /// Resets the styling of a given entity to its original properties, and removes the focus.
         /// </summary>
         private void DeselectLastCycled()
         {
             if (!IsValidSelection()) return;
-            
+
             _entities[_currentSelection].Entity.IsFocused = false;
             _entities[_currentSelection].Entity.FillColor = _entities[_currentSelection].Fill;
         }
@@ -139,41 +136,26 @@ namespace GeonBit.UI.Systems
         }
 
         /// <summary>
-        /// Styles the current selection.
+        /// Cycles to the next selection, removes focus from the old, and styles the new.
         /// </summary>
-        private void SetCurrentCycled()
+        private void CycleNext()
         {
+            DeselectLastCycled();
+             _currentSelection++;
+            ConstrainSelection();
+
             _entities[_currentSelection].Entity.FillColor = _cycleFill;
+            _entities[_currentSelection].Entity.IsFocused = true;
         }
 
         /// <summary>
-        /// Selects or deselects depending on whether or not an entity is already selected.
-        /// If selected, set the styling of the entity and fires any eligible events.
+        /// Activates any of the actions of a given entity.
         /// </summary>
-        private void SelectOrDeselectCurrent()
+        private void UseCurrent()
         {
             if (!IsValidSelection()) return;
-            if (CycledAlreadySelected())
-            {
-                DeselectLastCycled();
-                SetCurrentCycled();
-                return;
-            }
-            
-            UserInterface.Active.ActiveEntity.IsFocused = false;
-            _entities[_currentSelection].Entity.FillColor = _selectFill;
-            UserInterface.Active.ActiveEntity = _entities[_currentSelection].Entity;
-            UserInterface.Active.ActiveEntity.IsFocused = true;
-            UserInterface.Active.ActiveEntity.OnClick?.Invoke(UserInterface.Active.ActiveEntity);
+            _entities[_currentSelection].Entity.OnClick?.Invoke(_entities[_currentSelection].Entity);
         }
-
-        /// <summary>
-        /// Checks if the current cycled index already has focus.
-        /// </summary>
-        /// <returns></returns>
-        private bool CycledAlreadySelected() =>
-            _entities[_currentSelection].Entity == UserInterface.Active.ActiveEntity &&
-            _entities[_currentSelection].Entity.IsFocused;
 
         /// <summary>
         /// Checks if a key has been pressed this update.
