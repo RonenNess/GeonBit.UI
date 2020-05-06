@@ -86,12 +86,15 @@
     <Compile Include="Source\Input\IKeyboardInput.cs" />
     <Compile Include="Source\Input\IMouseInput.cs" />
     <Compile Include="Source\Resources.cs" />
+    <Compile Include="Source\Systems\ISystem.cs" />
+    <Compile Include="Source\Systems\TabList.cs" />
     <Compile Include="Source\UserInterface.cs" />
     <Compile Include="Source\Utils\MessageBox.cs" />
     <Compile Include="Source\Utils\Forms.cs" />
     <Compile Include="Source\Utils\PanelsGrid.cs" />
     <Compile Include="Source\Utils\SerializedDictionary.cs" />
     <Compile Include="Source\Utils\SimpleFileMenu.cs" />
+    <Compile Include="Source\Validators\IgnoreKeyValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
