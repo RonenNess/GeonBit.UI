@@ -5,26 +5,9 @@
     <PublishReadyToRun>false</PublishReadyToRun>
     <TieredCompilation>false</TieredCompilation>
 </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
-    <ApplicationIcon>Icon.ico</ApplicationIcon>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <NoWarn>1701;1702</NoWarn>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="Libs\**" />
-    <EmbeddedResource Remove="Libs\**" />
-    <None Remove="Libs\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="Icon.ico" />
-    <None Remove="Icon.bmp" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Icon.ico" />
-    <EmbeddedResource Include="Icon.bmp" />
-  </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
   </ItemGroup>
@@ -36,7 +19,7 @@
     <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.0.1641" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Libs\DataTypes\DataTypes.csproj" />
+    <ProjectReference Include="..\GeonBit.UI.DataTypes\GeonBit.UI.DataTypes.csproj" />
   </ItemGroup>
   <PropertyGroup>
   <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
