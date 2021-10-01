@@ -30,4 +30,7 @@
   <ItemGroup>
     <ProjectReference Include="..\GeonBit.UI\GeonBit.UI.csproj" />
   </ItemGroup>
+  <Target Name="CopyCustomContent" AfterTargets="BeforeBuild">
+    <Copy SourceFiles="..\GeonBit.UI.DataTypes\bin\$(Configuration)\$(TargetFramework)\GeonBit.UI.DataTypes.dll" DestinationFolder=".\Content" />
+  </Target>
 </Project>
