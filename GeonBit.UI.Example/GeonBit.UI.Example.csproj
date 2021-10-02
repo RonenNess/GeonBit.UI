@@ -30,7 +30,9 @@
   <ItemGroup>
     <ProjectReference Include="..\GeonBit.UI\GeonBit.UI.csproj" />
   </ItemGroup>
-  <Target Name="CopyCustomContent" AfterTargets="BeforeBuild">
+
+  <!-- The first Content build will always fail, however the copy will succeed and thus the Content build will succeed on all subsequent builds. -->
+  <Target Name="CopyDataTypeToContentDirectory" BeforeTargets="RunContentBuilder">
     <Copy SourceFiles="..\GeonBit.UI.DataTypes\bin\$(Configuration)\$(TargetFramework)\GeonBit.UI.DataTypes.dll" DestinationFolder=".\Content" />
   </Target>
 </Project>
