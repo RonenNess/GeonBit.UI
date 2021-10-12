@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
 	<id>GeonBit.UI</id>
-	<version>4.0.1</version>
+	<version>4.0.2</version>
 	<authors>Ronen Ness</authors>
 	<owners>RonenNess</owners>
 	<title>MonoGame GeonBit.UI</title>
@@ -16,6 +16,7 @@ It provide all the basic UI elements required to make a game / editor UI, and co
 	<description>UI system for MonoGame projects.</description>
 	<tags>monogame ui gui hud user-interface gamedev</tags>
 	<dependencies>
+        <group targetFramework=".NETCoreApp3.1" />
 	</dependencies>
   </metadata>
   <files>
