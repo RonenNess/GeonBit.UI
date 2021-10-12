@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
 	<id>GeonBit.UI</id>
-	<version>4.0.2</version>
+	<version>4.0.6.1</version>
 	<authors>Ronen Ness</authors>
 	<owners>RonenNess</owners>
 	<title>MonoGame GeonBit.UI</title>
@@ -21,8 +21,10 @@ It provide all the basic UI elements required to make a game / editor UI, and co
   </metadata>
   <files>
 	<file src="readme.txt" target="" />
-	<file src="GeonBit.UI\bin\Release\netcoreapp3.1\DataTypes.dll" target="lib\geonbitui\DataTypes.dll"/>
-	<file src="GeonBit.UI\bin\Release\netcoreapp3.1\GeonBit.UI.dll" target="lib\geonbitui\GeonBit.UI.dll"/>
+	<file src="GeonBit.UI\bin\Release\netcoreapp3.1\GeonBit.UI.DataTypes.dll" target="lib\netcoreapp3.1\GeonBit.UI.DataTypes.dll"/>
+	<file src="GeonBit.UI\bin\Release\netcoreapp3.1\GeonBit.UI.dll" target="lib\netcoreapp3.1\GeonBit.UI.dll"/>
+    <file src="GeonBit.UI\bin\Release\netcoreapp3.1\GeonBit.UI.DataTypes.dll" target="lib\netcoreapp3.1-windows\GeonBit.UI.DataTypes.dll"/>
+	<file src="GeonBit.UI\bin\Release\netcoreapp3.1\GeonBit.UI.dll" target="lib\netcoreapp3.1-windows\GeonBit.UI.dll"/>
 	<file src="Help\Documentation.chm" target="Documentation.chm"/>
 	<file src="GeonBit.UI\Content\GeonBit.UI\**\*.*" target="content\Content\GeonBit.UI" /> 
   </files>

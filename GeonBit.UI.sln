@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31710.8
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeonBit.UI", "GeonBit.UI\GeonBit.UI.csproj", "{DD284F36-FCD5-4265-AE4C-28B9A38B9DEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeonBit.UI", "GeonBit.UI\GeonBit.UI.csproj", "{DD284F36-FCD5-4265-AE4C-28B9A38B9DEF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataTypes", "GeonBit.UI\Libs\DataTypes\DataTypes.csproj", "{2C87417A-07A7-440A-AFDA-D624CE4ACE05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeonBit.UI.DataTypes", "GeonBit.UI\Libs\DataTypes\GeonBit.UI.DataTypes.csproj", "{2C87417A-07A7-440A-AFDA-D624CE4ACE05}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeonBit.UI.Examples", "GeonBit.UI.Examples\GeonBit.UI.Examples.csproj", "{24B1B515-4FA7-495C-9C0C-F806923CB456}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeonBit.UI.Examples", "GeonBit.UI.Examples\GeonBit.UI.Examples.csproj", "{24B1B515-4FA7-495C-9C0C-F806923CB456}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

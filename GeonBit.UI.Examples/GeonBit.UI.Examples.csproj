@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GeonBit.UI\GeonBit.UI.csproj" />
-    <ProjectReference Include="..\GeonBit.UI\Libs\DataTypes\DataTypes.csproj" />
+    <ProjectReference Include="..\GeonBit.UI\Libs\DataTypes\GeonBit.UI.DataTypes.csproj" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
