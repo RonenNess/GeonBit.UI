@@ -11,11 +11,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GeonBit.UI\GeonBit.UI.csproj" />
-    <ProjectReference Include="..\GeonBit.UI\Libs\DataTypes\DataTypes.csproj" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy $(SolutionDir)GeonBit.UI\Content\bin\DesktopGL $(OutputPath)Content /s /e /i" />
+    <Exec Command="xcopy ..\GeonBit.UI\Content\bin\DesktopGL $(OutputPath)\Content /s /e" />
   </Target>
 
 </Project>

@@ -18,7 +18,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Content\bin\**" />
+    <Compile Remove="Content\obj\**" />
+    <Compile Remove="Libs\**" />
+    <EmbeddedResource Remove="Content\bin\**" />
+    <EmbeddedResource Remove="Content\obj\**" />
+    <EmbeddedResource Remove="Libs\**" />
+    <None Remove="Content\bin\**" />
+    <None Remove="Content\obj\**" />
+    <None Remove="Libs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.1641" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="Libs\DataTypes\DataTypes.csproj" />
   </ItemGroup>
 
 </Project>
