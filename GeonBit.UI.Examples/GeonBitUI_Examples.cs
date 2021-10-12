@@ -27,7 +27,7 @@ using GeonBit.UI.Entities.TextValidators;
 using GeonBit.UI.DataTypes;
 using GeonBit.UI.Utils.Forms;
 
-namespace GeonBit.UI.Example
+namespace GeonBit.UI.Examples
 {
     /// <summary>
     /// GeonBit.UI.Example is just an example code. Everything here is not a part of the GeonBit.UI framework, but merely an example of how to use it.

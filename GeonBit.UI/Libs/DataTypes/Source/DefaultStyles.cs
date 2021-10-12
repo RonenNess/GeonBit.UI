@@ -9,8 +9,19 @@ namespace GeonBit.UI.DataTypes
     /// </summary>
     public enum _FontStyle
     {
+        /// <summary>
+        /// Regular font.
+        /// </summary>
         Regular,
+
+        /// <summary>
+        /// Bold font.
+        /// </summary>
         Bold,
+
+        /// <summary>
+        /// Italic font.
+        /// </summary>
         Italic
     };
 
@@ -19,58 +30,86 @@ namespace GeonBit.UI.DataTypes
     /// </summary>
     public class DefaultStyles
     {
-        // entity scale
+        /// <summary>
+        /// Entity scale.
+        /// </summary>
         [XmlElement(IsNullable = true)]
         public float? Scale = null;
 
-        // fill color
+        /// <summary>
+        /// Fill color.
+        /// </summary>
         [XmlElement("Color", IsNullable = true)]
         public Color? FillColor = null;
 
-        // outline color
+        /// <summary>
+        /// Outline color.
+        /// </summary>
         [XmlElement("Color", IsNullable = true)]
         public Color? OutlineColor = null;
 
-        // outline width
+        /// <summary>
+        /// Outline width.
+        /// </summary>
         [XmlElement(IsNullable = true)]
         public int? OutlineWidth = null;
 
-        // for paragraph only - align to center
+        /// <summary>
+        /// For paragraph only - align to center.
+        /// </summary>
         [XmlElement(IsNullable = true)]
         public bool? ForceAlignCenter = null;
 
-        // for paragraph only - font style
+        /// <summary>
+        /// For paragraph only - font style.
+        /// </summary>
         [XmlElement(IsNullable = true)]
         public _FontStyle? FontStyle = null;
 
-        // for lists etc - selected highlight background color
+        /// <summary>
+        /// For lists and containers: selected highlight background color.
+        /// </summary>
         [XmlElement("Color", IsNullable = true)]
         public Color? SelectedHighlightColor = null;
 
-        // shadow color (set to 00000000 for no shadow)
+        /// <summary>
+        /// Shadow color (set to 00000000 for no shadow).
+        /// </summary>
         [XmlElement("Color", IsNullable = true)]
         public Color? ShadowColor = null;
 
-        // shadow offset
+        /// <summary>
+        /// Shadow offset.
+        /// </summary>
         [XmlElement("Vector", IsNullable = true)]
         public Vector2? ShadowOffset = null;
 
-        // padding
+        /// <summary>
+        /// Entity padding.
+        /// </summary>
         [XmlElement("Vector", IsNullable = true)]
         public Vector2? Padding = null;
 
-        // space before
+        /// <summary>
+        /// Space before the entity.
+        /// </summary>
         [XmlElement("Vector", IsNullable = true)]
         public Vector2? SpaceBefore = null;
 
-        // space after
+        /// <summary>
+        /// Space after the entity.
+        /// </summary>
         [XmlElement("Vector", IsNullable = true)]
         public Vector2? SpaceAfter = null;
 
-        // shadow scale
+        /// <summary>
+        /// Shadow scale.
+        /// </summary>
         public float? ShadowScale = null;
 
-        // default entity size
+        /// <summary>
+        /// Default entity size.
+        /// </summary>
         [XmlElement("Vector", IsNullable = true)]
         public Vector2? DefaultSize = null;
     }
