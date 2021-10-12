@@ -2088,7 +2088,7 @@ If you like GeonBit.UI, consider supporting these artists.
 
 ### Contributors
 
-The following people contributed to the project via pull requests:
+Some shoutouts to contributors:
 
 #### Justin Gattuso (MrCapitalG)
 
