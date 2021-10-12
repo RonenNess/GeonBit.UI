@@ -2068,6 +2068,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Upgraded MonoGame version to 3.8.0.
 - Separated examples to a different project.
 - Fixed bug with line space and zoom (overflow panel).
+- Fixed bug with wrong slider being changed by mouse wheel after hover.
 
 ## Credits
 
