@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="xcopy $(SolutionDir)GeonBit.UI\Content\bin\DesktopGL $(OutputPath)Content /s /e /i" />
+    <Exec Command="xcopy $(SolutionDir)GeonBit.UI\Content\bin\DesktopGL $(OutputPath)Content /s /e /i /y" />
   </Target>
 
 </Project>

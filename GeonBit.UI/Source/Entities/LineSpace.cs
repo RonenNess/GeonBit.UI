@@ -44,7 +44,7 @@ namespace GeonBit.UI.Entities
             ClickThrough = true;
 
             // set size based on space count
-            Size = new Vector2(0, 1);
+            Size = new Vector2(0, 0.01f);
 
             // default padding and spacing zero
             SpaceBefore = Padding = Vector2.Zero;

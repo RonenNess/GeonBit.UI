@@ -17,11 +17,13 @@ Full API documentation available here: [Online docs](https://ronenness.github.io
 
 **GeonBit.UI** is the UI / HUD system of the *GeonBit* engine, exported as an independent MonoGame extension under the MIT license.
 
-It provide all the basic UI elements required to make a game / editor UI, and comes with few built-in UI skins compatible for commercial projects.
+It provide all the basic UI elements required to make a game / editor UI, and comes with few built-in UI skins compatible with commercial projects.
 
-To see a GeonBit.UI demo, check out this YouTube video:
+To see a GeonBit.UI demo, check out this YouTube video (very old version):
 
 [![GeonBit.UI Demo](http://img.youtube.com/vi/sSs_RqgUaBA/0.jpg)](http://www.youtube.com/watch?v=sSs_RqgUaBA "GeonBit.UI Demo")
+
+Or download the git and run the `GeonBit.UI.Examples` project.
 
 ## Key Features
 
@@ -108,14 +110,13 @@ Inside the ```GeonBit.UI/``` folder you will find the following files and folder
 1. ```Content```: all the resources GeonBit.UI rely on. You will need to import some of it (explained in installation instructions coming up next).
 2. ```GeonBit.UI```: GeonBit.UI source code (cs files).
 3. ```Libs```: additional libs you need to compile with GeonBit.UI (currently there's only one).
-4. ```GeonBitUI_Examples.cs``` and ```program.cs```: GeonBit.UI demo app that demonstrate the different features and entities GeonBit.UI provides.
 
 To see GeonBit.UI live before installing it in your project, you can open and run the solution file.
 Please note however that you might need to install some fonts first from ```GeonBit.UI/Content/Fonts/``` folder.
 
 # Install
 
-Note: GeonBit.UI require MonoGame 3.6 to run. For older MonoGame versions, please see [tag 2.1.0.0](https://github.com/RonenNess/GeonBit.UI/releases/tag/2.1.0.0).
+Note: GeonBit.UI require MonoGame 3.6 or higher to run. For older MonoGame versions, please see [tag 2.1.0.0](https://github.com/RonenNess/GeonBit.UI/releases/tag/2.1.0.0).
 
 You can either install GeonBit.UI with NuGet or manually.
 
@@ -2060,6 +2061,13 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Added useful getter functions for specific types in form (string, int, float, bool..)
 - Added default value to form GetValue() methods.
 - Fixed bug with animators not working in panels that have clipping overflow when mouse is outside boundaries.
+
+### 4.0.1
+
+- Upgraded project to .net core 3.1.
+- Upgraded MonoGame version to 3.8.0.
+- Separated examples to a different project.
+- Fixed bug with line space and zoom (overflow panel).
 
 ## Credits
 
