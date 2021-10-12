@@ -43,7 +43,7 @@ namespace GeonBit.UI.Entities
             Enabled = false;
             ClickThrough = true;
 
-            // set size based on space count
+            // to prevent overflow bug
             Size = new Vector2(0, 0.01f);
 
             // default padding and spacing zero
