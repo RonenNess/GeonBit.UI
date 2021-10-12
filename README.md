@@ -2102,3 +2102,7 @@ The following people contributed to the project via pull requests:
 
 - Memory optimizations.
 
+#### Marcel Hartel (sqrMin1)
+
+- Bug fixes.
+
