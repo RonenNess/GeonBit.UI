@@ -10,8 +10,8 @@
 
 #-------------------------------- References --------------------------------#
 
-/reference:..\Libs\DataTypes\bin\Release\netcoreapp3.1\GeonBit.UI.DataTypes.dll
-/reference:..\Libs\DataTypes\bin\Release\netcoreapp3.1\GeonBit.UI.DataTypes.dll
+/reference:GeonBit.UI.DataTypes.dll
+
 
 #---------------------------------- Content ---------------------------------#
 
