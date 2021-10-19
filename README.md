@@ -112,7 +112,7 @@ Inside the ```GeonBit.UI/``` folder you will find the following files and folder
 3. ```Libs```: additional libs you need to compile with GeonBit.UI (currently there's only one).
 
 To see GeonBit.UI live before installing it in your project, you can open and run the solution file.
-Please note however that you might need to install some fonts first from ```GeonBit.UI/Content/Fonts/``` folder.
+Please note however that you might need to install some fonts first from ```GeonBit.UI.Examples/Content/Fonts/``` folder.
 
 # Install
 
@@ -131,11 +131,11 @@ Install-Package GeonBit.UI
 Now there are two things to update in the Content Manager:
 
 1. Add a ```Reference``` to the GeonBit.UI.DataTypes.dll lib, located in the nuget package folder.
-2. During installation, GeonBit.UI placed a folder in ```Content\GeonBit.UI```. Add this whole folder, as-is, to your content manager (when asked if to copy or link files, choose link, since the folder is already in its right place).
+2. During installation, GeonBit.UI placed a folder in ```GeonBit.UI.Examples\Content\GeonBit.UI```. Add this whole folder, as-is, to your content manager (when asked if to copy or link files, choose link, since the folder is already in its right place).
 
 That's it! Just few things to remember:
 
-- If you don't have the default themes fonts installed, you need to install the fonts from ```GeonBit.UI/GeonBit.UI/Content/Fonts/```.
+- If you don't have the default themes fonts installed, you need to install the fonts from ```GeonBit.UI.Examples/Content/Fonts/```.
 - If you want to edit the default themes (textures, styles, etc), its recommended to *copy* the theme to a new folder and never change the original package files, since they will be overridden next time you update GeonBit.UI via NuGet.
 - If your development environment is on Linux, there are few more steps to follow: [Installing on Linux](#extra-steps-for-linux).
 
@@ -145,8 +145,8 @@ That's it! Just few things to remember:
 To manually install GeonBit.UI into your project, follow these steps:
 
 1. **Copy source:** Copy the source code from ```GeonBit.UI/GeonBit.UI/``` into your project source root (just copy the whole folder as-is).
-2. **Add content:** Copy all the Content from ```GeonBit.UI/GeonBit.UI/Content/GeonBit.UI/``` into your MonoGame pipeline Manager (can be done by clicking on "add folder" and selecting the GeonBit.UI folder).
-3. **Install fonts:** You might need to install some fonts that GeonBit.UI uses and don't come by default in windows / linux. To do so, go to the ```GeonBit.UI/GeonBit.UI/Content/Fonts/``` folder and install all the fonts there (they are all free to use including for commercial purposes).
+2. **Add content:** Copy all the Content from ```GeonBit.UI.Examples/Content/GeonBit.UI/``` into your MonoGame pipeline Manager (can be done by clicking on "add folder" and selecting the GeonBit.UI folder).
+3. **Install fonts:** You might need to install some fonts that GeonBit.UI uses and don't come by default in windows / linux. To do so, go to the ```GeonBit.UI.Examples/Content/Fonts/``` folder and install all the fonts there (they are all free to use including for commercial purposes).
 4. **Build GeonBit.UI.DataTypes dll:** Due to the way resources compile in MonoGame, there's a need to compile additional dll that contains serializable data types:
  1. Open the project inside ```GeonBit.UI/GeonBit.UI/Libs/```, build it, and add the output dll (```GeonBit.UI.DataTypes.dll```) to your *Content pipeline* ```References``` property and to your *Project Reference* dlls.
  2. You can build only in ```release``` mode, since you'll probably never need to debug it.
@@ -168,7 +168,7 @@ If you ever choose to remove GeonBit.UI from your project, simply follow these s
 
 There are few more things to do if you use Linux:
 
-1. After installing the fonts from ```GeonBit.UI/GeonBit.UI/Content/Fonts/```, you also need to copy the font files into the folder where the spritefont files reside (e.g. ```Content/GeonBit.UI/themes/<team-name>/fonts/```).
+1. After installing the fonts from ```GeonBit.UI.Examples/Content/Fonts/```, you also need to copy the font files into the folder where the spritefont files reside (e.g. ```Content/GeonBit.UI/themes/<team-name>/fonts/```).
 2. Since at this time MonoGame can't build effects on Linux, you need to use a pre-compiled effects. Take the built effects from ```Content/BuiltEffects/``` and put them instead of the ```.fx``` files of your theme (e.g. ```Content/GeonBit.UI/themes/<team-name>/effects/```). Also change their 'Build Action' from 'Build' to 'Copy'.
 
 
@@ -2069,6 +2069,13 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Separated examples to a different project.
 - Fixed bug with line space and zoom (overflow panel).
 - Fixed bug with wrong slider being changed by mouse wheel after hover.
+
+### 4.0.6.2
+
+- Moved content to examples folder.
+- Renamed 'SimpleFileMenu' to 'SimpleMenuBar'.
+- Added default priority boost to menu bar.
+- Added 'ShowYesNoMsgBox' method.
 
 ## Credits
 

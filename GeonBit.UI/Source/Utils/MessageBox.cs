@@ -112,6 +112,25 @@ namespace GeonBit.UI.Utils
         }
 
         /// <summary>
+        /// Show a message box with yes/no options.
+        /// </summary>
+        /// <param name="header">Messagebox header.</param>
+        /// <param name="text">Main text.</param>
+        /// <param name="onYes">Callback to invoke when clicking yes. Return true to close the messagebox when done.</param>
+        /// <param name="onNo">Callback to invoke when clicking no. Return true to close the messagebox when done.</param>
+        /// <param name="yesText">Text to use for the 'yes' button.</param>
+        /// <param name="noText">Text to use for the 'no' button.</param>
+        /// <returns>Message box handle.</returns>
+        public static MessageBoxHandle ShowYesNoMsgBox(string header, string text, System.Func<bool> onYes, System.Func<bool> onNo, string yesText = "Yes", string noText = "No")
+        {
+            return ShowMsgBox(header, text, 
+                new MsgBoxOption[] {
+                    new MsgBoxOption(yesText, onYes != null ? onYes : () => {return true; }),
+                    new MsgBoxOption(noText, onNo != null ? onNo: () => {return true; }),
+                });
+        }
+
+        /// <summary>
         /// Show a message box with custom buttons and callbacks.
         /// </summary>
         /// <param name="header">Messagebox header.</param>
