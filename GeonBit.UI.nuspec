@@ -26,6 +26,6 @@ It provide all the basic UI elements required to make a game / editor UI, and co
     <file src="GeonBit.UI\bin\Release\netcoreapp3.1\GeonBit.UI.DataTypes.dll" target="lib\netcoreapp3.1-windows\GeonBit.UI.DataTypes.dll"/>
 	<file src="GeonBit.UI\bin\Release\netcoreapp3.1\GeonBit.UI.dll" target="lib\netcoreapp3.1-windows\GeonBit.UI.dll"/>
 	<file src="Help\Documentation.chm" target="Documentation.chm"/>
-	<file src="GeonBit.UI\Content\GeonBit.UI\**\*.*" target="content\Content\GeonBit.UI" /> 
+	<file src="GeonBit.UI.Examples\Content\GeonBit.UI\**\*.*" target="content\Content\GeonBit.UI" /> 
   </files>
 </package>
