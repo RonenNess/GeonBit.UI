@@ -2073,9 +2073,12 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 ### 4.0.6.2
 
 - Moved content to examples folder.
+- Fixed post build command failing on new git clone.
 - Renamed 'SimpleFileMenu' to 'SimpleMenuBar'.
 - Added default priority boost to menu bar.
 - Added 'ShowYesNoMsgBox' method.
+- Small internal improvements and optimizations.
+- 
 
 ## Credits
 

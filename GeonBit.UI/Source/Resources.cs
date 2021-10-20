@@ -408,13 +408,13 @@ namespace GeonBit.UI
             string stylesheetBase = themeRoot + "styles/" + entityName;
 
             // load default styles
-            FillDefaultStyles(sheet, EntityState.Default, content.Load<DefaultStyles>(stylesheetBase + "-Default"));
+            FillDefaultStyles(sheet, EntityState.Default, content.Load<DefaultStyles>($"{stylesheetBase}-Default"));
 
             // load mouse-hover styles
-            FillDefaultStyles(sheet, EntityState.MouseHover, content.Load<DefaultStyles>(stylesheetBase + "-MouseHover"));
+            FillDefaultStyles(sheet, EntityState.MouseHover, content.Load<DefaultStyles>($"{stylesheetBase}-MouseHover"));
 
             // load mouse-down styles
-            FillDefaultStyles(sheet, EntityState.MouseDown, content.Load<DefaultStyles>(stylesheetBase + "-MouseDown"));
+            FillDefaultStyles(sheet, EntityState.MouseDown, content.Load<DefaultStyles>($"{stylesheetBase}-MouseDown"));
         }
 
         /// <summary>
@@ -425,20 +425,20 @@ namespace GeonBit.UI
         /// <param name="styles">Default styles, as loaded from xml file.</param>
         private static void FillDefaultStyles(StyleSheet sheet, EntityState state, DefaultStyles styles)
         {
-            if (styles.FillColor != null) { sheet[state.ToString() + "." + "FillColor"] = new StyleProperty((Color)styles.FillColor); }
-            if (styles.FontStyle != null) { sheet[state.ToString() + "." + "FontStyle"] = new StyleProperty((int)styles.FontStyle); }
-            if (styles.ForceAlignCenter != null) { sheet[state.ToString() + "." + "ForceAlignCenter"] = new StyleProperty((bool)styles.ForceAlignCenter); }
-            if (styles.OutlineColor != null) { sheet[state.ToString() + "." + "OutlineColor"] = new StyleProperty((Color)styles.OutlineColor); }
-            if (styles.OutlineWidth != null) { sheet[state.ToString() + "." + "OutlineWidth"] = new StyleProperty((int)styles.OutlineWidth); }
-            if (styles.Scale != null) { sheet[state.ToString() + "." + "Scale"] = new StyleProperty((float)styles.Scale); }
-            if (styles.SelectedHighlightColor != null) { sheet[state.ToString() + "." + "SelectedHighlightColor"] = new StyleProperty((Color)styles.SelectedHighlightColor); }
-            if (styles.ShadowColor != null) { sheet[state.ToString() + "." + "ShadowColor"] = new StyleProperty((Color)styles.ShadowColor); }
-            if (styles.ShadowOffset != null) { sheet[state.ToString() + "." + "ShadowOffset"] = new StyleProperty((Vector2)styles.ShadowOffset); }
-            if (styles.Padding != null) { sheet[state.ToString() + "." + "Padding"] = new StyleProperty((Vector2)styles.Padding); }
-            if (styles.SpaceBefore != null) { sheet[state.ToString() + "." + "SpaceBefore"] = new StyleProperty((Vector2)styles.SpaceBefore); }
-            if (styles.SpaceAfter != null) { sheet[state.ToString() + "." + "SpaceAfter"] = new StyleProperty((Vector2)styles.SpaceAfter); }
-            if (styles.ShadowScale != null) { sheet[state.ToString() + "." + "ShadowScale"] = new StyleProperty((float)styles.ShadowScale); }
-            if (styles.DefaultSize != null) { sheet[state.ToString() + "." + "DefaultSize"] = new StyleProperty((Vector2)styles.DefaultSize); }
+            if (styles.FillColor != null) { sheet[$"{state}.FillColor"] = new StyleProperty((Color)styles.FillColor); }
+            if (styles.FontStyle != null) { sheet[$"{state}.FontStyle"] = new StyleProperty((int)styles.FontStyle); }
+            if (styles.ForceAlignCenter != null) { sheet[$"{state}.ForceAlignCenter"] = new StyleProperty((bool)styles.ForceAlignCenter); }
+            if (styles.OutlineColor != null) { sheet[$"{state}.OutlineColor"] = new StyleProperty((Color)styles.OutlineColor); }
+            if (styles.OutlineWidth != null) { sheet[$"{state}.OutlineWidth"] = new StyleProperty((int)styles.OutlineWidth); }
+            if (styles.Scale != null) { sheet[$"{state}.Scale"] = new StyleProperty((float)styles.Scale); }
+            if (styles.SelectedHighlightColor != null) { sheet[$"{state}.SelectedHighlightColor"] = new StyleProperty((Color)styles.SelectedHighlightColor); }
+            if (styles.ShadowColor != null) { sheet[$"{state}.ShadowColor"] = new StyleProperty((Color)styles.ShadowColor); }
+            if (styles.ShadowOffset != null) { sheet[$"{state}.ShadowOffset"] = new StyleProperty((Vector2)styles.ShadowOffset); }
+            if (styles.Padding != null) { sheet[$"{state}.Padding"] = new StyleProperty((Vector2)styles.Padding); }
+            if (styles.SpaceBefore != null) { sheet[$"{state}.SpaceBefore"] = new StyleProperty((Vector2)styles.SpaceBefore); }
+            if (styles.SpaceAfter != null) { sheet[$"{state}.SpaceAfter"] = new StyleProperty((Vector2)styles.SpaceAfter); }
+            if (styles.ShadowScale != null) { sheet[$"{state}.ShadowScale"] = new StyleProperty((float)styles.ShadowScale); }
+            if (styles.DefaultSize != null) { sheet[$"{state}.DefaultSize"] = new StyleProperty((Vector2)styles.DefaultSize); }
         }
     }
 }

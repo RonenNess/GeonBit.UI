@@ -82,14 +82,15 @@ namespace GeonBit.UI.Entities
         {
             // get identifier from cache
             var pair = new KeyValuePair<string, EntityState>(property, state);
-            if (_identifiersCache.ContainsKey(pair))
-                return _identifiersCache[pair];
+            if (_identifiersCache.TryGetValue(pair, out string ret))
+            {
+                return ret;
+            }
 
             // build and return new identifier
-            StringBuilder fullPropertyIdentifier = new StringBuilder(StateAsString[(int)state]);
-            fullPropertyIdentifier.Append('.');
-            fullPropertyIdentifier.Append(property);
-            return _identifiersCache[pair] = fullPropertyIdentifier.ToString();
+            var fullId = $"{StateAsString[(int)state]}.{property}";
+            _identifiersCache[pair] = fullId;
+            return fullId;
         }
 
         /// <summary>
