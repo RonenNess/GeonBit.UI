@@ -922,7 +922,7 @@ Maybe something interesting in tab3?"));
                         {
                             Utils.MessageBox.ShowMsgBox("Custom Message!", "In this message there are two custom buttons.\n\nYou can set different actions per button. For example, click on 'Surprise' and see what happens!", new Utils.MessageBox.MsgBoxOption[] {
                                 new Utils.MessageBox.MsgBoxOption("Close", () => { return true; }),
-                                new Utils.MessageBox.MsgBoxOption("Surprise", () => { Utils.MessageBox.ShowMsgBox("Files Removed Successfully", "Win32 was successfully removed from this computer. Please restart to complete OS destruction.\n\n(Just kidding!)"); return true; })
+                                new Utils.MessageBox.MsgBoxOption("Surprise", () => { Utils.MessageBox.ShowMsgBox("Files Removed Successfully", "Win32 was successfully removed from this computer. Please restart to complete OS destruction."); return true; })
                                 });
                         };
                         panel.AddChild(btn);

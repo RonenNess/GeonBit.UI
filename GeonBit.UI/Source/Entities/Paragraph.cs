@@ -97,7 +97,7 @@ namespace GeonBit.UI.Entities
         public bool WrapWords
         {
             get { return _wrapWords; }
-            set { _wrapWords = value; MarkAsDirty(); }
+            set { if (_wrapWords != value) { _wrapWords = value; MarkAsDirty(); } }
         }
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace GeonBit.UI.Entities
         public bool BreakWordsIfMust
         {
             get { return _breakWordsIfMust; }
-            set { _breakWordsIfMust = value; MarkAsDirty(); }
+            set { if (_breakWordsIfMust != value) { _breakWordsIfMust = value; MarkAsDirty(); } }
         }
 
         // should we add a hyphen whenever we break words?
@@ -155,7 +155,7 @@ namespace GeonBit.UI.Entities
         public bool AddHyphenWhenBreakWord
         {
             get { return _addHyphenWhenBreakWord; }
-            set { _addHyphenWhenBreakWord = value; MarkAsDirty(); }
+            set { if (_addHyphenWhenBreakWord != value) { _addHyphenWhenBreakWord = value; MarkAsDirty(); } }
         }
 
         /// <summary>Base font size. Change this property to affect the size of all paragraphs and other text entities.</summary>

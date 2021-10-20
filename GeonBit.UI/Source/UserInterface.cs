@@ -203,7 +203,7 @@ namespace GeonBit.UI
         public float GlobalScale
         {
             get { return _scale; }
-            set { _scale = value; Root.MarkAsDirty(); }
+            set { if (_scale != value) { _scale = value; Root.MarkAsDirty(); } }
         }
 
         /// <summary>Cursor rendering size.</summary>

@@ -158,7 +158,7 @@ namespace GeonBit.UI.Entities
         {
             get
             {
-                return _children.AsReadOnly() as IReadOnlyList<Entity>;
+                return _children.AsReadOnly();
             }
         }
 
@@ -283,14 +283,22 @@ namespace GeonBit.UI.Entities
         /// This is especially useful for entities with size that depends on their parent entity size, for example
         /// if you define an entity to take 20% of its parent space but can't be less than 200 pixels width.
         /// </summary>
-        public Vector2? MinSize { get { return _minSize; } set { _minSize = value;  MarkAsDirty(); } }
+        public Vector2? MinSize 
+        { 
+            get { return _minSize; } 
+            set { if (_minSize != value) { _minSize = value; MarkAsDirty(); } } 
+        }
 
         /// <summary>
         /// If defined, will limit the maximum size of this entity when calculating size.
         /// This is especially useful for entities with size that depends on their parent entity size, for example
         /// if you define an entity to take 20% of its parent space but can't be more than 200 pixels width.
         /// </summary>
-        public Vector2? MaxSize { get { return _maxSize; } set { _maxSize = value; MarkAsDirty(); } }
+        public Vector2? MaxSize 
+        { 
+            get { return _maxSize; } 
+            set { if (_maxSize != value) { _maxSize = value; MarkAsDirty(); } } 
+        }
 
         /// <summary>
         /// Every time we update destination rect and internal destination rect view the update function, we increase this counter.
@@ -704,7 +712,12 @@ namespace GeonBit.UI.Entities
         public bool Draggable
         {
             get { return _draggable; }
-            set { _needToSetDragOffset = _draggable != value; _draggable = value; MarkAsDirty(); }
+            set 
+            { 
+                _needToSetDragOffset = _draggable != value; 
+                _draggable = value;
+                MarkAsDirty(); 
+            }
         }
 
         /// <summary>
@@ -1059,8 +1072,11 @@ namespace GeonBit.UI.Entities
         /// <param name="anchor">New anchor to set.</param>
         private void SetAnchor(Anchor anchor)
         {
-            _anchor = anchor;
-            MarkAsDirty();
+            if (_anchor != anchor)
+            {
+                _anchor = anchor;
+                MarkAsDirty();
+            }
         }
 
         /// <summary>

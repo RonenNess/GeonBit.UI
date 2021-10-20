@@ -220,7 +220,10 @@ namespace GeonBit.UI.Entities
                 {
                     _text = value;
                     MarkAsDirty();
-                    if (EnableStyleInstructions) _needUpdateStyleInstructions = true;
+                    if (EnableStyleInstructions)
+                    {
+                        _needUpdateStyleInstructions = true;
+                    }
                 }
             }
         }
