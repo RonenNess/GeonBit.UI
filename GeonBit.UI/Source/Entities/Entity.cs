@@ -1284,7 +1284,7 @@ namespace GeonBit.UI.Entities
         public Dictionary<string, Entity> ToEntitiesDictionary()
         {
             Dictionary<string, Entity> ret = new Dictionary<string, Entity>();
-            PopulateDict(ref ret);
+            PopulateDict(ret);
             return ret;
         }
 
@@ -1293,7 +1293,7 @@ namespace GeonBit.UI.Entities
         /// Note: if multiple entities share the same identifier, the deepest entity in hirarchy will end up in dict.
         /// </summary>
         /// <param name="dict">Dictionary to put entities into.</param>
-        private void PopulateDict(ref Dictionary<string, Entity> dict)
+        private void PopulateDict(Dictionary<string, Entity> dict)
         {
             // add self if got identifier
             if (Identifier != null && Identifier.Length > 0)
@@ -1302,7 +1302,7 @@ namespace GeonBit.UI.Entities
             // iterate children
             foreach(var child in _children)
             {
-                child.PopulateDict(ref dict);
+                child.PopulateDict(dict);
             }
         }
 

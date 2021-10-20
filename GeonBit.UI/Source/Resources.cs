@@ -336,35 +336,35 @@ namespace GeonBit.UI
             SilhouetteEffect = content.Load<Effect>(_root + "effects/silhouette");
 
             // load default styleSheets
-            LoadDefaultStyles(ref Entity.DefaultStyle, "Entity", _root, content);
-            LoadDefaultStyles(ref Paragraph.DefaultStyle, "Paragraph", _root, content);
-            LoadDefaultStyles(ref Button.DefaultStyle, "Button", _root, content);
-            LoadDefaultStyles(ref Button.DefaultParagraphStyle, "ButtonParagraph", _root, content);
-            LoadDefaultStyles(ref CheckBox.DefaultStyle, "CheckBox", _root, content);
-            LoadDefaultStyles(ref CheckBox.DefaultParagraphStyle, "CheckBoxParagraph", _root, content);
-            LoadDefaultStyles(ref ColoredRectangle.DefaultStyle, "ColoredRectangle", _root, content);
-            LoadDefaultStyles(ref DropDown.DefaultStyle, "DropDown", _root, content);
-            LoadDefaultStyles(ref DropDown.DefaultParagraphStyle, "DropDownParagraph", _root, content);
-            LoadDefaultStyles(ref DropDown.DefaultSelectedParagraphStyle, "DropDownSelectedParagraph", _root, content);
-            LoadDefaultStyles(ref Header.DefaultStyle, "Header", _root, content);
-            LoadDefaultStyles(ref HorizontalLine.DefaultStyle, "HorizontalLine", _root, content);
-            LoadDefaultStyles(ref Icon.DefaultStyle, "Icon", _root, content);
-            LoadDefaultStyles(ref Image.DefaultStyle, "Image", _root, content);
-            LoadDefaultStyles(ref Label.DefaultStyle, "Label", _root, content);
-            LoadDefaultStyles(ref Panel.DefaultStyle, "Panel", _root, content);
-            LoadDefaultStyles(ref ProgressBar.DefaultStyle, "ProgressBar", _root, content);
-            LoadDefaultStyles(ref ProgressBar.DefaultFillStyle, "ProgressBarFill", _root, content);
-            LoadDefaultStyles(ref RadioButton.DefaultStyle, "RadioButton", _root, content);
-            LoadDefaultStyles(ref RadioButton.DefaultParagraphStyle, "RadioButtonParagraph", _root, content);
-            LoadDefaultStyles(ref SelectList.DefaultStyle, "SelectList", _root, content);
-            LoadDefaultStyles(ref SelectList.DefaultParagraphStyle, "SelectListParagraph", _root, content);
-            LoadDefaultStyles(ref Slider.DefaultStyle, "Slider", _root, content);
-            LoadDefaultStyles(ref TextInput.DefaultStyle, "TextInput", _root, content);
-            LoadDefaultStyles(ref TextInput.DefaultParagraphStyle, "TextInputParagraph", _root, content);
-            LoadDefaultStyles(ref TextInput.DefaultPlaceholderStyle, "TextInputPlaceholder", _root, content);
-            LoadDefaultStyles(ref VerticalScrollbar.DefaultStyle, "VerticalScrollbar", _root, content);
-            LoadDefaultStyles(ref PanelTabs.DefaultButtonStyle, "PanelTabsButton", _root, content);
-            LoadDefaultStyles(ref PanelTabs.DefaultButtonParagraphStyle, "PanelTabsButtonParagraph", _root, content);
+            LoadDefaultStyles( Entity.DefaultStyle, "Entity", _root, content);
+            LoadDefaultStyles( Paragraph.DefaultStyle, "Paragraph", _root, content);
+            LoadDefaultStyles( Button.DefaultStyle, "Button", _root, content);
+            LoadDefaultStyles( Button.DefaultParagraphStyle, "ButtonParagraph", _root, content);
+            LoadDefaultStyles( CheckBox.DefaultStyle, "CheckBox", _root, content);
+            LoadDefaultStyles( CheckBox.DefaultParagraphStyle, "CheckBoxParagraph", _root, content);
+            LoadDefaultStyles( ColoredRectangle.DefaultStyle, "ColoredRectangle", _root, content);
+            LoadDefaultStyles( DropDown.DefaultStyle, "DropDown", _root, content);
+            LoadDefaultStyles( DropDown.DefaultParagraphStyle, "DropDownParagraph", _root, content);
+            LoadDefaultStyles( DropDown.DefaultSelectedParagraphStyle, "DropDownSelectedParagraph", _root, content);
+            LoadDefaultStyles( Header.DefaultStyle, "Header", _root, content);
+            LoadDefaultStyles( HorizontalLine.DefaultStyle, "HorizontalLine", _root, content);
+            LoadDefaultStyles( Icon.DefaultStyle, "Icon", _root, content);
+            LoadDefaultStyles( Image.DefaultStyle, "Image", _root, content);
+            LoadDefaultStyles( Label.DefaultStyle, "Label", _root, content);
+            LoadDefaultStyles( Panel.DefaultStyle, "Panel", _root, content);
+            LoadDefaultStyles( ProgressBar.DefaultStyle, "ProgressBar", _root, content);
+            LoadDefaultStyles( ProgressBar.DefaultFillStyle, "ProgressBarFill", _root, content);
+            LoadDefaultStyles( RadioButton.DefaultStyle, "RadioButton", _root, content);
+            LoadDefaultStyles( RadioButton.DefaultParagraphStyle, "RadioButtonParagraph", _root, content);
+            LoadDefaultStyles( SelectList.DefaultStyle, "SelectList", _root, content);
+            LoadDefaultStyles( SelectList.DefaultParagraphStyle, "SelectListParagraph", _root, content);
+            LoadDefaultStyles( Slider.DefaultStyle, "Slider", _root, content);
+            LoadDefaultStyles( TextInput.DefaultStyle, "TextInput", _root, content);
+            LoadDefaultStyles( TextInput.DefaultParagraphStyle, "TextInputParagraph", _root, content);
+            LoadDefaultStyles( TextInput.DefaultPlaceholderStyle, "TextInputPlaceholder", _root, content);
+            LoadDefaultStyles( VerticalScrollbar.DefaultStyle, "VerticalScrollbar", _root, content);
+            LoadDefaultStyles( PanelTabs.DefaultButtonStyle, "PanelTabsButton", _root, content);
+            LoadDefaultStyles( PanelTabs.DefaultButtonParagraphStyle, "PanelTabsButtonParagraph", _root, content);
         }
 
 
@@ -402,19 +402,19 @@ namespace GeonBit.UI
         /// <param name="entityName">Entity unique identifier for file names.</param>
         /// <param name="themeRoot">Path of the current theme root directory.</param>
         /// <param name="content">Content manager to allow us to load xmls.</param>
-        private static void LoadDefaultStyles(ref StyleSheet sheet, string entityName, string themeRoot, ContentManager content)
+        private static void LoadDefaultStyles(StyleSheet sheet, string entityName, string themeRoot, ContentManager content)
         {
             // get stylesheet root path (eg everything before the state part)
             string stylesheetBase = themeRoot + "styles/" + entityName;
 
             // load default styles
-            FillDefaultStyles(ref sheet, EntityState.Default, content.Load<DefaultStyles>(stylesheetBase + "-Default"));
+            FillDefaultStyles(sheet, EntityState.Default, content.Load<DefaultStyles>(stylesheetBase + "-Default"));
 
             // load mouse-hover styles
-            FillDefaultStyles(ref sheet, EntityState.MouseHover, content.Load<DefaultStyles>(stylesheetBase + "-MouseHover"));
+            FillDefaultStyles(sheet, EntityState.MouseHover, content.Load<DefaultStyles>(stylesheetBase + "-MouseHover"));
 
             // load mouse-down styles
-            FillDefaultStyles(ref sheet, EntityState.MouseDown, content.Load<DefaultStyles>(stylesheetBase + "-MouseDown"));
+            FillDefaultStyles(sheet, EntityState.MouseDown, content.Load<DefaultStyles>(stylesheetBase + "-MouseDown"));
         }
 
         /// <summary>
@@ -423,7 +423,7 @@ namespace GeonBit.UI
         /// <param name="sheet">StyleSheet to fill.</param>
         /// <param name="state">State to fill values for.</param>
         /// <param name="styles">Default styles, as loaded from xml file.</param>
-        private static void FillDefaultStyles(ref StyleSheet sheet, EntityState state, DefaultStyles styles)
+        private static void FillDefaultStyles(StyleSheet sheet, EntityState state, DefaultStyles styles)
         {
             if (styles.FillColor != null) { sheet[state.ToString() + "." + "FillColor"] = new StyleProperty((Color)styles.FillColor); }
             if (styles.FontStyle != null) { sheet[state.ToString() + "." + "FontStyle"] = new StyleProperty((int)styles.FontStyle); }
