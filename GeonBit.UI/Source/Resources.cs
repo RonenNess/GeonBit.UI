@@ -23,7 +23,7 @@ namespace GeonBit.UI
     /// A class to get texture with index and constant path part.
     /// Used internally.
     /// </summary>
-    public class TexturesGetter<TEnum> where TEnum : IConvertible
+    public class TexturesGetter<TEnum> where TEnum : Enum, IConvertible
     {
         // textures we already loaded
         Texture2D[] _loadedTextures;
@@ -91,8 +91,8 @@ namespace GeonBit.UI
         private int GetIndex(TEnum i, EntityState? s = null)
         {
             if (s != null)
-                return (int)(object)i + (_typesCount * (int)s);
-            return (int)(object)i;
+                return Convert.ToInt32(i) + (_typesCount * (int)s);
+            return Convert.ToInt32(i);
         }
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace GeonBit.UI
         /// </summary>
         /// <param name="path">Resource path, under geonbit.ui content.</param>
         /// <param name="suffix">Suffix to add to the texture path after the enum part.</param>
-        /// <param name="usesStates">If true, it means these textures may also use entit states, eg mouse hover / down / default.</param>
+        /// <param name="usesStates">If true, it means these textures may also use entity states, eg mouse hover / down / default.</param>
         public TexturesGetter(string path, string suffix = null, bool usesStates = true)
         {
             _basepath = path;
