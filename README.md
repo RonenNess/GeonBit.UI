@@ -2078,7 +2078,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Added default priority boost to menu bar.
 - Added 'ShowYesNoMsgBox' method.
 - Small internal improvements and optimizations.
-- 
+- Added option to load styles from xml files directly (not fully implemented yet, but useable).
 
 ## Credits
 
