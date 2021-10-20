@@ -16,6 +16,7 @@ using GeonBit.UI.Entities;
 using GeonBit.UI.DataTypes;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Serialization;
 
 namespace GeonBit.UI
 {
@@ -396,6 +397,36 @@ namespace GeonBit.UI
         }
 
         /// <summary>
+        /// Load xml styles either directly from xml file, or from the content manager.
+        /// </summary>
+        /// <param name="name">XML name.</param>
+        /// <param name="content">Content manager.</param>
+        /// <returns>Default styles loaded from xml or xnb.</returns>
+        private static DefaultStyles LoadXmlStyles(string name, ContentManager content)
+        {
+            // try to load xml directly from full path
+            string fullPath = System.IO.Path.Combine(content.RootDirectory, name + ".xml");
+            if (System.IO.File.Exists(fullPath))
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(DefaultStyles));
+                using (var reader = System.IO.File.OpenText(fullPath))
+                {
+                    XmlDeserializationEvents eventsHandler = new XmlDeserializationEvents()
+                    {
+                        OnUnknownAttribute = (object sender, XmlAttributeEventArgs e) => { throw new System.Exception("Error parsing file '" + fullPath + "': invalid attribute '" + e.Attr.Name + "' at line " + e.LineNumber); },
+                        OnUnknownElement = (object sender, XmlElementEventArgs e) => { throw new System.Exception("Error parsing file '" + fullPath + "': invalid element '" + e.Element.Name + "' at line " + e.LineNumber); },
+                        OnUnknownNode = (object sender, XmlNodeEventArgs e) => { throw new System.Exception("Error parsing file '" + fullPath + "': invalid element '" + e.Name + "' at line " + e.LineNumber); },
+                        OnUnreferencedObject = (object sender, UnreferencedObjectEventArgs e) => { throw new System.Exception("Error parsing file '" + fullPath + "': unreferenced object '" + e.UnreferencedObject.ToString() + "'"); },
+                    };
+                    return (DefaultStyles)serializer.Deserialize(System.Xml.XmlReader.Create(reader), eventsHandler);
+                }
+            }
+
+            // if xml file not found, try to load xnb instead
+            return content.Load<DefaultStyles>(name);
+        }
+
+        /// <summary>
         /// Load default stylesheets for a given entity name and put values inside the sheet.
         /// </summary>
         /// <param name="sheet">StyleSheet to load.</param>
@@ -408,13 +439,13 @@ namespace GeonBit.UI
             string stylesheetBase = themeRoot + "styles/" + entityName;
 
             // load default styles
-            FillDefaultStyles(sheet, EntityState.Default, content.Load<DefaultStyles>($"{stylesheetBase}-Default"));
+            FillDefaultStyles(sheet, EntityState.Default, LoadXmlStyles($"{stylesheetBase}-Default", content));
 
             // load mouse-hover styles
-            FillDefaultStyles(sheet, EntityState.MouseHover, content.Load<DefaultStyles>($"{stylesheetBase}-MouseHover"));
+            FillDefaultStyles(sheet, EntityState.MouseHover, LoadXmlStyles($"{stylesheetBase}-MouseHover", content));
 
             // load mouse-down styles
-            FillDefaultStyles(sheet, EntityState.MouseDown, content.Load<DefaultStyles>($"{stylesheetBase}-MouseDown"));
+            FillDefaultStyles(sheet, EntityState.MouseDown, LoadXmlStyles($"{stylesheetBase}-MouseDown", content));
         }
 
         /// <summary>
