@@ -15,8 +15,29 @@ namespace GeonBit.UI.Utils
     /// <summary>
     /// A helper class to generate a simple menu bar using panels and dropdown entities.
     /// </summary>
-    public static class SimpleMenuBar
+    public static class MenuBar
     {
+        /// <summary>
+        /// Struct to store params for when a menu item triggers its callback.
+        /// </summary>
+        public struct MenuCallbackContext
+        {
+            /// <summary>
+            /// Selected menu item index.
+            /// </summary>
+            public int ItemIndex;
+
+            /// <summary>
+            /// Selected menu item text.
+            /// </summary>
+            public string ItemText;
+
+            /// <summary>
+            /// Menu dropdown entity.
+            /// </summary>
+            public Entities.DropDown Entity;
+        }
+
         /// <summary>
         /// Class used to define the menu layout.
         /// </summary>
@@ -45,7 +66,7 @@ namespace GeonBit.UI.Utils
                 /// <summary>
                 /// Actions attached to menu.
                 /// </summary>
-                public List<System.Action> Actions = new List<System.Action>();
+                public List<System.Action<MenuCallbackContext>> Actions = new List<System.Action<MenuCallbackContext>>();
             }
 
             /// <summary>
@@ -75,6 +96,17 @@ namespace GeonBit.UI.Utils
             /// <param name="item">Item text.</param>
             /// <param name="onClick">On-click action.</param>
             public void AddItemToMenu(string menuTitle, string item, System.Action onClick)
+            {
+                AddItemToMenu(menuTitle, item, (MenuCallbackContext ctx) => { onClick(); });
+            }
+
+            /// <summary>
+            /// Adds an item to a menu with advanced callback.
+            /// </summary>
+            /// <param name="menuTitle">Menu title to add item to.</param>
+            /// <param name="item">Item text.</param>
+            /// <param name="onClick">On-click action.</param>
+            public void AddItemToMenu(string menuTitle, string item, System.Action<MenuCallbackContext> onClick)
             {
                 foreach (var menu in Layout)
                 {
@@ -130,7 +162,8 @@ namespace GeonBit.UI.Utils
                     var callback = menu.Actions[i];
                     if (callback != null)
                     {
-                        dropdown.OnSelectedSpecificItem(menu.Items[i], callback);
+                        var context = new MenuCallbackContext() { ItemIndex = i, ItemText = menu.Items[i], Entity = dropdown };
+                        dropdown.OnSelectedSpecificItem(menu.Items[i], () => { callback(context); });
                     }
                 }
             }

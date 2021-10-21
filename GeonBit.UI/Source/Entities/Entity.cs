@@ -12,7 +12,6 @@
 // Since: 2016.
 //-----------------------------------------------------------------------------
 #endregion
-using System.Reflection;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -199,6 +198,12 @@ namespace GeonBit.UI.Entities
 
         // list of animators attached to this entity.
         private List<Animators.IAnimator> _animators = new List<Animators.IAnimator>();
+
+        /// <summary>
+        /// Optional tag we can attach to this entity, used for whatever purpose.
+        /// Tags are not used internally, and are similar to AttachedData but more string-oriented.
+        /// </summary>
+        public string Tag;
 
         /// <summary>
         /// Optional extra drawing priority, to bring certain objects before others.

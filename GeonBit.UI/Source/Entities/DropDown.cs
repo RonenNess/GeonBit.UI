@@ -541,7 +541,7 @@ namespace GeonBit.UI.Entities
         /// <param name="newValue">New value to set.</param>
         public void ChangeItem(int index, string newValue)
         {
-            _selectList.ChangeItem(index, newValue);
+            ChangeItem(_selectList.Items[index], newValue);
             if (index == SelectedIndex) { SelectedValue = newValue; }
         }
 
@@ -553,8 +553,20 @@ namespace GeonBit.UI.Entities
         /// <param name="onlyFirst">If true, will stop after first value found.</param>
         public void ChangeItem(string oldValue, string newValue, bool onlyFirst = false)
         {
+            // if there's no change, skip
+            if (oldValue == newValue) { return; }
+
+            // change and update selected
             _selectList.ChangeItem(oldValue, newValue, onlyFirst);
             if (_selectList.Items[SelectedIndex] != SelectedValue) { SelectedValue = newValue; }
+
+            // update per-item callbacks
+            if (_perItemCallbacks.ContainsKey(oldValue))
+            {
+                if (_perItemCallbacks.ContainsKey(newValue)) { throw new System.Exception($"Changed dropdown item '{oldValue}' to '{newValue}', but they both have unique per-item callback attached."); }
+                _perItemCallbacks[newValue] = _perItemCallbacks[oldValue];
+                _perItemCallbacks.Remove(oldValue);
+            }
         }
 
         /// <summary>

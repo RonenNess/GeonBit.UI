@@ -2086,7 +2086,9 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Added 'ChangeItem()' to list and dropdown.
 - Minor adjustment to dropdown default styling.
 - Adjustment to built-in color instructions.
-- 
+- Added API to register callbacks with context to 'MenuBar', making it more interactive.
+- Renamed 'SimpleMenuBar' to just 'MenuBar'.
+- Added 'Tag' to entities.
 
 ## Credits
 
