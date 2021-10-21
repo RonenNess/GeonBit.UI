@@ -186,6 +186,53 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Change an existing value in list.
+        /// </summary>
+        /// <param name="index">Index to change.</param>
+        /// <param name="newValue">New value to set.</param>
+        public void ChangeItem(int index, string newValue)
+        {
+            if (_list[index] != newValue)
+            {
+                _list[index] = newValue;
+                OnListChanged();
+            }
+        }
+
+        /// <summary>
+        /// Change an existing value in list.
+        /// </summary>
+        /// <param name="oldValue">Old value to change.</param>
+        /// <param name="newValue">New value to set.</param>
+        /// <param name="onlyFirst">If true, will stop after first value found.</param>
+        public void ChangeItem(string oldValue, string newValue, bool onlyFirst = false)
+        {
+            // do nothing if old == new
+            if (oldValue == newValue)
+            {
+                return;
+            }
+
+            // find and change value
+            bool didChange = false;
+            for (var i = 0; i < _list.Count; ++i)
+            {
+                if (_list[i] == oldValue)
+                {
+                    didChange = true;
+                    _list[i] = newValue;
+                    if (onlyFirst) { break; }
+                }
+            }
+
+            // invoke list change
+            if (didChange)
+            {
+                OnListChanged();
+            }
+        }
+
+        /// <summary>
         /// Add value to list.
         /// </summary>
         /// <remarks>Values can be duplicated, however, this will cause annoying behavior when trying to delete or select by value (will always pick the first found).</remarks>

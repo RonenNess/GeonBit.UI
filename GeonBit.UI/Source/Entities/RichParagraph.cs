@@ -129,8 +129,8 @@ namespace GeonBit.UI.Entities
             AddInstruction("TEAL", new RichParagraphStyleInstruction(fillColor: Color.Teal));
             AddInstruction("NAVY", new RichParagraphStyleInstruction(fillColor: Color.Navy));
 
-            AddInstruction("L_RED", new RichParagraphStyleInstruction(fillColor: Color.PaleVioletRed));
-            AddInstruction("L_BLUE", new RichParagraphStyleInstruction(fillColor: Color.AliceBlue));
+            AddInstruction("L_RED", new RichParagraphStyleInstruction(fillColor: new Color(1f, 0.35f, 0.25f)));
+            AddInstruction("L_BLUE", new RichParagraphStyleInstruction(fillColor: new Color(0.25f,0.35f, 1f)));
             AddInstruction("L_GREEN", new RichParagraphStyleInstruction(fillColor: Color.LawnGreen));
             AddInstruction("L_YELLOW", new RichParagraphStyleInstruction(fillColor: Color.LightYellow));
             AddInstruction("L_BROWN", new RichParagraphStyleInstruction(fillColor: Color.RosyBrown));

@@ -693,6 +693,14 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                     drop.AddItem("Monk");
                     drop.AddItem("Ranger");
                     panel.AddChild(drop);
+
+                    panel.AddChild(new Paragraph("And per-item styling:"));
+                    drop = new DropDown(new Vector2(0, 180), skin: PanelSkin.Golden);
+                    drop.AddItem("{{L_RED}}Warrior");
+                    drop.AddItem("{{L_BLUE}}Mage");
+                    drop.AddItem("{{CYAN}}Monk");
+                    drop.AddItem("{{L_GREEN}}Ranger");
+                    panel.AddChild(drop);
                 }
 
                 // example: panels with scrollbars / overflow

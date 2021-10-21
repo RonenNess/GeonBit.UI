@@ -533,6 +533,30 @@ namespace GeonBit.UI.Entities
             _selectList.RemoveItem(index);
         }
 
+
+        /// <summary>
+        /// Change an existing value in the dropdown list.
+        /// </summary>
+        /// <param name="index">Index to change.</param>
+        /// <param name="newValue">New value to set.</param>
+        public void ChangeItem(int index, string newValue)
+        {
+            _selectList.ChangeItem(index, newValue);
+            if (index == SelectedIndex) { SelectedValue = newValue; }
+        }
+
+        /// <summary>
+        /// Change an existing value in the dropdown list.
+        /// </summary>
+        /// <param name="oldValue">Old value to change.</param>
+        /// <param name="newValue">New value to set.</param>
+        /// <param name="onlyFirst">If true, will stop after first value found.</param>
+        public void ChangeItem(string oldValue, string newValue, bool onlyFirst = false)
+        {
+            _selectList.ChangeItem(oldValue, newValue, onlyFirst);
+            if (_selectList.Items[SelectedIndex] != SelectedValue) { SelectedValue = newValue; }
+        }
+
         /// <summary>
         /// Remove all items from the list.
         /// </summary>
