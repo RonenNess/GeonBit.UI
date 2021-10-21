@@ -450,8 +450,8 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                         panel.AddChild(intPanel);
                     }
                     {
-                        Panel intPanel = new Panel(new Vector2(0, panelHeight), PanelSkin.Golden, Anchor.Auto);
-                        intPanel.AddChild(new Paragraph("Golden Panel", Anchor.Center));
+                        Panel intPanel = new Panel(new Vector2(0, panelHeight), PanelSkin.Alternative, Anchor.Auto);
+                        intPanel.AddChild(new Paragraph("Alternative Panel", Anchor.Center));
                         panel.AddChild(intPanel);
                     }
                     {
@@ -495,7 +495,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                     panel.AddChild(paragraph);
 
                     // internal panel with internal draggable
-                    Panel panelInt = new Panel(new Vector2(250, 250), PanelSkin.Golden, Anchor.AutoCenter);
+                    Panel panelInt = new Panel(new Vector2(250, 250), PanelSkin.Alternative, Anchor.AutoCenter);
                     panelInt.Draggable = true;
                     panelInt.AddChild(new Paragraph("This panel is draggable too, but limited to its parent boundaries.", Anchor.Center, Color.White, 0.85f));
                     panel.AddChild(panelInt);
@@ -647,7 +647,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                     panel.AddChild(new HorizontalLine());
                     panel.AddChild(new Paragraph("Just like panels, SelectList can use alternative skins:"));
 
-                    SelectList list = new SelectList(new Vector2(0, 280), skin: PanelSkin.Golden);
+                    SelectList list = new SelectList(new Vector2(0, 280), skin: PanelSkin.Alternative);
                     list.AddItem("Warrior");
                     list.AddItem("Mage");
                     list.AddItem("Ranger");
@@ -687,7 +687,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                     panel.AddChild(drop);
 
                     panel.AddChild(new Paragraph("And like list, we can set different skins:"));
-                    drop = new DropDown(new Vector2(0, 180), skin: PanelSkin.Golden);
+                    drop = new DropDown(new Vector2(0, 180), skin: PanelSkin.Alternative);
                     drop.AddItem("Warrior");
                     drop.AddItem("Mage");
                     drop.AddItem("Monk");
@@ -695,7 +695,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                     panel.AddChild(drop);
 
                     panel.AddChild(new Paragraph("And per-item styling:"));
-                    drop = new DropDown(new Vector2(0, 180), skin: PanelSkin.Golden);
+                    drop = new DropDown(new Vector2(0, 180), skin: PanelSkin.Alternative);
                     drop.AddItem("{{L_RED}}Warrior");
                     drop.AddItem("{{L_BLUE}}Mage");
                     drop.AddItem("{{CYAN}}Monk");
@@ -784,7 +784,7 @@ Here's a button, to test clicking while scrolled:"));
 
                     // multiline
                     panel.AddChild(new Paragraph("Text input can also be multiline, and use different panel skins:"));
-                    TextInput textMulti = new TextInput(true, new Vector2(0, 220), skin: PanelSkin.Golden);
+                    TextInput textMulti = new TextInput(true, new Vector2(0, 220), skin: PanelSkin.Alternative);
                     textMulti.PlaceholderText = @"Insert multiline text..";
                     panel.AddChild(textMulti);
 

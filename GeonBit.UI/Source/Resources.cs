@@ -43,8 +43,24 @@ namespace GeonBit.UI
                 int indx = GetIndex(i);
                 if (_loadedTextures[indx] == null)
                 {
-                    var path = Resources._root + _basepath + EnumToString(i) + _suffix;
-                    _loadedTextures[indx] = Resources._content.Load<Texture2D>(path);
+                    var path = $"{Resources._root}{_basepath}{EnumToString(i)}{_suffix}";
+                    try
+                    {
+                        _loadedTextures[indx] = Resources._content.Load<Texture2D>(path);
+                    }
+                    catch (Microsoft.Xna.Framework.Content.ContentLoadException)
+                    {
+                        // for backward compatibility when alternative was called 'golden'
+                        if (i.ToString() == PanelSkin.Alternative.ToString())
+                        {
+                            path = $"{Resources._root}{_basepath}golden{_suffix}";
+                            _loadedTextures[indx] = Resources._content.Load<Texture2D>(path);
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
                 }
                 return _loadedTextures[indx];
             }
@@ -299,7 +315,22 @@ namespace GeonBit.UI
 
                 // load panels metadata
                 string skinName = skin.ToString().ToLowerInvariant();
-                PanelData[(int)skin] = content.Load<TextureData>(_root + "textures/panel_" + skinName + "_md");
+                try
+                {
+                    PanelData[(int)skin] = content.Load<TextureData>(_root + "textures/panel_" + skinName + "_md");
+                }
+                catch (Microsoft.Xna.Framework.Content.ContentLoadException ex)
+                {
+                    // for backwards compatability from when it was called 'Golden'.
+                    if (skin == PanelSkin.Alternative)
+                    {
+                        PanelData[(int)skin] = content.Load<TextureData>(_root + "textures/panel_golden_md");
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
+                }
             }
 
             // load scrollbar metadata

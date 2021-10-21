@@ -27,11 +27,11 @@ namespace GeonBit.UI.Entities
         /// <summary>Alternative more decorated panel texture.</summary>
         Fancy = 1,
 
-        /// <summary>Simple, grey panel. Useful for internal frames, eg when inside another panel.</summary>
+        /// <summary>Simple panel skin, with less details. Useful for internal frames, eg when inside another panel.</summary>
         Simple = 2,
 
-        /// <summary>Shiny golden panel.</summary>
-        Golden = 3,
+        /// <summary>Alternative panel skin.</summary>
+        Alternative = 3,
 
         /// <summary>Special panel skin used for lists and input background.</summary>
         ListBackground = 4,

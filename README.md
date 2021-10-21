@@ -691,9 +691,9 @@ UserInterface.Active.AddEntity(panel);
 Or to create with different skin and advance parameters:
 
 ```cs
-// create a panel at the top-left corner of with 10x10 offset from it, with 'Golden' panel skin.
+// create a panel at the top-left corner of with 10x10 offset from it, with 'Alternative' panel skin.
 // to see more skins check out the PanelSkin enum options or look at the panel examples in the example project.
-Panel panel = new Panel(size: new Vector2(500, 500), skin: PanelSkin.Golden, anchor: Anchor.TopLeft, offset: new Vector2(10, 10));
+Panel panel = new Panel(size: new Vector2(500, 500), skin: PanelSkin.Alternative, anchor: Anchor.TopLeft, offset: new Vector2(10, 10));
 UserInterface.Active.AddEntity(panel);
 ```
 
@@ -1016,7 +1016,7 @@ Note that the SelectList is made of a panel with paragraphs on it, meaning you c
 To create a SelectList with different skin and advance parameters:
 
 ```cs
-SelectList list = new SelectList(size: new Vector2(0, 200), anchor: Anchor.Center, offset: new Vector2(0, 10), skin: PanelSkin.Golden);
+SelectList list = new SelectList(size: new Vector2(0, 200), anchor: Anchor.Center, offset: new Vector2(0, 10), skin: PanelSkin.Alternative);
 ```
 
 If the list length is too big for the SelectList physical size, a scrollbar will be added automatically.
@@ -1113,7 +1113,7 @@ Note that just like the SelectList, DropDown uses panels as background so you ca
 To create a DropDown with different skin and advance parameters:
 
 ```cs
-DropDown drop = new DropDown(size: new Vector2(0, 200), anchor: Anchor.Center, offset: new Vector2(0, 10), skin: PanelSkin.Golden);
+DropDown drop = new DropDown(size: new Vector2(0, 200), anchor: Anchor.Center, offset: new Vector2(0, 10), skin: PanelSkin.Alternative);
 ```
 
 ### Events
@@ -1466,8 +1466,8 @@ To create a TextInput with different skin and advance parameters:
 
 ```cs
 //
-// create multiline text input with size of 100,220, center anchor, and golden panel skin:
-TextInput multiText = new TextInput(multiline: true, size: new Vector2(100, 220), anchor: Anchor.Center, offset: Vector2.Zero, skin: PanelSkin.Golden);
+// create multiline text input with size of 100,220, center anchor, and Alternative panel skin:
+TextInput multiText = new TextInput(multiline: true, size: new Vector2(100, 220), anchor: Anchor.Center, offset: Vector2.Zero, skin: PanelSkin.Alternative);
 ```
 
 ### Events
@@ -2081,7 +2081,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Small internal improvements and optimizations.
 - Added option to load styles from xml files directly (not fully implemented yet, but useable).
 
-### 4.0.7.1
+### 4.1.7.1
 
 - Added 'ChangeItem()' to list and dropdown.
 - Minor adjustment to dropdown default styling.
@@ -2090,6 +2090,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Renamed 'SimpleMenuBar' to just 'MenuBar'.
 - Added 'Tag' to entities.
 - Fixed bug with 'RichParagraph' showing wrong text in 'DropDown' entities when using color instructions.
+- Renamed 'PanelSkin.Golden' to 'PanelSkin.Alternative' so it will be more general and not specific to the original theme.
 
 ## Credits
 
