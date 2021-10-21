@@ -2089,6 +2089,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Added API to register callbacks with context to 'MenuBar', making it more interactive.
 - Renamed 'SimpleMenuBar' to just 'MenuBar'.
 - Added 'Tag' to entities.
+- Fixed bug with 'RichParagraph' showing wrong text in 'DropDown' entities when using color instructions.
 
 ## Credits
 

@@ -213,7 +213,15 @@ namespace GeonBit.UI.Entities
         /// <summary>Get / Set the paragraph text.</summary>
         public override string Text
         {
-            get { return _text; }
+            get 
+            { 
+                if (_needUpdateStyleInstructions || IsDirty)
+                {
+                    ParseStyleInstructions();
+                    UpdateDestinationRects();
+                }
+                return _text; 
+            }
             set
             {
                 if (_text != value)
