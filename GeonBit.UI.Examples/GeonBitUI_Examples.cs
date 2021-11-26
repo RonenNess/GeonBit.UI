@@ -280,6 +280,7 @@ namespace GeonBit.UI.Examples
                 {
                     // create panel and add to list of panels and manager
                     Panel panel = new Panel(new Vector2(520, -1));
+                    panel.Draggable = true;
                     panels.Add(panel);
                     UserInterface.Active.AddEntity(panel);
 

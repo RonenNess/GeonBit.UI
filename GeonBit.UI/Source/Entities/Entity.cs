@@ -1861,9 +1861,9 @@ namespace GeonBit.UI.Entities
             if (_draggable)
             {
                 // if need to init dragged offset, set it
-                // this trick is used so if an object is draggable, we first evaluate its position based on anchor etc, and we use that
+                // this trick is used so if an object is draggable, we first evaluate its position based on anchor, and we use that
                 // position as starting point for the dragging
-                if (_needToSetDragOffset)
+                if (_needToSetDragOffset && (parentDest.Width > 0) && (parentDest.Height > 0) && (ret.Height > 1))
                 {
                     _dragOffset.X = ret.X - parent_left;
                     _dragOffset.Y = ret.Y - parent_top;
