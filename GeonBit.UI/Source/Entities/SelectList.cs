@@ -588,6 +588,30 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Change the value of this entity, where there's value to change.
+        /// </summary>
+        /// <param name="newValue">New value to set.</param>
+        /// <param name="emitEvent">If true and value changed, will emit 'ValueChanged' event.</param>
+        override public void ChangeValue(object newValue, bool emitEvent)
+        {
+            var strValue = (string)newValue;
+            if (_value != strValue)
+            {
+                _value = strValue;
+                if (emitEvent) { DoOnValueChange(); }
+            }
+        }
+
+        /// <summary>
+        /// Get the value of this entity, where there's value.
+        /// </summary>
+        /// <returns>Value as object.</returns>
+        override public object GetValue()
+        {
+            return _value;
+        }
+
+        /// <summary>
         /// Select list item by index.
         /// </summary>
         /// <param name="index">Item index to select.</param>

@@ -175,8 +175,36 @@ namespace GeonBit.UI.Entities
             {
                 int prevVal = _value;
                 _value = NormalizeValue(value);
-                if (prevVal != _value) { DoOnValueChange(); }
+                if (prevVal != _value) 
+                { 
+                    DoOnValueChange(); 
+                }
             }
+        }
+
+
+        /// <summary>
+        /// Change the value of this entity, where there's value to change.
+        /// </summary>
+        /// <param name="newValue">New value to set.</param>
+        /// <param name="emitEvent">If true and value changed, will emit 'ValueChanged' event.</param>
+        override public void ChangeValue(object newValue, bool emitEvent)
+        {
+            var intValue = (int)newValue;
+            if (_value != intValue)
+            {
+                _value = intValue;
+                if (emitEvent) { DoOnValueChange(); }
+            }
+        }
+
+        /// <summary>
+        /// Get the value of this entity, where there's value.
+        /// </summary>
+        /// <returns>Value as object.</returns>
+        override public object GetValue()
+        {
+            return _value;
         }
 
         /// <summary>

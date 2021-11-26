@@ -2170,6 +2170,24 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Change the value of this entity, where there's value to change.
+        /// </summary>
+        /// <param name="newValue">New value to set.</param>
+        /// <param name="emitEvent">If true and value changed, will emit 'ValueChanged' event.</param>
+        virtual public void ChangeValue(object newValue, bool emitEvent)
+        {
+        }
+
+        /// <summary>
+        /// Get the value of this entity, where there's value.
+        /// </summary>
+        /// <returns>Value as object.</returns>
+        virtual public object GetValue()
+        {
+            return null;
+        }
+
+        /// <summary>
         /// Test if a given point is inside entity's boundaries.
         /// </summary>
         /// <remarks>This function result is affected by the 'UseActualSizeForCollision' flag.</remarks>

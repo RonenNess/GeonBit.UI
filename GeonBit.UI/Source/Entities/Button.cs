@@ -171,12 +171,47 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Change the value of this entity, where there's value to change.
+        /// </summary>
+        /// <param name="newValue">New value to set.</param>
+        /// <param name="emitEvent">If true and value changed, will emit 'ValueChanged' event.</param>
+        override public void ChangeValue(object newValue, bool emitEvent)
+        {
+            var boolValue = (bool)newValue;
+            if (_checked != boolValue)
+            {
+                _checked = boolValue;
+                if (emitEvent) { DoOnValueChange(); }    
+            }
+        }
+
+        /// <summary>
+        /// Get the value of this entity, where there's value.
+        /// </summary>
+        /// <returns>Value as object.</returns>
+        override public object GetValue()
+        {
+            return _checked;
+        }
+
+        /// <summary>
         /// When button is in Toggle mode, this is the current value (it button checked or not).
         /// </summary>
         public bool Checked
         {
-            get { return _checked == true; }
-            set { _checked = value; DoOnValueChange(); }
+            get 
+            { 
+                return _checked == true; 
+            }
+
+            set
+            {
+                if (_checked != value)
+                {
+                    _checked = value; 
+                    DoOnValueChange();
+                }
+            }
         }
 
         /// <summary>

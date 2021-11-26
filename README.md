@@ -2092,6 +2092,15 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Fixed bug with 'RichParagraph' showing wrong text in 'DropDown' entities when using color instructions.
 - Renamed 'PanelSkin.Golden' to 'PanelSkin.Alternative' so it will be more general and not specific to the original theme.
 
+### 4.1.0.1
+
+- Fixed 'ChangeItem(index, value)' for dropdown entities - accidentally used the by-value override internally before, which change all when have duplicate items.
+- Added 'ChangeValue()' method to all entities.
+- Added 'GetValue()' method to all entities.
+- Changed Button 'Value Changed' event to only emit if value actually changed.
+- Changed CheckBox 'Value Changed' event to only emit if value actually changed.
+- Fixed TextInput 'Value Changed' event to trigger when changing value externally.
+
 ## Credits
 
 GeonBit.UI was written by Ronen Ness, but uses some free textures made by awesome people who share their work for free.

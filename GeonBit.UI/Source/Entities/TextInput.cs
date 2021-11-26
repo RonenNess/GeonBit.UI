@@ -250,13 +250,46 @@ namespace GeonBit.UI.Entities
         /// </summary>
         public string Value
         {
-            get { return _value; }
+            get 
+            { 
+                return _value; 
+            }
+
             set
             {
                 value = value ?? string.Empty;
-                _value = _multiLine ? value : value.Replace("\n", string.Empty);
-                FixCaretPosition();
+                var newValue = _multiLine ? value : value.Replace("\n", string.Empty);
+                if (_value != newValue)
+                {
+                    _value = newValue;
+                    FixCaretPosition();
+                    DoOnValueChange();
+                }
             }
+        }
+
+        /// <summary>
+        /// Change the value of this entity, where there's value to change.
+        /// </summary>
+        /// <param name="newValue">New value to set.</param>
+        /// <param name="emitEvent">If true and value changed, will emit 'ValueChanged' event.</param>
+        override public void ChangeValue(object newValue, bool emitEvent)
+        {
+            var stringValue = (string)newValue;
+            if (_value != stringValue)
+            {
+                _value = stringValue;
+                if (emitEvent) { DoOnValueChange(); }
+            }
+        }
+
+        /// <summary>
+        /// Get the value of this entity, where there's value.
+        /// </summary>
+        /// <returns>Value as object.</returns>
+        override public object GetValue()
+        {
+            return _value;
         }
 
         /// <summary>
