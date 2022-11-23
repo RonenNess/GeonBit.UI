@@ -1,12 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <PackageLicenseFile>C:\Projects\GeonBit.UI\LICENSE</PackageLicenseFile>
+    <TargetFramework>net6.0</TargetFramework>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <DocumentationFile>bin\GeonBit.UI.xml</DocumentationFile>
     <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageId>GeonBit.UI</PackageId>
+    <Title>MonoGame GeonBit.UI</Title>
+    <Version>4.2.0.1</Version>
+    <Authors>Ronen Ness</Authors>
+    <Description>GeonBit.UI UI / HUD extension for MonoGame, released with the MIT license.
+It provide all the basic elements required to make a game / editor UI, and comes with few built-in UI skins compatible for commerical projects.</Description>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>monogame ui gui hud user-interface gamedev</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>nuget_icon.png</PackageIcon>
+    <RepositoryUrl>https://github.com/RonenNess/GeonBit.UI</RepositoryUrl>
+    <PackageOutputPath>$(SolutionDir)</PackageOutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -30,11 +43,26 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.1641" />
+    <None Include="..\assets\img\nuget_icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="Libs\DataTypes\GeonBit.UI.DataTypes.csproj" />
+    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303">
+    <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="Libs\DataTypes\GeonBit.UI.DataTypes.csproj">
+      <PrivateAssets>all</PrivateAssets>
+    </ProjectReference>
+  </ItemGroup>
+  
 </Project>
