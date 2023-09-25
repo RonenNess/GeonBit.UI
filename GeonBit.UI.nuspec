@@ -2,30 +2,30 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
 	<id>GeonBit.UI</id>
-	<version>4.1.0.1</version>
+	<version>4.2.0.0</version>
 	<authors>Ronen Ness</authors>
 	<owners>RonenNess</owners>
 	<title>MonoGame GeonBit.UI</title>
-	<summary>GeonBit.UI UI / HUD extension for MonoGame, released with the MIT license.
+	<summary>GeonBit.UI is a UI / HUD extension for MonoGame, with MIT license.
 It provide all the basic elements required to make a game / editor UI, and comes with few built-in UI skins compatible for commerical projects.</summary>
 	<licenseUrl>https://en.wikipedia.org/wiki/MIT_License</licenseUrl>
 	<projectUrl>https://github.com/RonenNess/GeonBit.UI</projectUrl>
 	<iconUrl>https://raw.githubusercontent.com/RonenNess/GeonBit.UI/master/assets/img/nuget_icon.png</iconUrl>
 	<requireLicenseAcceptance>false</requireLicenseAcceptance>
-	<releaseNotes>Misc improvements and bug fixes.</releaseNotes>
+	<releaseNotes>Upgraded to .net6 and updated MonoGame version to latest stable.</releaseNotes>
 	<description>UI system for MonoGame projects.</description>
 	<tags>monogame ui gui hud user-interface gamedev</tags>
 	<dependencies>
-        <group targetFramework=".NETCoreApp3.1" />
+        <group targetFramework=".net6.0" />
 	</dependencies>
   </metadata>
   <files>
 	<file src="readme.txt" target="" />
-	<file src="GeonBit.UI\bin\Release\netcoreapp3.1\GeonBit.UI.DataTypes.dll" target="lib\netcoreapp3.1\GeonBit.UI.DataTypes.dll"/>
-	<file src="GeonBit.UI\bin\Release\netcoreapp3.1\GeonBit.UI.dll" target="lib\netcoreapp3.1\GeonBit.UI.dll"/>
-    <file src="GeonBit.UI\bin\Release\netcoreapp3.1\GeonBit.UI.DataTypes.dll" target="lib\netcoreapp3.1-windows\GeonBit.UI.DataTypes.dll"/>
-	<file src="GeonBit.UI\bin\Release\netcoreapp3.1\GeonBit.UI.dll" target="lib\netcoreapp3.1-windows\GeonBit.UI.dll"/>
+	<file src="GeonBit.UI\bin\Release\net6.0\GeonBit.UI.DataTypes.dll" target="lib\net6.0\GeonBit.UI.DataTypes.dll"/>
+	<file src="GeonBit.UI\bin\Release\net6.0\GeonBit.UI.dll" target="lib\net6.0\GeonBit.UI.dll"/>
+    <file src="GeonBit.UI\bin\Release\net6.0\GeonBit.UI.DataTypes.dll" target="lib\net6.0-windows\GeonBit.UI.DataTypes.dll"/>
+	<file src="GeonBit.UI\bin\Release\net6.0\GeonBit.UI.dll" target="lib\net6.0-windows\GeonBit.UI.dll"/>
 	<file src="Help\Documentation.chm" target="Documentation.chm"/>
-	<file src="GeonBit.UI.Examples\Content\GeonBit.UI\**\*.*" target="content\Content\GeonBit.UI" /> 
+	<file src="GeonBit.UI\Content\GeonBit.UI\**\*.*" target="content\Content\GeonBit.UI" /> 
   </files>
 </package>
