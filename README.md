@@ -75,26 +75,6 @@ Will create the following UI panel at the center of the screen:
 
 ![UI example1](assets/img/example1.png "example1")
 
-## Caveats
-
-Before choosing GeonBit.UI, here are few caveats you should know about:
-
-#### Only tested on windows
-
-GeonBit.UI was developed and tested on 3 different machines, with windows 8 and 10.
-Theoretically It should work on any platform supported by MonoGame, but it might require some tweaks for some devices.
-
-#### Text Input is pretty basic.
-
-The text input widget is pretty basic and don't support advance text editing and things like copy & paste, selection, etc.
-So if your project require extensive text editing you might need to do some work on the text input widget.
-
-#### Rely on mouse / touch input
-
-GeonBit.UI is built to work with mouse / touch screens. It is currently not designed for keyboard-only / joystick input (e.g. it doesn't support tab navigating etc.)
-
-Note: supporting touch input requires some implementation from your side. More about this in 'Input Providers'.
-
 ## Git structure
 
 ![repo folders](assets/img/geonbit_folders.png "repo folders")
@@ -130,13 +110,14 @@ Install-Package GeonBit.UI
 
 Now there are two things to update in the Content Manager:
 
-1. Add a ```Reference``` to the GeonBit.UI.DataTypes.dll lib, located in the nuget package folder.
-2. During installation, GeonBit.UI placed a folder in ```GeonBit.UI.Examples\Content\GeonBit.UI```. Add this whole folder, as-is, to your content manager (when asked if to copy or link files, choose link, since the folder is already in its right place).
+1. Add a Content Manager ```Reference``` to the GeonBit.UI.DataTypes.dll lib, located in the *GeonBit.UI NuGet package folder* under ```lib\net6.0```.
+2. Copy the built-in themes from the GeonBit.UI content folder, located in the *GeonBit.UI NuGet package folder* under ```\content\Content```. If you don't use the built-in themes, you can remove them and use your own instead.
+
+The **GeonBit.UI NuGet package folder** is usually under the following path: ```%userprofile%\.nuget\packages\geonbit.ui\```, be sure to pick the correct version if you have multiple versions installed.
 
 That's it! Just few things to remember:
 
-- If you don't have the default themes fonts installed, you need to install the fonts from ```GeonBit.UI.Examples/Content/Fonts/```.
-- If you want to edit the default themes (textures, styles, etc), its recommended to *copy* the theme to a new folder and never change the original package files, since they will be overridden next time you update GeonBit.UI via NuGet.
+- If you don't have the default themes fonts installed, you need to install the fonts from ```Content/Fonts/```.
 - If your development environment is on Linux, there are few more steps to follow: [Installing on Linux](#extra-steps-for-linux).
 
 
