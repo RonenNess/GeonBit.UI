@@ -168,7 +168,7 @@ namespace GeonBit.UI.Entities
                 _selectedTextPanel.Identifier = "_selectedTextPanel";
 
                 // create the arrow down icon
-                _arrowDownImage = new Image(Resources.ArrowDown, new Vector2(ArrowSize, ArrowSize), ImageDrawMode.Stretch, Anchor.CenterRight, new Vector2(-10, 0));
+                _arrowDownImage = new Image(Resources.Instance.ArrowDown, new Vector2(ArrowSize, ArrowSize), ImageDrawMode.Stretch, Anchor.CenterRight, new Vector2(-10, 0));
                 _selectedTextPanel.AddChild(_arrowDownImage, true);
                 _arrowDownImage._hiddenInternalEntity = true;
                 _arrowDownImage.Identifier = "_arrowDownImage";
@@ -391,7 +391,7 @@ namespace GeonBit.UI.Entities
                 return;
 
             // update arrow image
-            _arrowDownImage.Texture = ListVisible ? Resources.ArrowUp : Resources.ArrowDown;
+            _arrowDownImage.Texture = ListVisible ? Resources.Instance.ArrowUp : Resources.Instance.ArrowDown;
 
             // focus on selectlist
             _selectList.IsFocused = true;

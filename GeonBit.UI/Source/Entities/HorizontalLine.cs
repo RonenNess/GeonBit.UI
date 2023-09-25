@@ -49,7 +49,7 @@ namespace GeonBit.UI.Entities
             UpdateStyle(DefaultStyle);
 
             // get line texture and set default height
-            Texture2D texture = Resources.HorizontalLineTexture;
+            Texture2D texture = Resources.Instance.HorizontalLineTexture;
             _size.Y = texture.Height * 1.75f;
         }
 
@@ -68,7 +68,7 @@ namespace GeonBit.UI.Entities
         override protected void DrawEntity(SpriteBatch spriteBatch, DrawPhase phase)
         {
             // get line texture
-            Texture2D texture = Resources.HorizontalLineTexture;
+            Texture2D texture = Resources.Instance.HorizontalLineTexture;
 
             // draw panel
             UserInterface.Active.DrawUtils.DrawSurface(spriteBatch, texture, _destRect, FRAME_WIDTH, 1, FillColor);

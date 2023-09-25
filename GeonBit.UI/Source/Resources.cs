@@ -43,18 +43,18 @@ namespace GeonBit.UI
                 int indx = GetIndex(i);
                 if (_loadedTextures[indx] == null)
                 {
-                    var path = $"{Resources._root}{_basepath}{EnumToString(i)}{_suffix}";
+                    var path = $"{Resources.Instance._root}{_basepath}{EnumToString(i)}{_suffix}";
                     try
                     {
-                        _loadedTextures[indx] = Resources._content.Load<Texture2D>(path);
+                        _loadedTextures[indx] = Resources.Instance._content.Load<Texture2D>(path);
                     }
-                    catch (Microsoft.Xna.Framework.Content.ContentLoadException)
+                    catch (ContentLoadException)
                     {
                         // for backward compatibility when alternative was called 'golden'
                         if (i.ToString() == PanelSkin.Alternative.ToString())
                         {
-                            path = $"{Resources._root}{_basepath}golden{_suffix}";
-                            _loadedTextures[indx] = Resources._content.Load<Texture2D>(path);
+                            path = $"{Resources.Instance._root}{_basepath}golden{_suffix}";
+                            _loadedTextures[indx] = Resources.Instance._content.Load<Texture2D>(path);
                         }
                         else
                         {
@@ -88,8 +88,8 @@ namespace GeonBit.UI
                 int indx = GetIndex(i, s);
                 if (_loadedTextures[indx] == null)
                 {
-                    var path = Resources._root + _basepath + EnumToString(i) + _suffix + StateEnumToString(s);
-                    _loadedTextures[indx] = Resources._content.Load<Texture2D>(path);
+                    var path = Resources.Instance._root + _basepath + EnumToString(i) + _suffix + StateEnumToString(s);
+                    _loadedTextures[indx] = Resources.Instance._content.Load<Texture2D>(path);
                 }
                 return _loadedTextures[indx];
             }
@@ -156,9 +156,6 @@ namespace GeonBit.UI
         // suffix to add to the end of texture path
         string _suffix;
 
-        // do we use states like down / hover / default for these textures?
-        bool _usesStates;
-
         // textures types count
         int _typesCount;
 
@@ -172,111 +169,122 @@ namespace GeonBit.UI
         {
             _basepath = path;
             _suffix = suffix ?? string.Empty;
-            _usesStates = usesStates;
             _typesCount = Enum.GetValues(typeof(TEnum)).Length;
             _loadedTextures = new Texture2D[usesStates ? _typesCount * 3 : _typesCount];
         }
     }
 
     /// <summary>
-    /// A static class to init and store all UI resources (textures, effects, fonts, etc.)
+    /// A class to init and store all UI resources (textures, effects, fonts, etc.)
     /// </summary>
-    public static class Resources
+    public class Resources
     {
+        /// <summary>
+        /// Resources singleton instance.
+        /// </summary>
+        public static Resources Instance { get; private set; }
+
+        /// <summary>
+        /// Reset resources manager.
+        /// </summary>
+        public static void Reset()
+        {
+            Instance = new Resources();
+        }
 
         /// <summary>Lookup for char > string conversion</summary>
-        private static Dictionary<char, string> charStringDict = new Dictionary<char, string>();
+        private Dictionary<char, string> charStringDict = new Dictionary<char, string>();
 
         /// <summary>Just a plain white texture, used internally.</summary>
-        public static Texture2D WhiteTexture;
+        public Texture2D WhiteTexture;
 
         /// <summary>Cursor textures.</summary>
-        public static TexturesGetter<CursorType> Cursors = new TexturesGetter<CursorType>("textures/cursor_");
+        public TexturesGetter<CursorType> Cursors = new TexturesGetter<CursorType>("textures/cursor_");
 
         /// <summary>Metadata about cursor textures.</summary>
-        public static CursorTextureData[] CursorsData;
+        public CursorTextureData[] CursorsData;
 
         /// <summary>All panel skin textures.</summary>
-        public static TexturesGetter<PanelSkin> PanelTextures = new TexturesGetter<PanelSkin>("textures/panel_");
+        public TexturesGetter<PanelSkin> PanelTextures = new TexturesGetter<PanelSkin>("textures/panel_");
 
         /// <summary>Metadata about panel textures.</summary>
-        public static TextureData[] PanelData;
+        public TextureData[] PanelData;
 
         /// <summary>Button textures (accessed as [skin, state]).</summary>
-        public static TexturesGetter<ButtonSkin> ButtonTextures = new TexturesGetter<ButtonSkin>("textures/button_");
+        public TexturesGetter<ButtonSkin> ButtonTextures = new TexturesGetter<ButtonSkin>("textures/button_");
 
         /// <summary>Metadata about button textures.</summary>
-        public static TextureData[] ButtonData;
+        public TextureData[] ButtonData;
 
         /// <summary>CheckBox textures.</summary>
-        public static TexturesGetter<EntityState> CheckBoxTextures = new TexturesGetter<EntityState>("textures/checkbox");
+        public TexturesGetter<EntityState> CheckBoxTextures = new TexturesGetter<EntityState>("textures/checkbox");
 
         /// <summary>Radio button textures.</summary>
-        public static TexturesGetter<EntityState> RadioTextures = new TexturesGetter<EntityState>("textures/radio");
+        public TexturesGetter<EntityState> RadioTextures = new TexturesGetter<EntityState>("textures/radio");
 
         /// <summary>ProgressBar texture.</summary>
-        public static Texture2D ProgressBarTexture;
+        public Texture2D ProgressBarTexture;
 
         /// <summary>Metadata about progressbar texture.</summary>
-        public static TextureData ProgressBarData;
+        public TextureData ProgressBarData;
 
         /// <summary>ProgressBar fill texture.</summary>
-        public static Texture2D ProgressBarFillTexture;
+        public Texture2D ProgressBarFillTexture;
 
         /// <summary>HorizontalLine texture.</summary>
-        public static Texture2D HorizontalLineTexture;
+        public Texture2D HorizontalLineTexture;
 
         /// <summary>Sliders base textures.</summary>
-        public static TexturesGetter<SliderSkin> SliderTextures = new TexturesGetter<SliderSkin>("textures/slider_");
+        public TexturesGetter<SliderSkin> SliderTextures = new TexturesGetter<SliderSkin>("textures/slider_");
 
         /// <summary>Sliders mark textures (the sliding piece that shows current value).</summary>
-        public static TexturesGetter<SliderSkin> SliderMarkTextures = new TexturesGetter<SliderSkin>("textures/slider_", "_mark");
+        public TexturesGetter<SliderSkin> SliderMarkTextures = new TexturesGetter<SliderSkin>("textures/slider_", "_mark");
 
         /// <summary>Metadata about slider textures.</summary>
-        public static TextureData[] SliderData;
+        public TextureData[] SliderData;
 
         /// <summary>All icon textures.</summary>
-        public static TexturesGetter<IconType> IconTextures = new TexturesGetter<IconType>("textures/icons/");
+        public TexturesGetter<IconType> IconTextures = new TexturesGetter<IconType>("textures/icons/");
 
         /// <summary>Icons inventory background texture.</summary>
-        public static Texture2D IconBackgroundTexture;
+        public Texture2D IconBackgroundTexture;
 
         /// <summary>Vertical scrollbar base texture.</summary>
-        public static Texture2D VerticalScrollbarTexture;
+        public Texture2D VerticalScrollbarTexture;
 
         /// <summary>Vertical scrollbar mark texture.</summary>
-        public static Texture2D VerticalScrollbarMarkTexture;
+        public Texture2D VerticalScrollbarMarkTexture;
 
         /// <summary>Metadata about scrollbar texture.</summary>
-        public static TextureData VerticalScrollbarData;
+        public TextureData VerticalScrollbarData;
 
         /// <summary>Arrow-down texture (used in dropdown).</summary>
-        public static Texture2D ArrowDown;
+        public Texture2D ArrowDown;
 
         /// <summary>Arrow-up texture (used in dropdown).</summary>
-        public static Texture2D ArrowUp;
+        public Texture2D ArrowUp;
 
         /// <summary>Default font types.</summary>
-        public static SpriteFont[] Fonts;
+        public SpriteFont[] Fonts;
 
         /// <summary>Effect for disabled entities (greyscale).</summary>
-        public static Effect DisabledEffect;
+        public Effect DisabledEffect;
 
         /// <summary>An effect to draw just a silhouette of the texture.</summary>
-        public static Effect SilhouetteEffect;
+        public Effect SilhouetteEffect;
 
         /// <summary>Store the content manager instance</summary>
-        internal static ContentManager _content;
+        internal ContentManager _content;
 
         /// <summary>Root for geonbit.ui content</summary>
-        internal static string _root;
+        internal string _root;
 
         /// <summary>
         /// Load all GeonBit.UI resources.
         /// </summary>
         /// <param name="content">Content manager to use.</param>
         /// <param name="theme">Which theme to load resources from.</param>
-        static public void LoadContent(ContentManager content, string theme = "default")
+        public void LoadContent(ContentManager content, string theme = "default")
         {
             InitialiseCharStringDict();
 
@@ -284,7 +292,7 @@ namespace GeonBit.UI
             _root = "GeonBit.UI/themes/" + theme + "/";
             _content = content;
 
-            // set Texture2D static fields
+            // set Texture2D fields
             HorizontalLineTexture = _content.Load<Texture2D>(_root + "textures/horizontal_line");
             WhiteTexture = _content.Load<Texture2D>(_root + "textures/white_texture");
             IconBackgroundTexture = _content.Load<Texture2D>(_root + "textures/icons/background");
@@ -319,7 +327,7 @@ namespace GeonBit.UI
                 {
                     PanelData[(int)skin] = content.Load<TextureData>(_root + "textures/panel_" + skinName + "_md");
                 }
-                catch (Microsoft.Xna.Framework.Content.ContentLoadException ex)
+                catch (ContentLoadException ex)
                 {
                     // for backwards compatability from when it was called 'Golden'.
                     if (skin == PanelSkin.Alternative)
@@ -349,7 +357,6 @@ namespace GeonBit.UI
             foreach (FontStyle style in Enum.GetValues(typeof(FontStyle)))
             {
                 Fonts[(int)style] = content.Load<SpriteFont>(_root + "fonts/" + style.ToString());
-                Fonts[(int)style].LineSpacing += 2;
             }
 
             // load buttons metadata
@@ -403,7 +410,7 @@ namespace GeonBit.UI
         /// <summary>
         /// Creates Dictionary containing char > string lookup
         /// </summary>
-        private static void InitialiseCharStringDict()
+        private void InitialiseCharStringDict()
         {
             charStringDict.Clear();
 
@@ -421,7 +428,7 @@ namespace GeonBit.UI
         /// </summary>
         /// <param name="c"></param>
         /// <returns></returns>
-        public static string GetStringForChar(char c)
+        public string GetStringForChar(char c)
         {
             if (!charStringDict.ContainsKey(c)) { return c.ToString(); }
             return charStringDict[c];
@@ -433,7 +440,7 @@ namespace GeonBit.UI
         /// <param name="name">XML name.</param>
         /// <param name="content">Content manager.</param>
         /// <returns>Default styles loaded from xml or xnb.</returns>
-        private static DefaultStyles LoadXmlStyles(string name, ContentManager content)
+        private DefaultStyles LoadXmlStyles(string name, ContentManager content)
         {
             // try to load xml directly from full path
             string fullPath = System.IO.Path.Combine(content.RootDirectory, name + ".xml");
@@ -464,8 +471,11 @@ namespace GeonBit.UI
         /// <param name="entityName">Entity unique identifier for file names.</param>
         /// <param name="themeRoot">Path of the current theme root directory.</param>
         /// <param name="content">Content manager to allow us to load xmls.</param>
-        private static void LoadDefaultStyles(StyleSheet sheet, string entityName, string themeRoot, ContentManager content)
+        private void LoadDefaultStyles(StyleSheet sheet, string entityName, string themeRoot, ContentManager content)
         {
+            // clear previous styles
+            sheet.Clear();
+
             // get stylesheet root path (eg everything before the state part)
             string stylesheetBase = themeRoot + "styles/" + entityName;
 
@@ -485,7 +495,7 @@ namespace GeonBit.UI
         /// <param name="sheet">StyleSheet to fill.</param>
         /// <param name="state">State to fill values for.</param>
         /// <param name="styles">Default styles, as loaded from xml file.</param>
-        private static void FillDefaultStyles(StyleSheet sheet, EntityState state, DefaultStyles styles)
+        private void FillDefaultStyles(StyleSheet sheet, EntityState state, DefaultStyles styles)
         {
             if (styles.FillColor != null) { sheet[$"{state}.FillColor"] = new StyleProperty((Color)styles.FillColor); }
             if (styles.FontStyle != null) { sheet[$"{state}.FontStyle"] = new StyleProperty((int)styles.FontStyle); }

@@ -241,10 +241,10 @@ namespace GeonBit.UI.Entities
             if (Checked) { state = EntityState.MouseDown; }
            
             // get texture based on skin and state
-            Texture2D texture = _customSkin == null ? Resources.ButtonTextures[_skin, state] : _customSkin[(int)state];
+            Texture2D texture = _customSkin == null ? Resources.Instance.ButtonTextures[_skin, state] : _customSkin[(int)state];
 
             // get frame width
-            TextureData data = Resources.ButtonData[(int)_skin];
+            TextureData data = Resources.Instance.ButtonData[(int)_skin];
             Vector2 frameSize = _customSkin == null ? new Vector2(data.FrameWidth, data.FrameHeight) : _customFrame;
 
             // draw the button background with frame

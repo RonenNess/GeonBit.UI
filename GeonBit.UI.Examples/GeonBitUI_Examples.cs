@@ -59,6 +59,9 @@ namespace GeonBit.UI.Examples
         // current example shown
         int currExample = 0;
 
+        // current theme
+        BuiltinThemes _currTheme;
+
         /// <summary>
         /// Create the game instance.
         /// </summary>
@@ -74,17 +77,7 @@ namespace GeonBit.UI.Examples
         /// Initialize the main application.
         /// </summary>
         protected override void Initialize()
-        {         
-            // create and init the UI manager
-            UserInterface.Initialize(Content, BuiltinThemes.hd);
-            UserInterface.Active.UseRenderTarget = true;
-
-            // draw cursor outside the render target
-            UserInterface.Active.IncludeCursorInRenderTarget = false;
-
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-
+        {
             // make the window fullscreen (but still with border and top control bar)
             int _ScreenWidth = graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Width;
             int _ScreenHeight = graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Height;
@@ -92,6 +85,28 @@ namespace GeonBit.UI.Examples
             graphics.PreferredBackBufferHeight = (int)_ScreenHeight;
             graphics.IsFullScreen = false;
             graphics.ApplyChanges();
+
+            // init theme and ui
+            InitializeThemeAndUI(BuiltinThemes.hd);
+        }
+
+        private void InitializeThemeAndUI(BuiltinThemes theme)
+        {
+            // clear previous panels
+            panels.Clear();
+
+            // store current theme
+            _currTheme = theme;
+
+            // create and init the UI manager
+            UserInterface.Initialize(Content, theme);
+            UserInterface.Active.UseRenderTarget = true;
+
+            // draw cursor outside the render target
+            UserInterface.Active.IncludeCursorInRenderTarget = false;
+
+            // Create a new SpriteBatch, which can be used to draw textures.
+            spriteBatch = spriteBatch ?? new SpriteBatch(GraphicsDevice);
 
             // init ui and examples
             InitExamplesAndUI();
@@ -203,7 +218,9 @@ namespace GeonBit.UI.Examples
             eventsNow.MaxItems = 4;
 
             // add extra info button
-            Button infoBtn = new Button("  Events", anchor: Anchor.BottomLeft, size: new Vector2(280, -1), offset: new Vector2(140, 0));
+            var offsetX = 140;
+            Button infoBtn = new Button("  Events", anchor: Anchor.BottomLeft, size: new Vector2(280, -1), offset: new Vector2(offsetX, 0));
+            offsetX += 280;
             infoBtn.AddChild(new Icon(IconType.Scroll, Anchor.CenterLeft), true);
             infoBtn.OnClick = (Entity entity) =>
             {
@@ -214,7 +231,8 @@ namespace GeonBit.UI.Examples
             UserInterface.Active.AddEntity(infoBtn);
 
             // add button to apply transformations
-            Button transBtn = new Button("Transform UI", anchor: Anchor.BottomLeft, size: new Vector2(320, -1), offset: new Vector2(140 + 280, 0));
+            Button transBtn = new Button("Transform UI", anchor: Anchor.BottomLeft, size: new Vector2(290, -1), offset: new Vector2(offsetX, 0));
+            offsetX += 290;
             transBtn.OnClick = (Entity entity) =>
             {
                 if (UserInterface.Active.RenderTargetTransformMatrix == null)
@@ -233,7 +251,8 @@ namespace GeonBit.UI.Examples
             UserInterface.Active.AddEntity(transBtn);
 
             // add button to enable debug mode
-            Button debugBtn = new Button("Debug Mode", anchor: Anchor.BottomLeft, size: new Vector2(300, -1), offset: new Vector2(140 + 280 + 320, 0));
+            Button debugBtn = new Button("Debug Mode", anchor: Anchor.BottomLeft, size: new Vector2(260, -1), offset: new Vector2(offsetX, 0));
+            offsetX += 260;
             debugBtn.OnClick = (Entity entity) =>
             {
                 UserInterface.Active.DebugDraw = !UserInterface.Active.DebugDraw;
@@ -241,6 +260,21 @@ namespace GeonBit.UI.Examples
             debugBtn.ToggleMode = true;
             debugBtn.ToolTipText = "Enable special debug drawing mode.";
             UserInterface.Active.AddEntity(debugBtn);
+
+            // add button to rptate theme debug mode
+            Button changeThemeBtn = new Button("Change Theme", anchor: Anchor.BottomLeft, size: new Vector2(260, -1), offset: new Vector2(offsetX, 0));
+            offsetX += 260;
+            changeThemeBtn.OnClick = (Entity entity) =>
+            {
+                int theme = (int)_currTheme + 1;
+                if (theme > (int)BuiltinThemes.editor)
+                {
+                    theme = 0;
+                }
+                InitializeThemeAndUI((BuiltinThemes)theme);
+            };
+            changeThemeBtn.ToolTipText = "Rotate through the built-in themes.";
+            UserInterface.Active.AddEntity(changeThemeBtn);
 
             // zoom in / out factor
             float zoominFactor = 0.05f;

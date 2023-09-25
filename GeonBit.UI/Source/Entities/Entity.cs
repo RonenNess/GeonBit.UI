@@ -1215,22 +1215,22 @@ namespace GeonBit.UI.Entities
 
             // first draw whole dest rect
             var destRectCol = new Color(0f, 1f, 0.25f, 0.05f);
-            spriteBatch.Draw(Resources.WhiteTexture, _destRect, destRectCol);
+            spriteBatch.Draw(Resources.Instance.WhiteTexture, _destRect, destRectCol);
 
             // now draw internal dest rect
             var internalCol = new Color(1f, 0.5f, 0f, 0.5f);
-            spriteBatch.Draw(Resources.WhiteTexture, _destRectInternal, internalCol);
+            spriteBatch.Draw(Resources.Instance.WhiteTexture, _destRectInternal, internalCol);
 
             // draw space before
             var spaceColor = new Color(0f, 0f, 0.5f, 0.5f);
             if (SpaceBefore.X > 0)
             {
-                spriteBatch.Draw(Resources.WhiteTexture,
+                spriteBatch.Draw(Resources.Instance.WhiteTexture,
                     new Rectangle((int)(_destRect.Left - _scaledSpaceBefore.X), _destRect.Y, (int)_scaledSpaceBefore.X, _destRect.Height), spaceColor);
             }
             if (SpaceBefore.Y > 0)
             {
-                spriteBatch.Draw(Resources.WhiteTexture,
+                spriteBatch.Draw(Resources.Instance.WhiteTexture,
                     new Rectangle(_destRect.X, (int)(_destRect.Top - _scaledSpaceBefore.Y), _destRect.Width, (int)_scaledSpaceBefore.Y), spaceColor);
             }
 
@@ -1238,12 +1238,12 @@ namespace GeonBit.UI.Entities
             spaceColor = new Color(0.5f, 0f, 0.5f, 0.5f);
             if (SpaceAfter.X > 0)
             {
-                spriteBatch.Draw(Resources.WhiteTexture,
+                spriteBatch.Draw(Resources.Instance.WhiteTexture,
                     new Rectangle(_destRect.Right, _destRect.Y, (int)_scaledSpaceAfter.X, _destRect.Height), spaceColor);
             }
             if (SpaceAfter.Y > 0)
             {
-                spriteBatch.Draw(Resources.WhiteTexture,
+                spriteBatch.Draw(Resources.Instance.WhiteTexture,
                     new Rectangle(_destRect.X, _destRect.Bottom, _destRect.Width, (int)_scaledSpaceAfter.Y), spaceColor);
             }
 

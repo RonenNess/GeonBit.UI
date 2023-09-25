@@ -158,7 +158,7 @@ namespace GeonBit.UI.Entities
         public IconType IconType
         {
             get { return _icon; }
-            set { Texture = Resources.IconTextures[value]; _icon = value; }
+            set { Texture = Resources.Instance.IconTextures[value]; _icon = value; }
         }
         IconType _icon;
 
@@ -232,7 +232,7 @@ namespace GeonBit.UI.Entities
                 dest.X -= BackgroundSize / 2; dest.Y -= BackgroundSize / 2; dest.Width += BackgroundSize; dest.Height += BackgroundSize;
 
                 // draw background
-                UserInterface.Active.DrawUtils.DrawImage(spriteBatch, Resources.IconBackgroundTexture, dest, backColor);
+                UserInterface.Active.DrawUtils.DrawImage(spriteBatch, Resources.Instance.IconBackgroundTexture, dest, backColor);
             }
 
             // now draw the image itself

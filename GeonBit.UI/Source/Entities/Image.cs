@@ -56,7 +56,7 @@ namespace GeonBit.UI.Entities
         public string TextureName
         {
             get { return Texture.Name; }
-            set { Texture = Resources._content.Load<Texture2D>(value); }
+            set { Texture = Resources.Instance._content.Load<Texture2D>(value); }
         }
 
         /// <summary>Default styling for images. Note: loaded from UI theme xml file.</summary>

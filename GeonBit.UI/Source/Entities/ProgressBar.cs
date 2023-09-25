@@ -66,7 +66,7 @@ namespace GeonBit.UI.Entities
             {
                 // create the fill part
                 Padding = Vector2.Zero;
-                ProgressFill = new Image(Resources.ProgressBarFillTexture, Vector2.Zero, ImageDrawMode.Stretch, Anchor.CenterLeft);
+                ProgressFill = new Image(Resources.Instance.ProgressBarFillTexture, Vector2.Zero, ImageDrawMode.Stretch, Anchor.CenterLeft);
                 ProgressFill.UpdateStyle(DefaultFillStyle);
                 ProgressFill._hiddenInternalEntity = true;
                 ProgressFill.Identifier = "_progress_fill";
@@ -119,10 +119,10 @@ namespace GeonBit.UI.Entities
         override protected void DrawEntity(SpriteBatch spriteBatch, DrawPhase phase)
         {
             // get progressbar frame width
-            float progressbarFrameWidth = Resources.ProgressBarData.FrameWidth;
+            float progressbarFrameWidth = Resources.Instance.ProgressBarData.FrameWidth;
 
             // draw progress bar frame
-            Texture2D barTexture = Resources.ProgressBarTexture;
+            Texture2D barTexture = Resources.Instance.ProgressBarTexture;
             UserInterface.Active.DrawUtils.DrawSurface(spriteBatch, barTexture, _destRect, new Vector2(progressbarFrameWidth, 0f), 1, FillColor);
 
             // calc frame actual height and scaling factor (this is needed to calc frame width in pixels)

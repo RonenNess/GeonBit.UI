@@ -159,7 +159,7 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>Base font size. Change this property to affect the size of all paragraphs and other text entities.</summary>
-        public static float BaseSize = 1f;
+        public static float BaseSize { get; set; } = 1f;
 
         /// <summary>
         /// Create the paragraph.
@@ -174,7 +174,9 @@ namespace GeonBit.UI.Entities
         {
             Text = text;
             UpdateStyle(DefaultStyle);
-            if (scale != null) { SetStyleProperty(StylePropertyIds.Scale, new StyleProperty((float)scale)); }
+            if (scale.HasValue) { 
+                SetStyleProperty(StylePropertyIds.Scale, new StyleProperty((float)scale)); 
+            }
             UpdateFontPropertiesIfNeeded();
         }
 
@@ -191,7 +193,9 @@ namespace GeonBit.UI.Entities
             this(text, anchor, size, offset)
         {
             SetStyleProperty(StylePropertyIds.FillColor, new StyleProperty(color));
-            if (scale != null) { SetStyleProperty(StylePropertyIds.Scale, new StyleProperty((float)scale)); }
+            if (scale.HasValue) { 
+                SetStyleProperty(StylePropertyIds.Scale, new StyleProperty((float)scale)); 
+            }
             UpdateFontPropertiesIfNeeded();
         }
 
@@ -217,7 +221,6 @@ namespace GeonBit.UI.Entities
         /// <returns>Actual size, in pixels, of a single character.</returns>
         public Vector2 GetCharacterActualSize()
         {
-            SpriteFont font = GetCurrFont();
             float scale = Scale * BaseSize * GlobalScale;
             return SingleCharacterSize * scale;
         }
@@ -332,9 +335,6 @@ namespace GeonBit.UI.Entities
                 }
             }
 
-            // remove the extra space that was appended to the end during the process and return wrapped text.
-            //ret = ret.Remove(ret.Length - 1, 1);
-
             // special case - if last word was just the size of the line, it will add a useless trailing \n and create double line breaks.
             // remove that extra line break.
             if (ret.Length > 0 && ret[ret.Length - 1] == '\n')
@@ -381,7 +381,7 @@ namespace GeonBit.UI.Entities
         /// <returns>Current font.</returns>
         protected SpriteFont GetCurrFont()
         {
-            return FontOverride ?? Resources.Fonts[(int)TextStyle];
+            return FontOverride ?? Resources.Instance.Fonts[(int)TextStyle];
         }
 
         /// <summary>
@@ -569,7 +569,7 @@ namespace GeonBit.UI.Entities
                 rect.Size += padding + padding;
 
                 // draw background color
-                spriteBatch.Draw(Resources.WhiteTexture, rect, backColor);
+                spriteBatch.Draw(Resources.Instance.WhiteTexture, rect, backColor);
             }
 
             // draw outilnes

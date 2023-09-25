@@ -346,7 +346,8 @@ namespace GeonBit.UI
             _content = contentManager;
 
             // init resources (textures etc)
-            Resources.LoadContent(_content, theme);
+            Resources.Reset();
+            Resources.Instance.LoadContent(_content, theme);
 
             // create a default active user interface
             Active = new UserInterface();
@@ -447,8 +448,8 @@ namespace GeonBit.UI
         /// <param name="type">What type of cursor to show.</param>
         public void SetCursor(CursorType type)
         {
-            DataTypes.CursorTextureData data = Resources.CursorsData[(int)type];
-            SetCursor(Resources.Cursors[type], data.DrawWidth, new Point(data.OffsetX, data.OffsetY));
+            DataTypes.CursorTextureData data = Resources.Instance.CursorsData[(int)type];
+            SetCursor(Resources.Instance.Cursors[type], data.DrawWidth, new Point(data.OffsetX, data.OffsetY));
         }
 
         /// <summary>

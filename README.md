@@ -2102,6 +2102,15 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Fixed TextInput 'Value Changed' event to trigger when changing value externally.
 - Fixed offset for draggable panels that are not aligned top-left and visible in first update frame (used to have bug that changed their position to top left).
 
+### 4.2.0.0
+
+- Updated project to .Net 6.
+- Updated MonoGame packages to latest.
+- Changed 'Resources' class from static to a singleton.
+- Added support in theme switching (requires re-initialize of UI thought).
+- Changed projects structure to make more sense.
+- Removed hard-coded extra line spacing to all fonts - an old, bad practice, relic.
+
 ## Credits
 
 GeonBit.UI was written by Ronen Ness, but uses some free textures made by awesome people who share their work for free.

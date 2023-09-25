@@ -157,7 +157,7 @@ namespace GeonBit.UI.Entities
         {
             EntityState state = _entityState;
             if (state != EntityState.MouseDown && Checked) { state = EntityState.MouseDown; }
-            return Resources.CheckBoxTextures[state];
+            return Resources.Instance.CheckBoxTextures[state];
         }
 
         /// <summary>
