@@ -7,10 +7,8 @@
 // Since: 2016.
 //-----------------------------------------------------------------------------
 #endregion
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using GeonBit.UI.DataTypes;
 
 namespace GeonBit.UI.Entities
 {
@@ -71,7 +69,7 @@ namespace GeonBit.UI.Entities
         /// <param name="texture">Image texture.</param>
         /// <param name="size">Image size.</param>
         /// <param name="drawMode">How to draw the image (see ImageDrawMode for more info).</param>
-        /// <param name="anchor">Poisition anchor.</param>
+        /// <param name="anchor">Position anchor.</param>
         /// <param name="offset">Offset from anchor position.</param>
         public Image(Texture2D texture, Vector2? size = null, ImageDrawMode drawMode = ImageDrawMode.Stretch, Anchor anchor = Anchor.Auto, Vector2? offset = null) :
             base(size, anchor, offset)
@@ -85,9 +83,22 @@ namespace GeonBit.UI.Entities
         }
 
         /// <summary>
+        /// Create image from texture path.
+        /// </summary>
+        /// <param name="texture">Texture path, under active theme folder.</param>
+        /// <param name="size">Image size.</param>
+        /// <param name="drawMode">How to draw the image (see ImageDrawMode for more info).</param>
+        /// <param name="anchor">Position anchor.</param>
+        /// <param name="offset">Offset from anchor position.</param>
+        public Image(string texture, Vector2? size = null, ImageDrawMode drawMode = ImageDrawMode.Stretch, Anchor anchor = Anchor.Auto, Vector2? offset = null) :
+            this(Resources.Instance.LoadTexture(texture), size, drawMode, anchor, offset)
+        {
+        }
+
+        /// <summary>
         /// Create image without texture.
         /// </summary>
-        public Image() : this(null)
+        public Image() : this((Texture2D)null)
         {
         }
 

@@ -276,3 +276,4 @@ __pycache__/
 # Cake - Uncomment if you are using it
 # tools/
 nuget.exe
+GeonBit.UI/Content/GeonBit.UI.DataTypes.dll

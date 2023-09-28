@@ -529,7 +529,7 @@ namespace GeonBit.UI.Entities
         /// Create the entity.
         /// </summary>
         /// <param name="size">Entity size, in pixels.</param>
-        /// <param name="anchor">Poisition anchor.</param>
+        /// <param name="anchor">Position anchor.</param>
         /// <param name="offset">Offset from anchor position.</param>
         public Entity(Vector2? size = null, Anchor anchor = Anchor.Auto, Vector2? offset = null)
         {

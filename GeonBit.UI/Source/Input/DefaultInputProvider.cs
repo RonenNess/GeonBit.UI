@@ -471,7 +471,7 @@ namespace GeonBit.UI
         }
 
         /// <summary>
-        /// Get current mouse poisition.
+        /// Get current mouse Position.
         /// </summary>
         public Vector2 MousePosition
         {

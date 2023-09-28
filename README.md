@@ -2098,6 +2098,8 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - - In addition, renamed 'DropDown.SelectedPanelHeight' to 'DropDown.DefaultSelectedTextPanelHeight', and this property will only be used if 'DropDownSelectedPanel' stylesheet is missing, or define default height to 1 or 0. 
 - Removed compile warnings by adding defaults and `= null!`.
 - Changed Slider and Progress bar Min and Max properties to support negative numbers. Now sliders can go negative!
+- Fixed typos.
+- Added option to create Image from path.
 
 ## Credits
 

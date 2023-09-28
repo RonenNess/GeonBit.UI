@@ -499,6 +499,16 @@ namespace GeonBit.UI
         }
 
         /// <summary>
+        /// Load texture from path.
+        /// </summary>
+        /// <param name="path">Texture path, under theme folder.</param>
+        /// <returns>Texture instance.</returns>
+        public Texture2D LoadTexture(string path)
+        {
+            return _content.Load<Texture2D>(System.IO.Path.Combine(_root, path));
+        }
+
+        /// <summary>
         /// Fill a set of default styles into a given stylesheet.
         /// </summary>
         /// <param name="sheet">StyleSheet to fill.</param>

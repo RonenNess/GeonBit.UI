@@ -42,7 +42,7 @@ namespace GeonBit.UI
         void Update(GameTime gameTime);
 
         /// <summary>
-        /// Get current mouse poisition.
+        /// Get current mouse Position.
         /// </summary>
         Vector2 MousePosition { get; }
 
