@@ -289,10 +289,35 @@ namespace GeonBit.UI.Utils
             internalPanel.AddChild(filesList);
 
             // create starting files list
-            foreach (var file in Directory.GetFiles(currPath))
+            void UpdateFilesList()
             {
-                filesList.AddItem(Path.GetFileName(file));
+                // clear previous list
+                filesList.ClearItems();
+
+                // add folders
+                if (options.HasFlag(FileDialogOptions.AllowEnterFolders))
+                {
+                    foreach (var dir in Directory.GetDirectories(currPath))
+                    {
+                        if (filterFolders == null || filterFolders(dir))
+                        {
+                            filesList.AddItem(Path.GetFileName(dir));
+                            filesList.SetIcon("textures/folder_icon", filesList.Count - 1);
+                        }
+                    }
+                }
+
+                // add files
+                foreach (var file in Directory.GetFiles(currPath))
+                {
+                    if (filterFiles == null || filterFiles(file))
+                    {
+                        filesList.AddItem(Path.GetFileName(file));
+                        filesList.SetIcon("textures/file_icon", filesList.Count - 1);
+                    }
+                }
             }
+            UpdateFilesList();
 
             // file name input
             var filenameInput = new TextInput(false);

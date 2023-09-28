@@ -2092,7 +2092,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Changed projects structure to make more sense.
 - Removed hard-coded extra line spacing to all fonts - an old, bad practice, relic.
 
-### 4.2.0.1
+### 4.2.1.0
 
 - Added StyleSheet file for DropDown Selected Panel, so you can now customize the panel behind the dropdown selected text via stylesheets.
 - - In addition, renamed 'DropDown.SelectedPanelHeight' to 'DropDown.DefaultSelectedTextPanelHeight', and this property will only be used if 'DropDownSelectedPanel' stylesheet is missing, or define default height to 1 or 0. 
@@ -2104,6 +2104,9 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Added built-in files dialog (save / load file).
 - Renamed and rearranged text validators + added file name validator.
 - Added icons support to Lists and Drop Down entities.
+
+IMPORTANT MIGRATION NOTICE!
+If you want to use the new files dialog, you must include the new textures that were added to theme: `textures/file_icon.png` and `textures/folder_icon.png`.
 
 ## Credits
 

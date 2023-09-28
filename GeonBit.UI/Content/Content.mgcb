@@ -970,6 +970,30 @@
 /processorParam:TextureFormat=Color
 /build:GeonBit.UI/Themes/editor/textures/cursor_pointer.png
 
+#begin GeonBit.UI/Themes/editor/textures/file_icon.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GeonBit.UI/Themes/editor/textures/file_icon.png
+
+#begin GeonBit.UI/Themes/editor/textures/folder_icon.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GeonBit.UI/Themes/editor/textures/folder_icon.png
+
 #begin GeonBit.UI/Themes/editor/textures/horizontal_line.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2569,6 +2593,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:GeonBit.UI/Themes/hd/textures/cursor_pointer.png
+
+#begin GeonBit.UI/Themes/hd/textures/file_icon.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GeonBit.UI/Themes/hd/textures/file_icon.png
+
+#begin GeonBit.UI/Themes/hd/textures/folder_icon.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GeonBit.UI/Themes/hd/textures/folder_icon.png
 
 #begin GeonBit.UI/Themes/hd/textures/horizontal_line.png
 /importer:TextureImporter
@@ -4181,6 +4229,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:GeonBit.UI/Themes/lowres/textures/dot.png
+
+#begin GeonBit.UI/Themes/lowres/textures/file_icon.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GeonBit.UI/Themes/lowres/textures/file_icon.png
+
+#begin GeonBit.UI/Themes/lowres/textures/folder_icon.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GeonBit.UI/Themes/lowres/textures/folder_icon.png
 
 #begin GeonBit.UI/Themes/lowres/textures/horizontal_line.png
 /importer:TextureImporter
