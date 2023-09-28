@@ -6,8 +6,13 @@
 // Since: 2017.
 //-----------------------------------------------------------------------------
 #endregion
+using GeonBit.UI.Entities;
+using GeonBit.UI.Entities.TextValidators;
 using Microsoft.Xna.Framework;
-
+using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace GeonBit.UI.Utils
 {
@@ -32,12 +37,17 @@ namespace GeonBit.UI.Utils
             /// <summary>
             /// Message box panel.
             /// </summary>
-            public Entities.Panel Panel;
+            public Panel Panel;
 
             /// <summary>
             /// Object used to fade out the background.
             /// </summary>
-            public Entities.Entity BackgroundFader;
+            public Entity BackgroundFader;
+
+            /// <summary>
+            /// Message box bottom buttons.
+            /// </summary>
+            public Button[] Buttons;
 
             /// <summary>
             /// Hide / close the message box.
@@ -97,14 +107,14 @@ namespace GeonBit.UI.Utils
             /// <summary>
             /// Callback to run when clicked. Return false to leave message box opened (true will close it).
             /// </summary>
-            public System.Func<bool> Callback;
+            public Func<bool> Callback;
 
             /// <summary>
             /// Create the message box option.
             /// </summary>
             /// <param name="title">Text to write on the button.</param>
             /// <param name="callback">Action when clicked. Return false if you want to abort and leave the message opened, return true to close it.</param>
-            public MsgBoxOption(string title, System.Func<bool> callback)
+            public MsgBoxOption(string title, Func<bool> callback)
             {
                 Title = title;
                 Callback = callback;
@@ -148,20 +158,20 @@ namespace GeonBit.UI.Utils
 
             // create panel for messagebox
             size = size ?? new Vector2(500, -1);
-            var panel = new Entities.Panel(size.Value);
+            var panel = new Panel(size.Value);
             ret.Panel = panel;
-            panel.AddChild(new Entities.Header(header));
-            panel.AddChild(new Entities.HorizontalLine());
-            panel.AddChild(new Entities.RichParagraph(text));
+            panel.AddChild(new Header(header));
+            panel.AddChild(new HorizontalLine());
+            panel.AddChild(new RichParagraph(text));
 
             // add to opened boxes counter
             OpenedMsgBoxesCount++;
 
             // add rectangle to hide and lock background
-            Entities.ColoredRectangle fader = null;
+            ColoredRectangle fader = null;
             if (BackgroundFaderColor.A != 0)
             {
-                fader = new Entities.ColoredRectangle(Vector2.Zero, Entities.Anchor.Center);
+                fader = new ColoredRectangle(Vector2.Zero, Entities.Anchor.Center);
                 fader.FillColor = new Color(0, 0, 0, 100);
                 fader.OutlineWidth = 0;
                 fader.ClickThrough = false;
@@ -179,21 +189,23 @@ namespace GeonBit.UI.Utils
             }
 
             // add bottom buttons panel
-            var buttonsPanel = new Entities.Panel(new Vector2(0, 70), 
-                Entities.PanelSkin.None, size.Value.Y == -1 ? Entities.Anchor.Auto : Entities.Anchor.BottomCenter);
+            var buttonsPanel = new Panel(new Vector2(0, 60), 
+                PanelSkin.None, size.Value.Y == -1 ? Anchor.Auto : Anchor.BottomCenter);
             buttonsPanel.Padding = Vector2.Zero;
             panel.AddChild(buttonsPanel);
             buttonsPanel.PriorityBonus = -10;
 
             // add all option buttons
+            var buttonsList = new List<Button>();
             var btnSize = new Vector2(options.Length == 1 ? 0f : (1f / options.Length), 60);
             foreach (var option in options)
             {
                 // add button entity
-                var button = new Entities.Button(option.Title, anchor: Entities.Anchor.AutoInline, size: btnSize);
+                var button = new Button(option.Title, anchor: Anchor.AutoInline, size: btnSize);
+                button.Identifier = option.Title;
 
                 // set click event
-                button.OnClick += (Entities.Entity ent) =>
+                button.OnClick += (Entity ent) =>
                 {
                     // if need to close message box after clicking this button, close it:
                     if (option.Callback == null || option.Callback())
@@ -211,8 +223,10 @@ namespace GeonBit.UI.Utils
                 };
 
                 // add button to buttons panel
+                buttonsList.Add(button);
                 buttonsPanel.AddChild(button);
             }
+            ret.Buttons = buttonsList.ToArray();
 
             // add panel to given parent
             if (parent != null)
@@ -236,13 +250,156 @@ namespace GeonBit.UI.Utils
         /// <param name="size">Message box size (if not provided will use default).</param>
         /// <param name="extraEntities">Optional array of entities to add to msg box under the text and above the buttons.</param>
         /// <param name="onDone">Optional callback to call when this msgbox closes.</param>
-        /// <returns>Message box panel.</returns>
-        public static MessageBoxHandle ShowMsgBox(string header, string text, string closeButtonTxt = null, Vector2? size = null, Entities.Entity[] extraEntities = null, System.Action onDone = null)
+        /// <returns>Message box handle.</returns>
+        public static MessageBoxHandle ShowMsgBox(string header, string text, string closeButtonTxt = null, Vector2? size = null, Entity[] extraEntities = null, Action onDone = null)
         {
             return ShowMsgBox(header, text, new MsgBoxOption[]
             {
                 new MsgBoxOption(closeButtonTxt ?? DefaultOkButtonText, null)
             }, size: size ?? DefaultMsgBoxSize, extraEntities: extraEntities, onDone: onDone);
         }
+
+        /// <summary>
+        /// Open a dialog to select file for saving.
+        /// </summary>
+        /// <param name="path">Path to start dialog in.</param>
+        /// <param name="onSelected">Callback to trigger when a file was selected. Return true to close dialog, false to keep it opened.</param>
+        /// <param name="onCancel">Callback to trigger when the user hit cancel.</param>
+        /// <param name="options">File dialog flags.</param>
+        /// <param name="filterFiles">Optional method to filter file names. Return false to hide files.</param>
+        /// <param name="filterFolders">Optional method to filter folder names. Return false to hide folders.</param>
+        /// <param name="title">File dialog title.</param>
+        /// <param name="message">Optional message to show above files.</param>
+        /// <param name="saveButtonTxt">String to show on the save file button.</param>
+        /// <param name="cancelButtonTxt">String to show on the cancel button.</param>
+        /// <param name="overrideWarning">If not null, will show this warning in a Yes/No prompt if the user tries to select an existing file.</param>
+        /// <returns>Message box handle.</returns>
+        public static MessageBoxHandle OpenSaveFileDialog(string path, Func<FileDialogResponse, bool> onSelected, Action onCancel = null!, FileDialogOptions options = FileDialogOptions.Default, Func<string, bool> filterFiles = null!, Func<string, bool> filterFolders = null!, string title = "Save File As..", string message = null!, string saveButtonTxt = "Save File", string cancelButtonTxt = "Cancel", string overrideWarning = "File '<filename>' already exists!\nAre you sure you want to override it?")
+        {
+            var currPath = string.IsNullOrEmpty(path) ? Path.GetFullPath(Directory.GetCurrentDirectory()) : Path.GetFullPath(path);
+
+            // panel to contain file dialog
+            var internalPanel = new Panel(new Vector2(0, 0), PanelSkin.None, Anchor.Auto);
+            internalPanel.Padding = Vector2.Zero;
+            internalPanel.AdjustHeightAutomatically = true;
+
+            // show files and folders
+            var filesList = new SelectList();
+            filesList.Size = new Vector2(0, 364);
+            internalPanel.AddChild(filesList);
+
+            // create starting files list
+            foreach (var file in Directory.GetFiles(currPath))
+            {
+                filesList.AddItem(Path.GetFileName(file));
+            }
+
+            // file name input
+            var filenameInput = new TextInput(false);
+            filenameInput.PlaceholderText = "Filename";
+            filenameInput.Validators.Add(new FilenameValidator(true));
+            filesList.OnValueChange = (Entity entity) => { if (filesList.SelectedValue != null) { filenameInput.Value = filesList.SelectedValue; } };
+            internalPanel.AddChild(filenameInput);
+
+            // create buttons: save
+            List<MsgBoxOption> buttons = new List<MsgBoxOption>();
+            buttons.Add(new MsgBoxOption(saveButtonTxt, () =>
+            {
+                var selectedPath = Path.Combine(currPath, filenameInput.Value);
+                var fullPath = Path.GetFullPath(selectedPath);
+                var close = onSelected?.Invoke(new FileDialogResponse()
+                {
+                    FullPath = fullPath,
+                    RelativePath = selectedPath,
+                    FileExists = File.Exists(fullPath)
+                }) ?? true;
+                return close;
+            }));
+
+            // create buttons: cancel
+            if (options.HasFlag(FileDialogOptions.ShowCancelButton))
+            {
+                buttons.Add(new MsgBoxOption(cancelButtonTxt, () =>
+                {
+                    onCancel?.Invoke();
+                    return true;
+                }));
+            }
+
+            // show message box
+            var handle = ShowMsgBox(title, message ?? string.Empty, buttons.ToArray(), new Entity[] { internalPanel }, size: new Vector2(700, 680));
+
+            // make the save button disabled when no file is selected
+            var saveBtn = handle.Buttons[0];
+            saveBtn.BeforeDraw = (Entity entity) =>
+            {
+                saveBtn.Enabled = !string.IsNullOrEmpty(filenameInput.Value);
+                if (saveBtn.Enabled)
+                {
+                    var selectedPath = Path.Combine(currPath, filenameInput.Value);
+                    var fullPath = Path.GetFullPath(selectedPath);
+                    if (!options.HasFlag(FileDialogOptions.AllowOverride) && File.Exists(fullPath))
+                    {
+                        saveBtn.Enabled = false;
+                    }
+                }
+            };
+
+            // return the handle
+            return handle;
+        }
+    }
+
+    /// <summary>
+    /// Response we get from a file dialog message box.
+    /// </summary>
+    public struct FileDialogResponse
+    {
+        /// <summary>
+        /// File path under root.
+        /// </summary>
+        public string RelativePath;
+
+        /// <summary>
+        /// Full file path.
+        /// </summary>
+        public string FullPath;
+
+        /// <summary>
+        /// If true, the selected file exists.
+        /// </summary>
+        public bool FileExists;
+    }
+
+    /// <summary>
+    /// Flags for file dialogs.
+    /// </summary>
+    [Flags]
+    public enum FileDialogOptions
+    {
+        /// <summary>
+        /// File dialog will display folders and allow entering and leaving folders.
+        /// </summary>
+        AllowEnterFolders = 1 << 0,
+
+        /// <summary>
+        /// File dialog will not allow the user to leave the starting path. 
+        /// </summary>
+        CageInStartingPath = 1 << 1,
+
+        /// <summary>
+        /// Allow picking existing files in save file dialog.
+        /// </summary>
+        AllowOverride = 1 << 2,
+
+        /// <summary>
+        /// If true, will add a 'cancel' button to close dialog without selection.
+        /// </summary>
+        ShowCancelButton = 1 << 3,
+
+        /// <summary>
+        /// Default file dialog options.
+        /// </summary>
+        Default = AllowEnterFolders | AllowOverride | ShowCancelButton
     }
 }
