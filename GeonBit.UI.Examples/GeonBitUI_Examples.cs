@@ -644,7 +644,39 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                     list.AddItem("Warlock");
                     list.AddItem("Barbarian");
                     list.AddItem("Monk");
-                    list.AddItem("Ranger");
+                    panel.AddChild(list);
+                }
+
+                // example: lists with icons
+                {
+                    // create panel and add to list of panels and manager
+                    Panel panel = new Panel(new Vector2(450, -1));
+                    panels.Add(panel);
+                    UserInterface.Active.AddEntity(panel);
+
+                    // list title
+                    panel.AddChild(new Header("SelectList with Icons"));
+                    panel.AddChild(new HorizontalLine());
+                    panel.AddChild(new Paragraph("You can also attach icons to items in lists:"));
+
+                    SelectList list = new SelectList(new Vector2(0, 280));
+                    list.AddItem("Warrior");
+                    list.AddItem("Mage");
+                    list.AddItem("Rogue");
+                    list.AddItem("Paladin");
+                    list.AddItem("Cleric");
+                    list.AddItem("Barbarian");
+                    list.AddItem("Necromancer");
+
+                    list.IconsScale *= 1.2f;
+                    list.SetIcon("textures/icons/Sword", "Warrior");
+                    list.SetIcon("textures/icons/MagicWand", "Mage");
+                    list.SetIcon("textures/icons/Trap", "Rogue");
+                    list.SetIcon("textures/icons/Axe", "Barbarian");
+                    list.SetIcon("textures/icons/MagicBook", "Cleric");
+                    list.SetIcon("textures/icons/Helmet", "Paladin");
+                    list.SetIcon("textures/icons/Bone", "Necromancer");
+
                     panel.AddChild(list);
                 }
 
@@ -700,7 +732,6 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                     list.AddItem("Warlock");
                     list.AddItem("Barbarian");
                     list.AddItem("Monk");
-                    list.AddItem("Ranger");
                     panel.AddChild(list);
                 }
 
@@ -726,7 +757,6 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                     drop.AddItem("Warlock");
                     drop.AddItem("Barbarian");
                     drop.AddItem("Monk");
-                    drop.AddItem("Ranger");
                     panel.AddChild(drop);
 
                     panel.AddChild(new Paragraph("And like list, we can set different skins:"));
@@ -1038,6 +1068,30 @@ Maybe something interesting in tab3?"));
                                 "{{L_GREEN}}", "{{DEFAULT}}"
                                 ));
                         });
+                    };
+                }
+
+                // example: file dialog
+                {
+                    // create panel and add to list of panels and manager
+                    Panel panel = new Panel(new Vector2(560, -1));
+                    panels.Add(panel);
+                    UserInterface.Active.AddEntity(panel);
+
+                    // add title and text
+                    panel.AddChild(new Header("File Dialogs"));
+                    panel.AddChild(new HorizontalLine());
+                    panel.AddChild(new Paragraph("GeonBit.UI also provide file dialogs. For example, save file dialog: \n"));
+
+                    // add create form button
+                    var btn = panel.AddChild(new Button(@"Open Save File Dialog"));
+                    btn.OnClick += (Entity ent) =>
+                    {
+                        Utils.MessageBox.OpenSaveFileDialog("", (Utils.FileDialogResponse res) =>
+                        {
+                            Utils.MessageBox.ShowMsgBox("File Selected!", $"Selected file: '{res.FullPath}'.\n\nIn this example we just show a message box, in a real project we would use this path to save the file.");
+                            return true;
+                        }, message: "It won't actually save anything so don't worry about picking existing files!");
                     };
                 }
 
@@ -1376,22 +1430,22 @@ Click on 'Next' to see the character creation demo."));
                     // first name
                     TextInput firstName = new TextInput(false, new Vector2(0.4f, -1), anchor: Anchor.Auto);
                     firstName.PlaceholderText = "Name";
-                    firstName.Validators.Add(new TextValidatorEnglishCharsOnly(true));
+                    firstName.Validators.Add(new EnglishCharactersOnly(true));
                     firstName.Validators.Add(new OnlySingleSpaces());
-                    firstName.Validators.Add(new TextValidatorMakeTitle());
+                    firstName.Validators.Add(new MakeTitleCase());
                     panel.AddChild(firstName);
 
                     // last name
                     TextInput lastName = new TextInput(false, new Vector2(0.4f, -1), anchor: Anchor.AutoInline);
                     lastName.PlaceholderText = "Surname";
-                    lastName.Validators.Add(new TextValidatorEnglishCharsOnly(true));
+                    lastName.Validators.Add(new EnglishCharactersOnly(true));
                     lastName.Validators.Add(new OnlySingleSpaces());
-                    lastName.Validators.Add(new TextValidatorMakeTitle());
+                    lastName.Validators.Add(new MakeTitleCase());
                     panel.AddChild(lastName);
 
                     // age
                     TextInput age = new TextInput(false, new Vector2(0.2f, -1), anchor: Anchor.AutoInline);
-                    age.Validators.Add(new TextValidatorNumbersOnly(false, 0, 80));
+                    age.Validators.Add(new NumbersOnly(false, 0, 80));
                     age.Value = "20";
                     age.ValueWhenEmpty = "20";
                     panel.AddChild(age);
@@ -1422,6 +1476,9 @@ If you liked GeonBit.UI feel free to star the repo on GitHub. :)"));
             // once done init, clear events log
             eventsLog.ClearItems();
             
+            currExample = 22;
+            UpdateAfterExampleChange();
+
             // call base initialize
             base.Initialize();
         }
