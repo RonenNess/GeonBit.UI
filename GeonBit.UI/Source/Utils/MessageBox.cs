@@ -203,6 +203,7 @@ namespace GeonBit.UI.Utils
                 // add button entity
                 var button = new Button(option.Title, anchor: Anchor.AutoInline, size: btnSize);
                 button.Identifier = option.Title;
+                button.AttachedData = ret;
 
                 // set click event
                 button.OnClick += (Entity ent) =>
@@ -276,12 +277,22 @@ namespace GeonBit.UI.Utils
         /// <returns>Message box handle.</returns>
         public static MessageBoxHandle OpenSaveFileDialog(string path, Func<FileDialogResponse, bool> onSelected, Action onCancel = null!, FileDialogOptions options = FileDialogOptions.Default, Func<string, bool> filterFiles = null!, Func<string, bool> filterFolders = null!, string title = "Save File As..", string message = null!, string saveButtonTxt = "Save File", string cancelButtonTxt = "Cancel", string overrideWarning = "File '<filename>' already exists!\nAre you sure you want to override it?")
         {
+            // current path
             var currPath = string.IsNullOrEmpty(path) ? Path.GetFullPath(Directory.GetCurrentDirectory()) : Path.GetFullPath(path);
+            var originalPath = currPath;
 
             // panel to contain file dialog
             var internalPanel = new Panel(new Vector2(0, 0), PanelSkin.None, Anchor.Auto);
             internalPanel.Padding = Vector2.Zero;
             internalPanel.AdjustHeightAutomatically = true;
+
+            // add paragraph to show full path
+            var fullPathLabel = new Label("");
+            if (options.HasFlag(FileDialogOptions.ShowDirectoryPath))
+            {
+                internalPanel.AddChild(fullPathLabel);
+                fullPathLabel.MinSize = new Vector2(0, 44);
+            }
 
             // show files and folders
             var filesList = new SelectList();
@@ -291,12 +302,32 @@ namespace GeonBit.UI.Utils
             // create starting files list
             void UpdateFilesList()
             {
+                // check for caging
+                var cagePath = options.HasFlag(FileDialogOptions.CageInStartingPath);
+                if (cagePath) 
+                {
+                    if (Path.GetFullPath(currPath).Length < Path.GetFullPath(originalPath).Length)
+                    {
+                        currPath = originalPath;
+                    }
+                }
+
+                // update full path label
+                fullPathLabel.Text = Path.GetFullPath(currPath);
+
                 // clear previous list
                 filesList.ClearItems();
 
                 // add folders
                 if (options.HasFlag(FileDialogOptions.AllowEnterFolders))
                 {
+                    // add folder up
+                    if (!cagePath || (Path.GetFullPath(currPath) != Path.GetFullPath(originalPath)))
+                    {
+                        filesList.AddItem("..");
+                    }
+
+                    // add folders
                     foreach (var dir in Directory.GetDirectories(currPath))
                     {
                         if (filterFolders == null || filterFolders(dir))
@@ -323,22 +354,98 @@ namespace GeonBit.UI.Utils
             var filenameInput = new TextInput(false);
             filenameInput.PlaceholderText = "Filename";
             filenameInput.Validators.Add(new FilenameValidator(true));
-            filesList.OnValueChange = (Entity entity) => { if (filesList.SelectedValue != null) { filenameInput.Value = filesList.SelectedValue; } };
+            int prevSelectedIndex = -1;
+
+            // click on files list - check if enter or exit folder
+            if (options.HasFlag(FileDialogOptions.AllowEnterFolders))
+            {
+                filesList.OnClick = (Entity entity) =>
+                {
+                    // on second click enter folder
+                    if ((filesList.SelectedIndex == prevSelectedIndex) && (filesList.SelectedValue != null))
+                    {
+                        // go one folder up
+                        if (filesList.SelectedValue == "..")
+                        {
+                            var up = Directory.GetParent(currPath);
+                            currPath = up != null ? up.ToString() : currPath;
+                        }
+                        // go into folder
+                        else
+                        {
+                            if (Directory.Exists(Path.Combine(currPath, filesList.SelectedValue)))
+                            {
+                                currPath = Path.Combine(currPath, filesList.SelectedValue);
+                            }
+                        }
+                        UpdateFilesList();
+                        prevSelectedIndex = -1;
+                        return;
+                    }
+
+                    // to detect double click
+                    prevSelectedIndex = filesList.SelectedIndex;
+                };
+            }
+
+            // on value change - set input name
+            filesList.OnValueChange = (Entity entity) => 
+            { 
+                if (filesList.SelectedValue != null && filesList.SelectedValue != "..") 
+                { 
+                    filenameInput.Value = filesList.SelectedValue; 
+                }
+            };
+
+            // add files list
             internalPanel.AddChild(filenameInput);
+
+            // return relative and full selected path
+            (string, string) GetSelectedAndFullPath()
+            {
+                var selectedPath = Path.Combine(currPath, filenameInput.Value);
+                var fullPath = Path.GetFullPath(selectedPath);
+                return (selectedPath, fullPath);
+            }
 
             // create buttons: save
             List<MsgBoxOption> buttons = new List<MsgBoxOption>();
             buttons.Add(new MsgBoxOption(saveButtonTxt, () =>
             {
-                var selectedPath = Path.Combine(currPath, filenameInput.Value);
-                var fullPath = Path.GetFullPath(selectedPath);
-                var close = onSelected?.Invoke(new FileDialogResponse()
+                var paths = GetSelectedAndFullPath();
+                var exists = File.Exists(paths.Item2);
+                if (overrideWarning != null && exists)
                 {
-                    FullPath = fullPath,
-                    RelativePath = selectedPath,
-                    FileExists = File.Exists(fullPath)
-                }) ?? true;
-                return close;
+                    ShowYesNoMsgBox("Override File?", overrideWarning.Replace("<filename>", paths.Item2), () =>
+                    {
+                        var close = onSelected?.Invoke(new FileDialogResponse()
+                        {
+                            FullPath = paths.Item2,
+                            RelativePath = paths.Item1,
+                            FileExists = File.Exists(paths.Item2)
+                        }) ?? true;
+                        if (close)
+                        {
+                            (internalPanel.AttachedData as MessageBoxHandle).Close();
+                        }
+                        return true;
+                    },
+                    () =>
+                    {
+                        return true;
+                    });
+                    return false;
+                }
+                else
+                {
+                    var close = onSelected?.Invoke(new FileDialogResponse()
+                    {
+                        FullPath = paths.Item2,
+                        RelativePath = paths.Item1,
+                        FileExists = File.Exists(paths.Item2)
+                    }) ?? true;
+                    return close;
+                }
             }));
 
             // create buttons: cancel
@@ -352,7 +459,8 @@ namespace GeonBit.UI.Utils
             }
 
             // show message box
-            var handle = ShowMsgBox(title, message ?? string.Empty, buttons.ToArray(), new Entity[] { internalPanel }, size: new Vector2(700, 680));
+            var handle = ShowMsgBox(title, message ?? string.Empty, buttons.ToArray(), new Entity[] { internalPanel }, size: new Vector2(700, 720));
+            internalPanel.AttachedData = handle;
 
             // make the save button disabled when no file is selected
             var saveBtn = handle.Buttons[0];
@@ -361,9 +469,8 @@ namespace GeonBit.UI.Utils
                 saveBtn.Enabled = !string.IsNullOrEmpty(filenameInput.Value);
                 if (saveBtn.Enabled)
                 {
-                    var selectedPath = Path.Combine(currPath, filenameInput.Value);
-                    var fullPath = Path.GetFullPath(selectedPath);
-                    if (!options.HasFlag(FileDialogOptions.AllowOverride) && File.Exists(fullPath))
+                    var paths = GetSelectedAndFullPath();
+                    if (!options.HasFlag(FileDialogOptions.AllowOverride) && File.Exists(paths.Item2))
                     {
                         saveBtn.Enabled = false;
                     }
@@ -418,13 +525,18 @@ namespace GeonBit.UI.Utils
         AllowOverride = 1 << 2,
 
         /// <summary>
-        /// If true, will add a 'cancel' button to close dialog without selection.
+        /// Will add a 'cancel' button to close dialog without selection.
         /// </summary>
         ShowCancelButton = 1 << 3,
 
         /// <summary>
+        /// Will add a paragraph showing the current directory full path.
+        /// </summary>
+        ShowDirectoryPath = 1 << 4,
+
+        /// <summary>
         /// Default file dialog options.
         /// </summary>
-        Default = AllowEnterFolders | AllowOverride | ShowCancelButton
+        Default = AllowEnterFolders | AllowOverride | ShowCancelButton | ShowDirectoryPath
     }
 }

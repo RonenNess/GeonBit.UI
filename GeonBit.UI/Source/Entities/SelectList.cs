@@ -497,10 +497,13 @@ namespace GeonBit.UI.Entities
                 // add callback to selection
                 paragraph.OnClick += (Entity entity) =>
                 {
-                    ParagraphData data = (ParagraphData)entity.AttachedData;
-                    if (!data.list.LockSelection)
+                    if (entity.Parent != null) // <-- this happens if clearing children while update so we need to test it
                     {
-                        data.list.Select(data.relativeIndex, true);
+                        ParagraphData data = (ParagraphData)entity.AttachedData;
+                        if (!data.list.LockSelection)
+                        {
+                            data.list.Select(data.relativeIndex, true);
+                        }
                     }
                 };
 

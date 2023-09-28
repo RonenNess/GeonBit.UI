@@ -1475,9 +1475,6 @@ If you liked GeonBit.UI feel free to star the repo on GitHub. :)"));
 
             // once done init, clear events log
             eventsLog.ClearItems();
-            
-            currExample = 22;
-            UpdateAfterExampleChange();
 
             // call base initialize
             base.Initialize();
