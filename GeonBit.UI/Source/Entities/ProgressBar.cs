@@ -56,7 +56,7 @@ namespace GeonBit.UI.Entities
         /// <param name="size">Entity size.</param>
         /// <param name="anchor">Position anchor.</param>
         /// <param name="offset">Offset from anchor position.</param>
-        public ProgressBar(uint min, uint max, Vector2 size, Anchor anchor = Anchor.Auto, Vector2? offset = null) :
+        public ProgressBar(int min, int max, Vector2 size, Anchor anchor = Anchor.Auto, Vector2? offset = null) :
             base(min, max, size, SliderSkin.Default, anchor, offset)
         {
             // update default styles
@@ -88,7 +88,7 @@ namespace GeonBit.UI.Entities
         /// <param name="max">Max value.</param>
         /// <param name="anchor">Position anchor.</param>
         /// <param name="offset">Offset from anchor position.</param>
-        public ProgressBar(uint min, uint max, Anchor anchor = Anchor.Auto, Vector2? offset = null) :
+        public ProgressBar(int min, int max, Anchor anchor = Anchor.Auto, Vector2? offset = null) :
             this(min, max, USE_DEFAULT_SIZE, anchor, offset)
         { }
 

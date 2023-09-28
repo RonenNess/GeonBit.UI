@@ -244,7 +244,7 @@ namespace GeonBit.UI.Utils.Forms
 
                 // create slider input
                 case FormFieldType.Slider:
-                    var slider = new Slider((uint)fieldData.Min, (uint)fieldData.Max);
+                    var slider = new Slider(fieldData.Min, fieldData.Max);
                     if (fieldData.DefaultValue is int)
                     {
                         slider.Value = (int)fieldData.DefaultValue;

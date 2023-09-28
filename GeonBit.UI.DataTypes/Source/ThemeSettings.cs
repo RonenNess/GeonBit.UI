@@ -7,24 +7,24 @@
     public class ThemeSettings
     {
         /// <summary>Name fot he theme.</summary>
-        public string ThemeName;
+        public string ThemeName = null!;
 
         /// <summary>Theme author name.</summary>
-        public string AuthorName;
+        public string AuthorName = null!;
 
         /// <summary>Theme description.</summary>
-        public string Description;
+        public string Description = null!;
 
         /// <summary>Theme additional credits.</summary>
-        public string Credits;
+        public string Credits = null!;
 
         /// <summary>Theme version.</summary>
-        public string Version;
+        public string Version = null!;
 
         /// <summary>Theme project URL.</summary>
-        public string RepoUrl;
+        public string RepoUrl = null!;
 
         /// <summary>Theme license.</summary>
-        public string License;
+        public string License = null!;
     }
 }

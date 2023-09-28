@@ -601,7 +601,15 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
                     panel.AddChild(new Paragraph("Sliders help pick numeric value in range:"));
 
                     panel.AddChild(new Paragraph("\nDefault slider"));
-                    panel.AddChild(new Slider(0, 10, SliderSkin.Default));
+                    {
+                        var slider = panel.AddChild(new Slider(-10, 10, SliderSkin.Default)) as Slider;
+                        var valueLabel = new Label("Value: 0");
+                        slider.OnValueChange = (Entity entity) =>
+                        {
+                            valueLabel.Text = "Value: " + slider.Value;
+                        };
+                        panel.AddChild(valueLabel);
+                    }
 
                     panel.AddChild(new Paragraph("\nFancy slider"));
                     panel.AddChild(new Slider(0, 10, SliderSkin.Fancy));
@@ -723,6 +731,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
 
                     panel.AddChild(new Paragraph("And like list, we can set different skins:"));
                     drop = new DropDown(new Vector2(0, 180), skin: PanelSkin.Alternative);
+                    drop.AutoSetListHeight = true;
                     drop.AddItem("Warrior");
                     drop.AddItem("Mage");
                     drop.AddItem("Monk");
@@ -731,6 +740,7 @@ The most common anchors are 'Auto' and 'AutoInline', which will place entities o
 
                     panel.AddChild(new Paragraph("And per-item styling:"));
                     drop = new DropDown(new Vector2(0, 180), skin: PanelSkin.Alternative);
+                    drop.AutoSetListHeight = true;
                     drop.AddItem("{{L_RED}}Warrior");
                     drop.AddItem("{{L_BLUE}}Mage");
                     drop.AddItem("{{CYAN}}Monk");

@@ -43,10 +43,10 @@ namespace GeonBit.UI.Entities
         SliderSkin _skin;
 
         /// <summary>Min slider value.</summary>
-        protected uint _min;
+        protected int _min;
 
         /// <summary>Max slider value.</summary>
-        protected uint _max;
+        protected int _max;
 
         /// <summary>How many steps (ticks) are in range.</summary>
         protected uint _stepsCount = 0;
@@ -72,7 +72,7 @@ namespace GeonBit.UI.Entities
         /// <param name="skin">Slider skin (texture).</param>
         /// <param name="anchor">Position anchor.</param>
         /// <param name="offset">Offset from anchor position.</param>
-        public Slider(uint min, uint max, Vector2 size, SliderSkin skin = SliderSkin.Default, Anchor anchor = Anchor.Auto, Vector2? offset = null) :
+        public Slider(int min, int max, Vector2 size, SliderSkin skin = SliderSkin.Default, Anchor anchor = Anchor.Auto, Vector2? offset = null) :
             base(size, anchor, offset)
         {
             // store style
@@ -83,7 +83,7 @@ namespace GeonBit.UI.Entities
             Max = max;
 
             // set default steps count
-            _stepsCount = Max - Min;
+            _stepsCount = (uint)(Max - Min);
 
             // set starting value to center
             _value = (int)(Min + (Max - Min) / 2);
@@ -100,7 +100,7 @@ namespace GeonBit.UI.Entities
         /// <param name="skin">Slider skin (texture).</param>
         /// <param name="anchor">Position anchor.</param>
         /// <param name="offset">Offset from anchor position.</param>
-        public Slider(uint min, uint max, SliderSkin skin = SliderSkin.Default, Anchor anchor = Anchor.Auto, Vector2? offset = null) :
+        public Slider(int min, int max, SliderSkin skin = SliderSkin.Default, Anchor anchor = Anchor.Auto, Vector2? offset = null) :
             this(min, max, USE_DEFAULT_SIZE, skin, anchor, offset)
         {
         }
@@ -210,7 +210,7 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Slider min value (inclusive).
         /// </summary>
-        public uint Min
+        public int Min
         {
             get { return _min; }
             set { if (_min != value) { _min = value; if (Value < _min) Value = (int)_min; } }
@@ -219,7 +219,7 @@ namespace GeonBit.UI.Entities
         /// <summary>
         /// Slider max value (inclusive).
         /// </summary>
-        public uint Max
+        public int Max
         {
             get { return _max; }
             set { if (_max != value) { _max = value; if (Value > _max) Value = (int)_max; } }

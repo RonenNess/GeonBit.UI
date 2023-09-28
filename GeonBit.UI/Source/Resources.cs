@@ -383,6 +383,15 @@ namespace GeonBit.UI
             LoadDefaultStyles( CheckBox.DefaultParagraphStyle, "CheckBoxParagraph", _root, content);
             LoadDefaultStyles( ColoredRectangle.DefaultStyle, "ColoredRectangle", _root, content);
             LoadDefaultStyles( DropDown.DefaultStyle, "DropDown", _root, content);
+            try
+            {
+                LoadDefaultStyles(DropDown.DefaultSelectedPanelStyle, "DropDownSelectedPanel", _root, content);
+            }
+            catch (ContentLoadException)
+            {
+                LoadDefaultStyles(DropDown.DefaultSelectedPanelStyle, "Panel", _root, content);
+                DropDown.DefaultSelectedPanelStyle.SetStyleProperty("DefaultSize", new StyleProperty(Vector2.Zero));
+            }
             LoadDefaultStyles( DropDown.DefaultParagraphStyle, "DropDownParagraph", _root, content);
             LoadDefaultStyles( DropDown.DefaultSelectedParagraphStyle, "DropDownSelectedParagraph", _root, content);
             LoadDefaultStyles( Header.DefaultStyle, "Header", _root, content);

@@ -483,8 +483,8 @@ namespace GeonBit.UI.Entities
                     }
 
                     // set scrollbar max and steps
-                    _scrollbar.Max = (uint)System.Math.Max(linesInText - linesFit, 2);
-                    _scrollbar.StepsCount = _scrollbar.Max;
+                    _scrollbar.Max = System.Math.Max(linesInText - linesFit, 2);
+                    _scrollbar.StepsCount = (uint)(_scrollbar.Max - _scrollbar.Min);
                     _scrollbar.Visible = true;
 
                     // update text to fit scrollbar. first, rebuild the text with just the visible segment

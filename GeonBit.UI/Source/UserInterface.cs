@@ -12,7 +12,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using GeonBit.UI.Entities;
 using Microsoft.Xna.Framework.Content;
-using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
 
@@ -95,12 +94,12 @@ namespace GeonBit.UI
     public class UserInterface : System.IDisposable
     {
         /// <summary>Current GeonBit.UI version identifier.</summary>
-        public const string VERSION = "4.1.0.1";
+        public const string VERSION = "4.2.0.1";
 
         /// <summary>
         /// The currently active user interface instance.
         /// </summary>
-        public static UserInterface Active = null;
+        public static UserInterface Active = null!;
 
         /// <summary>
         /// The object that provide mouse input for GeonBit UI.
@@ -219,10 +218,10 @@ namespace GeonBit.UI
         public DrawUtils DrawUtils = null;
 
         /// <summary>Current active entity, eg last entity user interacted with.</summary>
-        public Entity ActiveEntity = null;
+        public Entity ActiveEntity { get; internal set; } = null!;
 
         /// <summary>The current target entity, eg what cursor points on. Can be null if cursor don't point on any entity.</summary>
-        public Entity TargetEntity { get; private set; }
+        public Entity TargetEntity { get; private set; } = null!;
 
         /// <summary>Callback to execute when mouse button is pressed over an entity (called once when button is pressed).</summary>
         public EventCallback OnMouseDown = null;

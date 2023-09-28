@@ -7,6 +7,7 @@
 //-----------------------------------------------------------------------------
 #endregion
 using System.Collections.Generic;
+using GeonBit.UI.Entities;
 using Microsoft.Xna.Framework;
 
 
@@ -133,7 +134,9 @@ namespace GeonBit.UI.Utils
         static public Entities.Panel Create(MenuLayout layout, Entities.PanelSkin skin = Entities.PanelSkin.Simple)
         {
             // create the root panel
-            var rootPanel = new Entities.Panel(new Vector2(0, Entities.DropDown.SelectedPanelHeight), skin, Entities.Anchor.TopLeft);
+            var height = (int)Entities.DropDown.DefaultSelectedPanelStyle.GetStyleProperty("DefaultSize", EntityState.Default).asVector.Y;
+            if (height <= 1) { height = Entities.DropDown.DefaultSelectedTextPanelHeight; }
+            var rootPanel = new Entities.Panel(new Vector2(0, height), skin, Entities.Anchor.TopLeft);
             rootPanel.PriorityBonus = 10000;
             rootPanel.Padding = Vector2.Zero;
 

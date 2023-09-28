@@ -37,17 +37,17 @@ namespace GeonBit.UI.DataTypes
         /// <summary>helper function to get / set float value.</summary>
         [ContentSerializerAttribute(Optional = true)]
         [System.Xml.Serialization.XmlIgnore]
-        public float asFloat { get { return _float.Value; } set { _float = value; } }
+        public float asFloat { get { return _float ?? 0f; } set { _float = value; } }
 
         /// <summary>helper function to get / set int value.</summary>
         [ContentSerializerAttribute(Optional = true)]
         [System.Xml.Serialization.XmlIgnore]
-        public int asInt { get { return (int)_float.Value; } set { _float = value; } }
+        public int asInt { get { return (int)(_float ?? 0); } set { _float = value; } }
 
         /// <summary>helper function to get / set bool value.</summary>
         [ContentSerializerAttribute(Optional = true)]
         [System.Xml.Serialization.XmlIgnore]
-        public bool asBool { get { return _float.Value > 0f; } set { _float = value ? 1f : 0f; } }
+        public bool asBool { get { return (_float ?? 0) > 0f; } set { _float = value ? 1f : 0f; } }
 
         /// <summary>
         /// Get/set currently-set value, for serialization.
@@ -64,7 +64,7 @@ namespace GeonBit.UI.DataTypes
                     return _vector.Value;
 
                 else
-                    return _float.Value;
+                    return _float ?? 0;
             }
             set
             {

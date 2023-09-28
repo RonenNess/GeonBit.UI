@@ -386,6 +386,21 @@
 /processor:PassThroughProcessor
 /build:GeonBit.UI/Themes/editor/styles/DropDownParagraph-MouseHover.xml
 
+#begin GeonBit.UI/Themes/editor/styles/DropDownSelectedPanel-Default.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:GeonBit.UI/Themes/editor/styles/DropDownSelectedPanel-Default.xml
+
+#begin GeonBit.UI/Themes/editor/styles/DropDownSelectedPanel-MouseDown.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:GeonBit.UI/Themes/editor/styles/DropDownSelectedPanel-MouseDown.xml
+
+#begin GeonBit.UI/Themes/editor/styles/DropDownSelectedPanel-MouseHover.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:GeonBit.UI/Themes/editor/styles/DropDownSelectedPanel-MouseHover.xml
+
 #begin GeonBit.UI/Themes/editor/styles/DropDownSelectedParagraph-Default.xml
 /importer:XmlImporter
 /processor:PassThroughProcessor
@@ -1971,6 +1986,21 @@
 /processor:PassThroughProcessor
 /build:GeonBit.UI/Themes/hd/styles/DropDownParagraph-MouseHover.xml
 
+#begin GeonBit.UI/Themes/hd/styles/DropDownSelectedPanel-Default.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:GeonBit.UI/Themes/hd/styles/DropDownSelectedPanel-Default.xml
+
+#begin GeonBit.UI/Themes/hd/styles/DropDownSelectedPanel-MouseDown.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:GeonBit.UI/Themes/hd/styles/DropDownSelectedPanel-MouseDown.xml
+
+#begin GeonBit.UI/Themes/hd/styles/DropDownSelectedPanel-MouseHover.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:GeonBit.UI/Themes/hd/styles/DropDownSelectedPanel-MouseHover.xml
+
 #begin GeonBit.UI/Themes/hd/styles/DropDownSelectedParagraph-Default.xml
 /importer:XmlImporter
 /processor:PassThroughProcessor
@@ -3555,6 +3585,21 @@
 /importer:XmlImporter
 /processor:PassThroughProcessor
 /build:GeonBit.UI/Themes/lowres/styles/DropDownParagraph-MouseHover.xml
+
+#begin GeonBit.UI/Themes/lowres/styles/DropDownSelectedPanel-Default.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:GeonBit.UI/Themes/lowres/styles/DropDownSelectedPanel-Default.xml
+
+#begin GeonBit.UI/Themes/lowres/styles/DropDownSelectedPanel-MouseDown.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:GeonBit.UI/Themes/lowres/styles/DropDownSelectedPanel-MouseDown.xml
+
+#begin GeonBit.UI/Themes/lowres/styles/DropDownSelectedPanel-MouseHover.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:GeonBit.UI/Themes/lowres/styles/DropDownSelectedPanel-MouseHover.xml
 
 #begin GeonBit.UI/Themes/lowres/styles/DropDownSelectedParagraph-Default.xml
 /importer:XmlImporter

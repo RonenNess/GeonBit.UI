@@ -472,9 +472,9 @@ namespace GeonBit.UI.Entities
                 AddChild(_scrollbar, false);
 
                 // calc max scroll value
-                _scrollbar.Max = (uint)(_list.Count - _paragraphs.Count);
+                _scrollbar.Max = (_list.Count - _paragraphs.Count);
                 if (_scrollbar.Max < 2) { _scrollbar.Max = 2; }
-                _scrollbar.StepsCount = _scrollbar.Max;
+                _scrollbar.StepsCount = (uint)(_scrollbar.Max - _scrollbar.Min);
                 _scrollbar.Visible = true;
             } 
             // if no scrollbar is needed, hide it

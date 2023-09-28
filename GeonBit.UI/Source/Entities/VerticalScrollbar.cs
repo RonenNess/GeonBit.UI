@@ -206,11 +206,11 @@ namespace GeonBit.UI.Entities
                 // set new max value
                 if (newMax != Max)
                 {
-                    Max = (uint)newMax;
+                    Max = newMax;
                 }
 
                 // set steps count
-                StepsCount = (Max - Min) / 80;
+                StepsCount = (uint)(Max - Min) / 80;
             }
         }
 
