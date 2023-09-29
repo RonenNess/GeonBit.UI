@@ -44,7 +44,7 @@ GeonBit.UI provide the following functionality:
 - Text boxes for user text input - support multiline, word-wrap, scrollbars and skins.
 - PanelTabs to easily create multitab panels.
 - Tooltip text.
-- Message Boxes.
+- Message Boxes and file dialogs.
 - Stylesheets and themes, easily extendable.
 - Locked, disabled, shadow, and other basic UI effects and states.
 - Global scaling property to support different screen sizes.
