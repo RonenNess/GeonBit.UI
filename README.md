@@ -2104,6 +2104,7 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Added built-in files dialog (save / load file).
 - Renamed and rearranged text validators + added file name validator.
 - Added icons support to Lists and Drop Down entities.
+- Added 'OnSameValueSelected' event to lists.
 
 IMPORTANT MIGRATION NOTICE!
 If you want to use the new files dialog, you must include the new textures that were added to theme: `textures/file_icon.png` and `textures/folder_icon.png`.

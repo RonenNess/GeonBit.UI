@@ -1083,16 +1083,33 @@ Maybe something interesting in tab3?"));
                     panel.AddChild(new HorizontalLine());
                     panel.AddChild(new Paragraph("GeonBit.UI also provide file dialogs. For example, save file dialog: \n"));
 
-                    // add create form button
-                    var btn = panel.AddChild(new Button(@"Open Save File Dialog"));
-                    btn.OnClick += (Entity ent) =>
+                    // add save file button
                     {
-                        Utils.MessageBox.OpenSaveFileDialog("", (Utils.FileDialogResponse res) =>
+                        var btn = panel.AddChild(new Button(@"Open Save File Dialog"));
+                        btn.OnClick += (Entity ent) =>
                         {
-                            Utils.MessageBox.ShowMsgBox("File Selected!", $"Selected file: '{res.FullPath}'.\n\nIn this example we just show a message box, in a real project we would use this path to save the file.");
-                            return true;
-                        }, message: "It won't actually save anything so don't worry about picking existing files!");
-                    };
+                            Utils.MessageBox.OpenSaveFileDialog("", (Utils.FileDialogResponse res) =>
+                            {
+                                Utils.MessageBox.ShowMsgBox("File Selected!", $"Selected file: '{res.FullPath}'.\n\nIn this example we just show a message box, in a real project we would use this path to save the file.");
+                                return true;
+                            }, message: "It won't actually save anything so don't worry about picking existing files.");
+                        };
+                    }
+
+                    panel.AddChild(new Paragraph("And click below to open load file dialog: \n"));
+
+                    // add load file button
+                    {
+                        var btn = panel.AddChild(new Button(@"Open Load File Dialog"));
+                        btn.OnClick += (Entity ent) =>
+                        {
+                            Utils.MessageBox.OpenLoadFileDialog("", (Utils.FileDialogResponse res) =>
+                            {
+                                Utils.MessageBox.ShowMsgBox("File Selected!", $"Selected file: '{res.FullPath}'.\n\nIn this example we just show a message box, in a real project we would use this path to load the file.");
+                                return true;
+                            }, message: "It won't actually load anything so don't worry about picking any file.");
+                        };
+                    }
                 }
 
                 // example: top menu

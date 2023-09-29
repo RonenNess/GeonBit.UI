@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using GeonBit.UI.Utils;
+using System;
 
 namespace GeonBit.UI.Entities
 {
@@ -62,9 +63,13 @@ namespace GeonBit.UI.Entities
         /// <summary>Scale items in list.</summary>
         public float ItemsScale = 1f;
 
-        /// <summary>Special callback to execute when list size changes.</summary>
+        /// <summary>Invoked when list size changes.</summary>
         [System.Xml.Serialization.XmlIgnore]
         public EventCallback OnListChange = null;
+
+        /// <summary>Invoked when the user select the same value in the list again.</summary>
+        [System.Xml.Serialization.XmlIgnore]
+        public EventCallback OnSameValueSelected = null;
 
         /// <summary>
         /// If icons are set, this factor will scale them.
@@ -253,7 +258,7 @@ namespace GeonBit.UI.Entities
         /// </summary>
         /// <param name="texturePath">Icon texture path, under theme folder. Set to null to remove icons.</param>
         /// <param name="index">Item index to attach icon to.</param>
-        public void SetIcon(string? texturePath, int index)
+        public void SetIcon(string texturePath, int index)
         {
             if (texturePath == null)
             {
@@ -270,7 +275,7 @@ namespace GeonBit.UI.Entities
         /// </summary>
         /// <param name="texturePath">Icon texture path, under theme folder. Set to null to remove icons.</param>
         /// <param name="itemText">Item text to attach icon to.</param>
-        public void SetIcon(string? texturePath, string itemText)
+        public void SetIcon(string texturePath, string itemText)
         {
             var index = 0;
             foreach (var item in _valuesList)
@@ -614,7 +619,19 @@ namespace GeonBit.UI.Entities
         protected void Select(string value)
         {
             // value not changed? skip
-            if (!AllowReselectValue && value == _value) { return; }
+            if (!AllowReselectValue && value == _value) 
+            {
+                // invoke select same value event
+                if ((value == _value) && (value != null))
+                {
+                    OnSameValueSelected?.Invoke(this);
+                }
+                // stop here
+                return; 
+            }
+
+            // store previous value
+            var prevValue = _value;
 
             // special case - value is null
             if (value == null)
@@ -630,7 +647,7 @@ namespace GeonBit.UI.Entities
             if (_index == -1)
             {
                 _value = null;
-                if (UserInterface.Active.SilentSoftErrors) return;
+                if (UserInterface.Active.SilentSoftErrors) { return; }
                 throw new Exceptions.NotFoundException("Value to set not found in list!");
             }
 
@@ -639,6 +656,12 @@ namespace GeonBit.UI.Entities
 
             // call on-value-change event
             DoOnValueChange();
+
+            // trigger same-value selected event
+            if ((value == prevValue) && (value != null))
+            {
+                OnSameValueSelected?.Invoke(this);
+            }
         }
 
         /// <summary>
@@ -678,13 +701,25 @@ namespace GeonBit.UI.Entities
                 index += _scrollbar.Value;
             }
 
+            // store previous index. we use it to test same-selection.
+            var prevIndex = _index;
+
             // index not changed? skip
-            if (!AllowReselectValue && index == _index) { return; }
+            if (!AllowReselectValue && index == _index) 
+            {
+                // invoke select same value event
+                if (index == prevIndex)
+                {
+                    OnSameValueSelected?.Invoke(this);
+                }
+                // stop here
+                return; 
+            }
 
             // make sure legal index
-            if (index >= -1 && index >= _valuesList.Count)
+            if ((index >= -1) && (index >= _valuesList.Count))
             {
-                if (UserInterface.Active.SilentSoftErrors) return;
+                if (UserInterface.Active.SilentSoftErrors) { return; }
                 throw new Exceptions.NotFoundException("Invalid list index to select!");
             }
 
@@ -694,6 +729,12 @@ namespace GeonBit.UI.Entities
 
             // call on-value-change event
             DoOnValueChange();
+
+            // invoke select same value event
+            if (index == prevIndex)
+            {
+                OnSameValueSelected?.Invoke(this);
+            }
         }
 
         /// <summary>

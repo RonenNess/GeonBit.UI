@@ -299,6 +299,12 @@ namespace GeonBit.UI.Utils
             filenameInput.Validators.Add(new FilenameValidator(true));
             filenameInput.Offset = new Vector2(0, -5);
 
+            // if we must pick existing files, hide the file name input
+            if (options.HasFlag(FileDialogOptions.MustSelectExistingFile))
+            {
+                filenameInput.Visible = false;
+            }
+
             // create starting files list
             void UpdateFilesList()
             {
@@ -314,6 +320,12 @@ namespace GeonBit.UI.Utils
 
                 // update full path label
                 fullPathLabel.Text = Path.GetFullPath(currPath);
+
+                // if we must select existing file, reset selection when change folder
+                if (options.HasFlag(FileDialogOptions.MustSelectExistingFile))
+                {
+                    filenameInput.Value = string.Empty;
+                }
 
                 // clear previous list
                 filesList.ClearItems();
@@ -356,13 +368,12 @@ namespace GeonBit.UI.Utils
             }
 
             // click on files list - check if enter or exit folder
-            int prevSelectedIndex = -1;
             if (options.HasFlag(FileDialogOptions.AllowEnterFolders))
             {
-                filesList.OnClick = (Entity entity) =>
+                filesList.OnSameValueSelected = (Entity entity) =>
                 {
                     // on second click enter folder
-                    if ((filesList.SelectedIndex == prevSelectedIndex) && (filesList.SelectedValue != null))
+                    if (filesList.SelectedValue != null)
                     {
                         // previous path to check if changed path
                         var prevPath = currPath;
@@ -386,7 +397,6 @@ namespace GeonBit.UI.Utils
                         if (prevPath != currPath)
                         {
                             UpdateFilesList();
-                            prevSelectedIndex = -1;
                         }
                     }
                 };
@@ -400,9 +410,6 @@ namespace GeonBit.UI.Utils
                 { 
                     filenameInput.Value = filesList.SelectedValue; 
                 }
-
-                // to detect double click
-                prevSelectedIndex = filesList.SelectedIndex;
             };
 
             // return relative and full selected path
@@ -472,11 +479,21 @@ namespace GeonBit.UI.Utils
             var saveBtn = handle.Buttons[0];
             saveBtn.BeforeDraw = (Entity entity) =>
             {
+                // check if got any file name
                 saveBtn.Enabled = !string.IsNullOrEmpty(filenameInput.Value);
+
+                // if got filename, do advance checks
                 if (saveBtn.Enabled)
                 {
+                    // get full path and check if override file
                     var paths = GetSelectedAndFullPath();
                     if (!options.HasFlag(FileDialogOptions.AllowOverride) && File.Exists(paths.Item2))
+                    {
+                        saveBtn.Enabled = false;
+                    }
+
+                    // check if a folder is selected
+                    if (!options.HasFlag(FileDialogOptions.CanPickFolders) && Directory.Exists(paths.Item2))
                     {
                         saveBtn.Enabled = false;
                     }
@@ -488,6 +505,26 @@ namespace GeonBit.UI.Utils
 
             // return the handle
             return handle;
+        }
+
+        /// <summary>
+        /// Open a dialog to select file for loading.
+        /// </summary>
+        /// <param name="path">Path to start dialog in.</param>
+        /// <param name="onSelected">Callback to trigger when a file was selected. Return true to close dialog, false to keep it opened.</param>
+        /// <param name="onCancel">Callback to trigger when the user hit cancel.</param>
+        /// <param name="options">File dialog flags.</param>
+        /// <param name="filterFiles">Optional method to filter file names. Return false to hide files.</param>
+        /// <param name="filterFolders">Optional method to filter folder names. Return false to hide folders.</param>
+        /// <param name="title">File dialog title.</param>
+        /// <param name="message">Optional message to show above files.</param>
+        /// <param name="loadButtonTxt">String to show on the load file button.</param>
+        /// <param name="cancelButtonTxt">String to show on the cancel button.</param>
+        /// <returns>Message box handle.</returns>
+        public static MessageBoxHandle OpenLoadFileDialog(string path, Func<FileDialogResponse, bool> onSelected, Action onCancel = null!, FileDialogOptions options = FileDialogOptions.Default, Func<string, bool> filterFiles = null!, Func<string, bool> filterFolders = null!, string title = "Open File..", string message = null!, string loadButtonTxt = "Open File", string cancelButtonTxt = "Cancel")
+        {
+            options |= FileDialogOptions.MustSelectExistingFile;
+            return OpenSaveFileDialog(path, onSelected, onCancel, options, filterFiles, filterFolders, title, message, loadButtonTxt, cancelButtonTxt, null);
         }
     }
 
@@ -542,6 +579,16 @@ namespace GeonBit.UI.Utils
         /// Will add a paragraph showing the current directory full path.
         /// </summary>
         ShowDirectoryPath = 1 << 4,
+
+        /// <summary>
+        /// Will only allow picking up existing files.
+        /// </summary>
+        MustSelectExistingFile = 1 << 5,
+
+        /// <summary>
+        /// Can select folders and not just files.
+        /// </summary>
+        CanPickFolders = 1 << 6,
 
         /// <summary>
         /// Default file dialog options.
