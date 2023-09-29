@@ -151,7 +151,7 @@ namespace GeonBit.UI.Utils
         /// <param name="onDone">Optional callback to call when this msgbox closes.</param>
         /// <param name="parent">Parent to add message box to (if not defined will use root)</param>
         /// <returns>Message box handle.</returns>
-        public static MessageBoxHandle ShowMsgBox(string header, string text, MsgBoxOption[] options, Entities.Entity[] extraEntities = null, Vector2? size = null, System.Action onDone = null, Entities.Entity parent = null)
+        public static MessageBoxHandle ShowMsgBox(string header, string text, MsgBoxOption[] options, Entity[] extraEntities = null, Vector2? size = null, Action onDone = null, Entity parent = null)
         {
             // object to return
             MessageBoxHandle ret = new MessageBoxHandle();
@@ -281,23 +281,23 @@ namespace GeonBit.UI.Utils
             var currPath = string.IsNullOrEmpty(path) ? Path.GetFullPath(Directory.GetCurrentDirectory()) : Path.GetFullPath(path);
             var originalPath = currPath;
 
-            // panel to contain file dialog
-            var internalPanel = new Panel(new Vector2(0, 0), PanelSkin.None, Anchor.Auto);
-            internalPanel.Padding = Vector2.Zero;
-            internalPanel.AdjustHeightAutomatically = true;
-
             // add paragraph to show full path
             var fullPathLabel = new Label("");
-            if (options.HasFlag(FileDialogOptions.ShowDirectoryPath))
+            fullPathLabel.UseActualSizeForCollision = true;
+            if (!options.HasFlag(FileDialogOptions.ShowDirectoryPath))
             {
-                internalPanel.AddChild(fullPathLabel);
-                fullPathLabel.MinSize = new Vector2(0, 44);
+                fullPathLabel.Visible = false;
             }
-
+            
             // show files and folders
             var filesList = new SelectList();
             filesList.Size = new Vector2(0, 364);
-            internalPanel.AddChild(filesList);
+
+            // file name input
+            var filenameInput = new TextInput(false, Anchor.Auto);
+            filenameInput.PlaceholderText = "Filename";
+            filenameInput.Validators.Add(new FilenameValidator(true));
+            filenameInput.Offset = new Vector2(0, -5);
 
             // create starting files list
             void UpdateFilesList()
@@ -317,6 +317,12 @@ namespace GeonBit.UI.Utils
 
                 // clear previous list
                 filesList.ClearItems();
+
+                // update size
+                if (fullPathLabel.Visible)
+                {
+                    filesList.Size = new Vector2(filesList.Size.X, 380 - fullPathLabel.GetActualDestRect().Height);
+                }
 
                 // add folders
                 if (options.HasFlag(FileDialogOptions.AllowEnterFolders))
@@ -348,15 +354,9 @@ namespace GeonBit.UI.Utils
                     }
                 }
             }
-            UpdateFilesList();
-
-            // file name input
-            var filenameInput = new TextInput(false);
-            filenameInput.PlaceholderText = "Filename";
-            filenameInput.Validators.Add(new FilenameValidator(true));
-            int prevSelectedIndex = -1;
 
             // click on files list - check if enter or exit folder
+            int prevSelectedIndex = -1;
             if (options.HasFlag(FileDialogOptions.AllowEnterFolders))
             {
                 filesList.OnClick = (Entity entity) =>
@@ -364,6 +364,9 @@ namespace GeonBit.UI.Utils
                     // on second click enter folder
                     if ((filesList.SelectedIndex == prevSelectedIndex) && (filesList.SelectedValue != null))
                     {
+                        // previous path to check if changed path
+                        var prevPath = currPath;
+
                         // go one folder up
                         if (filesList.SelectedValue == "..")
                         {
@@ -378,27 +381,29 @@ namespace GeonBit.UI.Utils
                                 currPath = Path.Combine(currPath, filesList.SelectedValue);
                             }
                         }
-                        UpdateFilesList();
-                        prevSelectedIndex = -1;
-                        return;
-                    }
 
-                    // to detect double click
-                    prevSelectedIndex = filesList.SelectedIndex;
+                        // update list if chaned path
+                        if (prevPath != currPath)
+                        {
+                            UpdateFilesList();
+                            prevSelectedIndex = -1;
+                        }
+                    }
                 };
             }
 
             // on value change - set input name
             filesList.OnValueChange = (Entity entity) => 
             { 
+                // set selected file name
                 if (filesList.SelectedValue != null && filesList.SelectedValue != "..") 
                 { 
                     filenameInput.Value = filesList.SelectedValue; 
                 }
-            };
 
-            // add files list
-            internalPanel.AddChild(filenameInput);
+                // to detect double click
+                prevSelectedIndex = filesList.SelectedIndex;
+            };
 
             // return relative and full selected path
             (string, string) GetSelectedAndFullPath()
@@ -426,7 +431,7 @@ namespace GeonBit.UI.Utils
                         }) ?? true;
                         if (close)
                         {
-                            (internalPanel.AttachedData as MessageBoxHandle).Close();
+                            (filesList.AttachedData as MessageBoxHandle).Close();
                         }
                         return true;
                     },
@@ -459,8 +464,9 @@ namespace GeonBit.UI.Utils
             }
 
             // show message box
-            var handle = ShowMsgBox(title, message ?? string.Empty, buttons.ToArray(), new Entity[] { internalPanel }, size: new Vector2(700, 720));
-            internalPanel.AttachedData = handle;
+            var handle = ShowMsgBox(title, message ?? string.Empty, buttons.ToArray(), new Entity[] { fullPathLabel, filesList, filenameInput }, size: new Vector2(700, -1));
+            filesList.AttachedData = handle;
+            handle.Panel.AdjustHeightAutomatically = true;
 
             // make the save button disabled when no file is selected
             var saveBtn = handle.Buttons[0];
@@ -476,6 +482,9 @@ namespace GeonBit.UI.Utils
                     }
                 }
             };
+
+            // build starting files list
+            UpdateFilesList();
 
             // return the handle
             return handle;
