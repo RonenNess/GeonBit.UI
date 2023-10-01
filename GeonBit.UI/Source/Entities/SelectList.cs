@@ -77,6 +77,11 @@ namespace GeonBit.UI.Entities
         public float IconsScale = 1f;
 
         /// <summary>
+        /// Icons offset from text.
+        /// </summary>
+        public static int IconsOffsetX = 10;
+
+        /// <summary>
         /// If true and an item in the list is too long for its width, the list will cut its value to fit width.
         /// </summary>
         public bool ClipTextIfOverflow = true;
@@ -769,28 +774,26 @@ namespace GeonBit.UI.Entities
                 if (item_index < _valuesList.Count)
                 {
                     // set paragraph text, make visible, and remove background.
-                    var itemText = _valuesList[item_index];
+                    par.Text = _valuesList[item_index];
                     par.BackgroundColor.A = 0;
                     par.Visible = true;
 
                     // set icon
                     if (_icons.TryGetValue(item_index, out string texturePath))
                     {
-                        // move text to the right
-                        itemText = "  " + itemText;
-
                         // check if need to create a new icon
                         if ((par.Children.Count == 0) || ((par.Find("__ListIcon__")?.AttachedData as string) != texturePath))
                         {
                             par.ClearChildren();
                             var icon = new Image(texturePath, anchor: Anchor.CenterLeft);
-                            icon.Offset = new Vector2(-40, 0);
                             icon.AttachedData = texturePath;
                             icon.Identifier = "__ListIcon__";
                             par.AddChild(icon);
                             var ratio = ((float)icon.Texture.Width / (float)icon.Texture.Height);
                             var height = par.Size.Y * IconsScale;
                             icon.Size = new Vector2(height * ratio, height);
+                            icon.Offset = new Vector2(-(icon.Size.X * 2 + IconsOffsetX), 0);
+                            par.Offset = new Vector2(icon.Size.X, 0);
                         }
                     }
                     // remove previously set icons
@@ -798,9 +801,6 @@ namespace GeonBit.UI.Entities
                     {
                         par.Find("__ListIcon__")?.RemoveFromParent();
                     }
-
-                    // set paragraph text
-                    par.Text = itemText;
 
                     // check if we need to trim size
                     if (ClipTextIfOverflow)

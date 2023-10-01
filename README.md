@@ -2106,6 +2106,11 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 - Added icons support to Lists and Drop Down entities.
 - Added 'OnSameValueSelected' event to lists.
 
+### 4.2.1.1
+
+- Removed accidental constant offset for list icons, and made it based on padding + configurable.
+- Fixed lists text offset from icon to be with the offset property and not by adding spaces, which is less reliable.
+
 IMPORTANT MIGRATION NOTICE!
 If you want to use the new files dialog, you must include the new textures that were added to theme: `textures/file_icon.png` and `textures/folder_icon.png`.
 
