@@ -3,7 +3,7 @@
 Israel is under a brutal attack from Gaza on multiple fronts. 
 Hundreds of innocent civilians were murdered and kidnapped from their own homes. Hundreds are still missing.
 
-I won't show any gore and horrific photos here. But here's [some more information](https://www.youtube.com/watch?v=NCUsb621ELE).
+I won't share any gore or horrific photos here. But know things are very bad right now. Here's [a short video that summarize the situation](https://www.youtube.com/watch?v=NCUsb621ELE).
 
 Please support Israel in these dark times.
 
