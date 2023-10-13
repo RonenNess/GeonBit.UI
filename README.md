@@ -158,8 +158,8 @@ If you ever choose to remove GeonBit.UI from your project, simply follow these s
 
 There are few more things to do if you use Linux:
 
-1. After installing the fonts from ```GeonBit.UI.Examples/Content/Fonts/```, you also need to copy the font files into the folder where the spritefont files reside (e.g. ```Content/GeonBit.UI/themes/<team-name>/fonts/```).
-2. Since at this time MonoGame can't build effects on Linux, you need to use a pre-compiled effects. Take the built effects from ```Content/BuiltEffects/``` and put them instead of the ```.fx``` files of your theme (e.g. ```Content/GeonBit.UI/themes/<team-name>/effects/```). Also change their 'Build Action' from 'Build' to 'Copy'.
+1. After installing the fonts from ```GeonBit.UI.Examples/Content/Fonts/```, you also need to copy the font files into the folder where the spritefont files reside (e.g. ```Content/GeonBit.UI/themes/<theme-name>/fonts/```).
+2. Since at this time MonoGame can't build effects on Linux, you need to use a pre-compiled effects. Take the built effects from ```Content/BuiltEffects/``` and put them instead of the ```.fx``` files of your theme (e.g. ```Content/GeonBit.UI/themes/<theme-name>/effects/```). Also change their 'Build Action' from 'Build' to 'Copy'.
 
 
 # Using GeonBit.UI
