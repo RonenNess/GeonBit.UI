@@ -66,6 +66,11 @@ namespace GeonBit.UI.Entities
         public Point BackgroundColorPadding = new Point(10, 10);
 
         /// <summary>
+        /// Optional offset for paragraph background color.
+        /// </summary>
+        public Point BackgroundColorOffset = new Point(0, 0);
+
+        /// <summary>
         /// An optional font you can set to override the default fonts.
         /// NOTE! Only monospace fonts are supported!
         /// </summary>
@@ -559,7 +564,9 @@ namespace GeonBit.UI.Entities
 
                 // fix height for box background and scaling
                 if (BackgroundColorUseBoxSize)
+                {
                     rect.Height = (int)(rect.Height / GlobalScale);
+                }
 
                 // add padding
                 var padding = new Point(
@@ -567,6 +574,10 @@ namespace GeonBit.UI.Entities
                     (int)(BackgroundColorPadding.Y * GlobalScale));
                 rect.Location -= padding;
                 rect.Size += padding + padding;
+
+                // add offset
+                rect.X += BackgroundColorOffset.X;
+                rect.Y += BackgroundColorOffset.Y;
 
                 // draw background color
                 spriteBatch.Draw(Resources.Instance.WhiteTexture, rect, backColor);

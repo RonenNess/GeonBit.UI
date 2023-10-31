@@ -1,20 +1,29 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<XnaContent xmlns:ns="Microsoft.Xna.Framework">
-  <Asset Type="GeonBit.UI.DataTypes.DefaultStyles">
-    <Scale>1</Scale>
-    <FillColor>FFFFFFFF</FillColor>
-    <OutlineColor>FF000000</OutlineColor>
-    <OutlineWidth>2</OutlineWidth>
-    <ForceAlignCenter>false</ForceAlignCenter>
-    <FontStyle>Regular</FontStyle>
-    <SelectedHighlightColor Null="true" />
-    <ShadowColor Null="true" />
-    <ShadowOffset Null="true" />
-    <Padding Null="true" />
-    <SpaceBefore Null="true" />
-    <SpaceAfter Null="true" />
-    <ShadowScale Null="true" />
-	<DefaultSize Null="true" />
-  </Asset>
-        
-</XnaContent>
+<?xml version="1.0" encoding="utf-8"?>
+<DefaultStyles xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <FontStyle>Regular</FontStyle>
+  <SelectedHighlightColor xsi:nil="true" />
+  <ShadowColor xsi:nil="true" />
+  <ShadowOffset xsi:nil="true" />
+  <Padding xsi:nil="true" />
+  <SpaceBefore xsi:nil="true" />
+  <SpaceAfter xsi:nil="true" />
+  <ShadowScale xsi:nil="true" />
+  <DefaultSize xsi:nil="true" />
+  <Scale>1</Scale>
+  <FillColor>
+    <B>255</B>
+    <G>255</G>
+    <R>255</R>
+    <A>255</A>
+    <PackedValue>4294967295</PackedValue>
+  </FillColor>
+  <OutlineColor>
+    <B>0</B>
+    <G>0</G>
+    <R>0</R>
+    <A>255</A>
+    <PackedValue>4278190080</PackedValue>
+  </OutlineColor>
+  <OutlineWidth>2</OutlineWidth>
+  <ForceAlignCenter>false</ForceAlignCenter>
+</DefaultStyles>

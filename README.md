@@ -2123,8 +2123,9 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 IMPORTANT MIGRATION NOTICE!
 If you want to use the new files dialog, you must include the new textures that were added to theme: `textures/file_icon.png` and `textures/folder_icon.png`.
 
-### 4.2.1.2
+### 4.3.0.0
 
+- Removed the XNA XMLs for stylesheets, and switched to regular XML files. Trying to use the content manager for XML was a pure nightmare and added zero value.
 - Fixed files dialog to show folders if can pick them, even if can't change root folder.
 
 ## Credits

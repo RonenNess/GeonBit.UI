@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using GeonBit.UI.Utils;
-using System;
+
 
 namespace GeonBit.UI.Entities
 {
@@ -794,6 +794,7 @@ namespace GeonBit.UI.Entities
                             icon.Size = new Vector2(height * ratio, height);
                             icon.Offset = new Vector2(-(icon.Size.X * 2 + IconsOffsetX), 0);
                             par.Offset = new Vector2(icon.Size.X, 0);
+                            par.BackgroundColorOffset = new Point((int)-icon.Size.X, 0);
                         }
                     }
                     // remove previously set icons
@@ -847,7 +848,7 @@ namespace GeonBit.UI.Entities
                 {
                     // add background to selected paragraph
                     Paragraph paragraph = _paragraphs[i];
-                    Rectangle destRect = paragraph.GetActualDestRect();
+                    paragraph.GetActualDestRect();
                     paragraph.State = EntityState.MouseDown;
                     paragraph.BackgroundColor = GetActiveStyle("SelectedHighlightColor").asColor;
                 }
