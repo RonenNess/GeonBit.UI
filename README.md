@@ -2126,7 +2126,9 @@ If you want to use the new files dialog, you must include the new textures that 
 ### 4.3.0.0
 
 - Removed the XNA XMLs for stylesheets, and switched to regular XML files. Trying to use the content manager for XML was a pure nightmare and added zero value.
+- Removed the data types project. The entire package is now a single project + another project for demos.
 - Fixed files dialog to show folders if can pick them, even if can't change root folder.
+- Fixed background offset bug in selected list item with icon.
 
 ## Credits
 
