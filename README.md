@@ -84,75 +84,46 @@ Will create the following UI panel at the center of the screen:
 
 ![UI example1](assets/img/example1.png "example1")
 
-## Git structure
-
-![repo folders](assets/img/geonbit_folders.png "repo folders")
-
-In the repository root you will find the following files and folders:
-
-1. ```GeonBit.UI.sln```: a Visual Studio solution with GeonBit.UI source + example code.
-2. ```Documentation.chm```: full API documentation file (auto-generated).
-3. ```GeonBit.UI/```: folder containing all the source code and resources of GeonBit.UI.
-
-Inside the ```GeonBit.UI/``` folder you will find the following files and folders:
-
-1. ```Content```: all the resources GeonBit.UI rely on. You will need to import some of it (explained in installation instructions coming up next).
-2. ```GeonBit.UI```: GeonBit.UI source code (cs files).
-3. ```Libs```: additional libs you need to compile with GeonBit.UI (currently there's only one).
-
-To see GeonBit.UI live before installing it in your project, you can open and run the solution file.
-Please note however that you might need to install some fonts first from ```GeonBit.UI.Examples/Content/Fonts/``` folder.
 
 # Install
 
-Note: GeonBit.UI require MonoGame 3.6 or higher to run. For older MonoGame versions, please see [tag 2.1.0.0](https://github.com/RonenNess/GeonBit.UI/releases/tag/2.1.0.0).
-
 You can either install GeonBit.UI with NuGet or manually.
+No matter which way you choose, there are two main steps:
+
+1. Get the GeonBit.UI dll for your project.
+2. Include the built-in theme content files, unless you don't want them.
 
 ## Via NuGet
 
-First, run the NuGet install command:
+First run the NuGet install command:
 
 ```
 Install-Package GeonBit.UI
 ```
 
-Now there are two things to update in the Content Manager:
+Now to get the built-in UI themes, copy the GeonBit.UI content files from *GeonBit.UI NuGet package folder* (content files will be under ```\content\Content```) and put these files under your own project, so you should have a folder like this in your content: `Content\GeonBit.UI\Themes\<theme>`.
 
-1. Add a Content Manager ```Reference``` to the GeonBit.UI.DataTypes.dll lib, located in the *GeonBit.UI NuGet package folder* under ```lib\net6.0```.
-2. Copy the built-in themes from the GeonBit.UI content folder, located in the *GeonBit.UI NuGet package folder* under ```\content\Content```. If you don't use the built-in themes, you can remove them and use your own instead.
+The **GeonBit.UI NuGet package folder** is usually found the following path: ```%userprofile%\.nuget\packages\geonbit.ui\```, be sure to pick the correct version if you have multiple versions installed.
 
-The **GeonBit.UI NuGet package folder** is usually under the following path: ```%userprofile%\.nuget\packages\geonbit.ui\```, be sure to pick the correct version if you have multiple versions installed.
+Now you just need to add all the UI content files to your `Content.mgcb`, just **be sure to mark all XML files with 'Copy' action, and not 'Build'**.
+
+To save time keep in mind that the content manager is just a text-based file, so you can copy the date from [here](https://github.com/RonenNess/GeonBit.UI/blob/master/GeonBit.UI/Content/Content.mgcb).
 
 That's it! Just few things to remember:
 
-- If you don't have the default themes fonts installed, you need to install the fonts from ```Content/Fonts/```.
+- If you don't have the default themes fonts installed, you need to install the fonts from ```Content/Fonts/``` on your computer.
 - If your development environment is on Linux, there are few more steps to follow: [Installing on Linux](#extra-steps-for-linux).
 
 
 ## Manual Install
 
-To manually install GeonBit.UI into your project, follow these steps:
+Manually installing GeonBit.UI might actually be easier than using the NuGet (but harder to update):
 
-1. **Copy source:** Copy the source code from ```GeonBit.UI/GeonBit.UI/``` into your project source root (just copy the whole folder as-is).
-2. **Add content:** Copy all the Content from ```GeonBit.UI.Examples/Content/GeonBit.UI/``` into your MonoGame pipeline Manager (can be done by clicking on "add folder" and selecting the GeonBit.UI folder).
+1. **Copy source project:** Copy the entire project from [GeonBit.UI/GeonBit.UI/](https://github.com/RonenNess/GeonBit.UI/tree/master/GeonBit.UI) into your own solution, including the content files and source.
+2. **Build project:** Make sure project build successfully.
 3. **Install fonts:** You might need to install some fonts that GeonBit.UI uses and don't come by default in windows / linux. To do so, go to the ```GeonBit.UI.Examples/Content/Fonts/``` folder and install all the fonts there (they are all free to use including for commercial purposes).
-4. **Build GeonBit.UI.DataTypes dll:** Due to the way resources compile in MonoGame, there's a need to compile additional dll that contains serializable data types:
- 1. Open the project inside ```GeonBit.UI/GeonBit.UI/Libs/```, build it, and add the output dll (```GeonBit.UI.DataTypes.dll```) to your *Content pipeline* ```References``` property and to your *Project Reference* dlls.
- 2. You can build only in ```release``` mode, since you'll probably never need to debug it.
- 3. You can use the example ```GeonBit.UI.sln``` solution to quickly build it without opening a new solution file.
+4. **Add reference to your project:** Add a reference from your main project the GeonBit.UI. This should be enough to start using it (this is how the [GeonBit.UI.Examples](https://github.com/RonenNess/GeonBit.UI/tree/master/GeonBit.UI.Examples) project works, so you can check it out).
 
-That's it. You should now be able to compile and use GeonBit.UI in your projects.
-
-To see a 5-minutes video tutorial illustrating the process, check out this YouTube video:
-
-[![GeonBit.UI Install](http://img.youtube.com/vi/dt3URcN45XM/0.jpg)](http://www.youtube.com/watch?v=dt3URcN45XM "GeonBit.UI Install")
-
-If you ever choose to remove GeonBit.UI from your project, simply follow these steps:
-
-1. Delete the ```GeonBit.UI``` content folder from your content pipeline.
-2. Delete the ```GeonBit.UI``` source folder from your solution / project source code.
-3. Remove the ```References``` to the DataTypes dll from the pipeline manager and your project.
 
 ## Extra steps for Linux
 
