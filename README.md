@@ -118,7 +118,7 @@ Manually installing GeonBit.UI might actually be easier than using the NuGet (bu
 
 1. **Copy source project:** Copy the entire project from [GeonBit.UI/GeonBit.UI/](https://github.com/RonenNess/GeonBit.UI/tree/master/GeonBit.UI) into your own solution, including the content files and source.
 2. **Build project:** Make sure project build successfully.
-3. **Install fonts:** You might need to install some fonts that GeonBit.UI uses and don't come by default in windows / linux. To do so, go to the ```GeonBit.UI.Examples/Content/Fonts/``` folder and install all the fonts there (they are all free to use including for commercial purposes).
+3. **Install fonts:** You might need to install some fonts that GeonBit.UI uses and don't come by default in windows / linux. To do so, go to the ```GeonBit.UI/Content/Fonts``` folder and install all the fonts there (they are all free to use including for commercial purposes).
 4. **Add reference to your project:** Add a reference from your main project the GeonBit.UI. This should be enough to start using it (this is how the [GeonBit.UI.Examples](https://github.com/RonenNess/GeonBit.UI/tree/master/GeonBit.UI.Examples) project works, so you can check it out).
 
 
