@@ -2123,6 +2123,10 @@ For older MonoGame versions, see [tag 2.1.0.0](https://github.com/RonenNess/Geon
 IMPORTANT MIGRATION NOTICE!
 If you want to use the new files dialog, you must include the new textures that were added to theme: `textures/file_icon.png` and `textures/folder_icon.png`.
 
+### 4.2.1.2
+
+- Fixed files dialog to show folders if can pick them, even if can't change root folder.
+
 ## Credits
 
 GeonBit.UI was written by Ronen Ness, but uses some free textures made by awesome people who share their work for free.

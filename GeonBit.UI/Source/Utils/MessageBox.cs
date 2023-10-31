@@ -337,7 +337,7 @@ namespace GeonBit.UI.Utils
                 }
 
                 // add folders
-                if (options.HasFlag(FileDialogOptions.AllowEnterFolders))
+                if (options.HasFlag(FileDialogOptions.AllowEnterFolders) || options.HasFlag(FileDialogOptions.CanPickFolders))
                 {
                     // add folder up
                     if (!cagePath || (Path.GetFullPath(currPath) != Path.GetFullPath(originalPath)))
