@@ -88,12 +88,9 @@ Will create the following UI panel at the center of the screen:
 # Install
 
 You can either install GeonBit.UI with NuGet or manually.
-No matter which way you choose, there are two main steps:
-
-1. Get the GeonBit.UI dll for your project.
-2. Include the built-in theme content files, unless you don't want them.
 
 ## Via NuGet
+
 
 First run the NuGet install command:
 
