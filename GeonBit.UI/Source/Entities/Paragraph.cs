@@ -71,6 +71,11 @@ namespace GeonBit.UI.Entities
         public Point BackgroundColorOffset = new Point(0, 0);
 
         /// <summary>
+        /// Rotate the paragraph.
+        /// </summary>
+        public float Rotation;
+
+        /// <summary>
         /// An optional font you can set to override the default fonts.
         /// NOTE! Only monospace fonts are supported!
         /// </summary>
@@ -595,7 +600,7 @@ namespace GeonBit.UI.Entities
 
             // draw text itself
             spriteBatch.DrawString(_currFont, _processedText, _position, fillCol,
-                0, _fontOrigin, _actualScale, SpriteEffects.None, 0.5f);
+                Rotation, _fontOrigin, _actualScale, SpriteEffects.None, 0.5f);
 
             // call base draw function
             base.DrawEntity(spriteBatch, phase);
@@ -630,21 +635,21 @@ namespace GeonBit.UI.Entities
             if (outlineWidth <= MaxOutlineWidthToOptimize)
             {
                 spriteBatch.DrawString(font, text, position + Vector2.One * outlineWidth, outlineColor,
-                    0, origin, scale, SpriteEffects.None, 0.5f);
+                    Rotation, origin, scale, SpriteEffects.None, 0.5f);
                 spriteBatch.DrawString(font, text, position - Vector2.One * outlineWidth, outlineColor,
-                    0, origin, scale, SpriteEffects.None, 0.5f);
+                    Rotation, origin, scale, SpriteEffects.None, 0.5f);
             }
             // for really thick outline we need to cover the other corners as well
             else
             {
                 spriteBatch.DrawString(font, text, position + Vector2.UnitX * outlineWidth, outlineColor,
-                    0, origin, scale, SpriteEffects.None, 0.5f);
+                    Rotation, origin, scale, SpriteEffects.None, 0.5f);
                 spriteBatch.DrawString(font, text, position - Vector2.UnitX * outlineWidth, outlineColor,
-                    0, origin, scale, SpriteEffects.None, 0.5f);
+                    Rotation, origin, scale, SpriteEffects.None, 0.5f);
                 spriteBatch.DrawString(font, text, position + Vector2.UnitY * outlineWidth, outlineColor,
-                    0, origin, scale, SpriteEffects.None, 0.5f);
+                    Rotation, origin, scale, SpriteEffects.None, 0.5f);
                 spriteBatch.DrawString(font, text, position - Vector2.UnitY * outlineWidth, outlineColor,
-                    0, origin, scale, SpriteEffects.None, 0.5f);
+                    Rotation, origin, scale, SpriteEffects.None, 0.5f);
             }
         }
     }

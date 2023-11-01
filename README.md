@@ -2098,6 +2098,10 @@ If you want to use the new files dialog, you must include the new textures that 
 - Fixed files dialog to show folders if can pick them, even if can't change root folder.
 - Fixed background offset bug in selected list item with icon.
 
+### 4.3.0.1
+
+- Added rotation to paragraphs.
+
 ## Credits
 
 GeonBit.UI was written by Ronen Ness, but uses some free textures made by awesome people who share their work for free.
