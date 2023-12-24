@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
 	<id>GeonBit.UI</id>
-	<version>4.3.0.1</version>
+	<version>4.3.0.2</version>
 	<authors>Ronen Ness</authors>
 	<owners>RonenNess</owners>
 	<title>MonoGame GeonBit.UI</title>
@@ -16,13 +16,13 @@ It provide all the basic elements required to make a game / editor UI, and comes
 	<description>UI system for MonoGame projects.</description>
 	<tags>monogame ui gui hud user-interface gamedev</tags>
 	<dependencies>
-        <group targetFramework=".net6.0" />
+        <group targetFramework=".net7.0" />
 	</dependencies>
   </metadata>
   <files>
 	<file src="readme.txt" target="" />
-	<file src="GeonBit.UI\bin\Release\net6.0\GeonBit.UI.dll" target="lib\net6.0\GeonBit.UI.dll"/>
-	<file src="GeonBit.UI\bin\Release\net6.0\GeonBit.UI.dll" target="lib\net6.0-windows\GeonBit.UI.dll"/>
+	<file src="GeonBit.UI\bin\Release\net7.0\GeonBit.UI.dll" target="lib\net7.0\GeonBit.UI.dll"/>
+	<file src="GeonBit.UI\bin\Release\net7.0\GeonBit.UI.dll" target="lib\net7.0-windows\GeonBit.UI.dll"/>
 	<file src="Help\Documentation.chm" target="Documentation.chm"/>
 	<file src="GeonBit.UI\Content\GeonBit.UI\**\*.*" target="content\Content\GeonBit.UI" /> 
   </files>
