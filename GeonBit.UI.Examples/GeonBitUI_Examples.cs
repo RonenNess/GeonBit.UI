@@ -361,6 +361,7 @@ To start the demo, please click the {{ITALIC}}'Next'{{DEFAULT}} button on the to
 - Sliders & Progressbars
 - Text input
 - Tooltip Text
+- File dialogs
 - And more...
 "));
                 }
@@ -878,6 +879,89 @@ Here's a button, to test clicking while scrolled:"));
                             hiddenText.HideInputWithChar = null;
                     };
                     panel.AddChild(hideCheckbox);
+                }
+
+                // example: text validators
+                {
+                    // create panel and add to list of panels and manager
+                    Panel panel = new Panel(new Vector2(650, -1));
+                    panels.Add(panel);
+                    UserInterface.Active.AddEntity(panel);
+
+                    // add title and text
+                    panel.AddChild(new Header("Text Validators"));
+                    panel.AddChild(new HorizontalLine());
+                    panel.AddChild(new Paragraph(@"GeonBit.UI provide some validators you can attach to text inputs:"));
+
+                    List<TextInput> _withSpaces = new();
+
+                    // english characters
+                    EnglishCharactersOnly englishValidator;
+                    {
+                        panel.AddChild(new Label("English Characters Only:"));
+                        var textInput = new TextInput(false);
+                        textInput.Validators.Add(new EnglishCharactersOnly(true));
+                        _withSpaces.Add(textInput);
+                        englishValidator = textInput.Validators[0] as EnglishCharactersOnly;
+                        panel.AddChild(textInput);
+                    }
+
+                    // filename characters
+                    FilenameValidator filenamValidator;
+                    {
+                        panel.AddChild(new Label("Valid Filename Validator:"));
+                        var textInput = new TextInput(false);
+                        textInput.Validators.Add(new FilenameValidator(true));
+                        _withSpaces.Add(textInput);
+                        filenamValidator = textInput.Validators[0] as FilenameValidator;
+                        panel.AddChild(textInput);
+                    }
+
+                    // slug
+                    SlugValidator slugValidator;
+                    {
+                        panel.AddChild(new Label("Slug Validator:"));
+                        var textInput = new TextInput(false);
+                        textInput.Validators.Add(new SlugValidator(true));
+                        _withSpaces.Add(textInput);
+                        slugValidator = textInput.Validators[0] as SlugValidator;
+                        panel.AddChild(textInput);
+                    }
+
+                    // only one space
+                    {
+                        panel.AddChild(new Label("Prevent Double Spaces:"));
+                        var textInput = new TextInput(false);
+                        textInput.Validators.Add(new OnlySingleSpaces());
+                        panel.AddChild(textInput);
+                    }
+
+                    // Numbers only - no decimal
+                    {
+                        panel.AddChild(new Label("Whole Numbers Only:"));
+                        var textInput = new TextInput(false);
+                        textInput.Validators.Add(new NumbersOnly(false));
+                        panel.AddChild(textInput);
+                    }
+
+                    // Numbers only - with decimal
+                    {
+                        panel.AddChild(new Label("Numbers Only:"));
+                        var textInput = new TextInput(false);
+                        textInput.Validators.Add(new NumbersOnly(true));
+                        panel.AddChild(textInput);
+                    }
+
+                    // allow spaces
+                    var allowSpaces = new CheckBox("Allow Spaces", isChecked: true);
+                    panel.AddChild(allowSpaces);
+                    allowSpaces.OnValueChange = (Entity _) =>
+                    {
+                        englishValidator.AllowSpaces = allowSpaces.Checked;
+                        filenamValidator.AllowSpaces = allowSpaces.Checked;
+                        slugValidator.AllowSpaces = allowSpaces.Checked;
+                        foreach (var e in _withSpaces) { e.Value = e.Value.Replace(" ", ""); }
+                    };
                 }
 
                 // example: tooltip text

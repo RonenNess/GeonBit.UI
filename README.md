@@ -2101,6 +2101,9 @@ If you want to use the new files dialog, you must include the new textures that 
 ### 4.3.0.1
 
 - Added rotation to paragraphs.
+- Fixed text input validators to properly allow spaces.
+- Fixed number validators to not allow spaces.
+- Added example for text validators.
 
 ## Credits
 

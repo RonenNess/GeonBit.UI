@@ -74,6 +74,12 @@ namespace GeonBit.UI.Entities.TextValidators
                 return true;
             }
 
+            // make sure no spaces
+            if (text.Contains(' '))
+            {
+                return false;
+            }
+
             // will contain value as number
             double num;
 

@@ -52,7 +52,7 @@ namespace GeonBit.UI.Entities.TextValidators
         /// <param name="allowSpaces">If true, will allow spaces.</param>
         public SlugValidator(bool allowSpaces)
         {
-            AllowSpaces = AllowSpaces;
+            AllowSpaces = allowSpaces;
         }
 
         /// <summary>
