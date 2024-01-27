@@ -11,9 +11,9 @@
   <DefaultSize xsi:nil="true" />
   <Scale xsi:nil="true" />
   <FillColor>
-    <B>64</B>
+    <B>132</B>
     <G>204</G>
-    <R>132</R>
+    <R>64</R>
     <A>255</A>
     <PackedValue>4282436740</PackedValue>
   </FillColor>
