@@ -117,6 +117,11 @@ namespace GeonBit.UI
         bool AnyMouseButtonReleased();
 
         /// <summary>
+        /// Perform click next update frame.
+        /// </summary>
+        void DoClick();
+
+        /// <summary>
         /// Current mouse wheel value.
         /// </summary>
         int MouseWheel { get; }

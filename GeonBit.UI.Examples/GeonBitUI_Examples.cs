@@ -26,6 +26,7 @@ using GeonBit.UI.Entities;
 using GeonBit.UI.Entities.TextValidators;
 using GeonBit.UI.DataTypes;
 using GeonBit.UI.Utils.Forms;
+using System.Diagnostics;
 
 namespace GeonBit.UI.Examples
 {
@@ -141,13 +142,21 @@ namespace GeonBit.UI.Examples
             Button showGitButton = new Button("Git Repo", ButtonSkin.Fancy, Anchor.TopCenter, new Vector2(280, topPanelHeight));
             showGitButton.OnClick = (Entity btn) => 
             {
+                var url = "https://github.com/RonenNess/GeonBit.UI";
                 try
                 {
-                    System.Diagnostics.Process.Start("https://github.com/RonenNess/GeonBit.UI");
+                    Process.Start(url);
                 }
                 catch
                 {
-                    System.Diagnostics.Process.Start("IExplore", "https://github.com/RonenNess/GeonBit.UI");
+                    try
+                    {
+                        Process.Start("IExplore", url);
+                    }
+                    catch
+                    {
+                        Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+                    }
                 }
             };
             topPanel.AddChild(showGitButton);

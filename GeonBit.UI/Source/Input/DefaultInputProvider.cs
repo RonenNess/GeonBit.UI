@@ -7,6 +7,7 @@
 // Since: 2016.
 //-----------------------------------------------------------------------------
 #endregion
+using GeonBit.UI.Entities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
@@ -64,6 +65,9 @@ namespace GeonBit.UI
         /// </summary>
         public int MouseWheelChange { get; private set; }
 
+        // if true, will perform a click event next update
+        bool _clickNextUpdate = false;
+
         /// <summary>
         /// Create the input helper.
         /// </summary>
@@ -109,6 +113,12 @@ namespace GeonBit.UI
             _newMouseState = Mouse.GetState();
             _newKeyboardState = Keyboard.GetState();
 
+            // perform click emulation
+            if (_clickNextUpdate) {
+                _newMouseState = new MouseState(_newMouseState.X, _newMouseState.Y, _newMouseState.ScrollWheelValue, ButtonState.Pressed, _newMouseState.MiddleButton, _newMouseState.RightButton, _newMouseState.XButton1, _newMouseState.XButton2, _newMouseState.HorizontalScrollWheelValue);
+                _clickNextUpdate = false;
+            }
+
             // get mouse position
             _oldMousePos = _newMousePos;
             _newMousePos = new Vector2(_newMouseState.X, _newMouseState.Y);
@@ -146,6 +156,14 @@ namespace GeonBit.UI
                     OnKeyPressed(key);
                 }
             }
+        }
+
+        /// <summary>
+        /// Perform click next update frame.
+        /// </summary>
+        public void DoClick()
+        {
+            _clickNextUpdate = true;
         }
 
         /// <summary>

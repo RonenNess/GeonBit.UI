@@ -2106,6 +2106,11 @@ If you want to use the new files dialog, you must include the new textures that 
 - Fixed number validators to not allow spaces.
 - Added example for text validators.
 
+### 4.3.0.3
+
+- Added option to emulate mouse click via the mouse input provider.
+- Fixed repo link in demo project.
+
 ## Credits
 
 GeonBit.UI was written by Ronen Ness, but uses some free textures made by awesome people who share their work for free.
