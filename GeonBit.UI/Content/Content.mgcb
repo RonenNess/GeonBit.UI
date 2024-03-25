@@ -226,27 +226,6 @@
 /processorParam:TextureFormat=Color
 /build:Example/warrior_skin.png
 
-#begin Fonts/AnonymousPro-Bold.ttf
-/copy:Fonts/AnonymousPro-Bold.ttf
-
-#begin Fonts/AnonymousPro-Italic.ttf
-/copy:Fonts/AnonymousPro-Italic.ttf
-
-#begin Fonts/AnonymousPro-Regular.ttf
-/copy:Fonts/AnonymousPro-Regular.ttf
-
-#begin Fonts/Bitstream Vera Sans Mono Bold Oblique.ttf
-/copy:Fonts/Bitstream Vera Sans Mono Bold Oblique.ttf
-
-#begin Fonts/Bitstream Vera Sans Mono Bold.ttf
-/copy:Fonts/Bitstream Vera Sans Mono Bold.ttf
-
-#begin Fonts/Bitstream Vera Sans Mono Oblique.ttf
-/copy:Fonts/Bitstream Vera Sans Mono Oblique.ttf
-
-#begin Fonts/Bitstream Vera Sans Mono Roman.ttf
-/copy:Fonts/Bitstream Vera Sans Mono Roman.ttf
-
 #begin GeonBit.UI/Themes/editor/effects/disabled.fx
 /importer:EffectImporter
 /processor:EffectProcessor

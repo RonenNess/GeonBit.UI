@@ -108,7 +108,6 @@ To save time keep in mind that the content manager is just a text-based file, so
 
 That's it! Just few things to remember:
 
-- If you don't have the default themes fonts installed, you need to install the fonts from ```Content/Fonts/``` on your computer.
 - If your development environment is on Linux, there are few more steps to follow: [Installing on Linux](#extra-steps-for-linux).
 
 
@@ -118,16 +117,14 @@ Manually installing GeonBit.UI might actually be easier than using the NuGet (bu
 
 1. **Copy source project:** Copy the entire project from [GeonBit.UI/GeonBit.UI/](https://github.com/RonenNess/GeonBit.UI/tree/master/GeonBit.UI) into your own solution, including the content files and source.
 2. **Build project:** Make sure project build successfully.
-3. **Install fonts:** You might need to install some fonts that GeonBit.UI uses and don't come by default in windows / linux. To do so, go to the ```GeonBit.UI/Content/Fonts``` folder and install all the fonts there (they are all free to use including for commercial purposes).
-4. **Add reference to your project:** Add a reference from your main project the GeonBit.UI. This should be enough to start using it (this is how the [GeonBit.UI.Examples](https://github.com/RonenNess/GeonBit.UI/tree/master/GeonBit.UI.Examples) project works, so you can check it out).
+3. **Add reference to your project:** Add a reference from your main project the GeonBit.UI. This should be enough to start using it (this is how the [GeonBit.UI.Examples](https://github.com/RonenNess/GeonBit.UI/tree/master/GeonBit.UI.Examples) project works, so you can check it out).
 
 
 ## Extra steps for Linux
 
 There are few more things to do if you use Linux:
 
-1. After installing the fonts from ```GeonBit.UI.Examples/Content/Fonts/```, you also need to copy the font files into the folder where the spritefont files reside (e.g. ```Content/GeonBit.UI/themes/<team-name>/fonts/```).
-2. Since at this time MonoGame can't build effects on Linux, you need to use a pre-compiled effects. Take the built effects from ```Content/BuiltEffects/``` and put them instead of the ```.fx``` files of your theme (e.g. ```Content/GeonBit.UI/themes/<team-name>/effects/```). Also change their 'Build Action' from 'Build' to 'Copy'.
+1. Since at this time MonoGame can't build effects on Linux, you need to use a pre-compiled effects. Take the built effects from ```Content/BuiltEffects/``` and put them instead of the ```.fx``` files of your theme (e.g. ```Content/GeonBit.UI/themes/<team-name>/effects/```). Also change their 'Build Action' from 'Build' to 'Copy'.
 
 
 # Using GeonBit.UI
@@ -1556,12 +1553,6 @@ Contain required effects for the UI theme.
 
 - silhouette.fx: effect to use to draw entities as colored silhouette (used to generate shadows).
 - disabled.fx: effect to draw disabled entities (default implementation is in black and white).
-
-### fonts/
-
-Contain the SpriteFonts to use for paragraphs and texts. The fonts you use must be installed on your system when compiling them.
-
-Note: GeonBit.UI is built to use [monospace fonts](https://en.wikipedia.org/wiki/Monospaced_font). Using fonts that are not monospace may results in unexpected behavior and broken entities.
 
 ### styles/
 
