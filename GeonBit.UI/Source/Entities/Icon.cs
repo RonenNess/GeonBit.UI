@@ -118,6 +118,8 @@ namespace GeonBit.UI.Entities
         OrbBlue,
         /// <summary>'OrbGreen' Icon.</summary>
         OrbGreen,
+        /// <summary>'Trap' Icon.</summary>
+        Trap,
         /// <summary>'ZoomIn' Icon.</summary>
         ZoomIn,
         /// <summary>'ZoomOut' Icon.</summary>
