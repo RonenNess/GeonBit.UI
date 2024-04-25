@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace GeonBit.UI.Utils
 {
@@ -261,6 +262,81 @@ namespace GeonBit.UI.Utils
         }
 
         /// <summary>
+        /// How to sort files when presenting them in files dialog.
+        /// </summary>
+        public enum FilesSortingMode
+        {
+            /// <summary>
+            /// Files will be presented in whatever order the OS returns them.
+            /// </summary>
+            Unsorted,
+
+            /// <summary>
+            /// Sort files by name, ascending (0 to 9, A to Z).
+            /// </summary>
+            ByNameAscending,
+
+            /// <summary>
+            /// Sort files by name, descending (9 to 0, Z to A).
+            /// </summary>
+            ByNameDescending,
+
+            /// <summary>
+            /// Sort files by creation time, ascending.
+            /// </summary>
+            ByCreationDateAscending,
+
+            /// <summary>
+            /// Sort files by creation time, descending.
+            /// </summary>
+            ByCreationDateDescending,
+
+            /// <summary>
+            /// Sort files by modify time, ascending.
+            /// </summary>
+            ByModifyDateAscending,
+
+            /// <summary>
+            /// Sort files by modify time, descending.
+            /// </summary>
+            ByModifyDateDescending,
+        }
+
+        /// <summary>
+        /// Sort list of files / folder names.
+        /// </summary>
+        private static void _SortFilesList(ref List<string> filenames, string path, FilesSortingMode sorting)
+        {
+            switch (sorting)
+            {
+                case FilesSortingMode.ByNameAscending:
+                    filenames.Sort();
+                    break;
+
+                case FilesSortingMode.ByNameDescending:
+                    filenames.Sort();
+                    filenames.Reverse();
+                    break;
+
+                case FilesSortingMode.ByCreationDateAscending:
+                    filenames = filenames.OrderBy(x => new FileInfo(Path.Combine(path, x)).CreationTime).ToList();
+                    break;
+
+                case FilesSortingMode.ByCreationDateDescending:
+                    filenames = filenames.OrderByDescending(x => new FileInfo(Path.Combine(path, x)).CreationTime).ToList();
+                    break;
+
+                case FilesSortingMode.ByModifyDateAscending:
+                    filenames = filenames.OrderBy(x => new FileInfo(Path.Combine(path, x)).LastWriteTime).ToList();
+                    break;
+
+                case FilesSortingMode.ByModifyDateDescending:
+                    filenames = filenames.OrderByDescending(x => new FileInfo(Path.Combine(path, x)).LastWriteTime).ToList();
+                    break;
+            }
+        }
+
+        /// <summary>
         /// Open a dialog to select file for saving.
         /// </summary>
         /// <param name="path">Path to start dialog in.</param>
@@ -274,8 +350,9 @@ namespace GeonBit.UI.Utils
         /// <param name="saveButtonTxt">String to show on the save file button.</param>
         /// <param name="cancelButtonTxt">String to show on the cancel button.</param>
         /// <param name="overrideWarning">If not null, will show this warning in a Yes/No prompt if the user tries to select an existing file.</param>
+        /// <param name="sorting">How to sort files.</param>
         /// <returns>Message box handle.</returns>
-        public static MessageBoxHandle OpenSaveFileDialog(string path, Func<FileDialogResponse, bool> onSelected, Action onCancel = null!, FileDialogOptions options = FileDialogOptions.Default, Func<string, bool> filterFiles = null!, Func<string, bool> filterFolders = null!, string title = "Save File As..", string message = null!, string saveButtonTxt = "Save File", string cancelButtonTxt = "Cancel", string overrideWarning = "File '<filename>' already exists!\nAre you sure you want to override it?")
+        public static MessageBoxHandle OpenSaveFileDialog(string path, Func<FileDialogResponse, bool> onSelected, Action onCancel = null!, FileDialogOptions options = FileDialogOptions.Default, Func<string, bool> filterFiles = null!, Func<string, bool> filterFolders = null!, string title = "Save File As..", string message = null!, string saveButtonTxt = "Save File", string cancelButtonTxt = "Cancel", string overrideWarning = "File '<filename>' already exists!\nAre you sure you want to override it?", FilesSortingMode sorting = FilesSortingMode.Unsorted)
         {
             // current path
             var currPath = string.IsNullOrEmpty(path) ? Path.GetFullPath(Directory.GetCurrentDirectory()) : Path.GetFullPath(path);
@@ -346,24 +423,36 @@ namespace GeonBit.UI.Utils
                     }
 
                     // add folders
+                    List<string> folders = new List<string>();
                     foreach (var dir in Directory.GetDirectories(currPath))
                     {
                         if (filterFolders == null || filterFolders(dir))
                         {
-                            filesList.AddItem(Path.GetFileName(dir));
-                            filesList.SetIcon("textures/folder_icon", filesList.Count - 1);
+                            folders.Add(Path.GetFileName(dir));
                         }
+                    }
+                    _SortFilesList(ref folders, currPath, sorting);
+                    foreach (var dir in folders)
+                    {
+                        filesList.AddItem(dir);
+                        filesList.SetIcon("textures/folder_icon", filesList.Count - 1);
                     }
                 }
 
                 // add files
+                List<string> files = new List<string>();
                 foreach (var file in Directory.GetFiles(currPath))
                 {
                     if (filterFiles == null || filterFiles(file))
                     {
-                        filesList.AddItem(Path.GetFileName(file));
-                        filesList.SetIcon("textures/file_icon", filesList.Count - 1);
+                        files.Add(Path.GetFileName(file));
                     }
+                }
+                _SortFilesList(ref files, currPath, sorting);
+                foreach (var file in files)
+                {
+                    filesList.AddItem(file);
+                    filesList.SetIcon("textures/file_icon", filesList.Count - 1);
                 }
             }
 
@@ -520,11 +609,12 @@ namespace GeonBit.UI.Utils
         /// <param name="message">Optional message to show above files.</param>
         /// <param name="loadButtonTxt">String to show on the load file button.</param>
         /// <param name="cancelButtonTxt">String to show on the cancel button.</param>
+        /// <param name="sorting">How to sort files.</param>
         /// <returns>Message box handle.</returns>
-        public static MessageBoxHandle OpenLoadFileDialog(string path, Func<FileDialogResponse, bool> onSelected, Action onCancel = null!, FileDialogOptions options = FileDialogOptions.Default, Func<string, bool> filterFiles = null!, Func<string, bool> filterFolders = null!, string title = "Open File..", string message = null!, string loadButtonTxt = "Open File", string cancelButtonTxt = "Cancel")
+        public static MessageBoxHandle OpenLoadFileDialog(string path, Func<FileDialogResponse, bool> onSelected, Action onCancel = null!, FileDialogOptions options = FileDialogOptions.Default, Func<string, bool> filterFiles = null!, Func<string, bool> filterFolders = null!, string title = "Open File..", string message = null!, string loadButtonTxt = "Open File", string cancelButtonTxt = "Cancel", FilesSortingMode sorting = FilesSortingMode.Unsorted)
         {
             options |= FileDialogOptions.MustSelectExistingFile;
-            return OpenSaveFileDialog(path, onSelected, onCancel, options, filterFiles, filterFolders, title, message, loadButtonTxt, cancelButtonTxt, null);
+            return OpenSaveFileDialog(path, onSelected, onCancel, options, filterFiles, filterFolders, title, message, loadButtonTxt, cancelButtonTxt, null, sorting);
         }
     }
 
